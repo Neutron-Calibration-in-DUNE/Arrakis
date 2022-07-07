@@ -78,6 +78,8 @@
 #include "TH1F.h"
 #include "TGeoMaterial.h"
 #include "TGeoElement.h"
+#include "ParticleTree.h"
+#include "Configuration.h"
 
 namespace arrakis
 {
@@ -129,11 +131,42 @@ namespace arrakis
 
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
-            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
+            arrakis::ParticleTree const& ParticleMaps,
+            // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
             const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
         );
 
     private:
+        art::ServiceHandle<art::TFileService> fTFileService;
+        TTree *fArrayTTree;
+
+        // struct for holding event information
+        EventArray fEventArray;
+
+        geo::GeometryCore const * fGeom = &*(art::ServiceHandle<geo::Geometry>());
+
+        // pdg codes to construct
+        VolumeType fBoundingBoxType;
+
+        // struct for holding event information
+        // RawTrainingSetStruct fRawTrainingSetStruct;
+
+        // TPC // Number of channels in each planes
+        unsigned int fNUCh;
+        unsigned int fNVCh;
+        unsigned int fNZCh;
+
+        // find channel boundaries for each view
+        unsigned int fUChanMin;
+        unsigned int fUChanMax;
+        unsigned int fVChanMin;
+        unsigned int fVChanMax;
+        unsigned int fZChanMin;
+        unsigned int fZChanMax;
+        unsigned int fNticks;
+
+        unsigned int fNofAPA; //Number of APAs
+        unsigned int fChansPerAPA; //Number of channels in each APA
     };
 }
