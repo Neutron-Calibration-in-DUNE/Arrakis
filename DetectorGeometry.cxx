@@ -97,6 +97,7 @@ namespace arrakis
         findTotalTPCBoxes();
         mTotalTPCMass = mGeometryCore->TotalMass();    
     }
+
     // get volume information for a point
     DetectorVolume DetectorGeometry::getVolume(std::vector<double> position)
     {
@@ -113,13 +114,14 @@ namespace arrakis
         VolumeType volumeType = mVolumeTypeMap[volumeName];
 
         // get the current material information
-        mMaterial = fGeometryService->Material(mMaterialPOI);
+        mMaterial = mGeometryService->Material(mMaterialPOI);
         double material = mMaterial->GetZ();
         std::string materialName = mMaterial->GetName();
 
         // return the constructed volume 
         return DetectorVolume(volumeType, volumeName, materialName, material);
     }
+    
     // get total tpc volume information
     void DetectorGeometry::findTotalTPCBoxes()
     {
