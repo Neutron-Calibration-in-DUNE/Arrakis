@@ -24,7 +24,7 @@ namespace arrakis
         mPDGMap.clear();
         mParentPDGMap.clear();
         mAncestorPDGMap.clear();
-        mAncestorLevel.clear();
+        mAncestorLevelMap.clear();
     }
 
     void ParticleTree::processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles)
