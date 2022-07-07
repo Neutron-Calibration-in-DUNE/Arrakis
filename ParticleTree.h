@@ -55,14 +55,14 @@ namespace arrakis
 
         void processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles);
 
-        Int_t GetParentTrackID(Int_t trackID) const { return mParentTrackIDMap[trackID]; }
-        Int_t GetAncestorTrackID(Int_t trackID) const { return mAncestorTrackIDMap[trackID]; }
+        Int_t GetParentTrackID(Int_t trackID) { return mParentTrackIDMap[trackID]; }
+        Int_t GetAncestorTrackID(Int_t trackID) { return mAncestorTrackIDMap[trackID]; }
 
-        Int_t GetPDGCode(Int_t trackID) const { return mPDGMap[trackID]; }
-        Int_t GetParentPDG(Int_t trackID) const { return mParentPDGMap[trackID]; }
-        Int_t GetAncestorPDG(Int_t trackID) const { return mAncestorPDGMap[trackID]; }
+        Int_t GetPDGCode(Int_t trackID) { return mPDGMap[trackID]; }
+        Int_t GetParentPDG(Int_t trackID) { return mParentPDGMap[trackID]; }
+        Int_t GetAncestorPDG(Int_t trackID) { return mAncestorPDGMap[trackID]; }
 
-        Int_t GetAncestorLevel(Int_t trackID) const { return mAncestorLevelMap[trackID]; }
+        Int_t GetAncestorLevel(Int_t trackID) { return mAncestorLevelMap[trackID]; }
 
     private:
         std::map<Int_t, Int_t> mParentTrackIDMap;
