@@ -49,7 +49,6 @@ namespace arrakis
             while (mother != 0)
             {
                 level += 1;
-                prev_track_id = track_id;
                 track_id = mother;
                 mother = mParentTrackIDMap[track_id];
             }
