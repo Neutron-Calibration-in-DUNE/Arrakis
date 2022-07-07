@@ -82,6 +82,7 @@ namespace arrakis
         ParticleTree();
         ~ParticleTree();
 
+        void ResetMaps();
         void processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles);
 
         Int_t GetParentTrackID(Int_t trackID) { return mParentTrackIDMap[trackID]; }
