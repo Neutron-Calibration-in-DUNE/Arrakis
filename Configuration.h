@@ -26,6 +26,22 @@ namespace arrakis
 {
     struct Configuration
     {
+        fhicl::Atom<bool> Generate2DArrays
+        {
+            fhicl::Name("Generate2DArrays"),
+            fhicl::Comment("Whether to generate tdc/channel/adc arrays.")
+        };
+        fhicl::Atom<double> ADCThreshold
+        {
+            fhicl::Name("ADCThreshold"),
+            fhicl::Comment("Threshold value to use for filling 2D arrays.")
+        };
+
+        fhicl::Atom<bool> GenerateSemanticLabels
+        {
+            fhicl::Name("GenerateSemanticLabels"),
+            fhicl::Comment("Whether to generate semantic labels.")
+        };
     };
 
     using Parameters = art::EDAnalyzer::Table<Configuration>;

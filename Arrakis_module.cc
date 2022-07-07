@@ -49,6 +49,7 @@
 #include <cmath>
 
 #include "Configuration.h"
+#include "DetectorGeometry.h"
 
 namespace arrakis
 {
@@ -68,6 +69,9 @@ namespace arrakis
 
     private:
         Parameters mParameters;
+        // Set of configuration parameters
+        bool mGenerate2DArrays;
+        double mADCThreshold;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -76,6 +80,8 @@ namespace arrakis
         art::ServiceHandle<art::TFileService> mTFileService;
         /// TTrees
         TTree *mMetaTree;
+
+        DetectorGeometry* mGeometry = DetectorGeometry::getInstance("Arrakis");
     };
 
     // constructor
@@ -83,12 +89,17 @@ namespace arrakis
     : EDAnalyzer(config)
     , mParameters(config)
     {
+        // Set various configuration parameters
+        mGenerate2DArrays = mParameters().Generate2DArrays();
+        mADCThreshold = mParameters().ADCThreshold();
+
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
     }
 
     // begin job
     void Arrakis::beginJob()
     {
+        mGeometry->FillTTree();
     }
 
     // analyze function

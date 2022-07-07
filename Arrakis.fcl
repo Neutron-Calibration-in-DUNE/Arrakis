@@ -1,0 +1,10 @@
+BEGIN_PROLOG
+
+Arrakis:
+{
+    module_type:    "Arrakis"
+    Generate2DArrays:   true
+    ADCThreshold:       4.0;
+}
+
+END_PROLOG
