@@ -50,6 +50,7 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
+#include "ParticleTree.h"
 
 namespace arrakis
 {
@@ -73,6 +74,9 @@ namespace arrakis
         bool mGenerate2DArrays;
         double mADCThreshold;
 
+        // producer labels
+        art::InputTag mLArGeantProducerLabel;
+
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
          *  by the directories for each type.
@@ -81,7 +85,10 @@ namespace arrakis
         /// TTrees
         TTree *mMetaTree;
 
+        // Detector Geometry Instance
         DetectorGeometry* mGeometry = DetectorGeometry::getInstance("Arrakis");
+        // Particle Tree
+        ParticleTree mParticleTree();
     };
 
     // constructor
@@ -92,6 +99,8 @@ namespace arrakis
         // Set various configuration parameters
         mGenerate2DArrays = mParameters().Generate2DArrays();
         mADCThreshold = mParameters().ADCThreshold();
+
+        mLArGeantProducerLabel = mParameters().LArGeantProducerLabel();
 
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
     }
@@ -105,6 +114,24 @@ namespace arrakis
     // analyze function
     void Arrakis::analyze(art::Event const& event)
     {
+        /**
+         * @details For each event, we will look through the various
+         * available data products and send event info to the 
+         * corresponding submodules that process them, starting with MCParticles
+         * 
+         */
+        art::Handle<std::vector<simb::MCParticle>> particleHandle;
+        if (!event.getByLabel(fLArGeantProducerLabel, particleHandle))
+        {
+            // if there are no particles for the event truth, then
+            // we are in big trouble haha.  throw an exception
+            throw cet::exception("ParticleExtractor")
+                << " No simb::MCParticle objects in this event - "
+                << " Line " << __LINE__ << " in file " << __FILE__ << std::endl;
+        }
+        // get list of particles and construct particle tree
+        auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(fLArGeantProducerLabel);
+        mParticleTree.processEvent(mcParticles);
     }
     
     // end job

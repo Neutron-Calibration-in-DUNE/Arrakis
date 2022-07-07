@@ -1,8 +1,6 @@
 /**
- * @file ArrayGenerator.h
+ * @file ParticleTree.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
- * @author Junying Huang
- * @author Yashwanth Bezawada
  * @brief 
  * @version 0.1
  * @date 2022-07-07
@@ -47,32 +45,33 @@
 #include "lardataobj/RecoBase/OpFlash.h"
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 
-#include "larsim/Utils/TruthMatchUtils.h"
-
 namespace arrakis
 {
-
-    struct EventArray
-    {
-        std::vector<Int_t> tdc;
-        std::vector<Int_t> channel;
-        std::vector<Int_t> adc;
-
-    };
-
-    class ArrayGenerator
+    class ParticleTree
     {
     public:
-        ArrayGenerator();
-        ~ArrayGenerator();
+        ParticleTree();
+        ~ParticleTree();
 
-        void processEvent(
-            detinfo::DetectorClocksData const& clockData,
-            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
-            const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
-        );
+        void processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles);
+
+        Int_t GetParentTrackID(Int_t trackID) const { return mParentTrackIDMap[trackID]; }
+        Int_t GetAncestorTrackID(Int_t trackID) const { return mAncestorTrackIDMap[trackID]; }
+
+        Int_t GetPDGCode(Int_t trackID) const { return mPDGMap[trackID]; }
+        Int_t GetParentPDG(Int_t trackID) const { return mParentPDGMap[trackID]; }
+        Int_t GetAncestorPDG(Int_t trackID) const { return mAncestorPDGMap[trackID]; }
+
+        Int_t GetAncestorLevel(Int_t trackID) const { return mAncestorLevelMap[trackID]; }
 
     private:
+        std::map<Int_t, Int_t> mParentTrackIDMap;
+        std::map<Int_t, Int_t> mAncestorTrackIDMap;
+
+        std::map<Int_t, Int_t> mPDGMap;
+        std::map<Int_t, Int_t> mParentPDGMap;
+        std::map<Int_t, Int_t> mAncestorPDGMap;
+        
+        std::map<Int_t, Int_t> mAncestorLevelMap;
     };
 }

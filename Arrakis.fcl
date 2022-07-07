@@ -3,6 +3,11 @@ BEGIN_PROLOG
 Arrakis:
 {
     module_type:    "Arrakis"
+
+    # module labels
+    LArGeantProducerLabel:      "largeant"
+
+    # array parameters
     Generate2DArrays:   true
     ADCThreshold:       4.0;
 }

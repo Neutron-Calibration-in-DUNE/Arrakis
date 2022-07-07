@@ -37,6 +37,12 @@ namespace arrakis
             fhicl::Comment("Threshold value to use for filling 2D arrays.")
         };
 
+        fhicl::Atom<art::InputTag> LArGeantProducerLabel
+        {
+            fhicl::Name("LArGeantProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the largeant side of the simulation.")
+        };
+
         fhicl::Atom<bool> GenerateSemanticLabels
         {
             fhicl::Name("GenerateSemanticLabels"),
