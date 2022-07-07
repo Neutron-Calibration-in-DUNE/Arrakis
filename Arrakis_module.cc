@@ -88,7 +88,7 @@ namespace arrakis
         // Detector Geometry Instance
         DetectorGeometry* mGeometry = DetectorGeometry::getInstance("Arrakis");
         // Particle Tree
-        ParticleTree mParticleTree();
+        ParticleTree mParticleTree;
     };
 
     // constructor
@@ -121,16 +121,16 @@ namespace arrakis
          * 
          */
         art::Handle<std::vector<simb::MCParticle>> particleHandle;
-        if (!event.getByLabel(fLArGeantProducerLabel, particleHandle))
+        if (!event.getByLabel(mLArGeantProducerLabel, particleHandle))
         {
             // if there are no particles for the event truth, then
             // we are in big trouble haha.  throw an exception
-            throw cet::exception("ParticleExtractor")
+            throw cet::exception("Arrakis")
                 << " No simb::MCParticle objects in this event - "
                 << " Line " << __LINE__ << " in file " << __FILE__ << std::endl;
         }
         // get list of particles and construct particle tree
-        auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(fLArGeantProducerLabel);
+        auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
         mParticleTree.processEvent(mcParticles);
     }
     
