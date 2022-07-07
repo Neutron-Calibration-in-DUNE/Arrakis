@@ -61,7 +61,7 @@ namespace arrakis
             }
             else {
                 mParentPDGMap[particle.TrackId()] = mPDGMap[particle.Mother()];
-                mAncestorPDGMap[particle.TrackId()] = particlePDGMap[track_id];
+                mAncestorPDGMap[particle.TrackId()] = mPDGMap[track_id];
                 mAncestorTrackIDMap[particle.TrackId()] = track_id;
             }
         }
