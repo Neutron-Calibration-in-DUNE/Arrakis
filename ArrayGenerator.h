@@ -84,10 +84,41 @@ namespace arrakis
 
     struct EventArray
     {
-        std::vector<Int_t> tdc;
-        std::vector<Int_t> channel;
-        std::vector<Int_t> adc;
+        std::vector<Int_t> u1_tdc;
+        std::vector<Int_t> u1_channel;
+        std::vector<Int_t> u1_adc;
+        std::vector<std::vector<Int_t>> u1_track_ids;
+        std::vector<std::vector<Double_t>> u1_energy;
 
+        std::vector<Int_t> v1_tdc;
+        std::vector<Int_t> v1_channel;
+        std::vector<Int_t> v1_adc;
+        std::vector<std::vector<Int_t>> v1_track_ids;
+        std::vector<std::vector<Double_t>> v1_energy;
+
+        std::vector<Int_t> z1_tdc;
+        std::vector<Int_t> z1_channel;
+        std::vector<Int_t> z1_adc;
+        std::vector<std::vector<Int_t>> z1_track_ids;
+        std::vector<std::vector<Double_t>> z1_energy;
+
+        std::vector<Int_t> u2_tdc;
+        std::vector<Int_t> u2_channel;
+        std::vector<Int_t> u2_adc;
+        std::vector<std::vector<Int_t>> u2_track_ids;
+        std::vector<std::vector<Double_t>> u2_energy;
+
+        std::vector<Int_t> v2_tdc;
+        std::vector<Int_t> v2_channel;
+        std::vector<Int_t> v2_adc;
+        std::vector<std::vector<Int_t>> v2_track_ids;
+        std::vector<std::vector<Double_t>> v2_energy;
+
+        std::vector<Int_t> z2_tdc;
+        std::vector<Int_t> z2_channel;
+        std::vector<Int_t> z2_adc;
+        std::vector<std::vector<Int_t>> z2_track_ids;
+        std::vector<std::vector<Double_t>> z2_energy;
     };
 
     class ArrayGenerator
