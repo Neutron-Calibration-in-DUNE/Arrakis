@@ -7,7 +7,7 @@
  */
 #include "ParticleTree.h"
 
-namespace Arrakis
+namespace arrakis
 {
     ParticleTree::ParticleTree()
     {
@@ -33,7 +33,7 @@ namespace Arrakis
             return;
         }
         
-        resetMaps();
+        ResetMaps();
 
         for (auto particle : *mcParticles)
         {
