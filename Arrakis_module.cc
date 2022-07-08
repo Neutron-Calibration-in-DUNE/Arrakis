@@ -152,7 +152,7 @@ namespace arrakis
             event.getValidHandle<std::vector<sim::SimChannel>>(
                 art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
             );
-        art::ValidHandle< std::vector<raw::RawDigit> > rawTPC;
+        art::Handle< std::vector<raw::RawDigit> > rawTPC;
         event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
         mArrayGenerator.processEvent(
             clockData,

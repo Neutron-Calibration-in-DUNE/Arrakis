@@ -135,7 +135,7 @@ namespace arrakis
             //arrakis::ParticleTree const& ParticleMaps,
             // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
-            const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
+            const art::Handle<std::vector<raw::RawDigit>>& rawTPC
         );
 
         void setBoundingBoxType(std::string volumeType);

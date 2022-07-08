@@ -71,7 +71,7 @@ namespace arrakis
         detinfo::DetectorClocksData const& clockData,
         //arrakis::ParticleTree const& ParticleMaps,
         const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
-        const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
+        const art::Handle<std::vector<raw::RawDigit>>& rawTPC
     ){
         EventArray eventArray;
 
