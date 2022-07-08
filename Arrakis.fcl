@@ -8,6 +8,8 @@ Arrakis:
     LArGeantProducerLabel:      "largeant"
     SimChannelProducerLabel:    "tpcrawdecoder"
     SimChannelInstanceProducerLabel:    "simpleSC"
+    TPCInputLabel:          "tpcrawdecoder"
+    TPCInstanceLabel:      "daq"
 
     # array parameters
     Generate2DArrays:   true

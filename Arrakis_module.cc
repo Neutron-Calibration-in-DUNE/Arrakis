@@ -51,6 +51,7 @@
 #include "Configuration.h"
 #include "DetectorGeometry.h"
 #include "ParticleTree.h"
+#include "ArrayGenerator.h"
 
 namespace arrakis
 {
@@ -77,7 +78,9 @@ namespace arrakis
         // producer labels
         art::InputTag mLArGeantProducerLabel;
         art::InputTag mSimChannelProducerLabel;
-        art::InputTag mSimChannelInstanceProducerLabel;
+        art::InputTag mSimChannelInstanceProducerLabel
+        art::InputTag mTPCInputLabel;
+        art::InputTag mTPCInstanceLabel;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -107,6 +110,8 @@ namespace arrakis
         mLArGeantProducerLabel = mParameters().LArGeantProducerLabel();
         mSimChannelProducerLabel = mParameters().SimChannelProducerLabel();
         mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
+        mTPCInputLabel = mParameters().TPCInputLabel();
+        mTPCInstanceLabel = mParameters().TPCInstanceLabel();
 
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
 
@@ -160,8 +165,8 @@ namespace arrakis
     void Arrakis::endJob()
     {
         // save configuration parameters
-        fMetaTree->Branch("SimChannelProducerLabel", &fSimChannelProducerLabel);
-        fMetaTree->Branch("SimChannelInstanceProducerLabel", &fSimChannelInstanceProducerLabel);
+        fMetaTree->Branch("SimChannelProducerLabel", &mSimChannelProducerLabel);
+        fMetaTree->Branch("SimChannelInstanceProducerLabel", &mSimChannelInstanceProducerLabel);
 
         mMetaTree->Fill();
     }

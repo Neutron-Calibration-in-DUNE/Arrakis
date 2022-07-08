@@ -80,6 +80,7 @@
 #include "TGeoElement.h"
 #include "ParticleTree.h"
 #include "Configuration.h"
+#include "DetectorGeometry.h"
 
 namespace arrakis
 {
@@ -153,7 +154,7 @@ namespace arrakis
 
         //Threshold
         Double_t fThreshold;
-        
+
         // struct for holding event information
         // RawTrainingSetStruct fRawTrainingSetStruct;
 
@@ -172,5 +173,8 @@ namespace arrakis
 
         unsigned int fNofAPA; //Number of APAs
         unsigned int fChansPerAPA; //Number of channels in each APA
+
+        // define nADC counts for uncompressed vs compressed
+        unsigned int nADC_uncompPed;
     };
 }
