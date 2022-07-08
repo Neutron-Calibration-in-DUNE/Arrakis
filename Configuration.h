@@ -31,6 +31,7 @@ namespace arrakis
             fhicl::Name("Generate2DArrays"),
             fhicl::Comment("Whether to generate tdc/channel/adc arrays.")
         };
+        
         fhicl::Atom<double> ADCThreshold
         {
             fhicl::Name("ADCThreshold"),
@@ -41,6 +42,30 @@ namespace arrakis
         {
             fhicl::Name("LArGeantProducerLabel"),
             fhicl::Comment("Tag of the input data product for the largeant side of the simulation.")
+        };
+
+        fhicl::Atom<art::InputTag> SimChannelProducerLabel
+        {
+            fhicl::Name("SimChannelProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the SimChannelProducerLabel.")
+        };
+
+        fhicl::Atom<art::InputTag> SimChannelInstanceProducerLabel
+        {
+            fhicl::Name("SimChannelInstanceProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the SimChannelInstanceProducerLabel.")
+        };
+
+        fhicl::Atom<art::InputTag> TPCInputLabel
+        {
+            fhicl::Name("TPCInputLabel"),
+            fhicl::Comment("Tag of the input data product for the TPCInputLabel.")
+        };
+
+        fhicl::Atom<art::InputTag> TPCInstanceLabel
+        {
+            fhicl::Name("TPCInstanceLabel"),
+            fhicl::Comment("Tag of the input data product for the TPCInstanceLabel.")
         };
 
         fhicl::Atom<bool> GenerateSemanticLabels

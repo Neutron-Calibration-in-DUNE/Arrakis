@@ -138,6 +138,8 @@ namespace arrakis
             const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
         );
 
+        void setBoundingBoxType(std::string volumeType);
+
         void setThreshold(Double_t Threshold) { fThreshold = Threshold; }
 
     private:

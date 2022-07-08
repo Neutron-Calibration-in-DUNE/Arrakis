@@ -1,6 +1,6 @@
 /**
  * @file    Arrakis_module.cc
- * @brief   A module for extracting truth/reco information about G4 particle trajectories
+ * @brief   A module.or extracting truth/reco information about G4 particle trajectories
  *          and conducting some standard analysis tasks. 
  *          Generated at Mon Oct 11 11:21:12 2021 using cetskelgen
  * @ingroup Arrakis
@@ -64,7 +64,7 @@ namespace arrakis
         Arrakis& operator=(const Arrakis&) = delete;
         Arrakis& operator=(Arrakis&&) = delete;
 
-        // required EDAnalyzer functions
+        // required EDAnalyzer.unctions
         void analyze(const art::Event& event) override;
         void beginJob() override;
         void endJob() override;
@@ -78,13 +78,13 @@ namespace arrakis
         // producer labels
         art::InputTag mLArGeantProducerLabel;
         art::InputTag mSimChannelProducerLabel;
-        art::InputTag mSimChannelInstanceProducerLabel
+        art::InputTag mSimChannelInstanceProducerLabel;
         art::InputTag mTPCInputLabel;
         art::InputTag mTPCInstanceLabel;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
-         *  by the directories for each type.
+         *  by the directories.or each type.
          */ 
         art::ServiceHandle<art::TFileService> mTFileService;
         /// TTrees
@@ -124,11 +124,11 @@ namespace arrakis
         mGeometry->FillTTree();
     }
 
-    // analyze function
+    // analyze.unction
     void Arrakis::analyze(art::Event const& event)
     {
         /**
-         * @details For each event, we will look through the various
+         * @details.or each event, we will look through the various
          * available data products and send event info to the 
          * corresponding submodules that process them, starting with MCParticles
          * 
@@ -136,11 +136,11 @@ namespace arrakis
         art::Handle<std::vector<simb::MCParticle>> particleHandle;
         if (!event.getByLabel(mLArGeantProducerLabel, particleHandle))
         {
-            // if there are no particles for the event truth, then
+            // if there are no particles.or the event truth, then
             // we are in big trouble haha.  throw an exception
             throw cet::exception("Arrakis")
                 << " No simb::MCParticle objects in this event - "
-                << " Line " << __LINE__ << " in file " << __FILE__ << std::endl;
+                << " Line " << __LINE__ << " in.ile " << __FILE__ << std::endl;
         }
         // get list of particles and construct particle tree
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
@@ -152,7 +152,7 @@ namespace arrakis
             event.getValidHandle<std::vector<sim::SimChannel>>(
                 art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
             );
-        art::Handle< std::vector<raw::RawDigit> > rawTPC;
+        art::ValidHandle< std::vector<raw::RawDigit> > rawTPC;
         event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
         mArrayGenerator.processEvent(
             clockData,
@@ -165,8 +165,8 @@ namespace arrakis
     void Arrakis::endJob()
     {
         // save configuration parameters
-        fMetaTree->Branch("SimChannelProducerLabel", &mSimChannelProducerLabel);
-        fMetaTree->Branch("SimChannelInstanceProducerLabel", &mSimChannelInstanceProducerLabel);
+        mMetaTree->Branch("SimChannelProducerLabel", &mSimChannelProducerLabel);
+        mMetaTree->Branch("SimChannelInstanceProducerLabel", &mSimChannelInstanceProducerLabel);
 
         mMetaTree->Fill();
     }

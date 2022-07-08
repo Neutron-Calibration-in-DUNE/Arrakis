@@ -44,7 +44,7 @@ namespace arrakis
         {
             Int_t mother = particle.Mother();
             Int_t track_id = particle.TrackId();
-            Int_t prev_track_id = 0;
+            //Int_t prev_track_id = 0;
             Int_t level = 0;
             while (mother != 0)
             {
