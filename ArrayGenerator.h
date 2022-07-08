@@ -131,11 +131,13 @@ namespace arrakis
 
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
-            arrakis::ParticleTree const& ParticleMaps,
+            //arrakis::ParticleTree const& ParticleMaps,
             // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
             const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
         );
+
+        void setThreshold(Double_t Threshold) { fThreshold = Threshold; }
 
     private:
         art::ServiceHandle<art::TFileService> fTFileService;
@@ -149,6 +151,9 @@ namespace arrakis
         // pdg codes to construct
         VolumeType fBoundingBoxType;
 
+        //Threshold
+        Double_t fThreshold;
+        
         // struct for holding event information
         // RawTrainingSetStruct fRawTrainingSetStruct;
 
@@ -164,7 +169,6 @@ namespace arrakis
         unsigned int fVChanMax;
         unsigned int fZChanMin;
         unsigned int fZChanMax;
-        unsigned int fNticks;
 
         unsigned int fNofAPA; //Number of APAs
         unsigned int fChansPerAPA; //Number of channels in each APA

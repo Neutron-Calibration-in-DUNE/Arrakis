@@ -69,7 +69,7 @@ namespace arrakis
 
     void ArrayGenerator::processEvent(
         detinfo::DetectorClocksData const& clockData,
-        arrakis::ParticleTree const& ParticleMaps,
+        //arrakis::ParticleTree const& ParticleMaps,
         const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
         const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
     ){
@@ -78,10 +78,6 @@ namespace arrakis
         // Accquiring geometry data
         fNofAPA=fGeom->NTPC()*fGeom->Ncryostats()/2; //No. of APAs
         fChansPerAPA = fGeom->Nchannels()/fNofAPA; //No. of channels per APA
-
-        //To get max TDC
-        auto const *fDetProp = lar::providerFrom<detinfo::DetectorPropertiesService>();
-        fNticks = fDetProp->NumberTimeSamples();
 
         // taken from dune35t module a way to organise the channel mapping:
         // loop through channels in the first APA to find the channel boundaries for each view
@@ -104,14 +100,6 @@ namespace arrakis
         fNVCh=fVChanMax-fVChanMin+1; //V
         fNZCh=fZChanMax-fZChanMin+1; //Z (collection plane)
 
-        
-        unsigned int minT = 0;
-        unsigned int maxT = 0;
-        minT = 0;
-        maxT = fNticks;
-        unsigned int binT = (maxT-minT); //Bin width for TDC
-
-
         if (mcChannels.isValid() and rawTPC.isValid()){
 
             // Fill pointer vectors - more useful form for the raw data
@@ -123,7 +111,7 @@ namespace arrakis
                 const raw::RawDigit & digit = *dptr;
 
                 // Get the channel number for this digit
-                uint32_t chan = digit.Channel();
+                auto chan = digit.Channel();
                 // number of samples in uncompressed ADC
                 int nSamples = digit.Samples();
                 unsigned int apa = std::floor( chan/fChansPerAPA );	  
@@ -140,68 +128,51 @@ namespace arrakis
                 nADC_uncompPed=uncompPed.size();	  
 
                 //Truth Channel
-                auto truth_channel = mcChannels->at(chan);
+                auto truth_channel = mcChannels->at(chan); 
 
                 //Induction Plane   
                 if( fGeom->View(chan) == geo::kU){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > Threshold){
+                        if(uncompPed.at(l) > fThreshold){
 
-                            //Truth
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;
                             }
-
-                            
-                            if(apa == 0){
-                                fEventArray.u1_tdc.emplace_back(l);
-                                fEventArray.u1_channel.emplace_back(chan);
-                                fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
-
-                                std::vector<Int_t> track_ids;
-                                for (size_t i = 1; i < trackIDs.size(); i++)
-                                {
-                                    
-                                }
-
-                                fEventArray.u1_track_ids.emplace_back(trackIDs.track_id);
+                            std::vector<Int_t> track_ids;
+                            for (size_t i = 0; i < trackIDs.size(); i++)
+                            {
+                                track_ids[i] = trackIDs[i].trackID;
+                            }
+                            std::vector<Double_t> energy;
+                            for (size_t i = 0; i < trackIDs.size(); i++)
+                            {
+                                energy[i] = trackIDs[i].energy;
                             }
 
-                            if(apa == 1){
+                            if(apa < 3){
                                 fEventArray.u1_tdc.emplace_back(l);
-                                fEventArray.u1_channel.emplace_back(chan-(fNUCh+fNVCh));
                                 fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
-                            }
-
-                            if(apa == 2){
-                                fEventArray.u1_tdc.emplace_back(l);
-                                fEventArray.u1_channel.emplace_back(chan-(fNUCh+fNVCh)*2);
-                                fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
-                            }
-
-                            if(apa == 3){
+                                fEventArray.u1_track_ids.emplace_back(track_ids);
+                                fEventArray.u1_energy.emplace_back(energy);
+                            } else {
                                 fEventArray.u2_tdc.emplace_back(l);
-                                fEventArray.u2_channel.emplace_back(chan-(fNUCh+fNVCh+fNZCh)*3);
-                                fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.u2_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.u2_track_ids.emplace_back(track_ids);
+                                fEventArray.u2_energy.emplace_back(energy);
                             }
 
-                            if(apa == 4){
-                                fEventArray.u2_tdc.emplace_back(l);
-                                fEventArray.u2_channel.emplace_back(chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh));
-                                fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
-                            }
+                            if(apa == 0) {fEventArray.u1_channel.emplace_back( (Int_t) (chan) );}
 
-                            if(apa == 5){
-                                fEventArray.u1_tdc.emplace_back(l);
-                                fEventArray.u1_channel.emplace_back(chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*2);
-                                fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
-                            }
-                            
-                            Int_t track_id = getTrackID(trackIDs, parentDaughterMap);
-                            fTruthTimeChanU[apa]->Fill(truth_channel, l, particlePDGMap[track_id]);
-                            //Raw data
-                            fRawTimeChanU[apa]->Fill(chan, l, (Int_t) uncompPed.at(l));
+                            if(apa == 1) {fEventArray.u1_channel.emplace_back( (Int_t) (chan-(fNVCh+fNZCh)) );}
+
+                            if(apa == 2) {fEventArray.u1_channel.emplace_back( (Int_t) (chan-(fNVCh+fNZCh)*2) );}
+
+                            if(apa == 3) {fEventArray.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3) );}
+
+                            if(apa == 4) {fEventArray.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNVCh+fNZCh)) );}
+
+                            if(apa == 5) {fEventArray.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNVCh+fNZCh)*2) );}
                         }
                     }
                 }// end of U View
@@ -209,16 +180,45 @@ namespace arrakis
                 //Induction Plane   
                 if( fGeom->View(chan) == geo::kV){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l)!=0){
-                            //Truth
+                        if(uncompPed.at(l) > fThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;
                             }
-                            Int_t track_id = getTrackID(trackIDs, parentDaughterMap);
-                            fTruthTimeChanV[apa]->Fill(truth_channel, l, particlePDGMap[track_id]);
-                            //Raw data
-                            fRawTimeChanV[apa]->Fill(chan,l, (Int_t) uncompPed.at(l));
+                            std::vector<Int_t> track_ids;
+                            for (size_t i = 0; i < trackIDs.size(); i++)
+                            {
+                                track_ids[i] = trackIDs[i].trackID;
+                            }
+                            std::vector<Double_t> energy;
+                            for (size_t i = 0; i < trackIDs.size(); i++)
+                            {
+                                energy[i] = trackIDs[i].energy;
+                            }
+
+                            if(apa < 3){
+                                fEventArray.v1_tdc.emplace_back(l);
+                                fEventArray.v1_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.v1_track_ids.emplace_back(track_ids);
+                                fEventArray.v1_energy.emplace_back(energy);
+                            } else {
+                                fEventArray.v2_tdc.emplace_back(l);
+                                fEventArray.v2_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.v2_track_ids.emplace_back(track_ids);
+                                fEventArray.v2_energy.emplace_back(energy);
+                            }
+
+                            if(apa == 0) {fEventArray.v1_channel.emplace_back( (Int_t) (chan-(fNUCh)) );}
+
+                            if(apa == 1) {fEventArray.v1_channel.emplace_back( (Int_t) (chan-(fNUCh*2+fNZCh)) );}
+
+                            if(apa == 2) {fEventArray.v1_channel.emplace_back( (Int_t) (chan-(fNUCh*3+fNZCh*2)) );}
+
+                            if(apa == 3) {fEventArray.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh)) );}
+
+                            if(apa == 4) {fEventArray.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh*2+fNZCh)) );}
+
+                            if(apa == 5) {fEventArray.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh*3+fNZCh*2)) );}
                         }
                     }
                 }// end of V View
@@ -226,16 +226,45 @@ namespace arrakis
                 //Collection Plane
                 if ( fGeom->View(chan) == geo::kZ){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l)!=0){
-                            //Truth
+                        if(uncompPed.at(l) > fThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;
                             }
-                            Int_t track_id = getTrackID(trackIDs, parentDaughterMap);
-                            fTruthTimeChanZ[apa]->Fill(truth_channel, l, particlePDGMap[track_id]);
-                            //Raw data
-                            fRawTimeChanZ[apa]->Fill(chan,l, (Int_t) uncompPed.at(l));
+                            std::vector<Int_t> track_ids;
+                            for (size_t i = 0; i < trackIDs.size(); i++)
+                            {
+                                track_ids[i] = trackIDs[i].trackID;
+                            }
+                            std::vector<Double_t> energy;
+                            for (size_t i = 0; i < trackIDs.size(); i++)
+                            {
+                                energy[i] = trackIDs[i].energy;
+                            }
+
+                            if(apa < 3){
+                                fEventArray.z1_tdc.emplace_back(l);
+                                fEventArray.z1_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.z1_track_ids.emplace_back(track_ids);
+                                fEventArray.z1_energy.emplace_back(energy);
+                            } else {
+                                fEventArray.z2_tdc.emplace_back(l);
+                                fEventArray.z2_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.z2_track_ids.emplace_back(track_ids);
+                                fEventArray.z2_energy.emplace_back(energy);
+                            }
+
+                            if(apa == 0) {fEventArray.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)) );}
+
+                            if(apa == 1) {fEventArray.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)*2) );}
+
+                            if(apa == 2) {fEventArray.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)*3) );}
+
+                            if(apa == 3) {fEventArray.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)) );}
+
+                            if(apa == 4) {fEventArray.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*2) );}
+
+                            if(apa == 5) {fEventArray.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*3) );}
                         }
                     }
                 }// end of Z View

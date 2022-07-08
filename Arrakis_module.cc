@@ -76,6 +76,8 @@ namespace arrakis
 
         // producer labels
         art::InputTag mLArGeantProducerLabel;
+        art::InputTag mSimChannelProducerLabel;
+        art::InputTag mSimChannelInstanceProducerLabel;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -89,6 +91,8 @@ namespace arrakis
         DetectorGeometry* mGeometry = DetectorGeometry::getInstance("Arrakis");
         // Particle Tree
         ParticleTree mParticleTree;
+        //ArrayGenerator
+        ArrayGenerator mArrayGenerator;
     };
 
     // constructor
@@ -101,8 +105,12 @@ namespace arrakis
         mADCThreshold = mParameters().ADCThreshold();
 
         mLArGeantProducerLabel = mParameters().LArGeantProducerLabel();
+        mSimChannelProducerLabel = mParameters().SimChannelProducerLabel();
+        mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
 
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
+
+        mArrayGenerator.setThreshold(mADCThreshold);
     }
 
     // begin job
@@ -132,11 +140,29 @@ namespace arrakis
         // get list of particles and construct particle tree
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
         mParticleTree.processEvent(mcParticles);
+
+        //Array Generator 
+        auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
+        auto mcSimChannels = 
+            event.getValidHandle<std::vector<sim::SimChannel>>(
+                art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
+            );
+        art::Handle< std::vector<raw::RawDigit> > rawTPC;
+        event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
+        mArrayGenerator.processEvent(
+            clockData,
+            mcSimChannels,
+            rawTPC
+        );
     }
     
     // end job
     void Arrakis::endJob()
-    {        
+    {
+        // save configuration parameters
+        fMetaTree->Branch("SimChannelProducerLabel", &fSimChannelProducerLabel);
+        fMetaTree->Branch("SimChannelInstanceProducerLabel", &fSimChannelInstanceProducerLabel);
+
         mMetaTree->Fill();
     }
 }

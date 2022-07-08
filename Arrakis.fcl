@@ -6,6 +6,8 @@ Arrakis:
 
     # module labels
     LArGeantProducerLabel:      "largeant"
+    SimChannelProducerLabel:    "tpcrawdecoder"
+    SimChannelInstanceProducerLabel:    "simpleSC"
 
     # array parameters
     Generate2DArrays:   true
