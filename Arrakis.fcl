@@ -13,7 +13,7 @@ Arrakis:
 
     # array parameters
     Generate2DArrays:   true
-    ADCThreshold:       4.0;
+    ADCThreshold:       4.0
 }
 
 END_PROLOG
