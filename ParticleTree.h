@@ -95,6 +95,9 @@ namespace arrakis
         Int_t GetAncestorLevel(Int_t trackID) { return mAncestorLevelMap[trackID]; }
 
     private:
+        art::ServiceHandle<art::TFileService> fTFileService;
+        TTree *fMapTTree;
+
         std::map<Int_t, Int_t> mParentTrackIDMap;
         std::map<Int_t, Int_t> mAncestorTrackIDMap;
 

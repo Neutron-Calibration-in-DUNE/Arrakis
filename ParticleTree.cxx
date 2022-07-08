@@ -11,6 +11,13 @@ namespace arrakis
 {
     ParticleTree::ParticleTree()
     {
+        fMapTTree = fTFileService->make<TTree>("Map_Tree", "Map_Tree");
+        fMapTTree->Branch("ParentTrackIDMap", &mParentTrackIDMap);
+        fMapTTree->Branch("AncestorTrackIDMap", &mAncestorTrackIDMap);
+        fMapTTree->Branch("PDGMap", &mPDGMap);
+        fMapTTree->Branch("ParentPDGMap", &mParentPDGMap);
+        fMapTTree->Branch("AncestorPDGMap", &mAncestorPDGMap);
+        fMapTTree->Branch("AncestorLevelMap", &mAncestorLevelMap);
     }
 
     ParticleTree::~ParticleTree()
@@ -64,5 +71,7 @@ namespace arrakis
                 mAncestorTrackIDMap[particle.TrackId()] = track_id;
             }
         }
+
+        fMapTTree->Fill();
     }
 }
