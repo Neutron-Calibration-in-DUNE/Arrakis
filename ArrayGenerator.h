@@ -129,7 +129,8 @@ namespace arrakis
     public:
         ArrayGenerator();
         ~ArrayGenerator();
-
+        void ResetArrays();
+        
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
             //arrakis::ParticleTree const& ParticleMaps,

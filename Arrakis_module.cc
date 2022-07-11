@@ -143,9 +143,12 @@ namespace arrakis
                 << " Line " << __LINE__ << " in.ile " << __FILE__ << std::endl;
         }
         // get list of particles and construct particle tree
+        mParticleTree.ResetMaps();
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
         mParticleTree.processEvent(mcParticles);
 
+        
+        mArrayGenerator.ResetArrays();
         //Array Generator 
         auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
         auto mcSimChannels = 
