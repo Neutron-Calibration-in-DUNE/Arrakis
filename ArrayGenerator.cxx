@@ -171,27 +171,19 @@ namespace arrakis
                         if(uncompPed.at(l) > fThreshold){
 
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
-                            if (trackIDs.size() == 0) {
-                                continue;
-                            }
-
-                            std::cout << "--------1--------------" << std::endl;
-
-                            std::vector<Int_t> track_ids;
+                            if (trackIDs.size() == 0) { continue; }
+                                
+                            std::vector<Int_t> track_ids(trackIDs.size());
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
                                 track_ids[i] = trackIDs[i].trackID;
                             }
 
-                            std::cout << "--------2--------------" << std::endl;
-
-                            std::vector<Double_t> energy;
+                            std::vector<Double_t> energy(trackIDs.size());
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
                                 energy[i] = trackIDs[i].energy;
                             }
-
-                            std::cout << "--------3--------------" << std::endl;
 
                             if(apa < 3){
                                 fEventArray.u1_tdc.emplace_back(l);
