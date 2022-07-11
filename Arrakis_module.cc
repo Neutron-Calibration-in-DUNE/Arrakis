@@ -147,7 +147,7 @@ namespace arrakis
         mParticleTree.processEvent(mcParticles);
         
         //Array Generator 
-        if (Generate2DArrays) {
+        if (mGenerate2DArrays) {
             auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
             auto mcSimChannels = 
                 event.getValidHandle<std::vector<sim::SimChannel>>(
