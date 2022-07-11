@@ -146,10 +146,8 @@ namespace arrakis
         mParticleTree.ResetMaps();
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
         mParticleTree.processEvent(mcParticles);
-
         mArrayGenerator.ResetArrays();
 
-        //Array Generator 
         if (mGenerate2DArrays) {
             auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
             auto mcSimChannels = 
