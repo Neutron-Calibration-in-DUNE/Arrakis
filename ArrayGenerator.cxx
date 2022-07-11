@@ -174,23 +174,16 @@ namespace arrakis
                             if (trackIDs.size() == 0) { continue; }
                                 
                             std::vector<Int_t> track_ids;
-
-                            std::cout << "-------------1-----------" << std::endl;
-
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
                                 track_ids.push_back(trackIDs[i].trackID);
                             }
-
-                            std::cout << "-------------2-----------" << std::endl;
 
                             std::vector<Double_t> energy;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
                                 energy.push_back(trackIDs[i].energy);
                             }
-
-                            std::cout << "-------------3-----------" << std::endl;
 
                             if(apa < 3){
                                 fEventArray.u1_tdc.emplace_back(l);
@@ -230,12 +223,12 @@ namespace arrakis
                             std::vector<Int_t> track_ids;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
-                                track_ids[i] = trackIDs[i].trackID;
+                                track_ids.push_back(trackIDs[i].trackID);
                             }
                             std::vector<Double_t> energy;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
-                                energy[i] = trackIDs[i].energy;
+                                energy.push_back(trackIDs[i].energy);
                             }
 
                             if(apa < 3){
@@ -276,12 +269,12 @@ namespace arrakis
                             std::vector<Int_t> track_ids;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
-                                track_ids[i] = trackIDs[i].trackID;
+                                track_ids.push_back(trackIDs[i].trackID);
                             }
                             std::vector<Double_t> energy;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
-                                energy[i] = trackIDs[i].energy;
+                                energy.push_back(trackIDs[i].energy);
                             }
 
                             if(apa < 3){
