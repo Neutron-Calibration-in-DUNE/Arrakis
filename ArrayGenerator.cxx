@@ -67,6 +67,39 @@ namespace arrakis
         }
     }
 
+void ArrayGenerator::ResetArrays(){
+    fEventArray.u1_tdc.clear();
+    fEventArray.u1_channel.clear();
+    fEventArray.u1_adc.clear();
+    fEventArray.u1_track_ids.clear();
+    fEventArray.u1_energy.clear();
+    fEventArray.v1_tdc.clear();
+    fEventArray.v1_channel.clear();
+    fEventArray.v1_adc.clear();
+    fEventArray.v1_track_ids.clear();
+    fEventArray.v1_energy.clear();
+    fEventArray.z1_tdc.clear();
+    fEventArray.z1_channel.clear();
+    fEventArray.z1_adc.clear();
+    fEventArray.z1_track_ids.clear();
+    fEventArray.z1_energy.clear();
+    fEventArray.u2_tdc.clear();
+    fEventArray.u2_channel.clear();
+    fEventArray.u2_adc.clear();
+    fEventArray.u2_track_ids.clear();
+    fEventArray.u2_energy.clear();
+    fEventArray.v2_tdc.clear();
+    fEventArray.v2_channel.clear();
+    fEventArray.v2_adc.clear();
+    fEventArray.v2_track_ids.clear();
+    fEventArray.v2_energy.clear();
+    fEventArray.z2_tdc.clear();
+    fEventArray.z2_channel.clear();
+    fEventArray.z2_adc.clear();
+    fEventArray.z2_track_ids.clear();
+    fEventArray.z2_energy.clear();
+}
+
     void ArrayGenerator::processEvent(
         detinfo::DetectorClocksData const& clockData,
         //arrakis::ParticleTree const& ParticleMaps,
@@ -282,7 +315,7 @@ namespace arrakis
         } 
 
         //Storing the data into the root tree
-        fEventArray = eventArray;
+        //fEventArray = eventArray;
         fArrayTTree->Fill();
 
     }
