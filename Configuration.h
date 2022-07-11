@@ -34,19 +34,19 @@ namespace arrakis
 
         fhicl::Atom<double> ADCThresholdUPlane
         {
-            fhicl::Name("ADCThreshold"),
+            fhicl::Name("ADCThresholdUPlane"),
             fhicl::Comment("ADC threshold value for U plane to use for filling 2D arrays.")
         };
 
         fhicl::Atom<double> ADCThresholdVPlane
         {
-            fhicl::Name("ADCThreshold"),
+            fhicl::Name("ADCThresholdVPlane"),
             fhicl::Comment("ADC threshold value for V plane to use for filling 2D arrays.")
         };
 
         fhicl::Atom<double> ADCThresholdZPlane
         {
-            fhicl::Name("ADCThreshold"),
+            fhicl::Name("ADCThresholdZPlane"),
             fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
         };
 
