@@ -141,7 +141,11 @@ namespace arrakis
 
         void setBoundingBoxType(std::string volumeType);
 
-        void setThreshold(Double_t Threshold) { fThreshold = Threshold; }
+        void setThreshold(Double_t U_Threshold, Double_t V_Threshold, Double_t Z_Threshold) { 
+            fUPlaneThreshold = U_Threshold;
+            fVPlaneThreshold = V_Threshold;
+            fZPlaneThreshold = Z_Threshold;
+        }
 
     private:
         art::ServiceHandle<art::TFileService> fTFileService;
@@ -156,7 +160,9 @@ namespace arrakis
         VolumeType fBoundingBoxType;
 
         //Threshold
-        Double_t fThreshold;
+        Double_t fUPlaneThreshold;
+        Double_t fVPlaneThreshold;
+        Double_t fZPlaneThreshold;
 
         // struct for holding event information
         // RawTrainingSetStruct fRawTrainingSetStruct;

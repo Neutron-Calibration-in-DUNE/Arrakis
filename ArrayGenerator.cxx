@@ -165,10 +165,10 @@ namespace arrakis
                 //Truth Channel
                 auto truth_channel = mcChannels->at(chan); 
 
-                //Induction Plane   
+                //Induction Plane U
                 if( fGeom->View(chan) == geo::kU){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > fThreshold){
+                        if(uncompPed.at(l) > fUPlaneThreshold){
 
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
@@ -212,10 +212,10 @@ namespace arrakis
                     }
                 }// end of U View
 
-                //Induction Plane   
+                //Induction Plane V
                 if( fGeom->View(chan) == geo::kV){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > fThreshold){
+                        if(uncompPed.at(l) > fVPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;
@@ -258,10 +258,10 @@ namespace arrakis
                     }
                 }// end of V View
 
-                //Collection Plane
+                //Collection Plane Z
                 if ( fGeom->View(chan) == geo::kZ){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > fThreshold){
+                        if(uncompPed.at(l) > fZPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;

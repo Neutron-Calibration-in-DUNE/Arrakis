@@ -73,7 +73,9 @@ namespace arrakis
         Parameters mParameters;
         // Set of configuration parameters
         bool mGenerate2DArrays;
-        double mADCThreshold;
+        double mADCThresholdUPlane;
+        double mADCThresholdVPlane;
+        double mADCThresholdZPlane;
 
         // producer labels
         art::InputTag mLArGeantProducerLabel;
@@ -105,7 +107,9 @@ namespace arrakis
     {
         // Set various configuration parameters
         mGenerate2DArrays = mParameters().Generate2DArrays();
-        mADCThreshold = mParameters().ADCThreshold();
+        mADCThresholdUPlane = mParameters().ADCThresholdUPlane();
+        mADCThresholdVPlane = mParameters().ADCThresholdVPlane();
+        mADCThresholdZPlane = mParameters().ADCThresholdZPlane();
 
         mLArGeantProducerLabel = mParameters().LArGeantProducerLabel();
         mSimChannelProducerLabel = mParameters().SimChannelProducerLabel();
@@ -115,7 +119,7 @@ namespace arrakis
 
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
 
-        mArrayGenerator.setThreshold(mADCThreshold);
+        mArrayGenerator.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
     }
 
     // begin job

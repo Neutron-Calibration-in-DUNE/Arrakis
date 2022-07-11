@@ -32,10 +32,22 @@ namespace arrakis
             fhicl::Comment("Whether to generate tdc/channel/adc arrays.")
         };
 
-        fhicl::Atom<double> ADCThreshold
+        fhicl::Atom<double> ADCThresholdUPlane
         {
             fhicl::Name("ADCThreshold"),
-            fhicl::Comment("Threshold value to use for filling 2D arrays.")
+            fhicl::Comment("ADC threshold value for U plane to use for filling 2D arrays.")
+        };
+
+        fhicl::Atom<double> ADCThresholdVPlane
+        {
+            fhicl::Name("ADCThreshold"),
+            fhicl::Comment("ADC threshold value for V plane to use for filling 2D arrays.")
+        };
+
+        fhicl::Atom<double> ADCThresholdZPlane
+        {
+            fhicl::Name("ADCThreshold"),
+            fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
         };
 
         fhicl::Atom<art::InputTag> LArGeantProducerLabel
