@@ -175,7 +175,7 @@ namespace arrakis
                                 continue;
                             }
 
-                            cout << "--------1--------------" << endl;
+                            std::cout << "--------1--------------" << std::endl;
 
                             std::vector<Int_t> track_ids;
                             for (size_t i = 0; i < trackIDs.size(); i++)
@@ -183,7 +183,7 @@ namespace arrakis
                                 track_ids[i] = trackIDs[i].trackID;
                             }
 
-                            cout << "--------2--------------" << endl;
+                            std::cout << "--------2--------------" << std::endl;
 
                             std::vector<Double_t> energy;
                             for (size_t i = 0; i < trackIDs.size(); i++)
@@ -191,7 +191,7 @@ namespace arrakis
                                 energy[i] = trackIDs[i].energy;
                             }
 
-                            cout << "--------3--------------" << endl;
+                            std::cout << "--------3--------------" << std::endl;
 
                             if(apa < 3){
                                 fEventArray.u1_tdc.emplace_back(l);
