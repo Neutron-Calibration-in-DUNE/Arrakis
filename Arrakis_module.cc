@@ -146,22 +146,28 @@ namespace arrakis
         mParticleTree.ResetMaps();
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
         mParticleTree.processEvent(mcParticles);
+<<<<<<< HEAD
 
         
         mArrayGenerator.ResetArrays();
+=======
+        
+>>>>>>> d6d0ea3d084bde5eecfcae4cb5d27adcdb2bee44
         //Array Generator 
-        auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
-        auto mcSimChannels = 
-            event.getValidHandle<std::vector<sim::SimChannel>>(
-                art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
+        if (mGenerate2DArrays) {
+            auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
+            auto mcSimChannels = 
+                event.getValidHandle<std::vector<sim::SimChannel>>(
+                    art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
+                );
+            art::Handle< std::vector<raw::RawDigit> > rawTPC;
+            event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
+            mArrayGenerator.processEvent(
+                clockData,
+                mcSimChannels,
+                rawTPC
             );
-        art::Handle< std::vector<raw::RawDigit> > rawTPC;
-        event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
-        mArrayGenerator.processEvent(
-            clockData,
-            mcSimChannels,
-            rawTPC
-        );
+        }
     }
     
     // end job

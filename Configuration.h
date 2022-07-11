@@ -31,7 +31,7 @@ namespace arrakis
             fhicl::Name("Generate2DArrays"),
             fhicl::Comment("Whether to generate tdc/channel/adc arrays.")
         };
-        
+
         fhicl::Atom<double> ADCThreshold
         {
             fhicl::Name("ADCThreshold"),
@@ -68,11 +68,11 @@ namespace arrakis
             fhicl::Comment("Tag of the input data product for the TPCInstanceLabel.")
         };
 
-        fhicl::Atom<bool> GenerateSemanticLabels
-        {
-            fhicl::Name("GenerateSemanticLabels"),
-            fhicl::Comment("Whether to generate semantic labels.")
-        };
+        // fhicl::Atom<bool> GenerateSemanticLabels
+        // {
+        //     fhicl::Name("GenerateSemanticLabels"),
+        //     fhicl::Comment("Whether to generate semantic labels.")
+        // };
     };
 
     using Parameters = art::EDAnalyzer::Table<Configuration>;

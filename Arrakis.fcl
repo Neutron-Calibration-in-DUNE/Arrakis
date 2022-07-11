@@ -14,6 +14,8 @@ Arrakis:
     # array parameters
     Generate2DArrays:   true
     ADCThreshold:       4.0
+
+    # GenerateSemanticLabels: true
 }
 
 END_PROLOG
