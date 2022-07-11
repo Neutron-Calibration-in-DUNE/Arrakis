@@ -139,16 +139,24 @@ namespace arrakis
                             if (trackIDs.size() == 0) {
                                 continue;
                             }
+
+                            cout << "--------1--------------" << endl;
+
                             std::vector<Int_t> track_ids;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
                                 track_ids[i] = trackIDs[i].trackID;
                             }
+
+                            cout << "--------2--------------" << endl;
+
                             std::vector<Double_t> energy;
                             for (size_t i = 0; i < trackIDs.size(); i++)
                             {
                                 energy[i] = trackIDs[i].energy;
                             }
+
+                            cout << "--------3--------------" << endl;
 
                             if(apa < 3){
                                 fEventArray.u1_tdc.emplace_back(l);
