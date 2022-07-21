@@ -108,8 +108,6 @@ namespace arrakis
     ){
         ResetArrays();
 
-        EventArray eventArray;
-
         // Accquiring geometry data
         fNofAPA=fGeom->NTPC()*fGeom->Ncryostats()/2; //No. of APAs
         fChansPerAPA = fGeom->Nchannels()/fNofAPA; //No. of channels per APA
@@ -309,7 +307,6 @@ namespace arrakis
         } 
 
         //Storing the data into the root tree
-        fEventArray = eventArray;
         fArrayTTree->Fill();
 
     }
