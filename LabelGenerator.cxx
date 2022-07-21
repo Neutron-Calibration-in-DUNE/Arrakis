@@ -105,6 +105,11 @@ namespace arrakis
                     mLabels.u1_gamma_type.emplace_back(0);
                 }
             }
+            else
+            {
+                mLabels.u1_gamma_id.emplace_back(-2);
+                mLabels.u1_gamma_type.emplace_back(-999);
+            }
 		}
         mLabelTree->Fill();
     }
