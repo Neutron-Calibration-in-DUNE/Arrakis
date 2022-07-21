@@ -52,6 +52,7 @@
 #include "DetectorGeometry.h"
 #include "ParticleTree.h"
 #include "ArrayGenerator.h"
+#include "GammaTable.h"
 
 namespace arrakis
 {
@@ -79,6 +80,7 @@ namespace arrakis
 
         // producer labels
         art::InputTag mLArGeantProducerLabel;
+        art::InputTag mIonAndScintProducerLabel;
         art::InputTag mSimChannelProducerLabel;
         art::InputTag mSimChannelInstanceProducerLabel;
         art::InputTag mTPCInputLabel;
@@ -112,6 +114,7 @@ namespace arrakis
         mADCThresholdZPlane = mParameters().ADCThresholdZPlane();
 
         mLArGeantProducerLabel = mParameters().LArGeantProducerLabel();
+        mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
         mSimChannelProducerLabel = mParameters().SimChannelProducerLabel();
         mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
         mTPCInputLabel = mParameters().TPCInputLabel();
@@ -154,16 +157,26 @@ namespace arrakis
 
         if (mGenerate2DArrays) {
             auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
+
+            auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
+            auto mcEnergyDeposits = 
+                event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
             auto mcSimChannels = 
                 event.getValidHandle<std::vector<sim::SimChannel>>(
                     art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
                 );
+
             art::Handle< std::vector<raw::RawDigit> > rawTPC;
             event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
             mArrayGenerator.processEvent(
                 clockData,
                 mcSimChannels,
                 rawTPC
+            );
+            mGammaTable.processEvent(
+                clockData,
+                mcParticles, 
+                mcEnergyDeposits,
             );
         }
     }

@@ -6,10 +6,11 @@ Arrakis:
 
     # module labels
     LArGeantProducerLabel:      "largeant"
+    IonAndScintProducerLabel:   "IonAndScint"
     SimChannelProducerLabel:    "tpcrawdecoder"
     SimChannelInstanceProducerLabel:    "simpleSC"
-    TPCInputLabel:          "tpcrawdecoder"
-    TPCInstanceLabel:      "daq"
+    TPCInputLabel:              "tpcrawdecoder"
+    TPCInstanceLabel:           "daq"
 
     # array parameters
     Generate2DArrays:       true
