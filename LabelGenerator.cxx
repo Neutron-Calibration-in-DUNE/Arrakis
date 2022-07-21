@@ -53,7 +53,7 @@ namespace arrakis
         double track_energy;
         int track_index = 0;
         track_energy = energy_vec[0];
-        for (int i = 0; i < energy_vec.size(); i++)
+        for (size_t i = 0; i < energy_vec.size(); i++)
         {
             if (energy_vec[i] > track_energy)
             {
@@ -78,11 +78,11 @@ namespace arrakis
         std::map<Int_t, Int_t> gammaTableIndex = gammaTable.getGammaTableIndex();
         std::vector<Int_t> gammaTableTrackIDs = gammaTable.getGammaTableTrackIDs();
 
-        for(int j = 0; j< (int) eventArray.u1_temp_tdc->size(); j++)
+        for(int j = 0; j< (int) eventArray.u1_tdc->size(); j++)
         {
-            if(eventArray.u1_track_ids->at(j).empty() == 0 && eventArray.u1_energy->at(j).empty() == 0)
+            if(eventArray.u1_track_ids[j].empty() == 0 && eventArray.u1_energy[j].empty() == 0)
             {
-                int temp_trackID = getLargestEnergyTrackID(eventArray.u1_track_ids->at(j), eventArray.u1_energy->at(j));
+                int temp_trackID = getLargestEnergyTrackID(eventArray.u1_track_ids[j], eventArray.u1_energy[j]);
 
                 // check if track id is in the gamma table
                 bool track_id_exists = false;

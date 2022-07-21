@@ -107,6 +107,8 @@ namespace arrakis
         LabelGenerator();
         ~LabelGenerator();
 
+        void ResetLabels();
+
         int getLargestEnergyTrackID(std::vector<int> trackID_vec, std::vector<double> energy_vec);
 
         void processEvent(
