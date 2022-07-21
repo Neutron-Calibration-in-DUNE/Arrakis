@@ -178,7 +178,7 @@ namespace arrakis
             mGammaTable.processEvent(
                 clockData,
                 mcParticles, 
-                mcEnergyDeposits,
+                mcEnergyDeposits
             );
         }
     }
