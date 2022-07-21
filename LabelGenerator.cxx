@@ -14,13 +14,16 @@ namespace arrakis
         mLabelTree = mTFileService->make<TTree>("labels", "labels");
         mLabelTree->Branch("u1_gamma_id", &mLabels.u1_gamma_id);
         mLabelTree->Branch("u1_gamma_type", &mLabels.u1_gamma_type);
-        mLabelTree->Branch("u1_pdg", &mLabels.u1_pdg);
+        mLabelTree->Branch("u1_ancestor_pdg", &mLabels.u1_ancestor_pdg);
+        mLabelTree->Branch("u1_ancestor_id", &mLabels.u1_ancestor_id);
         mLabelTree->Branch("v1_gamma_id", &mLabels.v1_gamma_id);
         mLabelTree->Branch("v1_gamma_type", &mLabels.v1_gamma_type);
-        mLabelTree->Branch("v1_pdg", &mLabels.v1_pdg);
+        mLabelTree->Branch("v1_ancestor_pdg", &mLabels.v1_ancestor_pdg);
+        mLabelTree->Branch("v1_ancestor_id", &mLabels.v1_ancestor_id);
         mLabelTree->Branch("z1_gamma_id", &mLabels.z1_gamma_id);
         mLabelTree->Branch("z1_gamma_type", &mLabels.z1_gamma_type);
-        mLabelTree->Branch("z1_pdg", &mLabels.z1_pdg);
+        mLabelTree->Branch("z1_ancestor_pdg", &mLabels.z1_ancestor_pdg);
+        mLabelTree->Branch("z1_ancestor_id", &mLabels.z1_ancestor_id);
 
         mLabelTree->Branch("u2_gamma_id", &mLabels.u2_gamma_id);
         mLabelTree->Branch("u2_gamma_type", &mLabels.u2_gamma_type);
@@ -37,13 +40,18 @@ namespace arrakis
     {
         mLabels.u1_gamma_id.clear();
         mLabels.u1_gamma_type.clear();
-        mLabels.u1_pdg.clear();
+        mLabels.u1_ancestor_pdg.clear();
+        mLabels.u1_ancestor_id.clear();
+
         mLabels.v1_gamma_id.clear();
         mLabels.v1_gamma_type.clear();
-        mLabels.v1_pdg.clear();
+        mLabels.v1_ancestor_pdg.clear();
+        mLabels.v1_ancestor_id.clear();
+
         mLabels.z1_gamma_id.clear();
         mLabels.z1_gamma_type.clear();
-        mLabels.z1_pdg.clear();
+        mLabels.z1_ancestor_pdg.clear();
+        mLabels.z1_ancestor_id.clear();
 
         mLabels.u2_gamma_id.clear();
         mLabels.u2_gamma_type.clear();
@@ -111,13 +119,15 @@ namespace arrakis
                     mLabels.u1_gamma_id.emplace_back(-1);
                     mLabels.u1_gamma_type.emplace_back(0);
                 }
-                mLabels.u1_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
+                mLabels.u1_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
+                mLabels.u1_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
             }
             else
             {
                 mLabels.u1_gamma_id.emplace_back(-2);
                 mLabels.u1_gamma_type.emplace_back(-999);
-                mLabels.u1_pdg.emplace_back(0);
+                mLabels.u1_ancestor_pdg.emplace_back(0);
+                mLabels.u1_ancestor_id.emplace_back(0);
             }
 		}
         mLabelTree->Fill();

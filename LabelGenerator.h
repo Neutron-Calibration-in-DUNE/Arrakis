@@ -88,13 +88,16 @@ namespace arrakis
     {
         std::vector<Int_t> u1_gamma_id;
         std::vector<Double_t> u1_gamma_type;
-        std::vector<Int_t> u1_pdg;
+        std::vector<Int_t> u1_ancestor_pdg;
+        std::vector<Int_t> u1_ancestor_id;
         std::vector<Int_t> v1_gamma_id;
         std::vector<Double_t> v1_gamma_type;
-        std::vector<Int_t> v1_pdg;
+        std::vector<Int_t> v1_ancestor_pdg;
+        std::vector<Int_t> v1_ancestor_id;
         std::vector<Int_t> z1_gamma_id;
         std::vector<Double_t> z1_gamma_type;
-        std::vector<Int_t> z1_pdg;
+        std::vector<Int_t> z1_ancestor_pdg;
+        std::vector<Int_t> z1_ancestor_id;
 
         std::vector<Int_t> u2_gamma_id;
         std::vector<Double_t> u2_gamma_type;
