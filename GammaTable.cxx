@@ -217,6 +217,7 @@ namespace arrakis
             mGammaTableIndex = gamma_map;
             mGammaTableTrackIDs = gamma_map_track_ids;
             mGammaStatistics = gamma_statistics;
+            //mGammaTree->Fill();
             mGammaStatisticsTree->Fill();
         }
     }

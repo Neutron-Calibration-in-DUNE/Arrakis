@@ -14,10 +14,13 @@ namespace arrakis
         mLabelTree = mTFileService->make<TTree>("labels", "labels");
         mLabelTree->Branch("u1_gamma_id", &mLabels.u1_gamma_id);
         mLabelTree->Branch("u1_gamma_type", &mLabels.u1_gamma_type);
+        mLabelTree->Branch("u1_pdg", &mLabels.u1_pdg);
         mLabelTree->Branch("v1_gamma_id", &mLabels.v1_gamma_id);
         mLabelTree->Branch("v1_gamma_type", &mLabels.v1_gamma_type);
+        mLabelTree->Branch("v1_pdg", &mLabels.v1_pdg);
         mLabelTree->Branch("z1_gamma_id", &mLabels.z1_gamma_id);
         mLabelTree->Branch("z1_gamma_type", &mLabels.z1_gamma_type);
+        mLabelTree->Branch("z1_pdg", &mLabels.z1_pdg);
 
         mLabelTree->Branch("u2_gamma_id", &mLabels.u2_gamma_id);
         mLabelTree->Branch("u2_gamma_type", &mLabels.u2_gamma_type);
@@ -34,10 +37,13 @@ namespace arrakis
     {
         mLabels.u1_gamma_id.clear();
         mLabels.u1_gamma_type.clear();
+        mLabels.u1_pdg.clear();
         mLabels.v1_gamma_id.clear();
         mLabels.v1_gamma_type.clear();
+        mLabels.v1_pdg.clear();
         mLabels.z1_gamma_id.clear();
         mLabels.z1_gamma_type.clear();
+        mLabels.z1_pdg.clear();
 
         mLabels.u2_gamma_id.clear();
         mLabels.u2_gamma_type.clear();
@@ -89,7 +95,8 @@ namespace arrakis
                 Int_t gammaIndex = 0;
                 for (size_t i = 0; i < gammaTableTrackIDs.size(); i++)
                 {
-                    if (gammaTableTrackIDs[i] == temp_trackID) {
+                    if (gammaTableTrackIDs[i] == temp_trackID) 
+                    {
                         track_id_exists = true;
                         gammaIndex = gammaTableIndex[temp_trackID];
                     }
@@ -104,11 +111,13 @@ namespace arrakis
                     mLabels.u1_gamma_id.emplace_back(-1);
                     mLabels.u1_gamma_type.emplace_back(0);
                 }
+                mLabels.u1_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
             }
             else
             {
                 mLabels.u1_gamma_id.emplace_back(-2);
                 mLabels.u1_gamma_type.emplace_back(-999);
+                mLabels.u1_pdg.emplace_back(0);
             }
 		}
         mLabelTree->Fill();
