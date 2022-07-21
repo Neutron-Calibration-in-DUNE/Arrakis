@@ -53,6 +53,7 @@
 #include "ParticleTree.h"
 #include "ArrayGenerator.h"
 #include "GammaTable.h"
+#include "LabelGenerator.h"
 
 namespace arrakis
 {
@@ -102,6 +103,8 @@ namespace arrakis
         ArrayGenerator mArrayGenerator;
         // Gamma table
         GammaTable mGammaTable;
+        // Label Generator
+        LabelGenerator mLabelGenerator;
     };
 
     // constructor
@@ -179,6 +182,11 @@ namespace arrakis
                 clockData,
                 mcParticles, 
                 mcEnergyDeposits
+            );
+            mLabelGenerator.processEvent(
+                mParticleTree,
+                mGammaTable,
+                mArrayGenerator
             );
         }
     }

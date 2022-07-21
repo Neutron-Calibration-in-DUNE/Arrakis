@@ -147,6 +147,8 @@ namespace arrakis
             fZPlaneThreshold = Z_Threshold;
         }
 
+        EventArray getArray() { return fEventArray; }
+
     private:
         art::ServiceHandle<art::TFileService> fTFileService;
         TTree *fArrayTTree;

@@ -100,6 +100,10 @@ namespace arrakis
         GammaTable();
         ~GammaTable();
 
+        std::vector<Gamma> getGammaTable() { return mGammas; }
+        std::map<Int_t, Int_t> getGammaTableIndex() { return mGammaTableIndex; }
+        std::vector<Int_t> getGammaTableTrackIDs() { return mGammaTableTrackIDs; }
+
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
@@ -118,6 +122,9 @@ namespace arrakis
         DetectorGeometry* fGeometry = DetectorGeometry::getInstance("GammaTable");
 
         Gamma mGamma;
+        std::vector<Gamma> mGammas;
+        std::map<Int_t, Int_t> mGammaTableIndex;
+        std::vector<Int_t> mGammaTableTrackIDs;
         GammaStatistics mGammaStatistics;
     };
 }

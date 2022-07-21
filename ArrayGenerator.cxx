@@ -309,7 +309,7 @@ namespace arrakis
         } 
 
         //Storing the data into the root tree
-        //fEventArray = eventArray;
+        fEventArray = eventArray;
         fArrayTTree->Fill();
 
     }

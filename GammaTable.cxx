@@ -58,6 +58,7 @@ namespace arrakis
         {
             std::vector<Gamma> gammas;
             std::map<int, int> gamma_map;
+            std::vector<int> gamma_map_track_ids;
             /**
              * We first iterate through all particles and create a map of 
              * parent-daughter pairs for track ids.  This way we can search
@@ -105,6 +106,7 @@ namespace arrakis
                                 gammas.back().gamma_z.emplace_back(particle.Vz(k));
                             }
                             gamma_map[particle.TrackId()] = gammas.size()-1;
+                            gamma_map_track_ids.emplace_back(particle.TrackId());
                         }
                     }
                 }
@@ -129,6 +131,7 @@ namespace arrakis
                             gammas[i].daughter_edep_num_photons.emplace_back(std::vector<Int_t>());
                             
                             gamma_map[particle.TrackId()] = i;
+                            gamma_map_track_ids.emplace_back(particle.TrackId());
                         }
                         for (size_t j = 0; j < gammas[i].daughter_ids.size(); j++)
                         {
@@ -149,6 +152,7 @@ namespace arrakis
                                 gammas[i].daughter_edep_num_photons.emplace_back(std::vector<Int_t>());
                                 
                                 gamma_map[particle.TrackId()] = i;
+                                gamma_map_track_ids.emplace_back(particle.TrackId());
                             }
                         }
                     }
@@ -209,6 +213,9 @@ namespace arrakis
                 }
             }
             gamma_statistics.total_num_gammas = gammas.size();
+            mGammas = gammas;
+            mGammaTableIndex = gamma_map;
+            mGammaTableTrackIDs = gamma_map_track_ids;
             mGammaStatistics = gamma_statistics;
             mGammaStatisticsTree->Fill();
         }
