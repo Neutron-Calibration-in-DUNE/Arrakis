@@ -78,7 +78,7 @@ namespace arrakis
         std::map<Int_t, Int_t> gammaTableIndex = gammaTable.getGammaTableIndex();
         std::vector<Int_t> gammaTableTrackIDs = gammaTable.getGammaTableTrackIDs();
 
-        for(int j = 0; j< (int) eventArray.u1_tdc->size(); j++)
+        for(int j = 0; j< (int) eventArray.u1_tdc.size(); j++)
         {
             if(eventArray.u1_track_ids[j].empty() == 0 && eventArray.u1_energy[j].empty() == 0)
             {
