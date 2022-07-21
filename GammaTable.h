@@ -44,7 +44,7 @@
 
 #include "DetectorGeometry.h"
 
-namespace neutron
+namespace arrakis
 {
     struct Gamma
     {

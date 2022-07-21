@@ -7,7 +7,7 @@
  */
 #include "GammaTable.h"
 
-namespace neutron
+namespace arrakis
 {
     GammaTable::GammaTable()
     {
