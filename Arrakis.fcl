@@ -14,9 +14,9 @@ Arrakis:
 
     # array parameters
     Generate2DArrays:       true
-    ADCThresholdUPlane:     0.0
-    ADCThresholdVPlane:     0.0
-    ADCThresholdZPlane:     0.0
+    ADCThresholdUPlane:     10.0
+    ADCThresholdVPlane:     10.0
+    ADCThresholdZPlane:     10.0
 
     # GenerateSemanticLabels: true
 }
