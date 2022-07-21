@@ -103,7 +103,7 @@ namespace arrakis
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits,
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
 
     private:

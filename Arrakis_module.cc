@@ -100,6 +100,8 @@ namespace arrakis
         ParticleTree mParticleTree;
         //ArrayGenerator
         ArrayGenerator mArrayGenerator;
+        // Gamma table
+        GammaTable mGammaTable;
     };
 
     // constructor
