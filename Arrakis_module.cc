@@ -80,6 +80,7 @@ namespace arrakis
         double mADCThresholdUPlane;
         double mADCThresholdVPlane;
         double mADCThresholdZPlane;
+        int mClockTicks;
 
         // producer labels
         art::InputTag mLArGeantProducerLabel;
@@ -123,6 +124,7 @@ namespace arrakis
         mADCThresholdUPlane = mParameters().ADCThresholdUPlane();
         mADCThresholdVPlane = mParameters().ADCThresholdVPlane();
         mADCThresholdZPlane = mParameters().ADCThresholdZPlane();
+        mClockTicks = mParameters().ClockTicks();
 
         mLArGeantProducerLabel = mParameters().LArGeantProducerLabel();
         mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
@@ -136,6 +138,7 @@ namespace arrakis
         mArrayGenerator.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
 
         mEvtLvlNeutronInfo.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
+        mEvtLvlNeutronInfo.setClockTicks(mClockTicks);
     }
 
     // begin job

@@ -51,14 +51,17 @@ namespace arrakis
 
     struct EventStatistics
     {
-        Int_t total_neutrons_captured = 0;
+        Int_t total_neutrons_captured = 0;  // Total neutrons captured in the TPC in an event
 
-        Int_t u_total_summed_adc = 0;
-        Double_t u_total_summed_energy = 0;
+        std::vector<Int_t> u_summed_adc;    // ADC summed across all channels for a TDC value
+        Int_t u_total_summed_adc = 0;       // Total summed ADC in an event across all channels and TDCs
+        Double_t u_total_summed_energy = 0; // Total evergy deposited in the TPC in an event
 
+        std::vector<Int_t> v_summed_adc;
         Int_t v_total_summed_adc = 0;
         Double_t v_total_summed_energy = 0;
 
+        std::vector<Int_t> z_summed_adc;
         Int_t z_total_summed_adc = 0;
         Double_t z_total_summed_energy = 0;
     };
@@ -68,6 +71,8 @@ namespace arrakis
     public:
         EvtLvlNeutronInfo();
         ~EvtLvlNeutronInfo();
+
+        void ResetArrays();
 
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
@@ -80,6 +85,10 @@ namespace arrakis
             fUPlaneThreshold = U_Threshold;
             fVPlaneThreshold = V_Threshold;
             fZPlaneThreshold = Z_Threshold;
+        }
+
+        void setClockTicks(int clockTicks) {
+            fClockTicks = clockTicks;
         }
 
     private:
@@ -100,6 +109,9 @@ namespace arrakis
         Double_t fZPlaneThreshold;
 
         EventStatistics mEventStatistics;
+
+        // max total clock ticks per event
+        int fClockTicks;
 
         // number of clock ticks as unsigned int
         unsigned int clock_ticks;

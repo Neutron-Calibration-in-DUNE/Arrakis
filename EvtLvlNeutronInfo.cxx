@@ -16,12 +16,15 @@ namespace arrakis
 
         mEventStatisticsTree->Branch("total_neutrons_captured", &mEventStatistics.total_neutrons_captured);
 
+        mEventStatisticsTree->Branch("u_summed_adc", &mEventStatistics.u_summed_adc);
         mEventStatisticsTree->Branch("u_total_summed_adc", &mEventStatistics.u_total_summed_adc);
         mEventStatisticsTree->Branch("u_total_summed_energy", &mEventStatistics.u_total_summed_energy);
 
+        mEventStatisticsTree->Branch("v_summed_adc", &mEventStatistics.v_summed_adc);
         mEventStatisticsTree->Branch("v_total_summed_adc", &mEventStatistics.v_total_summed_adc);
         mEventStatisticsTree->Branch("v_total_summed_energy", &mEventStatistics.v_total_summed_energy);
 
+        mEventStatisticsTree->Branch("z_summed_adc", &mEventStatistics.z_summed_adc);
         mEventStatisticsTree->Branch("z_total_summed_adc", &mEventStatistics.z_total_summed_adc);
         mEventStatisticsTree->Branch("z_total_summed_energy", &mEventStatistics.z_total_summed_energy);
     }
@@ -48,16 +51,19 @@ namespace arrakis
 
             Int_t neutrons_captured = 0;
 
+            std::vector<Int_t> u_adc(fClockTicks, 0);
             Int_t u_summed_adc = 0;
             Double_t u_summed_energy = 0;
 
+            std::vector<Int_t> v_adc(fClockTicks, 0);
             Int_t v_summed_adc = 0;
             Double_t v_summed_energy = 0;
 
+            std::vector<Int_t> z_adc(fClockTicks, 0);
             Int_t z_summed_adc = 0;
             Double_t z_summed_energy = 0;
 
-            /////////// Calculating number of neutron captures
+            /////////// Calculating number of neutron captures ////////////////////////////
             for (auto particle : *mcParticles) {
                 if (particle.PdgCode() == 2112) //If the particle is neutron
                 {
@@ -73,7 +79,7 @@ namespace arrakis
                 }
             }
             
-            /////////// Calculating summed ADC and summed energy
+            /////////// Calculating summed ADC and summed energy //////////////////////////
             for(auto const & dptr : RawDigits) {
                 const raw::RawDigit & digit = *dptr;
 
@@ -108,6 +114,8 @@ namespace arrakis
                             {
                                 u_summed_energy += trackIDs[i].energy;
                             }
+
+                            u_adc.at( (int) l) += uncompPed.at(l);
                             u_summed_adc += (Int_t) uncompPed.at(l);
                         }
                     }
@@ -125,6 +133,8 @@ namespace arrakis
                             {
                                 v_summed_energy += trackIDs[i].energy;
                             }
+                            
+                            v_adc.at( (int) l) += uncompPed.at(l);
                             v_summed_adc += (Int_t) uncompPed.at(l);
                         }
                     }
@@ -142,6 +152,8 @@ namespace arrakis
                             {
                                 z_summed_energy += trackIDs[i].energy;
                             }
+                            
+                            z_adc.at( (int) l) += uncompPed.at(l);
                             z_summed_adc += (Int_t) uncompPed.at(l);
                         }
                     }
@@ -150,10 +162,16 @@ namespace arrakis
 
             //////// Filling the tree
             event_statistics.total_neutrons_captured = neutrons_captured;
+
+            event_statistics.u_summed_adc = u_adc;
             event_statistics.u_total_summed_adc = u_summed_adc;
             event_statistics.u_total_summed_energy = u_summed_energy;
+
+            event_statistics.v_summed_adc = v_adc;
             event_statistics.v_total_summed_adc = v_summed_adc;
             event_statistics.v_total_summed_energy = v_summed_energy;
+
+            event_statistics.z_summed_adc = z_adc;
             event_statistics.z_total_summed_adc = z_summed_adc;
             event_statistics.z_total_summed_energy = z_summed_energy;
 

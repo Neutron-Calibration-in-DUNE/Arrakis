@@ -18,6 +18,7 @@ Arrakis:
     ADCThresholdUPlane:     10.0
     ADCThresholdVPlane:     10.0
     ADCThresholdZPlane:     10.0
+    ClockTicks:             6000
 
     # GenerateSemanticLabels: true
 }
