@@ -54,6 +54,7 @@
 #include "ArrayGenerator.h"
 #include "GammaTable.h"
 #include "LabelGenerator.h"
+#include "EvtLvlNeutronInfo.h"
 
 namespace arrakis
 {
@@ -75,6 +76,7 @@ namespace arrakis
         Parameters mParameters;
         // Set of configuration parameters
         bool mGenerate2DArrays;
+        bool mGenerateEvtLvlNInfo;
         double mADCThresholdUPlane;
         double mADCThresholdVPlane;
         double mADCThresholdZPlane;
@@ -105,6 +107,9 @@ namespace arrakis
         GammaTable mGammaTable;
         // Label Generator
         LabelGenerator mLabelGenerator;
+        // Event Level Neutron Information
+        EvtLvlNeutronInfo mEvtLvlNeutronInfo;
+
     };
 
     // constructor
@@ -114,6 +119,7 @@ namespace arrakis
     {
         // Set various configuration parameters
         mGenerate2DArrays = mParameters().Generate2DArrays();
+        mGenerateEvtLvlNInfo = mParameters().GenerateEvtLvlNInfo();
         mADCThresholdUPlane = mParameters().ADCThresholdUPlane();
         mADCThresholdVPlane = mParameters().ADCThresholdVPlane();
         mADCThresholdZPlane = mParameters().ADCThresholdZPlane();
@@ -128,6 +134,8 @@ namespace arrakis
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
 
         mArrayGenerator.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
+
+        mEvtLvlNeutronInfo.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
     }
 
     // begin job
@@ -187,6 +195,26 @@ namespace arrakis
                 mParticleTree,
                 mGammaTable,
                 mArrayGenerator
+            );
+        }
+
+        if (mGenerateEvtLvlNInfo) {
+            auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
+
+            auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
+            auto mcSimChannels = 
+                event.getValidHandle<std::vector<sim::SimChannel>>(
+                    art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
+                );
+
+            art::Handle< std::vector<raw::RawDigit> > rawTPC;
+            event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC);
+
+            mEvtLvlNeutronInfo.processEvent(
+                clockData,
+                mcSimChannels,
+                mcParticles,
+                rawTPC
             );
         }
     }

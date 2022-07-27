@@ -32,6 +32,13 @@ namespace arrakis
             fhicl::Comment("Whether to generate tdc/channel/adc arrays.")
         };
 
+        fhicl::Atom<bool> GenerateEvtLvlNInfo
+        {
+            fhicl::Name("GenerateEvtLvlNInfo"),
+            fhicl::Comment("Whether to generate event level neutron info.")
+        };
+
+
         fhicl::Atom<double> ADCThresholdUPlane
         {
             fhicl::Name("ADCThresholdUPlane"),
@@ -49,6 +56,8 @@ namespace arrakis
             fhicl::Name("ADCThresholdZPlane"),
             fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
         };
+
+        /////////////////////////// Labels /////////////////////////////////////////////
 
         fhicl::Atom<art::InputTag> LArGeantProducerLabel
         {
