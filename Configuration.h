@@ -38,7 +38,6 @@ namespace arrakis
             fhicl::Comment("Whether to generate event level neutron info.")
         };
 
-
         fhicl::Atom<double> ADCThresholdUPlane
         {
             fhicl::Name("ADCThresholdUPlane"),
@@ -57,6 +56,12 @@ namespace arrakis
             fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
         };
 
+        fhicl::Atom<double> ClockTicks
+        {
+            fhicl::Name("ClockTicks"),
+            fhicl::Comment("Total clock ticks in an event.")
+        };
+
         /////////////////////////// Labels /////////////////////////////////////////////
 
         fhicl::Atom<art::InputTag> LArGeantProducerLabel
@@ -64,6 +69,7 @@ namespace arrakis
             fhicl::Name("LArGeantProducerLabel"),
             fhicl::Comment("Tag of the input data product for the largeant side of the simulation.")
         };
+        
         fhicl::Atom<art::InputTag> IonAndScintProducerLabel
         {
             fhicl::Name("IonAndScintProducerLabel"),
