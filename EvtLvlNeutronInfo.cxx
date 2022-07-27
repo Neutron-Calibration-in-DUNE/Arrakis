@@ -92,6 +92,9 @@ namespace arrakis
                 for (int i=0; i<nSamples; i++) uncompPed.at(i)=uncompressed.at(i)-pedestal;
                 //Truth Channel
                 auto truth_channel = mcChannels->at(chan);
+
+                // number of ADC uncompressed without pedestal
+                clock_ticks=uncompPed.size();
                 
                 /////////////////////////////////////////// U Channel ///////////////////////////////////////
                 if( fGeom->View(chan) == geo::kU) {

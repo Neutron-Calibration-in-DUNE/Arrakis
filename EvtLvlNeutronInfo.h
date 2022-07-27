@@ -100,5 +100,8 @@ namespace arrakis
         Double_t fZPlaneThreshold;
 
         EventStatistics mEventStatistics;
+
+        // number of clock ticks as unsigned int
+        unsigned int clock_ticks;
     };
 }
