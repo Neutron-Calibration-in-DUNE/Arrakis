@@ -99,7 +99,7 @@ namespace arrakis
                 /////////////////////////////////////////// U Channel ///////////////////////////////////////
                 if( fGeom->View(chan) == geo::kU) {
                     //loop over time ticks
-                    for(unsigned int l=0;l<nSamples;l++) {
+                    for(unsigned int l=0;l<clock_ticks;l++) {
                         if(uncompPed.at(l) > fUPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
@@ -116,7 +116,7 @@ namespace arrakis
                 /////////////////////////////////////////// V Channel ///////////////////////////////////////
                 if( fGeom->View(chan) == geo::kV) {
                     //loop over time ticks
-                    for(unsigned int l=0;l<nSamples;l++) {
+                    for(unsigned int l=0;l<clock_ticks;l++) {
                         if(uncompPed.at(l) > fVPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
@@ -133,7 +133,7 @@ namespace arrakis
                 /////////////////////////////////////////// Z Channel ///////////////////////////////////////
                 if( fGeom->View(chan) == geo::kZ) {
                     //loop over time ticks
-                    for(unsigned int l=0;l<nSamples;l++) {
+                    for(unsigned int l=0;l<clock_ticks;l++) {
                         if(uncompPed.at(l) > fZPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
