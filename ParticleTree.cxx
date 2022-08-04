@@ -71,7 +71,6 @@ namespace arrakis
                 mAncestorTrackIDMap[particle.TrackId()] = track_id;
             }
         }
-
         fMapTTree->Fill();
     }
 }
