@@ -106,7 +106,7 @@ namespace arrakis
                 if( fGeom->View(chan) == geo::kU) {
                     //loop over time ticks
                     for(unsigned int l=0;l<clock_ticks;l++) {
-                        if(uncompPed.at(l) > fUPlaneThreshold){
+                        if(std::abs(uncompPed.at(l)) > fUPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
 
@@ -115,8 +115,8 @@ namespace arrakis
                                 u_summed_energy += trackIDs[i].energy;
                             }
 
-                            u_adc.at( (int) l) += uncompPed.at(l);
-                            u_summed_adc += (Int_t) uncompPed.at(l);
+                            u_adc.at( (int) l) += std::abs(uncompPed.at(l));
+                            u_summed_adc += (Int_t) std::abs(uncompPed.at(l));
                         }
                     }
                 }// end of U View
@@ -125,7 +125,7 @@ namespace arrakis
                 if( fGeom->View(chan) == geo::kV) {
                     //loop over time ticks
                     for(unsigned int l=0;l<clock_ticks;l++) {
-                        if(uncompPed.at(l) > fVPlaneThreshold){
+                        if(std::abs(uncompPed.at(l)) > fVPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
 
@@ -134,8 +134,8 @@ namespace arrakis
                                 v_summed_energy += trackIDs[i].energy;
                             }
                             
-                            v_adc.at( (int) l) += uncompPed.at(l);
-                            v_summed_adc += (Int_t) uncompPed.at(l);
+                            v_adc.at( (int) l) += std::abs(uncompPed.at(l));
+                            v_summed_adc += (Int_t) std::abs(uncompPed.at(l));
                         }
                     }
                 }// end of V View
@@ -144,7 +144,7 @@ namespace arrakis
                 if( fGeom->View(chan) == geo::kZ) {
                     //loop over time ticks
                     for(unsigned int l=0;l<clock_ticks;l++) {
-                        if(uncompPed.at(l) > fZPlaneThreshold){
+                        if(std::abs(uncompPed.at(l)) > fZPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
 
@@ -153,8 +153,8 @@ namespace arrakis
                                 z_summed_energy += trackIDs[i].energy;
                             }
                             
-                            z_adc.at( (int) l) += uncompPed.at(l);
-                            z_summed_adc += (Int_t) uncompPed.at(l);
+                            z_adc.at( (int) l) += std::abs(uncompPed.at(l));
+                            z_summed_adc += (Int_t) std::abs(uncompPed.at(l));
                         }
                     }
                 }// end of Z View

@@ -166,7 +166,7 @@ namespace arrakis
                 //Induction Plane U
                 if( fGeom->View(chan) == geo::kU){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > fUPlaneThreshold){
+                        if(std::abs(uncompPed.at(l)) > fUPlaneThreshold){
 
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) { continue; }
@@ -185,12 +185,12 @@ namespace arrakis
 
                             if(apa < 3){
                                 fEventArray.u1_tdc.emplace_back(l);
-                                fEventArray.u1_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.u1_adc.emplace_back( (Int_t) std::abs(uncompPed.at(l)));
                                 fEventArray.u1_track_ids.emplace_back(track_ids);
                                 fEventArray.u1_energy.emplace_back(energy);
                             } else {
                                 fEventArray.u2_tdc.emplace_back(l);
-                                fEventArray.u2_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.u2_adc.emplace_back( (Int_t) std::abs(uncompPed.at(l)));
                                 fEventArray.u2_track_ids.emplace_back(track_ids);
                                 fEventArray.u2_energy.emplace_back(energy);
                             }
@@ -213,7 +213,7 @@ namespace arrakis
                 //Induction Plane V
                 if( fGeom->View(chan) == geo::kV){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > fVPlaneThreshold){
+                        if(std::abs(uncompPed.at(l)) > fVPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;
@@ -231,12 +231,12 @@ namespace arrakis
 
                             if(apa < 3){
                                 fEventArray.v1_tdc.emplace_back(l);
-                                fEventArray.v1_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.v1_adc.emplace_back( (Int_t) std::abs(uncompPed.at(l)));
                                 fEventArray.v1_track_ids.emplace_back(track_ids);
                                 fEventArray.v1_energy.emplace_back(energy);
                             } else {
                                 fEventArray.v2_tdc.emplace_back(l);
-                                fEventArray.v2_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.v2_adc.emplace_back( (Int_t) std::abs(uncompPed.at(l)));
                                 fEventArray.v2_track_ids.emplace_back(track_ids);
                                 fEventArray.v2_energy.emplace_back(energy);
                             }
@@ -259,7 +259,7 @@ namespace arrakis
                 //Collection Plane Z
                 if ( fGeom->View(chan) == geo::kZ){
                     for(unsigned int l=0;l<nADC_uncompPed;l++) {
-                        if(uncompPed.at(l) > fZPlaneThreshold){
+                        if(std::abs(uncompPed.at(l)) > fZPlaneThreshold){
                             auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                             if (trackIDs.size() == 0) {
                                 continue;
@@ -277,12 +277,12 @@ namespace arrakis
 
                             if(apa < 3){
                                 fEventArray.z1_tdc.emplace_back(l);
-                                fEventArray.z1_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.z1_adc.emplace_back( (Int_t) std::abs(uncompPed.at(l)));
                                 fEventArray.z1_track_ids.emplace_back(track_ids);
                                 fEventArray.z1_energy.emplace_back(energy);
                             } else {
                                 fEventArray.z2_tdc.emplace_back(l);
-                                fEventArray.z2_adc.emplace_back( (Int_t) uncompPed.at(l));
+                                fEventArray.z2_adc.emplace_back( (Int_t) std::abs(uncompPed.at(l)));
                                 fEventArray.z2_track_ids.emplace_back(track_ids);
                                 fEventArray.z2_energy.emplace_back(energy);
                             }
