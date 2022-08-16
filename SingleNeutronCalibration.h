@@ -107,7 +107,7 @@ namespace arrakis
 
         void processEvent(
             ParticleTree particleTree,
-            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits,
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
 
     private:
