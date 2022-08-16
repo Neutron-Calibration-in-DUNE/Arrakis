@@ -1,9 +1,9 @@
 /**
- * @file ParticleTree.h
+ * @file SingleNeutronCalibration.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
- * @date 2022-07-07
+ * @date 2022-08-16
  */
 #pragma once
 #include <vector>
@@ -74,37 +74,46 @@
 #include "TGeoMaterial.h"
 #include "TGeoElement.h"
 
+#include "Configuration.h"
+#include "DetectorGeometry.h"
+#include "ParticleTree.h"
+#include "ArrayGenerator.h"
+#include "GammaTable.h"
+
 namespace arrakis
 {
-    class ParticleTree
+    struct SingleNeutron
+    {
+        std::vector<Double_t> edep_x;
+        std::vector<Double_t> edep_y;
+        std::vector<Double_t> edep_z;
+        std::vector<Double_t> edep_energy;
+        std::vector<Double_t> edep_num_electrons;
+
+        std::vector<Int_t> edep_gamma_id;
+        Double_t edep_total_energy;
+
+        bool complete_apa;
+        bool complete_capture;
+    };
+
+    class SingleNeutronCalibration
     {
     public:
-        ParticleTree();
-        ~ParticleTree();
+        SingleNeutronCalibration();
+        ~SingleNeutronCalibration();
 
-        void ResetMaps();
-        void processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles);
-        
-        Int_t GetPDGCode(Int_t trackID) { return mPDGMap[trackID]; }
+        void ResetSingleNeutron();
 
-        Int_t GetParentPDG(Int_t trackID) { return mParentPDGMap[trackID]; }
-        Int_t GetParentTrackID(Int_t trackID) { return mParentTrackIDMap[trackID]; }
-        
-        Int_t GetAncestorPDG(Int_t trackID) { return mAncestorPDGMap[trackID]; }
-        Int_t GetAncestorTrackID(Int_t trackID) { return mAncestorTrackIDMap[trackID]; }
-        Int_t GetAncestorLevel(Int_t trackID) { return mAncestorLevelMap[trackID]; }
+        void processEvent(
+            ParticleTree particleTree,
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits,
+        );
 
     private:
-        art::ServiceHandle<art::TFileService> fTFileService;
-        TTree *fMapTTree;
-        
-        std::map<Int_t, Int_t> mPDGMap;
+        art::ServiceHandle<art::TFileService> mTFileService;
+        TTree *mSingleNeutronTree;
 
-        std::map<Int_t, Int_t> mParentPDGMap;
-        std::map<Int_t, Int_t> mParentTrackIDMap;
-
-        std::map<Int_t, Int_t> mAncestorPDGMap;
-        std::map<Int_t, Int_t> mAncestorTrackIDMap;
-        std::map<Int_t, Int_t> mAncestorLevelMap;
+        SingleNeutron mSingleNeutron;
     };
 }
