@@ -56,7 +56,8 @@ namespace arrakis
             if(
                 particleTree.GetAncestorPDG(energyDeposit.TrackID()) == 2112 &&
                 particleTree.GetParentPDG(energyDeposit.TrackID()) != 2112 && 
-                particleTree.GetPDGCode(energyDeposit.TrackID()) != 2112
+                particleTree.GetPDGCode(energyDeposit.TrackID()) != 2112 &&
+                particleTree.GetPDGCode(energyDeposit.TrackID()) == 11
             )
             {
                 mSingleNeutron.edep_x.emplace_back(energyDeposit.StartX());
