@@ -47,7 +47,7 @@ namespace arrakis
                 // parentDaughterMap[particle.TrackId()] = particle.Mother();
                 // particlePDGMap[particle.TrackId()] = particle.PdgCode();
 
-                mPDGCode.emplace_back(particle.Pdgcode());
+                mPDGCode.emplace_back(particle.PdgCode());
                 mProcess.emplace_back(particle.Process());
                 mEndProcess.emplace_back(particle.EndProcess());
 

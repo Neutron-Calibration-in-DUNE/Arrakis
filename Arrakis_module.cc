@@ -238,7 +238,7 @@ namespace arrakis
             mNeutronCapture.processEvent(
                 clockData,
                 mcParticles
-            )
+            );
         }
     }
     
