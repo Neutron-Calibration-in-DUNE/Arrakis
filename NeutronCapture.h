@@ -49,6 +49,13 @@
 
 namespace arrakis
 {
+    struct NCapture{
+
+        std::vector<Int_t> mPDGCode;
+        std::vector<std::string> mProcess;
+        std::vector<std::string> mEndProcess;
+
+    };
 
     class NeutronCapture
     {
@@ -72,9 +79,7 @@ namespace arrakis
         // geometry information
         DetectorGeometry* fGeometry = DetectorGeometry::getInstance("NeutronCapture");
 
-        std::vector<Int_t> mPDGCode;
-        std::vector<std::string> mProcess;
-        std::vector<std::string> mEndProcess;
+        NCapture mNCapture;
         // std::map<Int_t, Int_t> mNeutronCaptureIndex;
         // std::vector<Int_t> mNeutronCaptureTrackIDs;
     };

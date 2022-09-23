@@ -12,9 +12,9 @@ namespace arrakis
     NeutronCapture::NeutronCapture()
     {
         mNeutronCaptureTree = mTFileService->make<TTree>("NeutronCapture", "NeutronCapture");
-        mNeutronCaptureTree->Branch("PDGCode", &mPDGCode);
-        mNeutronCaptureTree->Branch("Process", &mProcess);
-        mNeutronCaptureTree->Branch("EndProcess", &mEndProcess);
+        mNeutronCaptureTree->Branch("PDGCode", &mNCapture.mPDGCode);
+        mNeutronCaptureTree->Branch("Process", &mNCapture.mProcess);
+        mNeutronCaptureTree->Branch("EndProcess", &mNCapture.mEndProcess);
     }
 
     NeutronCapture::~NeutronCapture()
@@ -47,9 +47,9 @@ namespace arrakis
                 // parentDaughterMap[particle.TrackId()] = particle.Mother();
                 // particlePDGMap[particle.TrackId()] = particle.PdgCode();
 
-                mPDGCode.emplace_back(particle.PdgCode());
-                mProcess.emplace_back(particle.Process());
-                mEndProcess.emplace_back(particle.EndProcess());
+                mNCapture.mPDGCode.emplace_back(particle.PdgCode());
+                mNCapture.mProcess.emplace_back(particle.Process());
+                mNCapture.mEndProcess.emplace_back(particle.EndProcess());
 
                 // check if the particle is a neutron
                 // if (particle.PdgCode() == 2112)
