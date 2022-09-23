@@ -56,6 +56,7 @@
 #include "LabelGenerator.h"
 #include "EvtLvlNeutronInfo.h"
 #include "NeutronCapture.h"
+#include "SingleNeutronCalibration.h"
 
 namespace arrakis
 {
@@ -115,6 +116,8 @@ namespace arrakis
         // Neutron Capture Info
         NeutronCapture mNeutronCapture;
 
+        SingleNeutronCalibration mSingleNeutronCalibration;
+
     };
 
     // constructor
@@ -173,8 +176,11 @@ namespace arrakis
         // get list of particles and construct particle tree
         //mParticleTree.ResetMaps();
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
+        auto mcEnergyDeposits = 
+                event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
         mParticleTree.processEvent(mcParticles);
         //mArrayGenerator.ResetArrays();
+        mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
 
         if (mGenerate2DArrays) {
             auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
