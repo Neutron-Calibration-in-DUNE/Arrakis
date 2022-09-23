@@ -55,6 +55,7 @@
 #include "GammaTable.h"
 #include "LabelGenerator.h"
 #include "EvtLvlNeutronInfo.h"
+#include "NeutronCapture.h"
 
 namespace arrakis
 {
@@ -77,6 +78,7 @@ namespace arrakis
         // Set of configuration parameters
         bool mGenerate2DArrays;
         bool mGenerateEvtLvlNInfo;
+        bool mGenerateNCapInfo;
         double mADCThresholdUPlane;
         double mADCThresholdVPlane;
         double mADCThresholdZPlane;
@@ -110,6 +112,8 @@ namespace arrakis
         LabelGenerator mLabelGenerator;
         // Event Level Neutron Information
         EvtLvlNeutronInfo mEvtLvlNeutronInfo;
+        // Neutron Capture Info
+        NeutronCapture mNeutronCapture;
 
     };
 
@@ -121,6 +125,7 @@ namespace arrakis
         // Set various configuration parameters
         mGenerate2DArrays = mParameters().Generate2DArrays();
         mGenerateEvtLvlNInfo = mParameters().GenerateEvtLvlNInfo();
+        mGenerateNCapInfo = mParameters().GenerateNCapInfo();
         mADCThresholdUPlane = mParameters().ADCThresholdUPlane();
         mADCThresholdVPlane = mParameters().ADCThresholdVPlane();
         mADCThresholdZPlane = mParameters().ADCThresholdZPlane();
@@ -219,6 +224,15 @@ namespace arrakis
                 mcParticles,
                 rawTPC
             );
+        }
+
+        if (mGenerateNCapInfo) {
+            auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
+            auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
+            mNeutronCapture.processEvent(
+                clockData,
+                mcParticles
+            )
         }
     }
     

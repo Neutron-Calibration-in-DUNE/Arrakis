@@ -38,6 +38,13 @@ namespace arrakis
             fhicl::Comment("Whether to generate event level neutron info.")
         };
 
+        fhicl::Atom<bool> GenerateNCapInfo
+        {
+            fhicl::Name("GenerateNCapInfo"),
+            fhicl::Comment("Whether to generate event level neutron info.")
+        };
+
+
         fhicl::Atom<double> ADCThresholdUPlane
         {
             fhicl::Name("ADCThresholdUPlane"),
