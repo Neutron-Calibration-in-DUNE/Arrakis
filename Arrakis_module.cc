@@ -116,7 +116,7 @@ namespace arrakis
         // Neutron Capture Info
         NeutronCapture mNeutronCapture;
 
-        SingleNeutronCalibration mSingleNeutronCalibration;
+        //SingleNeutronCalibration mSingleNeutronCalibration;
 
     };
 
@@ -180,7 +180,7 @@ namespace arrakis
                 event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
         mParticleTree.processEvent(mcParticles);
         //mArrayGenerator.ResetArrays();
-        mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
+        //mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
 
         if (mGenerate2DArrays) {
             auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 

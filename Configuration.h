@@ -41,7 +41,7 @@ namespace arrakis
         fhicl::Atom<bool> GenerateNCapInfo
         {
             fhicl::Name("GenerateNCapInfo"),
-            fhicl::Comment("Whether to generate event level neutron info.")
+            fhicl::Comment("Whether to generate single neutron calibration info.")
         };
 
 
