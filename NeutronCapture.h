@@ -62,6 +62,9 @@ namespace arrakis
     public:
         NeutronCapture();
         ~NeutronCapture();
+        void ResetArrays();
+
+        void setBoundingBoxType(std::string volumeType);
 
         void processEvent(
             detinfo::DetectorClocksData const& clockData,

@@ -20,6 +20,24 @@ namespace arrakis
     NeutronCapture::~NeutronCapture()
     {}
 
+    void ArrayGenerator::setBoundingBoxType(std::string volumeType)
+    {
+        if (volumeType == "TPC" or volumeType == "tpc") { 
+            fBoundingBoxType = VolumeType::TPC;
+        }
+        else if (volumeType == "Cryo" or volumeType == "cryo") {
+            fBoundingBoxType = VolumeType::Cryostat;
+        }
+        else {
+            fBoundingBoxType = VolumeType::World;
+        }
+    }
+
+    void NeutronCapture::ResetArrays(){
+        mNCapture.mPDGCode.clear();
+        mNCapture.mProcess.clear();
+        mNCapture.mEndProcess.clear();
+    }
 
     void NeutronCapture::processEvent(
         detinfo::DetectorClocksData const& clockData,
@@ -27,6 +45,8 @@ namespace arrakis
         //const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
     {
+        ResetArrays();
+
         if (mcParticles.isValid())
         {
             // std::map<int, int> gamma_map;
@@ -68,5 +88,7 @@ namespace arrakis
                 // }
             }
         }
+
+        mNeutronCaptureTree->Fill();
     }
 }
