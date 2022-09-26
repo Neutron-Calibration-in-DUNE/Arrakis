@@ -46,6 +46,11 @@ namespace arrakis
     )
     {
         // ResetArrays();
+        Double_t total_energy = 0;
+        bool complete_apa = true;
+        bool complete_capture = true;
+        bool positive = false;
+        bool negative = false;
 
         if (mcEnergyDeposits.isValid())
         {
@@ -63,11 +68,6 @@ namespace arrakis
             //     mNCapture.mEndProcess.emplace_back(particle.EndProcess());
             // }
 
-            Double_t total_energy = 0;
-            bool complete_apa = true;
-            bool complete_capture = true;
-            bool positive = false;
-            bool negative = false;
             //Loop over all the energy deposits
             for (auto energyDeposit : *mcEnergyDeposits)
             {
@@ -93,10 +93,11 @@ namespace arrakis
             if (round(total_energy) != 6.1) { 
                 complete_capture = false;
             }
-
-            return (complete_apa && complete_capture);
         }
 
+        bool storeEvent = (complete_apa && complete_capture);
+
+        return storeEvent;
         // mNeutronCaptureTree->Fill();
     }
 }
