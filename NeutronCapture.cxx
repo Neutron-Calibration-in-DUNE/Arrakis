@@ -84,6 +84,7 @@ namespace arrakis
                         positive = true;
                     }
                     total_energy += energyDeposit.Energy();
+                }
             }
             if (positive && negative) {
                 complete_apa = false;
