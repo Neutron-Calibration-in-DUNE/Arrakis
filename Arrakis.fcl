@@ -13,8 +13,8 @@ Arrakis:
     TPCInstanceLabel:           "daq"
 
     # array parameters
-    Generate2DArrays:       true
-    GenerateEvtLvlNInfo:    true
+    Generate2DArrays:       false
+    GenerateEvtLvlNInfo:    false
     GenerateNCapInfo:       true
     ADCThresholdUPlane:     4.0
     ADCThresholdVPlane:     4.0

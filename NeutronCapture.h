@@ -45,46 +45,47 @@
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 #include "larsim/Utils/TruthMatchUtils.h"
 
+#include "ParticleTree.h"
+#include "ArrayGenerator.h"
+#include "GammaTable.h"
+#include "Configuration.h"
 #include "DetectorGeometry.h"
 
 namespace arrakis
 {
-    struct NCapture{
+    // struct NCapture{
 
-        std::vector<Int_t> mPDGCode;
-        std::vector<std::string> mProcess;
-        std::vector<std::string> mEndProcess;
+    //     std::vector<Int_t> mPDGCode;
+    //     std::vector<std::string> mProcess;
+    //     std::vector<std::string> mEndProcess;
 
-    };
+    // };
 
     class NeutronCapture
     {
     public:
         NeutronCapture();
         ~NeutronCapture();
-        void ResetArrays();
+        // void ResetArrays();
 
         void setBoundingBoxType(std::string volumeType);
 
-        void processEvent(
+        bool processEvent(
             detinfo::DetectorClocksData const& clockData,
-            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
-            //const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+            // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
 
     private:
         /// ROOT output through art::TFileService
-        /** We will save different TTrees to different TFiles specified 
-         *  by the directories for each type.
-         */ 
-        art::ServiceHandle<art::TFileService> mTFileService;
-        TTree *mNeutronCaptureTree;
+        // art::ServiceHandle<art::TFileService> mTFileService;
+        // TTree *mNeutronCaptureTree;
         // geometry information
-        DetectorGeometry* fGeometry = DetectorGeometry::getInstance("NeutronCapture");
 
+        DetectorGeometry* fGeometry = DetectorGeometry::getInstance("NeutronCapture");
         VolumeType fBoundingBoxType;
 
-        NCapture mNCapture;
+        // NCapture mNCapture;
         // std::map<Int_t, Int_t> mNeutronCaptureIndex;
         // std::vector<Int_t> mNeutronCaptureTrackIDs;
     };

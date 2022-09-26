@@ -175,70 +175,61 @@ namespace arrakis
         }
         // get list of particles and construct particle tree
         //mParticleTree.ResetMaps();
+        auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event));
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
-        auto mcEnergyDeposits = 
-                event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
+        auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
+        auto mcSimChannels = 
+            event.getValidHandle<std::vector<sim::SimChannel>>(
+                art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
+            );
+        art::Handle< std::vector<raw::RawDigit> > rawTPC;
+        event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
+
         mParticleTree.processEvent(mcParticles);
-        //mArrayGenerator.ResetArrays();
-        //mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
+        mGammaTable.processEvent(
+            clockData,
+            mcParticles, 
+            mcEnergyDeposits
+        );
 
-        if (mGenerate2DArrays) {
-            auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
+        // mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
 
-            auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
-            auto mcEnergyDeposits = 
-                event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
-            auto mcSimChannels = 
-                event.getValidHandle<std::vector<sim::SimChannel>>(
-                    art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
-                );
+        // if (mGenerate2DArrays) {
+        //     mArrayGenerator.processEvent(
+        //         clockData,
+        //         mcSimChannels,
+        //         rawTPC
+        //     );
+        //     mLabelGenerator.processEvent(
+        //         mParticleTree,
+        //         mGammaTable,
+        //         mArrayGenerator
+        //     );
+        // }
 
-            art::Handle< std::vector<raw::RawDigit> > rawTPC;
-            event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
-            mArrayGenerator.processEvent(
-                clockData,
-                mcSimChannels,
-                rawTPC
-            );
-            mGammaTable.processEvent(
-                clockData,
-                mcParticles, 
-                mcEnergyDeposits
-            );
-            mLabelGenerator.processEvent(
-                mParticleTree,
-                mGammaTable,
-                mArrayGenerator
-            );
-        }
-
-        if (mGenerateEvtLvlNInfo) {
-            auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
-
-            auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
-            auto mcSimChannels = 
-                event.getValidHandle<std::vector<sim::SimChannel>>(
-                    art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
-                );
-
-            art::Handle< std::vector<raw::RawDigit> > rawTPC;
-            event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC);
-
-            mEvtLvlNeutronInfo.processEvent(
-                clockData,
-                mcSimChannels,
-                mcParticles,
-                rawTPC
-            );
-        }
+        // if (mGenerateEvtLvlNInfo) {
+        //     mEvtLvlNeutronInfo.processEvent(
+        //         clockData,
+        //         mcSimChannels,
+        //         mcParticles,
+        //         rawTPC
+        //     );
+        // }
 
         if (mGenerateNCapInfo) {
-            auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)); 
-            auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
-            mNeutronCapture.processEvent(
-                clockData,
-                mcParticles
-            );
+            bool storeEvent = mNeutronCapture.processEvent(clockData, mcEnergyDeposits);
+            if(storeEvent){
+                mArrayGenerator.processEvent(
+                    clockData,
+                    mcSimChannels,
+                    rawTPC
+                );
+                mLabelGenerator.processEvent(
+                    mParticleTree,
+                    mGammaTable,
+                    mArrayGenerator
+                );
+            }
         }
     }
     
