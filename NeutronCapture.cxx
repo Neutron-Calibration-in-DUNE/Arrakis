@@ -40,7 +40,7 @@ namespace arrakis
     // }
 
     bool NeutronCapture::processEvent(
-        detinfo::DetectorClocksData const& clockData,
+        ParticleTree particleTree,
         // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )

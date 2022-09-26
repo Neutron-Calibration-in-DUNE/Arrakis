@@ -217,7 +217,7 @@ namespace arrakis
         // }
 
         if (mGenerateNCapInfo) {
-            bool storeEvent = mNeutronCapture.processEvent(clockData, mcEnergyDeposits);
+            bool storeEvent = mNeutronCapture.processEvent(mParticleTree, mcEnergyDeposits);
             if(storeEvent){
                 mArrayGenerator.processEvent(
                     clockData,
