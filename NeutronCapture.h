@@ -82,6 +82,8 @@ namespace arrakis
         // geometry information
         DetectorGeometry* fGeometry = DetectorGeometry::getInstance("NeutronCapture");
 
+        VolumeType fBoundingBoxType;
+
         NCapture mNCapture;
         // std::map<Int_t, Int_t> mNeutronCaptureIndex;
         // std::vector<Int_t> mNeutronCaptureTrackIDs;

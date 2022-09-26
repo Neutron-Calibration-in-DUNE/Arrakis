@@ -20,7 +20,7 @@ namespace arrakis
     NeutronCapture::~NeutronCapture()
     {}
 
-    void ArrayGenerator::setBoundingBoxType(std::string volumeType)
+    void NeutronCapture::setBoundingBoxType(std::string volumeType)
     {
         if (volumeType == "TPC" or volumeType == "tpc") { 
             fBoundingBoxType = VolumeType::TPC;
