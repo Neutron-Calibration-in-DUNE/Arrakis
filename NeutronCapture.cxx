@@ -51,14 +51,15 @@ namespace arrakis
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
     {
+        // ResetArrays();
+        Double_t total_energy = 0;
+        bool complete_apa = true;
+        bool complete_capture = true;
+        bool positive = false;
+        bool negative = false;
+            
         if (mcEnergyDeposits.isValid())
         {
-            // ResetArrays();
-            Double_t total_energy = 0;
-            bool complete_apa = true;
-            bool complete_capture = true;
-            bool positive = false;
-            bool negative = false;
 
             /**
              * We first iterate through all particles and create a map of 
@@ -103,11 +104,10 @@ namespace arrakis
             mNCapture.complete_apa.emplace_back(complete_apa);
             mNCapture.complete_capture.emplace_back(complete_capture);
             mNCapture.total_energy.emplace_back(total_energy);
-
             mNeutronCaptureTree->Fill();
-
-            bool storeEvent = (complete_apa && complete_capture);
-            return storeEvent;
         }
+
+        bool storeEvent = (complete_apa && complete_capture);
+        return storeEvent;
     }
 }
