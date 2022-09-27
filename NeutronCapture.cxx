@@ -11,10 +11,13 @@ namespace arrakis
 {
     NeutronCapture::NeutronCapture()
     {
-        // mNeutronCaptureTree = mTFileService->make<TTree>("NeutronCapture", "NeutronCapture");
+        mNeutronCaptureTree = mTFileService->make<TTree>("NeutronCapture", "NeutronCapture");
         // mNeutronCaptureTree->Branch("PDGCode", &mNCapture.mPDGCode);
         // mNeutronCaptureTree->Branch("Process", &mNCapture.mProcess);
         // mNeutronCaptureTree->Branch("EndProcess", &mNCapture.mEndProcess);
+        mNeutronCaptureTree->Branch("complete_apa", &mNCapture.complete_apa);
+        mNeutronCaptureTree->Branch("complete_capture", &mNCapture.complete_capture);
+        mNeutronCaptureTree->Branch("total_energy", &mNCapture.total_energy);
     }
 
     NeutronCapture::~NeutronCapture()
@@ -33,11 +36,14 @@ namespace arrakis
         }
     }
 
-    // void NeutronCapture::ResetArrays(){
-    //     mNCapture.mPDGCode.clear();
-    //     mNCapture.mProcess.clear();
-    //     mNCapture.mEndProcess.clear();
-    // }
+    void NeutronCapture::ResetArrays(){
+        // mNCapture.mPDGCode.clear();
+        // mNCapture.mProcess.clear();
+        // mNCapture.mEndProcess.clear();
+        mNCapture.complete_apa.clear();
+        mNCapture.complete_capture.clear();
+        mNCapture.total_energy.clear();
+    }
 
     bool NeutronCapture::processEvent(
         ParticleTree particleTree,
@@ -45,15 +51,15 @@ namespace arrakis
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
     {
-        // ResetArrays();
-        Double_t total_energy = 0;
-        bool complete_apa = true;
-        bool complete_capture = true;
-        bool positive = false;
-        bool negative = false;
-
         if (mcEnergyDeposits.isValid())
         {
+            // ResetArrays();
+            Double_t total_energy = 0;
+            bool complete_apa = true;
+            bool complete_capture = true;
+            bool positive = false;
+            bool negative = false;
+
             /**
              * We first iterate through all particles and create a map of 
              * parent-daughter pairs for track ids.  This way we can search
@@ -93,11 +99,15 @@ namespace arrakis
             if (round(total_energy) != 6.1) { 
                 complete_capture = false;
             }
+        
+            mNCapture.complete_apa.emplace_back(complete_apa);
+            mNCapture.complete_capture.emplace_back(complete_capture);
+            mNCapture.total_energy.emplace_back(total_energy);
+
+            mNeutronCaptureTree->Fill();
+
+            bool storeEvent = (complete_apa && complete_capture);
+            return storeEvent;
         }
-
-        bool storeEvent = (complete_apa && complete_capture);
-
-        return storeEvent;
-        // mNeutronCaptureTree->Fill();
     }
 }

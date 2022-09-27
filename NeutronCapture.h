@@ -53,20 +53,24 @@
 
 namespace arrakis
 {
-    // struct NCapture{
+    struct NCapture{
 
-    //     std::vector<Int_t> mPDGCode;
-    //     std::vector<std::string> mProcess;
-    //     std::vector<std::string> mEndProcess;
+        // std::vector<Int_t> mPDGCode;
+        // std::vector<std::string> mProcess;
+        // std::vector<std::string> mEndProcess;
 
-    // };
+        std::vector<bool> complete_apa;
+        std::vector<bool> complete_capture;
+        std::vector<Double_t> total_energy;
+
+    };
 
     class NeutronCapture
     {
     public:
         NeutronCapture();
         ~NeutronCapture();
-        // void ResetArrays();
+        void ResetArrays();
 
         void setBoundingBoxType(std::string volumeType);
 
@@ -78,14 +82,14 @@ namespace arrakis
 
     private:
         /// ROOT output through art::TFileService
-        // art::ServiceHandle<art::TFileService> mTFileService;
-        // TTree *mNeutronCaptureTree;
-        // geometry information
+        art::ServiceHandle<art::TFileService> mTFileService;
+        TTree *mNeutronCaptureTree;
 
+        // geometry information
         DetectorGeometry* fGeometry = DetectorGeometry::getInstance("NeutronCapture");
         VolumeType fBoundingBoxType;
 
-        // NCapture mNCapture;
+        NCapture mNCapture;
         // std::map<Int_t, Int_t> mNeutronCaptureIndex;
         // std::vector<Int_t> mNeutronCaptureTrackIDs;
     };
