@@ -51,7 +51,7 @@ namespace arrakis
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
     {
-        // ResetArrays();
+        ResetArrays();
         Double_t total_energy = 0;
         bool complete_apa = true;
         bool complete_capture = true;
@@ -80,8 +80,9 @@ namespace arrakis
             {
                 if(
                     particleTree.GetAncestorPDG(energyDeposit.TrackID()) == 2112 &&
-                    particleTree.GetParentPDG(energyDeposit.TrackID()) != 2112 &&
-                    particleTree.GetPDGCode(energyDeposit.TrackID()) == 11
+                    // particleTree.GetParentPDG(energyDeposit.TrackID()) != 2112 &&
+                    (std::abs( particleTree.GetPDGCode(energyDeposit.TrackID()) ) == 11 ||
+                    particleTree.GetPDGCode(energyDeposit.TrackID()) == 22)
                 )
                 {
                     if (energyDeposit.StartX() <= 0.0) {
