@@ -98,7 +98,7 @@ namespace arrakis
                 complete_apa = false;
             }
             
-            if (round(total_energy) != 6.1) { 
+            if (round(total_energy*10)/10 != 6.1) { 
                 complete_capture = false;
             }
         
