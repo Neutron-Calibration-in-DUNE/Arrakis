@@ -16,9 +16,9 @@ Arrakis:
     Generate2DArrays:       false
     GenerateEvtLvlNInfo:    false
     GenerateNCapInfo:       true
-    ADCThresholdUPlane:     4.0
-    ADCThresholdVPlane:     4.0
-    ADCThresholdZPlane:     4.0
+    ADCThresholdUPlane:     0.0
+    ADCThresholdVPlane:     0.0
+    ADCThresholdZPlane:     0.0
     ClockTicks:             6000
 
     # GenerateSemanticLabels: true

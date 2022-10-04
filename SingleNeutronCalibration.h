@@ -1,6 +1,7 @@
 /**
  * @file SingleNeutronCalibration.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
+ * @author Yashwanth Bezawada [ysbezawada@ucdavis.edu]
  * @brief 
  * @version 0.1
  * @date 2022-08-16
@@ -84,17 +85,41 @@ namespace arrakis
 {
     struct SingleNeutron
     {
-        std::vector<Double_t> edep_x;
-        std::vector<Double_t> edep_y;
-        std::vector<Double_t> edep_z;
-        std::vector<Double_t> edep_energy;
-        std::vector<Double_t> edep_num_electrons;
+        std::vector<Int_t> u1_tdc;
+        std::vector<Int_t> u1_channel;
+        std::vector<Int_t> u1_adc;
+        std::vector<Int_t> u1_gamma_ids;
+        std::vector<Double_t> u1_energy;
 
-        std::vector<Int_t> edep_gamma_id;
-        Double_t edep_total_energy;
+        std::vector<Int_t> v1_tdc;
+        std::vector<Int_t> v1_channel;
+        std::vector<Int_t> v1_adc;
+        std::vector<Int_t> v1_gamma_ids;
+        std::vector<Double_t> v1_energy;
 
-        bool complete_apa;
-        bool complete_capture;
+        std::vector<Int_t> z1_tdc;
+        std::vector<Int_t> z1_channel;
+        std::vector<Int_t> z1_adc;
+        std::vector<Int_t> z1_gamma_ids;
+        std::vector<Double_t> z1_energy;
+
+        std::vector<Int_t> u2_tdc;
+        std::vector<Int_t> u2_channel;
+        std::vector<Int_t> u2_adc;
+        std::vector<Int_t> u2_gamma_ids;
+        std::vector<Double_t> u2_energy;
+
+        std::vector<Int_t> v2_tdc;
+        std::vector<Int_t> v2_channel;
+        std::vector<Int_t> v2_adc;
+        std::vector<Int_t> v2_gamma_ids;
+        std::vector<Double_t> v2_energy;
+
+        std::vector<Int_t> z2_tdc;
+        std::vector<Int_t> z2_channel;
+        std::vector<Int_t> z2_adc;
+        std::vector<Int_t> z2_gamma_ids;
+        std::vector<Double_t> z2_energy;
     };
 
     class SingleNeutronCalibration
@@ -107,13 +132,63 @@ namespace arrakis
 
         void processEvent(
             ParticleTree particleTree,
-            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+            // arrakis::ParticleTree const& ParticleMaps,
+            // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
+            const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
+            const art::Handle<std::vector<raw::RawDigit>>& rawTPC
+            // const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
+
+        void setThreshold(Double_t U_Threshold, Double_t V_Threshold, Double_t Z_Threshold) { 
+            fUPlaneThreshold = U_Threshold;
+            fVPlaneThreshold = V_Threshold;
+            fZPlaneThreshold = Z_Threshold;
+        }
 
     private:
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mSingleNeutronTree;
 
         SingleNeutron mSingleNeutron;
+
+        geo::GeometryCore const * fGeom = &*(art::ServiceHandle<geo::Geometry>());
+
+        //Threshold
+        Double_t fUPlaneThreshold;
+        Double_t fVPlaneThreshold;
+        Double_t fZPlaneThreshold;
+
+        // TPC // Number of channels in each planes
+        unsigned int fNUCh;
+        unsigned int fNVCh;
+        unsigned int fNZCh;
+
+        // find channel boundaries for each view
+        unsigned int fUChanMin;
+        unsigned int fUChanMax;
+        unsigned int fVChanMin;
+        unsigned int fVChanMax;
+        unsigned int fZChanMin;
+        unsigned int fZChanMax;
+
+        unsigned int fNofAPA; //Number of APAs
+        unsigned int fChansPerAPA; //Number of channels in each APA
+
+        // define nADC counts for uncompressed vs compressed
+        unsigned int nADC_uncompPed;
     };
 }
+
+
+
+// std::vector<Double_t> edep_x;
+// std::vector<Double_t> edep_y;
+// std::vector<Double_t> edep_z;
+// std::vector<Double_t> edep_energy;
+// std::vector<Double_t> edep_num_electrons;
+
+// std::vector<Int_t> edep_gamma_id;
+// Double_t edep_total_energy;
+
+// bool complete_apa;
+// bool complete_capture;

@@ -116,7 +116,7 @@ namespace arrakis
         // Neutron Capture Info
         NeutronCapture mNeutronCapture;
 
-        //SingleNeutronCalibration mSingleNeutronCalibration;
+        SingleNeutronCalibration mSingleNeutronCalibration;
 
     };
 
@@ -144,6 +144,7 @@ namespace arrakis
         mMetaTree = mTFileService->make<TTree>("meta", "meta");
 
         mArrayGenerator.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
+        mSingleNeutronCalibration.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
 
         mEvtLvlNeutronInfo.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
         mEvtLvlNeutronInfo.setClockTicks(mClockTicks);
@@ -219,8 +220,13 @@ namespace arrakis
         if (mGenerateNCapInfo) {
             bool storeEvent = mNeutronCapture.processEvent(mParticleTree, mcEnergyDeposits);
             if(storeEvent){
-                mArrayGenerator.processEvent(
-                    clockData,
+                // mArrayGenerator.processEvent(
+                //     clockData,
+                //     mcSimChannels,
+                //     rawTPC
+                // );
+                mSingleNeutronCalibration.processEvent(
+                    mParticleTree,
                     mcSimChannels,
                     rawTPC
                 );

@@ -44,7 +44,6 @@ namespace arrakis
             fhicl::Comment("Whether to generate single neutron calibration info.")
         };
 
-
         fhicl::Atom<double> ADCThresholdUPlane
         {
             fhicl::Name("ADCThresholdUPlane"),
