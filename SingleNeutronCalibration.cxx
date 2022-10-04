@@ -129,7 +129,7 @@ namespace arrakis
         fNVCh=fVChanMax-fVChanMin+1; //V
         fNZCh=fZChanMax-fZChanMin+1; //Z (collection plane)
 
-        if (mcChannels.isValid() and rawTPC.isValid() and mcEnergyDeposits.isValid()){
+        if (mcChannels.isValid() and rawTPC.isValid()){
 
             // Fill pointer vectors - more useful form for the raw data
             // a more usable form
