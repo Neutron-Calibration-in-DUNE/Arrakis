@@ -173,7 +173,7 @@ namespace arrakis
                                 Double_t eFrac = trackIDs[i].energyFrac;
                                 Double_t energy = trackIDs[i].energy;
                                 Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
-                                Int_t gamma_energy = 0;
+                                Double_t gamma_energy = 0;
                                 if (ancestor_pdg == 22)
                                 {
                                     gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
@@ -223,7 +223,7 @@ namespace arrakis
                                 Double_t eFrac = trackIDs[i].energyFrac;
                                 Double_t energy = trackIDs[i].energy;
                                 Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
-                                Int_t gamma_energy = 0;
+                                Double_t gamma_energy = 0;
                                 if (ancestor_pdg == 22)
                                 {
                                     gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
@@ -273,7 +273,7 @@ namespace arrakis
                                 Double_t eFrac = trackIDs[i].energyFrac;
                                 Double_t energy = trackIDs[i].energy;
                                 Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
-                                Int_t gamma_energy = 0;
+                                Double_t gamma_energy = 0;
                                 if (ancestor_pdg == 22)
                                 {
                                     gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
