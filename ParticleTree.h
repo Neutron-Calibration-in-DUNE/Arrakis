@@ -93,6 +93,7 @@ namespace arrakis
         Int_t GetAncestorPDG(Int_t trackID) { return mAncestorPDGMap[trackID]; }
         Int_t GetAncestorTrackID(Int_t trackID) { return mAncestorTrackIDMap[trackID]; }
         Int_t GetAncestorLevel(Int_t trackID) { return mAncestorLevelMap[trackID]; }
+        Int_t GetAncestorEnergy(Int_t trackID) { return mAncestorEnergyMap[trackID]; }
 
     private:
         art::ServiceHandle<art::TFileService> fTFileService;
@@ -106,5 +107,7 @@ namespace arrakis
         std::map<Int_t, Int_t> mAncestorPDGMap;
         std::map<Int_t, Int_t> mAncestorTrackIDMap;
         std::map<Int_t, Int_t> mAncestorLevelMap;
+        std::map<Int_t, Double_t> mAncestorEnergyMap;
+
     };
 }

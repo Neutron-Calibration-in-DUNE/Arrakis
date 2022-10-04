@@ -227,6 +227,7 @@ namespace arrakis
                 // );
                 mSingleNeutronCalibration.processEvent(
                     mParticleTree,
+                    mcParticles,
                     mcSimChannels,
                     rawTPC
                 );
