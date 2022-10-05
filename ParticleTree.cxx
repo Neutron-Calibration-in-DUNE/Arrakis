@@ -19,6 +19,7 @@ namespace arrakis
         fMapTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
         fMapTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
         fMapTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
+        fMapTTree->Branch("parent_energy_map", &mParticleEnergyMap);
     }
 
     ParticleTree::~ParticleTree()
@@ -34,6 +35,7 @@ namespace arrakis
         mAncestorPDGMap.clear();
         mAncestorLevelMap.clear();
         mAncestorEnergyMap.clear();
+        mParticleEnergyMap.clear();
     }
 
     void ParticleTree::processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles)
@@ -48,6 +50,8 @@ namespace arrakis
         {
             mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mPDGMap[particle.TrackId()] = particle.PdgCode();
+            
+            mParticleEnergyMap[particle.TrackId()] = particle.E();
         }
         for (auto particle : *mcParticles)
         {
@@ -61,7 +65,7 @@ namespace arrakis
                 level += 1;
                 track_id = mother;
                 mother = mParentTrackIDMap[track_id];
-                energy = particle.E();
+                energy = mParticleEnergyMap[track_id];
             }
             mAncestorLevelMap[particle.TrackId()] = level;
             if (level == 0) {

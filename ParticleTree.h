@@ -89,6 +89,8 @@ namespace arrakis
 
         Int_t GetParentPDG(Int_t trackID) { return mParentPDGMap[trackID]; }
         Int_t GetParentTrackID(Int_t trackID) { return mParentTrackIDMap[trackID]; }
+
+        Int_t GetParticleEnergy(Int_t trackID) { return mParticleEnergyMap[trackID];}
         
         Int_t GetAncestorPDG(Int_t trackID) { return mAncestorPDGMap[trackID]; }
         Int_t GetAncestorTrackID(Int_t trackID) { return mAncestorTrackIDMap[trackID]; }
@@ -103,6 +105,8 @@ namespace arrakis
 
         std::map<Int_t, Int_t> mParentPDGMap;
         std::map<Int_t, Int_t> mParentTrackIDMap;
+        
+        std::map<Int_t, Double_t> mParticleEnergyMap;
 
         std::map<Int_t, Int_t> mAncestorPDGMap;
         std::map<Int_t, Int_t> mAncestorTrackIDMap;
