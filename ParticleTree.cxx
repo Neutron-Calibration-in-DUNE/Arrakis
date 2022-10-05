@@ -50,8 +50,8 @@ namespace arrakis
         {
             mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mPDGMap[particle.TrackId()] = particle.PdgCode();
-            
-            mParticleEnergyMap[particle.TrackId()] = particle.E();
+
+            mParticleEnergyMap[particle.TrackId()] = particle.E(0);
         }
         for (auto particle : *mcParticles)
         {
@@ -59,7 +59,7 @@ namespace arrakis
             Int_t track_id = particle.TrackId();
             //Int_t prev_track_id = 0;
             Int_t level = 0;
-            Double_t energy = particle.E();
+            Double_t energy = particle.E(0);
             while (mother != 0)
             {
                 level += 1;
