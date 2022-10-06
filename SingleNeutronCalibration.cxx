@@ -16,37 +16,37 @@ namespace arrakis
         mSingleNeutronTree->Branch("u1_tdc", &mSingleNeutron.u1_tdc);
         mSingleNeutronTree->Branch("u1_channel", &mSingleNeutron.u1_channel);
         mSingleNeutronTree->Branch("u1_adc", &mSingleNeutron.u1_adc);
-        mSingleNeutronTree->Branch("u1_gamma_energy", &mSingleNeutron.u1_gamma_energy);
+        mSingleNeutronTree->Branch("u1_gamma_ids", &mSingleNeutron.u1_gamma_ids);
         mSingleNeutronTree->Branch("u1_energy", &mSingleNeutron.u1_energy);
 
         mSingleNeutronTree->Branch("v1_tdc", &mSingleNeutron.v1_tdc);
         mSingleNeutronTree->Branch("v1_channel", &mSingleNeutron.v1_channel);
         mSingleNeutronTree->Branch("v1_adc", &mSingleNeutron.v1_adc);
-        mSingleNeutronTree->Branch("v1_gamma_energy", &mSingleNeutron.v1_gamma_energy);
+        mSingleNeutronTree->Branch("v1_gamma_ids", &mSingleNeutron.v1_gamma_ids);
         mSingleNeutronTree->Branch("v1_energy", &mSingleNeutron.v1_energy);
         
         mSingleNeutronTree->Branch("z1_tdc", &mSingleNeutron.z1_tdc);
         mSingleNeutronTree->Branch("z1_channel", &mSingleNeutron.z1_channel);
         mSingleNeutronTree->Branch("z1_adc", &mSingleNeutron.z1_adc);
-        mSingleNeutronTree->Branch("z1_gamma_energy", &mSingleNeutron.z1_gamma_energy);
+        mSingleNeutronTree->Branch("z1_gamma_ids", &mSingleNeutron.z1_gamma_ids);
         mSingleNeutronTree->Branch("z1_energy", &mSingleNeutron.z1_energy);
 
         mSingleNeutronTree->Branch("u2_tdc", &mSingleNeutron.u2_tdc);
         mSingleNeutronTree->Branch("u2_channel", &mSingleNeutron.u2_channel);
         mSingleNeutronTree->Branch("u2_adc", &mSingleNeutron.u2_adc);
-        mSingleNeutronTree->Branch("u2_gamma_energy", &mSingleNeutron.u2_gamma_energy);
+        mSingleNeutronTree->Branch("u2_gamma_ids", &mSingleNeutron.u2_gamma_ids);
         mSingleNeutronTree->Branch("u2_energy", &mSingleNeutron.u2_energy);
 
         mSingleNeutronTree->Branch("v2_tdc", &mSingleNeutron.v2_tdc);
         mSingleNeutronTree->Branch("v2_channel", &mSingleNeutron.v2_channel);
         mSingleNeutronTree->Branch("v2_adc", &mSingleNeutron.v2_adc);
-        mSingleNeutronTree->Branch("v2_gamma_energy", &mSingleNeutron.v2_gamma_energy);
+        mSingleNeutronTree->Branch("v2_gamma_ids", &mSingleNeutron.v2_gamma_ids);
         mSingleNeutronTree->Branch("v2_energy", &mSingleNeutron.v2_energy);
 
         mSingleNeutronTree->Branch("z2_tdc", &mSingleNeutron.z2_tdc);
         mSingleNeutronTree->Branch("z2_channel", &mSingleNeutron.z2_channel);
         mSingleNeutronTree->Branch("z2_adc", &mSingleNeutron.z2_adc);
-        mSingleNeutronTree->Branch("z2_gamma_energy", &mSingleNeutron.z2_gamma_energy);
+        mSingleNeutronTree->Branch("z2_gamma_ids", &mSingleNeutron.z2_gamma_ids);
         mSingleNeutronTree->Branch("z2_energy", &mSingleNeutron.z2_energy);
     }
 
@@ -59,37 +59,37 @@ namespace arrakis
         mSingleNeutron.u1_tdc.clear();
         mSingleNeutron.u1_channel.clear();
         mSingleNeutron.u1_adc.clear();
-        mSingleNeutron.u1_gamma_energy.clear();
+        mSingleNeutron.u1_gamma_ids.clear();
         mSingleNeutron.u1_energy.clear();
 
         mSingleNeutron.v1_tdc.clear();
         mSingleNeutron.v1_channel.clear();
         mSingleNeutron.v1_adc.clear();
-        mSingleNeutron.v1_gamma_energy.clear();
+        mSingleNeutron.v1_gamma_ids.clear();
         mSingleNeutron.v1_energy.clear();
         
         mSingleNeutron.z1_tdc.clear();
         mSingleNeutron.z1_channel.clear();
         mSingleNeutron.z1_adc.clear();
-        mSingleNeutron.z1_gamma_energy.clear();
+        mSingleNeutron.z1_gamma_ids.clear();
         mSingleNeutron.z1_energy.clear();
         
         mSingleNeutron.u2_tdc.clear();
         mSingleNeutron.u2_channel.clear();
         mSingleNeutron.u2_adc.clear();
-        mSingleNeutron.u2_gamma_energy.clear();
+        mSingleNeutron.u2_gamma_ids.clear();
         mSingleNeutron.u2_energy.clear();
         
         mSingleNeutron.v2_tdc.clear();
         mSingleNeutron.v2_channel.clear();
         mSingleNeutron.v2_adc.clear();
-        mSingleNeutron.v2_gamma_energy.clear();
+        mSingleNeutron.v2_gamma_ids.clear();
         mSingleNeutron.v2_energy.clear();
         
         mSingleNeutron.z2_tdc.clear();
         mSingleNeutron.z2_channel.clear();
         mSingleNeutron.z2_adc.clear();
-        mSingleNeutron.z2_gamma_energy.clear();
+        mSingleNeutron.z2_gamma_ids.clear();
         mSingleNeutron.z2_energy.clear();
     }
 
@@ -173,23 +173,23 @@ namespace arrakis
                                 Double_t eFrac = trackIDs[i].energyFrac;
                                 Double_t energy = trackIDs[i].energy;
                                 Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
-                                Double_t gamma_energy = 0;
+                                Int_t gamma_id = 0;
                                 if (ancestor_pdg == 22)
                                 {
-                                    gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
+                                    gamma_id = particleTree.GetAncestorTrackID( trackIDs[i].trackID );
                                 } else {
-                                    gamma_energy = -1;
+                                    gamma_id = -1;
                                 }
                                 
                                 if(apa < 3){
                                     mSingleNeutron.u1_tdc.emplace_back(l);
                                     mSingleNeutron.u1_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
-                                    mSingleNeutron.u1_gamma_energy.emplace_back(gamma_energy);
+                                    mSingleNeutron.u1_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.u1_energy.emplace_back(energy);
                                 } else {
                                     mSingleNeutron.u2_tdc.emplace_back(l);
                                     mSingleNeutron.u2_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
-                                    mSingleNeutron.u2_gamma_energy.emplace_back(gamma_energy);
+                                    mSingleNeutron.u2_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.u2_energy.emplace_back(energy);
                                 }
 
@@ -223,23 +223,23 @@ namespace arrakis
                                 Double_t eFrac = trackIDs[i].energyFrac;
                                 Double_t energy = trackIDs[i].energy;
                                 Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
-                                Double_t gamma_energy = 0;
+                                Int_t gamma_id = 0;
                                 if (ancestor_pdg == 22)
                                 {
-                                    gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
+                                    gamma_id = particleTree.GetAncestorTrackID( trackIDs[i].trackID );
                                 } else {
-                                    gamma_energy = -1;
+                                    gamma_id = -1;
                                 }
                                 
                                 if(apa < 3){
                                     mSingleNeutron.v1_tdc.emplace_back(l);
                                     mSingleNeutron.v1_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
-                                    mSingleNeutron.v1_gamma_energy.emplace_back(gamma_energy);
+                                    mSingleNeutron.v1_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.v1_energy.emplace_back(energy);
                                 } else {
                                     mSingleNeutron.v2_tdc.emplace_back(l);
                                     mSingleNeutron.v2_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
-                                    mSingleNeutron.v2_gamma_energy.emplace_back(gamma_energy);
+                                    mSingleNeutron.v2_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.v2_energy.emplace_back(energy);
                                 }
 
@@ -273,23 +273,23 @@ namespace arrakis
                                 Double_t eFrac = trackIDs[i].energyFrac;
                                 Double_t energy = trackIDs[i].energy;
                                 Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
-                                Double_t gamma_energy = 0;
+                                Int_t gamma_id = 0;
                                 if (ancestor_pdg == 22)
                                 {
-                                    gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
+                                    gamma_id = particleTree.GetAncestorTrackID( trackIDs[i].trackID );
                                 } else {
-                                    gamma_energy = -1;
+                                    gamma_id = -1;
                                 }
 
                                 if(apa < 3){
                                     mSingleNeutron.z1_tdc.emplace_back(l);
                                     mSingleNeutron.z1_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
-                                    mSingleNeutron.z1_gamma_energy.emplace_back(gamma_energy);
+                                    mSingleNeutron.z1_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.z1_energy.emplace_back(energy);
                                 } else {
                                     mSingleNeutron.z2_tdc.emplace_back(l);
                                     mSingleNeutron.z2_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
-                                    mSingleNeutron.z2_gamma_energy.emplace_back(gamma_energy);
+                                    mSingleNeutron.z2_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.z2_energy.emplace_back(energy);
                                 }
 
@@ -320,7 +320,7 @@ namespace arrakis
 // mSingleNeutron.edep_z.clear();
 // mSingleNeutron.edep_energy.clear();
 // mSingleNeutron.edep_num_electrons.clear();
-// mSingleNeutron.edep_gamma_energy.clear();
+// mSingleNeutron.edep_gamma_ids.clear();
 // mSingleNeutron.edep_total_energy = 0.0;
 // mSingleNeutron.complete_apa = true;
 // mSingleNeutron.complete_capture = true;
@@ -332,7 +332,7 @@ namespace arrakis
 // mSingleNeutronTree->Branch("edep_z", &mSingleNeutron.edep_z);
 // mSingleNeutronTree->Branch("edep_energy", &mSingleNeutron.edep_energy);
 // mSingleNeutronTree->Branch("edep_num_electrons", &mSingleNeutron.edep_num_electrons);
-// mSingleNeutronTree->Branch("edep_gamma_energy", &mSingleNeutron.edep_gamma_energy);
+// mSingleNeutronTree->Branch("edep_gamma_ids", &mSingleNeutron.edep_gamma_ids);
 // mSingleNeutronTree->Branch("edep_total_energy", &mSingleNeutron.edep_total_energy);
 // mSingleNeutronTree->Branch("complete_apa", &mSingleNeutron.complete_apa);
 // mSingleNeutronTree->Branch("complete_capture", &mSingleNeutron.complete_capture);
@@ -375,7 +375,7 @@ namespace arrakis
 //             pdg = particleTree.GetPDGCode(temp_track_energy);
 //             track_energy = temp_track_energy;
 //         }
-//         mSingleNeutron.edep_gamma_energy.emplace_back(track_energy);
+//         mSingleNeutron.edep_gamma_ids.emplace_back(track_energy);
 //     }
 // }
 // if (positive && negative) {
