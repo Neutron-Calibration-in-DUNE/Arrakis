@@ -59,26 +59,24 @@ namespace arrakis
             Int_t track_id = particle.TrackId();
             //Int_t prev_track_id = 0;
             Int_t level = 0;
-            Double_t energy = round(particle.E()*10e6)/10e6;
             while (mother != 0)
             {
                 level += 1;
                 track_id = mother;
                 mother = mParentTrackIDMap[track_id];
-                energy = mParticleEnergyMap[track_id];
             }
             mAncestorLevelMap[particle.TrackId()] = level;
             if (level == 0) {
                 mParentPDGMap[particle.TrackId()] = 0;
                 mAncestorPDGMap[particle.TrackId()] = 0;
                 mAncestorTrackIDMap[particle.TrackId()] = 0;
-                mAncestorEnergyMap[particle.TrackId()] = energy;
+                mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
             }
             else {
                 mParentPDGMap[particle.TrackId()] = mPDGMap[particle.Mother()];
                 mAncestorPDGMap[particle.TrackId()] = mPDGMap[track_id];
                 mAncestorTrackIDMap[particle.TrackId()] = track_id;
-                mAncestorEnergyMap[particle.TrackId()] = energy;
+                mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
             }
         }
         fMapTTree->Fill();
