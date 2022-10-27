@@ -208,14 +208,14 @@ namespace arrakis
         //     );
         // }
 
-        // if (mGenerateEvtLvlNInfo) {
-        //     mEvtLvlNeutronInfo.processEvent(
-        //         clockData,
-        //         mcSimChannels,
-        //         mcParticles,
-        //         rawTPC
-        //     );
-        // }
+        if (mGenerateEvtLvlNInfo) {
+            mEvtLvlNeutronInfo.processEvent(
+                clockData,
+                mcSimChannels,
+                mcParticles,
+                rawTPC
+            );
+        }
 
         if (mGenerateNCapInfo) {
             bool storeEvent = mNeutronCapture.processEvent(mParticleTree, mcEnergyDeposits);
@@ -236,6 +236,17 @@ namespace arrakis
                     mArrayGenerator
                 );
             }
+        } else {
+            mSingleNeutronCalibration.processEvent(
+                mParticleTree,
+                mcSimChannels,
+                rawTPC
+            );
+            mLabelGenerator.processEvent(
+                mParticleTree,
+                mGammaTable,
+                mArrayGenerator
+            );
         }
     }
     
