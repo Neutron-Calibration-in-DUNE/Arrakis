@@ -198,31 +198,31 @@ namespace arrakis
                                 
                                 if(apa == 0 || apa == 2 || apa == 4){
                                     mSingleNeutron.u1_tdc.emplace_back(l);
-                                    // mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan) );
+                                    mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan) );
                                     mSingleNeutron.u1_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
                                     mSingleNeutron.u1_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.u1_gamma_energy.emplace_back(gamma_energy);
                                     mSingleNeutron.u1_energy.emplace_back(energy);
                                 } else {
                                     mSingleNeutron.u2_tdc.emplace_back(l);
-                                    // mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan) );
+                                    mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan) );
                                     mSingleNeutron.u2_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
                                     mSingleNeutron.u2_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.u2_gamma_energy.emplace_back(gamma_energy);
                                     mSingleNeutron.u2_energy.emplace_back(energy);
                                 }
 
-                                if(apa == 0) {mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan) );}
+                                // if(apa == 0) {mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan) );}
 
-                                if(apa == 1) {mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan-(fNVCh+fNZCh)) );}
+                                // if(apa == 1) {mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan-(fNVCh+fNZCh)) );}
 
-                                if(apa == 2) {mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan-(fNVCh+fNZCh)*2) );}
+                                // if(apa == 2) {mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan-(fNVCh+fNZCh)*2) );}
 
-                                if(apa == 3) {mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3) );}
+                                // if(apa == 3) {mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3) );}
 
-                                if(apa == 4) {mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNVCh+fNZCh)) );}
+                                // if(apa == 4) {mSingleNeutron.u1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNVCh+fNZCh)) );}
 
-                                if(apa == 5) {mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNVCh+fNZCh)*2) );}
+                                // if(apa == 5) {mSingleNeutron.u2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNVCh+fNZCh)*2) );}
 
                             }
                         }
@@ -255,31 +255,31 @@ namespace arrakis
                                 
                                 if(apa == 0 || apa == 2 || apa == 4){
                                     mSingleNeutron.v1_tdc.emplace_back(l);
-                                    // mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan) );
+                                    mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan) );
                                     mSingleNeutron.v1_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
                                     mSingleNeutron.v1_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.v1_gamma_energy.emplace_back(gamma_energy);
                                     mSingleNeutron.v1_energy.emplace_back(energy);
                                 } else {
                                     mSingleNeutron.v2_tdc.emplace_back(l);
-                                    // mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan) );
+                                    mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan) );
                                     mSingleNeutron.v2_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
                                     mSingleNeutron.v2_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.v2_gamma_energy.emplace_back(gamma_energy);
                                     mSingleNeutron.v2_energy.emplace_back(energy);
                                 }
 
-                                if(apa == 0) {mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan-(fNUCh)) );}
+                                // if(apa == 0) {mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan-(fNUCh)) );}
 
-                                if(apa == 1) {mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan-(fNUCh*2+fNZCh)) );}
+                                // if(apa == 1) {mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan-(fNUCh*2+fNZCh)) );}
 
-                                if(apa == 2) {mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan-(fNUCh*3+fNZCh*2)) );}
+                                // if(apa == 2) {mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan-(fNUCh*3+fNZCh*2)) );}
 
-                                if(apa == 3) {mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh)) );}
+                                // if(apa == 3) {mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh)) );}
 
-                                if(apa == 4) {mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh*2+fNZCh)) );}
+                                // if(apa == 4) {mSingleNeutron.v1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh*2+fNZCh)) );}
 
-                                if(apa == 5) {mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh*3+fNZCh*2)) );}
+                                // if(apa == 5) {mSingleNeutron.v2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh*3+fNZCh*2)) );}
 
                             }
                         }
@@ -312,31 +312,31 @@ namespace arrakis
 
                                 if(apa == 0 || apa == 2 || apa == 4){
                                     mSingleNeutron.z1_tdc.emplace_back(l);
-                                    // mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan) );
+                                    mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan) );
                                     mSingleNeutron.z1_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
                                     mSingleNeutron.z1_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.z1_gamma_energy.emplace_back(gamma_energy);
                                     mSingleNeutron.z1_energy.emplace_back(energy);
                                 } else {
                                     mSingleNeutron.z2_tdc.emplace_back(l);
-                                    // mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan) );
+                                    mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan) );
                                     mSingleNeutron.z2_adc.emplace_back( (Int_t) (std::abs(uncompPed.at(l))*eFrac) );
                                     mSingleNeutron.z2_gamma_ids.emplace_back(gamma_id);
                                     mSingleNeutron.z2_gamma_energy.emplace_back(gamma_energy);
                                     mSingleNeutron.z2_energy.emplace_back(energy);
                                 }
 
-                                if(apa == 0) {mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)) );}
+                                // if(apa == 0) {mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)) );}
 
-                                if(apa == 1) {mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)*2) );}
+                                // if(apa == 1) {mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)*2) );}
 
-                                if(apa == 2) {mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)*3) );}
+                                // if(apa == 2) {mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh)*3) );}
 
-                                if(apa == 3) {mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)) );}
+                                // if(apa == 3) {mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)) );}
 
-                                if(apa == 4) {mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*2) );}
+                                // if(apa == 4) {mSingleNeutron.z1_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*2) );}
 
-                                if(apa == 5) {mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*3) );}
+                                // if(apa == 5) {mSingleNeutron.z2_channel.emplace_back( (Int_t) (chan-(fNUCh+fNVCh+fNZCh)*3-(fNUCh+fNVCh)*3) );}
 
                             }
                         }
