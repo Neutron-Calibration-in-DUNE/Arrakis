@@ -85,47 +85,54 @@ namespace arrakis
 {
     struct SingleNeutron
     {
-        std::vector<Int_t> u1_tdc;
-        std::vector<Int_t> u1_channel;
-        std::vector<Int_t> u1_adc;
-        std::vector<Int_t> u1_gamma_ids;
-        std::vector<Double_t> u1_gamma_energy;
-        std::vector<Double_t> u1_energy;
+        std::vector<Int_t> tdc;
+        std::vector<Int_t> channel;
+        std::vector<Int_t> adc;
+        std::vector<Int_t> gamma_ids;
+        std::vector<Double_t> gamma_energy;
+        std::vector<Double_t> energy;
 
-        std::vector<Int_t> v1_tdc;
-        std::vector<Int_t> v1_channel;
-        std::vector<Int_t> v1_adc;
-        std::vector<Int_t> v1_gamma_ids;
-        std::vector<Double_t> v1_gamma_energy;
-        std::vector<Double_t> v1_energy;
+        // std::vector<Int_t> u1_tdc;
+        // std::vector<Int_t> u1_channel;
+        // std::vector<Int_t> u1_adc;
+        // std::vector<Int_t> u1_gamma_ids;
+        // std::vector<Double_t> u1_gamma_energy;
+        // std::vector<Double_t> u1_energy;
 
-        std::vector<Int_t> z1_tdc;
-        std::vector<Int_t> z1_channel;
-        std::vector<Int_t> z1_adc;
-        std::vector<Int_t> z1_gamma_ids;
-        std::vector<Double_t> z1_gamma_energy;
-        std::vector<Double_t> z1_energy;
+        // std::vector<Int_t> v1_tdc;
+        // std::vector<Int_t> v1_channel;
+        // std::vector<Int_t> v1_adc;
+        // std::vector<Int_t> v1_gamma_ids;
+        // std::vector<Double_t> v1_gamma_energy;
+        // std::vector<Double_t> v1_energy;
 
-        std::vector<Int_t> u2_tdc;
-        std::vector<Int_t> u2_channel;
-        std::vector<Int_t> u2_adc;
-        std::vector<Int_t> u2_gamma_ids;
-        std::vector<Double_t> u2_gamma_energy;
-        std::vector<Double_t> u2_energy;
+        // std::vector<Int_t> z1_tdc;
+        // std::vector<Int_t> z1_channel;
+        // std::vector<Int_t> z1_adc;
+        // std::vector<Int_t> z1_gamma_ids;
+        // std::vector<Double_t> z1_gamma_energy;
+        // std::vector<Double_t> z1_energy;
 
-        std::vector<Int_t> v2_tdc;
-        std::vector<Int_t> v2_channel;
-        std::vector<Int_t> v2_adc;
-        std::vector<Int_t> v2_gamma_ids;
-        std::vector<Double_t> v2_gamma_energy;
-        std::vector<Double_t> v2_energy;
+        // std::vector<Int_t> u2_tdc;
+        // std::vector<Int_t> u2_channel;
+        // std::vector<Int_t> u2_adc;
+        // std::vector<Int_t> u2_gamma_ids;
+        // std::vector<Double_t> u2_gamma_energy;
+        // std::vector<Double_t> u2_energy;
 
-        std::vector<Int_t> z2_tdc;
-        std::vector<Int_t> z2_channel;
-        std::vector<Int_t> z2_adc;
-        std::vector<Int_t> z2_gamma_ids;
-        std::vector<Double_t> z2_gamma_energy;
-        std::vector<Double_t> z2_energy;
+        // std::vector<Int_t> v2_tdc;
+        // std::vector<Int_t> v2_channel;
+        // std::vector<Int_t> v2_adc;
+        // std::vector<Int_t> v2_gamma_ids;
+        // std::vector<Double_t> v2_gamma_energy;
+        // std::vector<Double_t> v2_energy;
+
+        // std::vector<Int_t> z2_tdc;
+        // std::vector<Int_t> z2_channel;
+        // std::vector<Int_t> z2_adc;
+        // std::vector<Int_t> z2_gamma_ids;
+        // std::vector<Double_t> z2_gamma_energy;
+        // std::vector<Double_t> z2_energy;
     };
 
     class SingleNeutronCalibration
