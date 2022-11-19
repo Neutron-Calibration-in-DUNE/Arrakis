@@ -11,15 +11,15 @@ namespace arrakis
 {
     ParticleTree::ParticleTree()
     {
-        fMapTTree = fTFileService->make<TTree>("particle_tree", "particle_tree");
-        fMapTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
-        fMapTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
-        fMapTTree->Branch("pdg_map", &mPDGMap);
-        fMapTTree->Branch("parent_pdg_map", &mParentPDGMap);
-        fMapTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
-        fMapTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
-        fMapTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
-        fMapTTree->Branch("parent_energy_map", &mParticleEnergyMap);
+        mMapTTree = mTFileService->make<TTree>("particle_tree", "particle_tree");
+        mMapTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
+        mMapTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
+        mMapTTree->Branch("pdg_map", &mPDGMap);
+        mMapTTree->Branch("parent_pdg_map", &mParentPDGMap);
+        mMapTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
+        mMapTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
+        mMapTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
+        mMapTTree->Branch("parent_energy_map", &mParticleEnergyMap);
     }
 
     ParticleTree::~ParticleTree()
@@ -38,7 +38,9 @@ namespace arrakis
         mParticleEnergyMap.clear();
     }
 
-    void ParticleTree::processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles)
+    void ParticleTree::processEvent(
+        const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
+    )
     {
         if (!mcParticles.isValid()) {
             return;
@@ -57,7 +59,6 @@ namespace arrakis
         {
             Int_t mother = particle.Mother();
             Int_t track_id = particle.TrackId();
-            //Int_t prev_track_id = 0;
             Int_t level = 0;
             while (mother != 0)
             {
@@ -79,6 +80,6 @@ namespace arrakis
                 mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
             }
         }
-        fMapTTree->Fill();
+        mMapTTree->Fill();
     }
 }
