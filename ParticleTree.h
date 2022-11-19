@@ -34,14 +34,14 @@ namespace arrakis
         void ResetMaps();
         void processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles);
         
-        inline const Int_t& GetPDGCode(const Int_t& trackID)          { return mPDGMap[trackID]; }
-        inline const Int_t& GetParentPDG(const Int_t& trackID)        { return mParentPDGMap[trackID]; }
-        inline const Int_t& GetParentTrackID(const Int_t& trackID)    { return mParentTrackIDMap[trackID]; }
-        inline const Int_t& GetParticleEnergy(const Int_t& trackID)   { return mParticleEnergyMap[trackID];}
-        inline const Int_t& GetAncestorPDG(const Int_t& trackID)      { return mAncestorPDGMap[trackID]; }
-        inline const Int_t& GetAncestorTrackID(const Int_t& trackID)  { return mAncestorTrackIDMap[trackID]; }
-        inline const Int_t& GetAncestorLevel(const Int_t& trackID)    { return mAncestorLevelMap[trackID]; }
-        inline const Int_t& GetAncestorEnergy(const Int_t& trackID)   { return mAncestorEnergyMap[trackID]; }
+        inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }
+        inline Int_t GetParentPDG(Int_t trackID)        { return mParentPDGMap[trackID]; }
+        inline Int_t GetParentTrackID(Int_t trackID)    { return mParentTrackIDMap[trackID]; }
+        inline Int_t GetParticleEnergy(Int_t trackID)   { return mParticleEnergyMap[trackID];}
+        inline Int_t GetAncestorPDG(Int_t trackID)      { return mAncestorPDGMap[trackID]; }
+        inline Int_t GetAncestorTrackID(Int_t trackID)  { return mAncestorTrackIDMap[trackID]; }
+        inline Int_t GetAncestorLevel(Int_t trackID)    { return mAncestorLevelMap[trackID]; }
+        inline Int_t GetAncestorEnergy(Int_t trackID)   { return mAncestorEnergyMap[trackID]; }
 
     private:
         art::ServiceHandle<art::TFileService> mTFileService;
