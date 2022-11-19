@@ -15,6 +15,8 @@
 #include "fhiclcpp/types/Atom.h"
 #include "fhiclcpp/types/Table.h"
 #include "art_root_io/TFileService.h"
+#include "art/Framework/Principal/Handle.h"
+#include "art/Framework/Services/Registry/ServiceHandle.h"
 
 // LArSoft includes
 #include "nusimdata/SimulationBase/MCParticle.h"
