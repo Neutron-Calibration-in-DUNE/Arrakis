@@ -2,26 +2,6 @@ set( DUNE_LIB -L$ENV{DUNE_LIB} )
 
 # link_libraries( ${LIB_NAME} -L$ENV{BOOST_LIB} -lboost_system ${ROOTLIB} ${LARCV_LIB}) # All execs need this.
 
-# Get all header directories
-MACRO(HEADER_DIRECTORIES return_list)
-    FILE(GLOB_RECURSE new_list *.hh)
-    SET(dir_list "")
-    FOREACH(file_path ${new_list})
-        GET_FILENAME_COMPONENT(dir_path ${file_path} PATH)
-        SET(dir_list ${dir_list} ${dir_path})
-    ENDFOREACH()
-    LIST(REMOVE_DUPLICATES dir_list)
-    SET(${return_list} ${dir_list})
-ENDMACRO()
-
-HEADER_DIRECTORIES(header_list)
-
-include_directories(
-    ${header_list}
-    ${PROJECT_SOURCE_DIR}Core/
-    ${PROJECT_SOURCE_DIR}NeutronCaptures/
-)
-
 art_make(
     LIBRARY_NAME
         dune_Arrakis
