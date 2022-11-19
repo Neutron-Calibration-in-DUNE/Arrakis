@@ -49,16 +49,18 @@
 namespace arrakis 
 {
     // list of materials in the detector
-    enum MaterialList {
+    enum MaterialList 
+    {
 
     };
-    // list of effective atomic numbers for the materials
 
-    enum VolumeType {
+    enum VolumeType 
+    {
         World,
         Cryostat,
         TPC,
     };
+
     // struct for detector volume information
     struct DetectorVolume
     {

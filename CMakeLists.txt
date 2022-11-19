@@ -18,6 +18,8 @@ HEADER_DIRECTORIES(header_list)
 
 include_directories(
     ${header_list}
+    ${PROJECT_SOURCE_DIR}Core/
+    ${PROJECT_SOURCE_DIR}NeutronCaptures/
 )
 
 art_make(

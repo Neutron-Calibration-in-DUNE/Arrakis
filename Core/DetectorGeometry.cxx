@@ -69,9 +69,11 @@ namespace arrakis
         mVolumeTypeMap[volumeName] = VolumeType::World;
         // collect detector inmo
         mDetectorName = mGeometryCore->DetectorName();
-        mDetectorBox.setBox(-mGeometryCore->DetHalfWidth(), mGeometryCore->DetHalfWidth(),
-                            -mGeometryCore->DetHalfHeight(), mGeometryCore->DetHalfHeight(),
-                            0, mGeometryCore->DetLength());
+        mDetectorBox.setBox(
+            -mGeometryCore->DetHalfWidth(), mGeometryCore->DetHalfWidth(),
+            -mGeometryCore->DetHalfHeight(), mGeometryCore->DetHalfHeight(),
+            0, mGeometryCore->DetLength()
+        );
         // collect cryostat info
         // for now, assuming analysis is done over a single cryostat
         geo::CryostatGeo const& Cryo = mGeometryCore->Cryostat();
@@ -106,7 +108,6 @@ namespace arrakis
     // get volume information for a point
     DetectorVolume DetectorGeometry::getVolume(double x, double y, double z)
     {
-
         mMaterialPOI.SetCoordinates(x,y,z);
 
         // get the volume information
@@ -128,7 +129,8 @@ namespace arrakis
         double x_min = 0; double x_max = 0;
         double y_min = 0; double y_max = 0;
         double z_min = 0; double z_max = 0;
-        for (size_t i = 0; i < mTPCBoxes.size(); i++) {
+        for (size_t i = 0; i < mTPCBoxes.size(); i++) 
+        {
             if (mTPCBoxes[i].x_min < x_min) x_min = mTPCBoxes[i].x_min;
             if (mTPCBoxes[i].x_max > x_max) x_max = mTPCBoxes[i].x_max;
             if (mTPCBoxes[i].y_min < y_min) y_min = mTPCBoxes[i].y_min;
@@ -140,7 +142,8 @@ namespace arrakis
         x_min = 0; x_max = 0;
         y_min = 0; y_max = 0;
         z_min = 0; z_max = 0;
-        for (size_t i = 0; i < mActiveTPCBoxes.size(); i++) {
+        for (size_t i = 0; i < mActiveTPCBoxes.size(); i++) 
+        {
             if (mActiveTPCBoxes[i].x_min < x_min) x_min = mActiveTPCBoxes[i].x_min;
             if (mActiveTPCBoxes[i].x_max > x_max) x_max = mActiveTPCBoxes[i].x_max;
             if (mActiveTPCBoxes[i].y_min < y_min) y_min = mActiveTPCBoxes[i].y_min;
@@ -161,7 +164,8 @@ namespace arrakis
         mGeometryTree->Branch("cryostat_box_ranges", &(mCryostatBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
         mGeometryTree->Branch("number_of_tpcs", &mNumberOfTPCs);
         mGeometryTree->Branch("tpc_names", &mTPCNames);
-        for (int i = 0; i < mNumberOfTPCs; i++) {
+        for (int i = 0; i < mNumberOfTPCs; i++) 
+        {
             mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_name").c_str(), &(mTPCNames[i]));
             mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_box_ranges").c_str(), &(mTPCBoxes[i]), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
             mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_mass").c_str(), &(mTPCMasses[i]));
