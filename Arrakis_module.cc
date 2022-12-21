@@ -29,6 +29,7 @@
 
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
+
 #include "lardataobj/Simulation/SimEnergyDeposit.h"
 
 // #include "lardataobj/RecoBase/PFParticle.h"
@@ -253,8 +254,8 @@ namespace arrakis
         mParticleMaps->ProcessEvent(mcParticles);
         mPrimaryData->ProcessEvent(
             mParticleMaps, 
-            mcParticles, 
             clockData,
+            mcParticles, 
             mcEnergyDeposits,
             mcSimChannels,
             rawTPC

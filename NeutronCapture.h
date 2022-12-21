@@ -86,7 +86,7 @@ namespace arrakis
         TTree *mNeutronCaptureTree;
 
         // geometry information
-        DetectorGeometry* fGeometry = DetectorGeometry::getInstance("NeutronCapture");
+        DetectorGeometry* fGeometry = DetectorGeometry::GetInstance("NeutronCapture");
         VolumeType fBoundingBoxType;
 
         NCapture mNCapture;

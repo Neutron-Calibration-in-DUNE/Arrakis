@@ -19,6 +19,8 @@
 #include "art/Framework/Services/Registry/ServiceHandle.h"
 
 // LArSoft includes
+#include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
 #include "lardataobj/Simulation/SimEnergyDeposit.h"
