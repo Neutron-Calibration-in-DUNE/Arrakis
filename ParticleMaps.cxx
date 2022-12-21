@@ -1,32 +1,32 @@
 /**
- * @file ParticleTree.cxx
+ * @file ParticleMaps.cxx
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
  * @date 2022-07-07
  */
-#include "ParticleTree.h"
+#include "ParticleMaps.h"
 
 namespace arrakis
 {
-    ParticleTree::ParticleTree()
+    ParticleMaps::ParticleMaps()
     {
-        mMapTTree = mTFileService->make<TTree>("particle_tree", "particle_tree");
-        mMapTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
-        mMapTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
-        mMapTTree->Branch("pdg_map", &mPDGMap);
-        mMapTTree->Branch("parent_pdg_map", &mParentPDGMap);
-        mMapTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
-        mMapTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
-        mMapTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
-        mMapTTree->Branch("parent_energy_map", &mParticleEnergyMap);
+        mTTree = mTFileService->make<TTree>("particle_map", "particle_map");
+        mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
+        mTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
+        mTTree->Branch("pdg_map", &mPDGMap);
+        mTTree->Branch("parent_pdg_map", &mParentPDGMap);
+        mTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
+        mTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
+        mTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
+        mTTree->Branch("parent_energy_map", &mParticleEnergyMap);
     }
 
-    ParticleTree::~ParticleTree()
+    ParticleMaps::~ParticleMaps()
     {
     }
 
-    void ParticleTree::ResetMaps()
+    void ParticleMaps::ResetEvent()
     {
         mParentTrackIDMap.clear();
         mAncestorTrackIDMap.clear();
@@ -38,7 +38,7 @@ namespace arrakis
         mParticleEnergyMap.clear();
     }
 
-    void ParticleTree::processEvent(
+    void ParticleMaps::processEvent(
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
@@ -46,7 +46,7 @@ namespace arrakis
             return;
         }
         
-        ResetMaps();
+        ResetEvent();
 
         for (auto particle : *mcParticles)
         {
@@ -80,6 +80,6 @@ namespace arrakis
                 mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
             }
         }
-        mMapTTree->Fill();
+        mTTree->Fill();
     }
 }

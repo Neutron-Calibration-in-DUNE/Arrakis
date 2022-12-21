@@ -1,9 +1,11 @@
 /**
- * @file ParticleTree.h
+ * @file ParticleMaps.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
  * @date 2022-07-07
+ *      (2022-12-21) - changed processEvent to ProcessEvent for all
+ *          classes in Arrakis, also changed m*****TTree to just mTTree.
  */
 #pragma once
 #include <vector>
@@ -27,14 +29,16 @@
 
 namespace arrakis
 {
-    class ParticleTree
+    class ParticleMaps
     {
     public:
-        ParticleTree();
-        ~ParticleTree();
+        ParticleMaps();
+        ~ParticleMaps();
 
-        void ResetMaps();
-        void processEvent(const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles);
+        void ResetEvent();
+        void ProcessEvent(
+            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
+        );
         
         inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }
         inline Int_t GetParentPDG(Int_t trackID)        { return mParentPDGMap[trackID]; }
@@ -47,16 +51,16 @@ namespace arrakis
 
     private:
         art::ServiceHandle<art::TFileService> mTFileService;
-        TTree *mMapTTree;
+        TTree *mTTree;
         
-        std::map<Int_t, Int_t> mPDGMap;
-        std::map<Int_t, Int_t> mParentPDGMap;
-        std::map<Int_t, Int_t> mParentTrackIDMap;
-        std::map<Int_t, Double_t> mParticleEnergyMap;
-        std::map<Int_t, Int_t> mAncestorPDGMap;
-        std::map<Int_t, Int_t> mAncestorTrackIDMap;
-        std::map<Int_t, Int_t> mAncestorLevelMap;
-        std::map<Int_t, Double_t> mAncestorEnergyMap;
+        std::map<Int_t, Int_t>      mPDGMap;
+        std::map<Int_t, Int_t>      mParentPDGMap;
+        std::map<Int_t, Int_t>      mParentTrackIDMap;
+        std::map<Int_t, Double_t>   mParticleEnergyMap;
+        std::map<Int_t, Int_t>      mAncestorPDGMap;
+        std::map<Int_t, Int_t>      mAncestorTrackIDMap;
+        std::map<Int_t, Int_t>      mAncestorLevelMap;
+        std::map<Int_t, Double_t>   mAncestorEnergyMap;
 
     };
 }
