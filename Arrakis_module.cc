@@ -228,14 +228,14 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
-        art::ValidHandle<std::vector<simb::MCParticle>>         mcParticles = nullptr;
-        art::ValidHandle<std::vector<sim::SimEnergyDeposit>>    mcEnergyDeposits= nullptr;
-        art::ValidHandle<std::vector<sim::SimChannel>>          mcSimChannels= nullptr;
-        art::ValidHandle<std::vector<raw::RawDigit>>            rawDigit= nullptr;
+        std::vector<simb::MCParticle>      mcParticles;
+        std::vector<sim::SimEnergyDeposit> mcEnergyDeposits;
+        std::vector<sim::SimChannel>       mcSimChannels;
+        std::vector<raw::RawDigit>         rawDigit;
 
         if (event.getByLabel(mLArGeantProducerLabel, mcParticleHandle)) 
         {
-            mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
+            mcParticles = *event.getValidHandle<std::vector<simb::MCParticle>>(
                 mLArGeantProducerLabel
             );
         }
@@ -246,7 +246,7 @@ namespace arrakis
                 << " Line " << __LINE__ << " in.ile " << __FILE__ << std::endl;
         }
         if (event.getByLabel(mIonAndScintProducerLabel, mcSimEnergyDepositHandle)) {
-            mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
+            mcEnergyDeposits = *event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
                 mIonAndScintProducerLabel
             );
         }
@@ -260,7 +260,7 @@ namespace arrakis
         )
         {
             mcSimChannels = 
-                event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
+                *event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
                     mSimChannelProducerLabel.label(), 
                     mSimChannelInstanceProducerLabel.label()
                 )
@@ -276,7 +276,7 @@ namespace arrakis
         )
         {
             rawDigit = 
-                event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
+                *event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
                     mTPCInputLabel.label(), 
                     mTPCInstanceLabel.label()
                 )
