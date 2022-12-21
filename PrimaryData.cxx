@@ -106,7 +106,7 @@ namespace arrakis
                     particle.EndX(),
                     particle.EndY(),
                     particle.EndZ()
-                )
+                );
             }
         }
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)
