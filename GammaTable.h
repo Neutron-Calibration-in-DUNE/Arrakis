@@ -119,7 +119,7 @@ namespace arrakis
         TTree *mGammaTree;
         TTree *mGammaStatisticsTree;
         // geometry information
-        DetectorGeometry* fGeometry = DetectorGeometry::getInstance("GammaTable");
+        DetectorGeometry* fGeometry = DetectorGeometry::GetInstance("GammaTable");
 
         Gamma mGamma;
         std::vector<Gamma> mGammas;
