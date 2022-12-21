@@ -228,94 +228,51 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
-        std::vector<simb::MCParticle>      mcParticles;
-        std::vector<sim::SimEnergyDeposit> mcEnergyDeposits;
-        std::vector<sim::SimChannel>       mcSimChannels;
-        std::vector<raw::RawDigit>         rawDigit;
-
-        if (event.getByLabel(mLArGeantProducerLabel, mcParticleHandle)) 
-        {
-            mcParticles = *event.getValidHandle<std::vector<simb::MCParticle>>(
-                mLArGeantProducerLabel
-            );
-        }
-        else
-        {
-            throw cet::exception("Arrakis")
-                << " No simb::MCParticle objects in this event - "
-                << " Line " << __LINE__ << " in.ile " << __FILE__ << std::endl;
-        }
-        if (event.getByLabel(mIonAndScintProducerLabel, mcSimEnergyDepositHandle)) {
-            mcEnergyDeposits = *event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
-                mIonAndScintProducerLabel
-            );
-        }
-        else
-        {
-            std::cout << "No simb::EnergyDeposit objects in this event!" << std::endl;
-        }
-        if (event.getByLabel(
-                art::InputTag(
-                    mSimChannelProducerLabel.label(), 
-                    mSimChannelInstanceProducerLabel.label()
-                ),
-                mcSimChannelHandle
-            )
-        )
-        {
-            mcSimChannels = 
-                *event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
-                    mSimChannelProducerLabel.label(), 
-                    mSimChannelInstanceProducerLabel.label()
-                )
-            );
-        }
-        if (event.getByLabel(
-                art::InputTag(
-                    mTPCInputLabel.label(), 
-                    mTPCInstanceLabel.label()
-                ),
-                mcRawDigitHandle
-            )
-        )
-        {
-            rawDigit = 
-                *event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
-                    mTPCInputLabel.label(), 
-                    mTPCInstanceLabel.label()
-                )
-            );
-        }
-
-        // auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
-        //     mLArGeantProducerLabel
-        // );
-        // auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
-        //     mIonAndScintProducerLabel
-        // );
-        // auto mcSimChannels = 
-        //     event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
-        //         mSimChannelProducerLabel.label(), 
-        //         mSimChannelInstanceProducerLabel.label()
-        //     )
-        // );
-        // auto rawDigit = 
-        //     event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
-        //         mTPCInputLabel.label(), 
-        //         mTPCInstanceLabel.label()
-        //     )
-        // );
-
-        // construct particle tree and primary data
-        mParticleMaps->ProcessEvent(mcParticles);
-        mPrimaryData->ProcessEvent(
-            mParticleMaps, 
-            clockData,
-            mcParticles, 
-            mcEnergyDeposits,
-            mcSimChannels,
-            rawDigit
+        auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
+            mLArGeantProducerLabel
         );
+        auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
+            mIonAndScintProducerLabel
+        );
+        mParticleMaps->ProcessEvent(mcParticles);
+        mPrimaryData->ProcessEventMC(
+            mParticleMaps, 
+            mcParticles, 
+            mcEnergyDeposits
+        );
+
+        if(
+            event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
+                mSimChannelProducerLabel.label(), 
+                mSimChannelInstanceProducerLabel.label()
+            )) &&
+            event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
+                mTPCInputLabel.label(), 
+                mTPCInstanceLabel.label()
+            ))
+        )
+        {
+            auto mcSimChannels = 
+                event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
+                    mSimChannelProducerLabel.label(), 
+                    mSimChannelInstanceProducerLabel.label()
+                )
+            );
+            auto rawDigit = 
+                event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
+                    mTPCInputLabel.label(), 
+                    mTPCInstanceLabel.label()
+                )
+            );
+            mPrimaryData->ProcessEventDetectorSim(
+                mParticleMaps, 
+                clockData,
+                mcSimChannels,
+                rawDigit
+            );
+        }
+        mPrimaryData->FillTTree();
+        
         
 
 

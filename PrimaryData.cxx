@@ -82,92 +82,100 @@ namespace arrakis
         mPrimaries.clear();
     }
 
-    void PrimaryData::ProcessEvent(
+    void PrimaryData::ProcessEventMC(
         ParticleMaps particle_maps,
-        detinfo::DetectorClocksData const& clockData,
-        const std::vector<simb::MCParticle>& mcParticles,
-        const std::vector<sim::SimEnergyDeposit>& mcEnergyDeposits,
-        const std::vector<sim::SimChannel>& mcChannels,
-        const std::vector<raw::RawDigit>& rawTPC
+        const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
+        const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
     {
-        ResetEvent();
-        if(mcParticles.size() != 0)
-        {
-            for (auto particle : mcParticles)
-            {
-                if(particle.Mother() == 0) 
-                {
-                    mPrimaries.emplace_back(Primary(
-                        particle.TrackId(),
-                        particle.PdgCode(),
-                        particle.Process(),
-                        particle.E(),
-                        particle.Vx(),
-                        particle.Vy(),
-                        particle.Vz(),
-                        particle.EndProcess(),
-                        particle.EndE(),
-                        particle.EndX(),
-                        particle.EndY(),
-                        particle.EndZ()
-                    ));
-                }
-                else
-                {
-                    Int_t primary_index = FindPrimary(
-                        particle_maps.GetAncestorTrackID(particle.TrackId())
-                    );
-                    if(primary_index == -1) {
-                        continue;
-                    }
-                    mPrimaries[primary_index].AddDaughter(
-                        particle.TrackId(),
-                        particle_maps.GetAncestorLevel(particle.TrackId()),
-                        particle.Process(),
-                        particle.E(),
-                        particle.Vx(),
-                        particle.Vy(),
-                        particle.Vz(),
-                        particle.EndProcess(),
-                        particle.EndE(),
-                        particle.EndX(),
-                        particle.EndY(),
-                        particle.EndZ()
-                    );
-                }
-            }
+        if (!mcParticles.isValid()) {
+            return;
         }
-        if(mcEnergyDeposits.size() != 0)
+        ResetEvent();
+
+        for (auto particle : *mcParticles)
         {
-            for(auto edep : mcEnergyDeposits)
+            if(particle.Mother() == 0) 
+            {
+                mPrimaries.emplace_back(Primary(
+                    particle.TrackId(),
+                    particle.PdgCode(),
+                    particle.Process(),
+                    particle.E(),
+                    particle.Vx(),
+                    particle.Vy(),
+                    particle.Vz(),
+                    particle.EndProcess(),
+                    particle.EndE(),
+                    particle.EndX(),
+                    particle.EndY(),
+                    particle.EndZ()
+                ));
+            }
+            else
             {
                 Int_t primary_index = FindPrimary(
-                    edep.TrackID()
+                    particle_maps.GetAncestorTrackID(particle.TrackId())
                 );
-                if(primary_index != -1) {
-                    mPrimaries[primary_index].AddEdep(
-                        edep.Energy(),
-                        edep.MidPointX(),
-                        edep.MidPointY(),
-                        edep.MidPointZ()
-                    );
+                if(primary_index == -1) {
+                    continue;
                 }
-                else 
-                {
-                    primary_index = FindPrimary(
-                        particle_maps.GetAncestorTrackID(edep.TrackID())
-                    );
-                    mPrimaries[primary_index].AddDaughterEdep(
-                        edep.TrackID(),
-                        edep.Energy(),
-                        edep.MidPointX(),
-                        edep.MidPointY(),
-                        edep.MidPointZ()
-                    );
-                }
+                mPrimaries[primary_index].AddDaughter(
+                    particle.TrackId(),
+                    particle_maps.GetAncestorLevel(particle.TrackId()),
+                    particle.Process(),
+                    particle.E(),
+                    particle.Vx(),
+                    particle.Vy(),
+                    particle.Vz(),
+                    particle.EndProcess(),
+                    particle.EndE(),
+                    particle.EndX(),
+                    particle.EndY(),
+                    particle.EndZ()
+                );
             }
         }
+        for(auto edep : *mcEnergyDeposits)
+        {
+            Int_t primary_index = FindPrimary(
+                edep.TrackID()
+            );
+            if(primary_index != -1) {
+                mPrimaries[primary_index].AddEdep(
+                    edep.Energy(),
+                    edep.MidPointX(),
+                    edep.MidPointY(),
+                    edep.MidPointZ()
+                );
+            }
+            else 
+            {
+                primary_index = FindPrimary(
+                    particle_maps.GetAncestorTrackID(edep.TrackID())
+                );
+                mPrimaries[primary_index].AddDaughterEdep(
+                    edep.TrackID(),
+                    edep.Energy(),
+                    edep.MidPointX(),
+                    edep.MidPointY(),
+                    edep.MidPointZ()
+                );
+            }
+        }
+    }
+
+    void PrimaryData::ProcessEventDetectorSim(
+        ParticleMaps particle_maps,
+        detinfo::DetectorClocksData const& clockData,
+        const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
+        const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
+    )
+    {
+    }
+    
+    void PrimaryData::FillTTree()
+    {
         if(mSavePrimaryData)
         {
             for(size_t ii = 0; ii < mPrimaries.size(); ii++)

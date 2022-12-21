@@ -154,15 +154,18 @@ namespace arrakis
         ~PrimaryData();
 
         void ResetEvent();
-        void ProcessEvent(
+        void ProcessEventMC(
+            ParticleMaps particle_maps,
+            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+        );
+        void ProcessEventDetectorSim(
             ParticleMaps particle_maps,
             detinfo::DetectorClocksData const& clockData,
-            const std::vector<simb::MCParticle>& mcParticles,
-            const std::vector<sim::SimEnergyDeposit>& mcEnergyDeposits,
-            const std::vector<sim::SimChannel>& mcChannels,
-            const std::vector<raw::RawDigit>& rawTPC
-        );
-
+            const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
+            const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
+        )
+        void FillTTree();
         Int_t FindPrimary(Int_t track_id);
 
     private:

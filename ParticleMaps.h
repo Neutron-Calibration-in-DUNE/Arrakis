@@ -37,7 +37,7 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEvent(
-            const std::vector<simb::MCParticle>& mcParticles
+            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
         inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }

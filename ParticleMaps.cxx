@@ -43,12 +43,12 @@ namespace arrakis
     }
 
     void ParticleMaps::ProcessEvent(
-        const std::vector<simb::MCParticle>& mcParticles
+        const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
         ResetEvent();
 
-        for (auto particle : mcParticles)
+        for (auto particle : *mcParticles)
         {
             mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mPDGMap[particle.TrackId()] = particle.PdgCode();
