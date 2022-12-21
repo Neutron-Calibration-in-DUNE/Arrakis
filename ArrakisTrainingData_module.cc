@@ -78,9 +78,9 @@ namespace arrakis
         art::ServiceHandle<art::TFileService> mTFileService;
 
         // Detector Geometry Instance
-        DetectorGeometry* mGeometry = DetectorGeometry::getInstance("ArrakisTrainingData");
+        DetectorGeometry* mGeometry = DetectorGeometry::GetInstance("ArrakisTrainingData");
         // Particle Tree
-        ParticleMaps mParticleMaps;
+        ParticleMaps* mParticleMaps;
     };
 
     // constructor
