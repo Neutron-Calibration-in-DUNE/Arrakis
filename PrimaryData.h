@@ -164,7 +164,7 @@ namespace arrakis
             detinfo::DetectorClocksData const& clockData,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
             const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
-        )
+        );
         void FillTTree();
         Int_t FindPrimary(Int_t track_id);
 
