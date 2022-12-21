@@ -67,7 +67,7 @@ namespace arrakis
             Int_t _track_id, Int_t _pdg, std::string _init_process,
             Double_t _init_energy, Double_t _init_x, Double_t _init_y,
             Double_t _init_z, std::string _end_process, Double_t _end_energy,
-            Double_T _end_x, Double_t _end_y, Double_T _end_z
+            Double_t _end_x, Double_t _end_y, Double_t _end_z
         )
         : track_id(_track_id)
         , pdg(_pdg)
