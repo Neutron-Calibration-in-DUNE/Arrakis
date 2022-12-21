@@ -73,7 +73,40 @@ namespace arrakis
         {
             if(particle.Mother() == 0) 
             {
-
+                mPrimaries.emplace_back(Primary(
+                    particle.TrackId(),
+                    particle.PdgCode(),
+                    particle.Process(),
+                    particle.E(),
+                    particle.Vx(),
+                    particle.Vy(),
+                    particle.Vz(),
+                    particle.EndProcess(),
+                    particle.EndE(),
+                    particle.EndX(),
+                    particle.EndY(),
+                    particle.EndZ()
+                ));
+            }
+            else
+            {
+                Int_t primary_index = FindPrimary(
+                    particle_maps.GetAncestorTrackID(particle.TrackId())
+                );
+                mPrimaries[primary_index].AddDaughter(
+                    particle.TrackId(),
+                    particle_maps.GetAncestorLevel(particle.TrackId()),
+                    particle.Process(),
+                    particle.E(),
+                    particle.Vx(),
+                    particle.Vy(),
+                    particle.Vz(),
+                    particle.EndProcess(),
+                    particle.EndE(),
+                    particle.EndX(),
+                    particle.EndY(),
+                    particle.EndZ()
+                )
             }
         }
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)
