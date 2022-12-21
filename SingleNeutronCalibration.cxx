@@ -37,8 +37,8 @@ namespace arrakis
     }
 
     void SingleNeutronCalibration::processEvent(
-        ParticleTree particleTree,
-        // arrakis::ParticleTree const& ParticleMaps,
+        ParticleMaps particle_maps,
+        // arrakis::ParticleMaps const& ParticleMaps,
         // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
         const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
         const art::Handle<std::vector<raw::RawDigit>>& rawTPC
@@ -98,13 +98,13 @@ namespace arrakis
                         for (size_t i = 0; i < trackIDs.size(); i++){
                             Double_t eFrac = trackIDs[i].energyFrac;
                             Double_t energy = trackIDs[i].energy;
-                            // Int_t ancestor_pdg = particleTree.GetAncestorPDG( trackIDs[i].trackID );
+                            // Int_t ancestor_pdg = ParticleMaps.GetAncestorPDG( trackIDs[i].trackID );
                             // Int_t gamma_id = 0;
                             // Double_t gamma_energy = 0;
                             // if (ancestor_pdg == 22)
                             // {
-                            //     gamma_id = particleTree.GetAncestorTrackID( trackIDs[i].trackID );
-                            //     gamma_energy = particleTree.GetAncestorEnergy( trackIDs[i].trackID );
+                            //     gamma_id = ParticleMaps.GetAncestorTrackID( trackIDs[i].trackID );
+                            //     gamma_energy = ParticleMaps.GetAncestorEnergy( trackIDs[i].trackID );
                             // } else {
                             //     gamma_id = -1;
                             //     gamma_energy = -1;
