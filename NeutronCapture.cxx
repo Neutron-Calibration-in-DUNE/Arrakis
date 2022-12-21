@@ -79,10 +79,10 @@ namespace arrakis
             for (auto energyDeposit : *mcEnergyDeposits)
             {
                 if(
-                    // ParticleMaps.GetAncestorPDG(energyDeposit.TrackID()) == 2112 &&
-                    // ParticleMaps.GetParentPDG(energyDeposit.TrackID()) != 2112 &&
-                    std::abs( ParticleMaps.GetPDGCode(energyDeposit.TrackID()) ) == 11 ||
-                    ParticleMaps.GetPDGCode(energyDeposit.TrackID()) == 22
+                    // particle_maps.GetAncestorPDG(energyDeposit.TrackID()) == 2112 &&
+                    // particle_maps.GetParentPDG(energyDeposit.TrackID()) != 2112 &&
+                    std::abs( particle_maps.GetPDGCode(energyDeposit.TrackID()) ) == 11 ||
+                    particle_maps.GetPDGCode(energyDeposit.TrackID()) == 22
                 )
                 {
                     if (energyDeposit.StartX() <= 0.0) {

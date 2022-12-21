@@ -26,6 +26,18 @@ namespace arrakis
 {
     struct Configuration
     {
+        fhicl::Atom<bool> GenerateParticleMaps
+        {
+            fhicl::Name("GenerateParticleMaps"),
+            fhicl::Comment("Whether to generate particle maps arrays.")
+        };
+        
+        fhicl::Atom<bool> GeneratePrimaryData
+        {
+            fhicl::Name("GeneratePrimaryData"),
+            fhicl::Comment("Whether to generate primary data arrays.")
+        };
+
         fhicl::Atom<bool> Generate2DArrays
         {
             fhicl::Name("Generate2DArrays"),

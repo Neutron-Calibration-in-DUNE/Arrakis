@@ -98,7 +98,7 @@ namespace arrakis
     }
 
     void LabelGenerator::processEvent(
-        ParticleTree particleTree,
+        ParticleMaps particle_maps,
         GammaTable gammaTable,
         ArrayGenerator arrayGenerator
     )
@@ -137,8 +137,8 @@ namespace arrakis
                     mLabels.u1_gamma_id.emplace_back(-1);
                     mLabels.u1_gamma_type.emplace_back(0);
                 }
-                mLabels.u1_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
-                mLabels.u1_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
+                mLabels.u1_ancestor_pdg.emplace_back(particle_maps.GetAncestorPDG(temp_trackID));
+                mLabels.u1_ancestor_id.emplace_back(particle_maps.GetAncestorTrackID(temp_trackID));
             }
             else
             {
@@ -175,8 +175,8 @@ namespace arrakis
                     mLabels.v1_gamma_id.emplace_back(-1);
                     mLabels.v1_gamma_type.emplace_back(0);
                 }
-                mLabels.v1_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
-                mLabels.v1_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
+                mLabels.v1_ancestor_pdg.emplace_back(particle_maps.GetAncestorPDG(temp_trackID));
+                mLabels.v1_ancestor_id.emplace_back(particle_maps.GetAncestorTrackID(temp_trackID));
             }
             else
             {
@@ -213,8 +213,8 @@ namespace arrakis
                     mLabels.z1_gamma_id.emplace_back(-1);
                     mLabels.z1_gamma_type.emplace_back(0);
                 }
-                mLabels.z1_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
-                mLabels.z1_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
+                mLabels.z1_ancestor_pdg.emplace_back(particle_maps.GetAncestorPDG(temp_trackID));
+                mLabels.z1_ancestor_id.emplace_back(particle_maps.GetAncestorTrackID(temp_trackID));
             }
             else
             {
@@ -251,8 +251,8 @@ namespace arrakis
                     mLabels.u2_gamma_id.emplace_back(-1);
                     mLabels.u2_gamma_type.emplace_back(0);
                 }
-                mLabels.u2_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
-                mLabels.u2_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
+                mLabels.u2_ancestor_pdg.emplace_back(particle_maps.GetAncestorPDG(temp_trackID));
+                mLabels.u2_ancestor_id.emplace_back(particle_maps.GetAncestorTrackID(temp_trackID));
             }
             else
             {
@@ -289,8 +289,8 @@ namespace arrakis
                     mLabels.v2_gamma_id.emplace_back(-1);
                     mLabels.v2_gamma_type.emplace_back(0);
                 }
-                mLabels.v2_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
-                mLabels.v2_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
+                mLabels.v2_ancestor_pdg.emplace_back(particle_maps.GetAncestorPDG(temp_trackID));
+                mLabels.v2_ancestor_id.emplace_back(particle_maps.GetAncestorTrackID(temp_trackID));
             }
             else
             {
@@ -327,8 +327,8 @@ namespace arrakis
                     mLabels.z2_gamma_id.emplace_back(-1);
                     mLabels.z2_gamma_type.emplace_back(0);
                 }
-                mLabels.z2_ancestor_pdg.emplace_back(particleTree.GetAncestorPDG(temp_trackID));
-                mLabels.z2_ancestor_id.emplace_back(particleTree.GetAncestorTrackID(temp_trackID));
+                mLabels.z2_ancestor_pdg.emplace_back(particle_maps.GetAncestorPDG(temp_trackID));
+                mLabels.z2_ancestor_id.emplace_back(particle_maps.GetAncestorTrackID(temp_trackID));
             }
             else
             {

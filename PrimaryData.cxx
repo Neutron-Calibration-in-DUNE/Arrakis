@@ -61,7 +61,7 @@ namespace arrakis
     void PrimaryData::ProcessEvent(
         ParticleMaps particle_maps,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-        const art::ValidHandle<std::vector<sim::EnergyDeposit>>& mcEnergyDeposits
+        const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
     {
         if (!mcParticles.isValid()) {
