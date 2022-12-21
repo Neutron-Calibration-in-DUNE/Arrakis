@@ -93,6 +93,7 @@ namespace arrakis
                 Int_t primary_index = FindPrimary(
                     particle_maps.GetAncestorTrackID(particle.TrackId())
                 );
+                std::cout << primary_index << "," << particle_maps.GetAncestorTrackID(particle.TrackId()) << std::endl;
                 mPrimaries[primary_index].AddDaughter(
                     particle.TrackId(),
                     particle_maps.GetAncestorLevel(particle.TrackId()),
