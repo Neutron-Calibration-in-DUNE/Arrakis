@@ -40,6 +40,11 @@ namespace arrakis
         mTTree->Branch("daughter_end_x", &mPrimary.daughter_end_x);
         mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_y);
         mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_z);
+        mTTree->Branch("daughter_edep_ids", &mPrimary.daughter_edep_ids);
+        mTTree->Branch("daughter_edep_energy", &mPrimary.daughter_edep_energy);
+        mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
+        mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
+        mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_z);
     }
 
     PrimaryData::~PrimaryData()
@@ -121,15 +126,27 @@ namespace arrakis
             Int_t primary_index = FindPrimary(
                 edep.TrackID()
             );
-            if(primary_index == -1) {
-                continue;
+            if(primary_index != -1) {
+                mPrimaries[primary_index].AddEdep(
+                    edep.Energy(),
+                    edep.MidPointX(),
+                    edep.MidPointY(),
+                    edep.MidPointZ()
+                );
             }
-            mPrimaries[primary_index].AddEdep(
-                edep.Energy(),
-                edep.MidPointX(),
-                edep.MidPointY(),
-                edep.MidPointZ()
-            );
+            else 
+            {
+                primary_index = FindPrimary(
+                    particle_maps.GetAncestorTrackID(edep.TrackID())
+                );
+                mPrimaries[primary_index].AddDaughterEdep(
+                    edep.TrackID(),
+                    edep.Energy(),
+                    edep.MidPointX(),
+                    edep.MidPointY(),
+                    edep.MidPointZ()
+                );
+            }
         }
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)
         {

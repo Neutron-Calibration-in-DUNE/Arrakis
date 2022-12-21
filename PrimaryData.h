@@ -67,6 +67,12 @@ namespace arrakis
         std::vector<Double_t> daughter_end_y = {};
         std::vector<Double_t> daughter_end_z = {};
 
+        std::vector<Int_t> daughter_edep_ids = {};
+        std::vector<Double_t> daughter_edep_energy = {};
+        std::vector<Double_t> daughter_edep_x = {};
+        std::vector<Double_t> daughter_edep_y = {};
+        std::vector<Double_t> daughter_edep_z = {};
+
         Primary(){}
         Primary(
             Int_t _track_id, Int_t _pdg, std::string _init_process,
@@ -121,13 +127,17 @@ namespace arrakis
             daughter_end_z.emplace_back(end_z);
         }
 
-        // std::vector<std::vector<Double_t>> daughter_edep_energy = {};
-        // std::vector<std::vector<Double_t>> daughter_edep_x = {};
-        // std::vector<std::vector<Double_t>> daughter_edep_y = {};
-        // std::vector<std::vector<Double_t>> daughter_edep_z = {};
-        // std::vector<std::vector<Int_t>> daughter_edep_num_electrons = {};
-        // std::vector<std::vector<Int_t>> daughter_edep_num_photons = {};
-        // Int_t num_edep_points = 0;
+        void AddDaughterEdep(
+            Int_t track_id, Double_t energy, 
+            Double_t x, Double_t y, Double_t z
+        )
+        {
+            daughter_edep_ids.emplace_back(track_id);
+            daughter_edep_energy.emplace_back(energy);
+            daughter_edep_x.emplace_back(x);
+            daughter_edep_y.emplace_back(y);
+            daughter_edep_z.emplace_back(z);
+        }
     };
 
     class PrimaryData
