@@ -23,6 +23,7 @@
 #include "nusimdata/SimulationBase/MCTruth.h"
 #include "lardataobj/Simulation/SimEnergyDeposit.h"
 #include "lardataobj/Simulation/SimChannel.h"
+#include "lardataobj/RawData/RawDigit.h"
 
 // necessary ROOT libraries
 #include <TTree.h>

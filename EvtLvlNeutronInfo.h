@@ -99,7 +99,7 @@ namespace arrakis
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mEventStatisticsTree;
         // geometry information
-        DetectorGeometry* fGeometry = DetectorGeometry::getInstance("EvtLvlNeutronInfo");
+        DetectorGeometry* fGeometry = DetectorGeometry::GetInstance("EvtLvlNeutronInfo");
 
         geo::GeometryCore const * fGeom = &*(art::ServiceHandle<geo::Geometry>());
 
