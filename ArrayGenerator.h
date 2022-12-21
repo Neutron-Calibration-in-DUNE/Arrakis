@@ -78,7 +78,7 @@
 #include "TH1F.h"
 #include "TGeoMaterial.h"
 #include "TGeoElement.h"
-#include "ParticleTree.h"
+#include "ParticleMaps.h"
 #include "Configuration.h"
 #include "DetectorGeometry.h"
 
@@ -133,7 +133,7 @@ namespace arrakis
         
         void processEvent(
             detinfo::DetectorClocksData const& clockData,
-            //arrakis::ParticleTree const& ParticleMaps,
+            //arrakis::ParticleMaps const& ParticleMaps,
             // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
             const art::Handle<std::vector<raw::RawDigit>>& rawTPC
