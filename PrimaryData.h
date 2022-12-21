@@ -77,7 +77,7 @@ namespace arrakis
         void ResetEvent();
         void ProcessEvent(
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<sim::EnergyDeposit>>& mcEnergyDeposits
+            const art::ValidHandle<std::vector<simb::EnergyDeposit>>& mcEnergyDeposits
         );
 
         Int_t FindPrimary(Int_t track_id);

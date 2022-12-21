@@ -60,7 +60,7 @@ namespace arrakis
 
     void PrimaryData::ProcessEvent(
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-        const art::ValidHandle<std::vector<sim::EnergyDeposit>>& mcEnergyDeposits
+        const art::ValidHandle<std::vector<simb::EnergyDeposit>>& mcEnergyDeposits
     )
     {
         if (!mcParticles.isValid()) {
@@ -72,7 +72,7 @@ namespace arrakis
         {
             if(particle.Mother() == 0) 
             {
-                
+
             }
         }
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)
