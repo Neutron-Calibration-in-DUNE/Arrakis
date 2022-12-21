@@ -25,6 +25,8 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "ParticleMaps.h"
+
 namespace arrakis
 {
     struct Primary
@@ -76,6 +78,7 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEvent(
+            ParticleMaps particle_maps,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<simb::EnergyDeposit>>& mcEnergyDeposits
         );

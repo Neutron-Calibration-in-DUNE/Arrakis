@@ -78,7 +78,7 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
-#include "ParticleTree.h"
+#include "ParticleMaps.h"
 #include "ArrayGenerator.h"
 #include "GammaTable.h"
 
@@ -128,7 +128,7 @@ namespace arrakis
         int getLargestEnergyTrackID(std::vector<int> trackID_vec, std::vector<double> energy_vec);
 
         void processEvent(
-            ParticleTree particleTree,
+            ParticleMaps particleMaps,
             GammaTable gammaTable,
             ArrayGenerator arrayGenerator
         );

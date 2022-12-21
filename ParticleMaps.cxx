@@ -38,7 +38,7 @@ namespace arrakis
         mParticleEnergyMap.clear();
     }
 
-    void ParticleMaps::processEvent(
+    void ParticleMaps::ProcessEvent(
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {

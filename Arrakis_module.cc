@@ -193,11 +193,11 @@ namespace arrakis
             mIonAndScintProducerLabel
         );
         // construct particle tree and primary data
-        if(mGenerateParticleTree) {
-            mParticleTree.ProcessEvent(mcParticles);
+        if(mGenerateParticleMaps) {
+            mParticleMaps.ProcessEvent(mcParticles);
         }
         if(mGeneratePrimaryData) {
-            mPrimaryData.ProcessEvent(mcParticles, mcEnergyDeposits);
+            mPrimaryData.ProcessEvent(mParticleMaps, mcParticles, mcEnergyDeposits);
         }
 
 
