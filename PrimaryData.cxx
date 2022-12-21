@@ -92,75 +92,80 @@ namespace arrakis
     )
     {
         ResetEvent();
-
-        for (auto particle : mcParticles)
+        if(mcParticles.size() != 0)
         {
-            if(particle.Mother() == 0) 
+            for (auto particle : mcParticles)
             {
-                mPrimaries.emplace_back(Primary(
-                    particle.TrackId(),
-                    particle.PdgCode(),
-                    particle.Process(),
-                    particle.E(),
-                    particle.Vx(),
-                    particle.Vy(),
-                    particle.Vz(),
-                    particle.EndProcess(),
-                    particle.EndE(),
-                    particle.EndX(),
-                    particle.EndY(),
-                    particle.EndZ()
-                ));
-            }
-            else
-            {
-                Int_t primary_index = FindPrimary(
-                    particle_maps.GetAncestorTrackID(particle.TrackId())
-                );
-                if(primary_index == -1) {
-                    continue;
+                if(particle.Mother() == 0) 
+                {
+                    mPrimaries.emplace_back(Primary(
+                        particle.TrackId(),
+                        particle.PdgCode(),
+                        particle.Process(),
+                        particle.E(),
+                        particle.Vx(),
+                        particle.Vy(),
+                        particle.Vz(),
+                        particle.EndProcess(),
+                        particle.EndE(),
+                        particle.EndX(),
+                        particle.EndY(),
+                        particle.EndZ()
+                    ));
                 }
-                mPrimaries[primary_index].AddDaughter(
-                    particle.TrackId(),
-                    particle_maps.GetAncestorLevel(particle.TrackId()),
-                    particle.Process(),
-                    particle.E(),
-                    particle.Vx(),
-                    particle.Vy(),
-                    particle.Vz(),
-                    particle.EndProcess(),
-                    particle.EndE(),
-                    particle.EndX(),
-                    particle.EndY(),
-                    particle.EndZ()
-                );
+                else
+                {
+                    Int_t primary_index = FindPrimary(
+                        particle_maps.GetAncestorTrackID(particle.TrackId())
+                    );
+                    if(primary_index == -1) {
+                        continue;
+                    }
+                    mPrimaries[primary_index].AddDaughter(
+                        particle.TrackId(),
+                        particle_maps.GetAncestorLevel(particle.TrackId()),
+                        particle.Process(),
+                        particle.E(),
+                        particle.Vx(),
+                        particle.Vy(),
+                        particle.Vz(),
+                        particle.EndProcess(),
+                        particle.EndE(),
+                        particle.EndX(),
+                        particle.EndY(),
+                        particle.EndZ()
+                    );
+                }
             }
         }
-        for(auto edep : mcEnergyDeposits)
+        if(mcEnergyDeposits.size() != 0)
         {
-            Int_t primary_index = FindPrimary(
-                edep.TrackID()
-            );
-            if(primary_index != -1) {
-                mPrimaries[primary_index].AddEdep(
-                    edep.Energy(),
-                    edep.MidPointX(),
-                    edep.MidPointY(),
-                    edep.MidPointZ()
-                );
-            }
-            else 
+            for(auto edep : mcEnergyDeposits)
             {
-                primary_index = FindPrimary(
-                    particle_maps.GetAncestorTrackID(edep.TrackID())
+                Int_t primary_index = FindPrimary(
+                    edep.TrackID()
                 );
-                mPrimaries[primary_index].AddDaughterEdep(
-                    edep.TrackID(),
-                    edep.Energy(),
-                    edep.MidPointX(),
-                    edep.MidPointY(),
-                    edep.MidPointZ()
-                );
+                if(primary_index != -1) {
+                    mPrimaries[primary_index].AddEdep(
+                        edep.Energy(),
+                        edep.MidPointX(),
+                        edep.MidPointY(),
+                        edep.MidPointZ()
+                    );
+                }
+                else 
+                {
+                    primary_index = FindPrimary(
+                        particle_maps.GetAncestorTrackID(edep.TrackID())
+                    );
+                    mPrimaries[primary_index].AddDaughterEdep(
+                        edep.TrackID(),
+                        edep.Energy(),
+                        edep.MidPointX(),
+                        edep.MidPointY(),
+                        edep.MidPointZ()
+                    );
+                }
             }
         }
         if(mSavePrimaryData)

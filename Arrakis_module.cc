@@ -250,6 +250,10 @@ namespace arrakis
                 mIonAndScintProducerLabel
             );
         }
+        else
+        {
+            std::cout << "No simb::EnergyDeposit objects in this event!" std::endl;
+        }
         if (event.getByLabel(
                 art::InputTag(
                     mSimChannelProducerLabel.label(), 
