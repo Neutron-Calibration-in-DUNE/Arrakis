@@ -81,7 +81,7 @@ namespace arrakis
         void ProcessEvent(
             ParticleMaps particle_maps,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<simb::EnergyDeposit>>& mcEnergyDeposits
+            const art::ValidHandle<std::vector<sim::EnergyDeposit>>& mcEnergyDeposits
         );
 
         Int_t FindPrimary(Int_t track_id);

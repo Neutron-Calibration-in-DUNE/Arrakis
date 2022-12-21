@@ -50,7 +50,7 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
-#include "ParticleTree.h"
+#include "ParticleMaps.h"
 
 namespace arrakis
 {
@@ -80,7 +80,7 @@ namespace arrakis
         // Detector Geometry Instance
         DetectorGeometry* mGeometry = DetectorGeometry::getInstance("ArrakisTrainingData");
         // Particle Tree
-        ParticleTree mParticleTree;
+        ParticleMaps mParticleMaps;
     };
 
     // constructor
