@@ -179,19 +179,20 @@ namespace arrakis
         auto const clockData(art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event));
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
         auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(mIonAndScintProducerLabel);
-        auto mcSimChannels = 
-            event.getValidHandle<std::vector<sim::SimChannel>>(
-                art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
-            );
-        art::Handle< std::vector<raw::RawDigit> > rawTPC;
-        event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
+        // auto mcSimChannels = 
+        //     event.getValidHandle<std::vector<sim::SimChannel>>(
+        //         art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
+        //     );
+        // art::Handle< std::vector<raw::RawDigit> > rawTPC;
+        // event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
 
         mParticleTree.processEvent(mcParticles);
-        mGammaTable.processEvent(
-            clockData,
-            mcParticles, 
-            mcEnergyDeposits
-        );
+
+        // mGammaTable.processEvent(
+        //     clockData,
+        //     mcParticles, 
+        //     mcEnergyDeposits
+        // );
 
         // mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
 
@@ -208,54 +209,54 @@ namespace arrakis
         //     );
         // }
 
-        if (mGenerateEvtLvlNInfo) {
-            mEvtLvlNeutronInfo.processEvent(
-                clockData,
-                mcSimChannels,
-                mcParticles,
-                rawTPC
-            );
-        }
+        // if (mGenerateEvtLvlNInfo) {
+        //     mEvtLvlNeutronInfo.processEvent(
+        //         clockData,
+        //         mcSimChannels,
+        //         mcParticles,
+        //         rawTPC
+        //     );
+        // }
 
-        if (mGenerateNCapInfo) {
-            bool storeEvent = mNeutronCapture.processEvent(mParticleTree, mcEnergyDeposits);
-            if(storeEvent){
-                // mArrayGenerator.processEvent(
-                //     clockData,
-                //     mcSimChannels,
-                //     rawTPC
-                // );
-                mSingleNeutronCalibration.processEvent(
-                    mParticleTree,
-                    mcSimChannels,
-                    rawTPC
-                );
-                mLabelGenerator.processEvent(
-                    mParticleTree,
-                    mGammaTable,
-                    mArrayGenerator
-                );
-            }
-        } else {
-            mSingleNeutronCalibration.processEvent(
-                mParticleTree,
-                mcSimChannels,
-                rawTPC
-            );
-            mLabelGenerator.processEvent(
-                mParticleTree,
-                mGammaTable,
-                mArrayGenerator
-            );
-        }
+        // if (mGenerateNCapInfo) {
+        //     bool storeEvent = mNeutronCapture.processEvent(mParticleTree, mcEnergyDeposits);
+        //     if(storeEvent){
+        //         // mArrayGenerator.processEvent(
+        //         //     clockData,
+        //         //     mcSimChannels,
+        //         //     rawTPC
+        //         // );
+        //         mSingleNeutronCalibration.processEvent(
+        //             mParticleTree,
+        //             mcSimChannels,
+        //             rawTPC
+        //         );
+        //         mLabelGenerator.processEvent(
+        //             mParticleTree,
+        //             mGammaTable,
+        //             mArrayGenerator
+        //         );
+        //     }
+        // } else {
+        //     mSingleNeutronCalibration.processEvent(
+        //         mParticleTree,
+        //         mcSimChannels,
+        //         rawTPC
+        //     );
+        //     mLabelGenerator.processEvent(
+        //         mParticleTree,
+        //         mGammaTable,
+        //         mArrayGenerator
+        //     );
+        // }
     }
     
     // end job
     void Arrakis::endJob()
     {
-        // save configuration parameters
-        mMetaTree->Branch("SimChannelProducerLabel", &mSimChannelProducerLabel);
-        mMetaTree->Branch("SimChannelInstanceProducerLabel", &mSimChannelInstanceProducerLabel);
+        // // save configuration parameters
+        // mMetaTree->Branch("SimChannelProducerLabel", &mSimChannelProducerLabel);
+        // mMetaTree->Branch("SimChannelInstanceProducerLabel", &mSimChannelInstanceProducerLabel);
 
         mMetaTree->Fill();
     }
