@@ -43,7 +43,7 @@ namespace arrakis
     }
 
     void ParticleMaps::ProcessEvent(
-        const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
+        const std::vector<simb::MCParticle>& mcParticles
     )
     {
         if (!mcParticles.isValid()) {

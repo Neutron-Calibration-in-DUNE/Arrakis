@@ -157,10 +157,10 @@ namespace arrakis
         void ProcessEvent(
             ParticleMaps particle_maps,
             detinfo::DetectorClocksData const& clockData,
-            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits,
-            const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
-            const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
+            const std::vector<simb::MCParticle>& mcParticles,
+            const std::vector<sim::SimEnergyDeposit>& mcEnergyDeposits,
+            const std::vector<sim::SimChannel>& mcChannels,
+            const std::vector<raw::RawDigit>& rawTPC
         );
 
         Int_t FindPrimary(Int_t track_id);
