@@ -68,7 +68,9 @@ namespace arrakis
         std::string volume_name;
         std::string material_name;
         double material;
+
         DetectorVolume() {}
+        
         DetectorVolume(VolumeType volumeType, std::string volumeName, 
             std::string materialName, double material)
         : volume_type(volumeType)
@@ -152,7 +154,7 @@ namespace arrakis
 
         // static method that controls access to the singleton
         // instance
-        static DetectorGeometry *getInstance(const std::string& name);
+        static DetectorGeometry* GetInstance(const std::string& name);
 
         std::string Name() const {
             return sName;

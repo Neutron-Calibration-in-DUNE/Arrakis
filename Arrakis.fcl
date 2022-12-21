@@ -5,8 +5,15 @@ Arrakis:
     module_type:    "Arrakis"
 
     # which products to generate
-    GenerateParticleMaps:   true
-    GeneratePrimaryData:    true
+    SaveMeta:       true
+    SaveGeometry:   true
+
+    SaveParticleMaps:          true
+    SavePrimaryData:           true
+    SavePrimaryDataEdeps:      true
+    SavePrimaryDataSimChannel: true
+    SavePrimaryDataRawTPC:     true
+
     Generate2DArrays:       false
     GenerateEvtLvlNInfo:    false
     GenerateNCapInfo:       false

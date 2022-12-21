@@ -79,11 +79,19 @@ namespace arrakis
     private:
         Parameters mParameters;
         // Set of configuration parameters
-        bool    mGenerateParticleMaps;
-        bool    mGeneratePrimaryData;
+        bool    mSaveMeta;
+        bool    mSaveGeometry;
+
+        bool    mSaveParticleMaps;
+        bool    mSavePrimaryData;
+        bool    mSavePrimaryDataEdeps;
+        bool    mSavePrimaryDataSimChannel;
+        bool    mSavePrimaryDataRawTPC;
+        
         bool    mGenerate2DArrays;
         bool    mGenerateEvtLvlNInfo;
         bool    mGenerateNCapInfo;
+        
         double  mADCThresholdUPlane;
         double  mADCThresholdVPlane;
         double  mADCThresholdZPlane;
@@ -106,11 +114,11 @@ namespace arrakis
         TTree *mMetaTree;
 
         // Detector Geometry Instance
-        DetectorGeometry* mGeometry = DetectorGeometry::getInstance("Arrakis");
+        DetectorGeometry* mGeometry;
         // Particle Tree
-        ParticleMaps mParticleMaps;
+        ParticleMaps* mParticleMaps;
         // Primary Data
-        PrimaryData mPrimaryData;
+        PrimaryData* mPrimaryData;
         //ArrayGenerator
         ArrayGenerator mArrayGenerator;
         // Gamma table
@@ -132,8 +140,15 @@ namespace arrakis
     , mParameters(config)
     {
         // Set various configuration parameters
-        mGenerateParticleMaps = mParameters().GenerateParticleMaps();
-        mGeneratePrimaryData =  mParameters().GeneratePrimaryData();
+        mSaveMeta = mParameters().SaveMeta();
+        mSaveGeometry = mParameters().SaveGeometry();
+
+        mSaveParticleMaps = mParameters().SaveParticleMaps();
+        mSavePrimaryData =  mParameters().SavePrimaryData();
+        mSavePrimaryDataEdeps =  mParameters().SavePrimaryDataEdeps();
+        mSavePrimaryDataSimChannel =  mParameters().SavePrimaryDataSimChannel();
+        mSavePrimaryDataRawTPC =  mParameters().SavePrimaryDataRawTPC();
+
         mGenerate2DArrays =     mParameters().Generate2DArrays();
         mGenerateEvtLvlNInfo =  mParameters().GenerateEvtLvlNInfo();
         mGenerateNCapInfo =     mParameters().GenerateNCapInfo();
@@ -149,38 +164,64 @@ namespace arrakis
         mTPCInputLabel =    mParameters().TPCInputLabel();
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
 
-        mMetaTree = mTFileService->make<TTree>("meta", "meta");
+        mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
-        mArrayGenerator.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
-        mSingleNeutronCalibration.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
+        mParticleMaps = new ParticleMaps(
+            mSaveParticleMaps
+        );
 
-        mEvtLvlNeutronInfo.setThreshold(mADCThresholdUPlane, mADCThresholdVPlane, mADCThresholdZPlane);
+        mPrimaryData = new PrimaryData(
+            mSavePrimaryData,
+            mSavePrimaryDataEdeps,
+            mSavePrimaryDataSimChannel,
+            mSavePrimaryDataRawTPC
+        );
+
+        if(mSaveMeta) {
+            mMetaTree = mTFileService->make<TTree>("meta", "meta");
+        }
+
+        mArrayGenerator.setThreshold(
+            mADCThresholdUPlane, 
+            mADCThresholdVPlane, 
+            mADCThresholdZPlane
+        );
+        mSingleNeutronCalibration.setThreshold(
+            mADCThresholdUPlane, 
+            mADCThresholdVPlane, 
+            mADCThresholdZPlane
+        );
+        mEvtLvlNeutronInfo.setThreshold(
+            mADCThresholdUPlane, 
+            mADCThresholdVPlane, 
+            mADCThresholdZPlane
+        );
         mEvtLvlNeutronInfo.setClockTicks(mClockTicks);
     }
 
     // begin job
     void Arrakis::beginJob()
     {
-        // Get geometry info and populate
-        // the TTree
-        mGeometry->FillTTree();
+        if(mSaveGeometry) {
+            mGeometry->FillTTree();
+        }
     }
 
     // analyze.unction
     void Arrakis::analyze(art::Event const& event)
     {
-        auto const clockData(
-            art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
-        );
         /**
          * @details  For each event, we will look through the various
          * available data products and send event info to the 
          * corresponding submodules that process them, starting with MCParticles
          */
+        auto const clockData(
+            art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
+        );
         art::Handle<std::vector<simb::MCParticle>> particleHandle;
         if (!event.getByLabel(mLArGeantProducerLabel, particleHandle))
         {
-            // if there are no particles.or the event truth, then
+            // if there are no particles for the event truth, then
             // we are in big trouble haha.  throw an exception
             throw cet::exception("Arrakis")
                 << " No simb::MCParticle objects in this event - "
@@ -192,25 +233,37 @@ namespace arrakis
         auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
             mIonAndScintProducerLabel
         );
+        auto mcSimChannels = 
+            event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
+                mSimChannelProducerLabel.label(), 
+                mSimChannelInstanceProducerLabel.label()
+            )
+        );
+        auto rawTPC = 
+            event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
+                mTPCInputLabel.label(), 
+                mTPCInstanceLabel.label()
+            )
+        );
+
         // construct particle tree and primary data
-        if(mGenerateParticleMaps) {
-            mParticleMaps.ProcessEvent(mcParticles);
-        }
-        if(mGeneratePrimaryData) {
-            mPrimaryData.ProcessEvent(mParticleMaps, mcParticles, mcEnergyDeposits);
-        }
+        mParticleMaps->ProcessEvent(mcParticles);
+        mPrimaryData->ProcessEvent(
+            mParticleMaps, 
+            mcParticles, 
+            clockData,
+            mcEnergyDeposits,
+            mcSimChannels,
+            rawTPC
+        );
+        
 
 
         
         
         
         
-        // auto mcSimChannels = 
-        //     event.getValidHandle<std::vector<sim::SimChannel>>(
-        //         art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label())
-        //     );
-        // art::Handle< std::vector<raw::RawDigit> > rawTPC;
-        // event.getByLabel(mTPCInputLabel.label(), mTPCInstanceLabel.label(), rawTPC); 
+         
 
         
 
@@ -280,11 +333,9 @@ namespace arrakis
     // end job
     void Arrakis::endJob()
     {
-        // // save configuration parameters
-        // mMetaTree->Branch("SimChannelProducerLabel", &mSimChannelProducerLabel);
-        // mMetaTree->Branch("SimChannelInstanceProducerLabel", &mSimChannelInstanceProducerLabel);
-
-        mMetaTree->Fill();
+        if(mSaveMeta) {
+            mMetaTree->Fill();
+        }
     }
 }
 DEFINE_ART_MODULE(arrakis::Arrakis)

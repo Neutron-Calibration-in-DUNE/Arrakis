@@ -9,17 +9,21 @@
 
 namespace arrakis
 {
-    ParticleMaps::ParticleMaps()
+    ParticleMaps::ParticleMaps(bool SaveParticleMaps)
+    : mSaveParticleMaps(SaveParticleMaps)
     {
-        mTTree = mTFileService->make<TTree>("particle_map", "particle_map");
-        mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
-        mTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
-        mTTree->Branch("pdg_map", &mPDGMap);
-        mTTree->Branch("parent_pdg_map", &mParentPDGMap);
-        mTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
-        mTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
-        mTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
-        mTTree->Branch("parent_energy_map", &mParticleEnergyMap);
+        if(mSaveParticleMaps) 
+        {
+            mTTree = mTFileService->make<TTree>("particle_map", "particle_map");
+            mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
+            mTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
+            mTTree->Branch("pdg_map", &mPDGMap);
+            mTTree->Branch("parent_pdg_map", &mParentPDGMap);
+            mTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
+            mTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
+            mTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
+            mTTree->Branch("parent_energy_map", &mParticleEnergyMap);
+        }
     }
 
     ParticleMaps::~ParticleMaps()
@@ -80,6 +84,8 @@ namespace arrakis
                 mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
             }
         }
-        mTTree->Fill();
+        if(mSaveParticleMaps) {
+            mTTree->Fill();
+        }
     }
 }

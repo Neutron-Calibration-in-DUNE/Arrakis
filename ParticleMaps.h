@@ -32,7 +32,7 @@ namespace arrakis
     class ParticleMaps
     {
     public:
-        ParticleMaps();
+        ParticleMaps(bool SaveParticleMaps);
         ~ParticleMaps();
 
         void ResetEvent();
@@ -50,6 +50,7 @@ namespace arrakis
         inline Int_t GetAncestorEnergy(Int_t trackID)   { return mAncestorEnergyMap[trackID]; }
 
     private:
+        bool mSaveParticleMaps = {false};
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
         

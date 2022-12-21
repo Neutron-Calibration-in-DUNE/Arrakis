@@ -26,16 +26,42 @@ namespace arrakis
 {
     struct Configuration
     {
-        fhicl::Atom<bool> GenerateParticleMaps
+        fhicl::Atom<bool> SaveMeta
         {
-            fhicl::Name("GenerateParticleMaps"),
-            fhicl::Comment("Whether to generate particle maps arrays.")
+            fhicl::Name("SaveMeta"),
+            fhicl::Comment("Whether to save meta info arrays.")
+        };
+        fhicl::Atom<bool> SaveGeometry
+        {
+            fhicl::Name("SaveGeometry"),
+            fhicl::Comment("Whether to save geometry arrays.")
+        };
+
+        fhicl::Atom<bool> SaveParticleMaps
+        {
+            fhicl::Name("SaveParticleMaps"),
+            fhicl::Comment("Whether to save particle maps arrays.")
         };
         
-        fhicl::Atom<bool> GeneratePrimaryData
+        fhicl::Atom<bool> SavePrimaryData
         {
-            fhicl::Name("GeneratePrimaryData"),
-            fhicl::Comment("Whether to generate primary data arrays.")
+            fhicl::Name("SavePrimaryData"),
+            fhicl::Comment("Whether to save primary data arrays.")
+        };
+        fhicl::Atom<bool> SavePrimaryDataEdeps
+        {
+            fhicl::Name("SavePrimaryDataEdeps"),
+            fhicl::Comment("Whether to save primary data arrays.")
+        };
+        fhicl::Atom<bool> SavePrimaryDataSimChannel
+        {
+            fhicl::Name("SavePrimaryDataSimChannel"),
+            fhicl::Comment("Whether to save primary data arrays.")
+        };
+        fhicl::Atom<bool> SavePrimaryDataRawTPC
+        {
+            fhicl::Name("SavePrimaryDataRawTPC"),
+            fhicl::Comment("Whether to save primary data arrays.")
         };
 
         fhicl::Atom<bool> Generate2DArrays

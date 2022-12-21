@@ -9,42 +9,57 @@
 
 namespace arrakis
 {
-    PrimaryData::PrimaryData()
+    PrimaryData::PrimaryData(
+        bool SavePrimaryData, bool SavePrimaryDataEdeps,
+        bool SavePrimaryDataSimChannel, bool SavePrimaryDataRawTPC
+    )
+    : mSavePrimaryData(SavePrimaryData)
+    , mSavePrimaryDataEdeps(SavePrimaryDataEdeps)
+    , mSavePrimaryDataSimChannel(SavePrimaryDataSimChannel)
+    , mSavePrimaryDataRawTPC(SavePrimaryDataRawTPC)
     {
-        mTTree = mTFileService->make<TTree>("primary_data", "primary_data");
-        mTTree->Branch("track_id", &mPrimary.track_id);
-        mTTree->Branch("pdg", &mPrimary.pdg);
-        mTTree->Branch("init_process", &mPrimary.init_process);
-        mTTree->Branch("init_energy", &mPrimary.init_energy);
-        mTTree->Branch("init_x", &mPrimary.init_x);
-        mTTree->Branch("init_y", &mPrimary.init_y);
-        mTTree->Branch("init_y", &mPrimary.init_z);
-        mTTree->Branch("end_process", &mPrimary.end_process);
-        mTTree->Branch("end_energy", &mPrimary.end_energy);
-        mTTree->Branch("end_x", &mPrimary.end_x);
-        mTTree->Branch("end_y", &mPrimary.end_y);
-        mTTree->Branch("end_y", &mPrimary.end_z);
-        mTTree->Branch("edep_energy", &mPrimary.edep_energy);
-        mTTree->Branch("edep_x", &mPrimary.edep_x);
-        mTTree->Branch("edep_y", &mPrimary.edep_y);
-        mTTree->Branch("edep_y", &mPrimary.edep_z);
-        mTTree->Branch("daughter_ids", &mPrimary.daughter_ids);
-        mTTree->Branch("daughter_level", &mPrimary.daughter_level);
-        mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
-        mTTree->Branch("daughter_init_energy", &mPrimary.daughter_init_energy);
-        mTTree->Branch("daughter_init_x", &mPrimary.daughter_init_x);
-        mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_y);
-        mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_z);
-        mTTree->Branch("daughter_end_process", &mPrimary.daughter_end_process);
-        mTTree->Branch("daughter_end_energy", &mPrimary.daughter_end_energy);
-        mTTree->Branch("daughter_end_x", &mPrimary.daughter_end_x);
-        mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_y);
-        mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_z);
-        mTTree->Branch("daughter_edep_ids", &mPrimary.daughter_edep_ids);
-        mTTree->Branch("daughter_edep_energy", &mPrimary.daughter_edep_energy);
-        mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
-        mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
-        mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_z);
+        if(SavePrimaryData) {
+            mTTree = mTFileService->make<TTree>("primary_data", "primary_data");
+            mTTree->Branch("track_id", &mPrimary.track_id);
+            mTTree->Branch("pdg", &mPrimary.pdg);
+            mTTree->Branch("init_process", &mPrimary.init_process);
+            mTTree->Branch("init_energy", &mPrimary.init_energy);
+            mTTree->Branch("init_x", &mPrimary.init_x);
+            mTTree->Branch("init_y", &mPrimary.init_y);
+            mTTree->Branch("init_y", &mPrimary.init_z);
+            mTTree->Branch("end_process", &mPrimary.end_process);
+            mTTree->Branch("end_energy", &mPrimary.end_energy);
+            mTTree->Branch("end_x", &mPrimary.end_x);
+            mTTree->Branch("end_y", &mPrimary.end_y);
+            mTTree->Branch("end_y", &mPrimary.end_z);
+
+            mTTree->Branch("daughter_ids", &mPrimary.daughter_ids);
+            mTTree->Branch("daughter_level", &mPrimary.daughter_level);
+            mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
+            mTTree->Branch("daughter_init_energy", &mPrimary.daughter_init_energy);
+            mTTree->Branch("daughter_init_x", &mPrimary.daughter_init_x);
+            mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_y);
+            mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_z);
+            mTTree->Branch("daughter_end_process", &mPrimary.daughter_end_process);
+            mTTree->Branch("daughter_end_energy", &mPrimary.daughter_end_energy);
+            mTTree->Branch("daughter_end_x", &mPrimary.daughter_end_x);
+            mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_y);
+            mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_z);
+
+            if(mSavePrimaryDataEdeps)
+            {
+                mTTree->Branch("edep_energy", &mPrimary.edep_energy);
+                mTTree->Branch("edep_x", &mPrimary.edep_x);
+                mTTree->Branch("edep_y", &mPrimary.edep_y);
+                mTTree->Branch("edep_y", &mPrimary.edep_z);
+                
+                mTTree->Branch("daughter_edep_ids", &mPrimary.daughter_edep_ids);
+                mTTree->Branch("daughter_edep_energy", &mPrimary.daughter_edep_energy);
+                mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
+                mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
+                mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_z);
+            }
+        }
     }
 
     PrimaryData::~PrimaryData()
@@ -69,8 +84,11 @@ namespace arrakis
 
     void PrimaryData::ProcessEvent(
         ParticleMaps particle_maps,
+        detinfo::DetectorClocksData const& clockData,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-        const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+        const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits,
+        const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
+        const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
     )
     {
         if (!mcParticles.isValid()) {
@@ -148,10 +166,13 @@ namespace arrakis
                 );
             }
         }
-        for(size_t ii = 0; ii < mPrimaries.size(); ii++)
+        if(mSavePrimaryData)
         {
-            mPrimary = mPrimaries[ii];
-            mTTree->Fill();
+            for(size_t ii = 0; ii < mPrimaries.size(); ii++)
+            {
+                mPrimary = mPrimaries[ii];
+                mTTree->Fill();
+            }
         }
     }
 }

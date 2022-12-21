@@ -143,19 +143,30 @@ namespace arrakis
     class PrimaryData
     {
     public:
-        PrimaryData();
+        PrimaryData(
+            bool SavePrimaryData, bool SavePrimaryDataEdeps,
+            bool SavePrimaryDataSimChannel, bool SavePrimaryDataRawTPC
+        );
         ~PrimaryData();
 
         void ResetEvent();
         void ProcessEvent(
             ParticleMaps particle_maps,
+            detinfo::DetectorClocksData const& clockData,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits,
+            const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
+            const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
         );
 
         Int_t FindPrimary(Int_t track_id);
 
     private:
+        bool mSavePrimaryData = {false};
+        bool mSavePrimaryDataEdeps = {false};
+        bool mSavePrimaryDataSimChannel = {false};
+        bool mSavePrimaryDataRawTPC = {false};
+
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
 
