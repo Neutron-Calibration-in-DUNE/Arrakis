@@ -228,10 +228,10 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
-        art::ValidHandle<std::vector<simb::MCParticle>> mcParticles;
-        art::ValidHandle<std::vector<sim::SimEnergyDeposit>> mcEnergyDeposits;
-        art::ValidHandle<std::vector<sim::SimChannel>> mcChannels;
-        art::ValidHandle<std::vector<raw::RawDigit>> rawDigit;
+        art::ValidHandle<std::vector<simb::MCParticle>>         mcParticles;
+        art::ValidHandle<std::vector<sim::SimEnergyDeposit>>    mcEnergyDeposits;
+        art::ValidHandle<std::vector<sim::SimChannel>>          mcSimChannels;
+        art::ValidHandle<std::vector<raw::RawDigit>>            rawDigit;
 
         if (event.getByLabel(mLArGeantProducerLabel, mcParticleHandle)) 
         {
