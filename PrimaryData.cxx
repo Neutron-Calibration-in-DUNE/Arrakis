@@ -83,7 +83,7 @@ namespace arrakis
     }
 
     void PrimaryData::ProcessEventMC(
-        ParticleMaps particle_maps,
+        ParticleMaps* particle_maps,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
@@ -115,14 +115,14 @@ namespace arrakis
             else
             {
                 Int_t primary_index = FindPrimary(
-                    particle_maps.GetAncestorTrackID(particle.TrackId())
+                    particle_maps->GetAncestorTrackID(particle.TrackId())
                 );
                 if(primary_index == -1) {
                     continue;
                 }
                 mPrimaries[primary_index].AddDaughter(
                     particle.TrackId(),
-                    particle_maps.GetAncestorLevel(particle.TrackId()),
+                    particle_maps->GetAncestorLevel(particle.TrackId()),
                     particle.Process(),
                     particle.E(),
                     particle.Vx(),
@@ -152,7 +152,7 @@ namespace arrakis
             else 
             {
                 primary_index = FindPrimary(
-                    particle_maps.GetAncestorTrackID(edep.TrackID())
+                    particle_maps->GetAncestorTrackID(edep.TrackID())
                 );
                 mPrimaries[primary_index].AddDaughterEdep(
                     edep.TrackID(),
@@ -166,14 +166,14 @@ namespace arrakis
     }
 
     void PrimaryData::ProcessEventDetectorSim(
-        ParticleMaps particle_maps,
+        ParticleMaps* particle_maps,
         detinfo::DetectorClocksData const& clockData,
         const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
         const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
     )
     {
     }
-    
+
     void PrimaryData::FillTTree()
     {
         if(mSavePrimaryData)

@@ -155,12 +155,12 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEventMC(
-            ParticleMaps particle_maps,
+            ParticleMaps* particle_maps,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
         void ProcessEventDetectorSim(
-            ParticleMaps particle_maps,
+            ParticleMaps* particle_maps,
             detinfo::DetectorClocksData const& clockData,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
             const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
