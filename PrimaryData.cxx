@@ -24,6 +24,10 @@ namespace arrakis
         mTTree->Branch("end_x", &mPrimary.end_x);
         mTTree->Branch("end_y", &mPrimary.end_y);
         mTTree->Branch("end_y", &mPrimary.end_z);
+        mTTree->Branch("edep_energy", &mPrimary.edep_energy);
+        mTTree->Branch("edep_x", &mPrimary.edep_x);
+        mTTree->Branch("edep_y", &mPrimary.edep_y);
+        mTTree->Branch("edep_y", &mPrimary.edep_z);
         mTTree->Branch("daughter_ids", &mPrimary.daughter_ids);
         mTTree->Branch("daughter_level", &mPrimary.daughter_level);
         mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
@@ -93,7 +97,9 @@ namespace arrakis
                 Int_t primary_index = FindPrimary(
                     particle_maps.GetAncestorTrackID(particle.TrackId())
                 );
-                std::cout << primary_index << "," << particle_maps.GetAncestorTrackID(particle.TrackId()) << std::endl;
+                if(primary_index == -1) {
+                    continue;
+                }
                 mPrimaries[primary_index].AddDaughter(
                     particle.TrackId(),
                     particle_maps.GetAncestorLevel(particle.TrackId()),
@@ -109,6 +115,21 @@ namespace arrakis
                     particle.EndZ()
                 );
             }
+        }
+        for(auto edep : *mcEnergyDeposits)
+        {
+            Int_t primary_index = FindPrimary(
+                edep.TrackID()
+            );
+            if(primary_index == -1) {
+                continue;
+            }
+            mPrimaries[primary_index].AddEdep(
+                edep.Energy(),
+                edep.MidPointX(),
+                edep.MidPointY(),
+                edep.MidPointZ()
+            );
         }
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)
         {

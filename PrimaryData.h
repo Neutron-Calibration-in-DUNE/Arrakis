@@ -47,6 +47,11 @@ namespace arrakis
         Double_t end_y = {0};
         Double_t end_z = {0};
 
+        std::vector<Double_t> edep_energy = {};
+        std::vector<Double_t> edep_x = {};
+        std::vector<Double_t> edep_y = {};
+        std::vector<Double_t> edep_z = {};
+
         std::vector<Int_t> daughter_ids = {};
         std::vector<Int_t> daughter_level = {};
 
@@ -82,6 +87,17 @@ namespace arrakis
         , end_y(_end_y)
         , end_z(_end_z)
         {}
+
+        void AddEdep(
+            Double_t energy, 
+            Double_t x, Double_t y, Double_t z
+        )
+        {
+            edep_energy.emplace_back(energy);
+            edep_x.emplace_back(x);
+            edep_y.emplace_back(y);
+            edep_z.emplace_back(z);
+        }
 
         void AddDaughter(
             Int_t track_id, Int_t level,
