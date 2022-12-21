@@ -77,7 +77,7 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
-#include "ParticleTree.h"
+#include "ParticleMaps.h"
 #include "ArrayGenerator.h"
 #include "GammaTable.h"
 
@@ -102,8 +102,8 @@ namespace arrakis
         void ResetSingleNeutron();
 
         void processEvent(
-            ParticleTree particleTree,
-            // arrakis::ParticleTree const& ParticleMaps,
+            ParticleMaps mParticleMaps,
+            // arrakis::ParticleMaps const& ParticleMaps,
             // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
             const art::Handle<std::vector<raw::RawDigit>>& rawTPC

@@ -46,7 +46,7 @@ namespace arrakis
     }
 
     bool NeutronCapture::processEvent(
-        ParticleTree particleTree,
+        ParticleMaps particle_maps,
         // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
@@ -79,10 +79,10 @@ namespace arrakis
             for (auto energyDeposit : *mcEnergyDeposits)
             {
                 if(
-                    // particleTree.GetAncestorPDG(energyDeposit.TrackID()) == 2112 &&
-                    // particleTree.GetParentPDG(energyDeposit.TrackID()) != 2112 &&
-                    std::abs( particleTree.GetPDGCode(energyDeposit.TrackID()) ) == 11 ||
-                    particleTree.GetPDGCode(energyDeposit.TrackID()) == 22
+                    // ParticleMaps.GetAncestorPDG(energyDeposit.TrackID()) == 2112 &&
+                    // ParticleMaps.GetParentPDG(energyDeposit.TrackID()) != 2112 &&
+                    std::abs( ParticleMaps.GetPDGCode(energyDeposit.TrackID()) ) == 11 ||
+                    ParticleMaps.GetPDGCode(energyDeposit.TrackID()) == 22
                 )
                 {
                     if (energyDeposit.StartX() <= 0.0) {
