@@ -96,7 +96,7 @@ namespace arrakis
         }
         ResetEvent();
 
-        for (auto particle : *mcParticles)
+        for (auto particle : mcParticles)
         {
             if(particle.Mother() == 0) 
             {
@@ -139,7 +139,7 @@ namespace arrakis
                 );
             }
         }
-        for(auto edep : *mcEnergyDeposits)
+        for(auto edep : mcEnergyDeposits)
         {
             Int_t primary_index = FindPrimary(
                 edep.TrackID()

@@ -52,14 +52,14 @@ namespace arrakis
         
         ResetEvent();
 
-        for (auto particle : *mcParticles)
+        for (auto particle : mcParticles)
         {
             mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mPDGMap[particle.TrackId()] = particle.PdgCode();
 
             mParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
         }
-        for (auto particle : *mcParticles)
+        for (auto particle : mcParticles)
         {
             Int_t mother = particle.Mother();
             Int_t track_id = particle.TrackId();
