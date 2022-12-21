@@ -46,10 +46,6 @@ namespace arrakis
         const std::vector<simb::MCParticle>& mcParticles
     )
     {
-        if (!mcParticles.isValid()) {
-            return;
-        }
-        
         ResetEvent();
 
         for (auto particle : mcParticles)

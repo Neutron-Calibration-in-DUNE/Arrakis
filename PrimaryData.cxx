@@ -91,9 +91,6 @@ namespace arrakis
         const std::vector<raw::RawDigit>& rawTPC
     )
     {
-        if (!mcParticles.isValid()) {
-            return;
-        }
         ResetEvent();
 
         for (auto particle : mcParticles)
