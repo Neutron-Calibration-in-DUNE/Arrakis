@@ -21,6 +21,7 @@
 // LArSoft includes
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
+#include "lardataobj/Simulation/SimEnergyDeposit.h"
 
 // necessary ROOT libraries
 #include <TTree.h>

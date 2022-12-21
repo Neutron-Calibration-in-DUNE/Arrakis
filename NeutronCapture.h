@@ -45,7 +45,7 @@
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 #include "larsim/Utils/TruthMatchUtils.h"
 
-#include "ParticleTree.h"
+#include "ParticleMaps.h"
 #include "ArrayGenerator.h"
 #include "GammaTable.h"
 #include "Configuration.h"
@@ -75,7 +75,7 @@ namespace arrakis
         void setBoundingBoxType(std::string volumeType);
 
         bool processEvent(
-            ParticleTree particleTree,
+            ParticleMaps mParticleMaps,
             // const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
             const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
