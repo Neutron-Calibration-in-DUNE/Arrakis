@@ -11,8 +11,9 @@ Arrakis:
     SaveParticleMaps:          true
     SavePrimaryData:           true
     SavePrimaryDataEdeps:      true
-    SavePrimaryDataSimChannel: true
     SavePrimaryDataRawTPC:     true
+
+    GenerateSoloPointCloudData: true
 
     Generate2DArrays:       false
     GenerateEvtLvlNInfo:    false

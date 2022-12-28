@@ -14,7 +14,7 @@ namespace arrakis
     {
         if(mSaveParticleMaps) 
         {
-            mTTree = mTFileService->make<TTree>("particle_map", "particle_map");
+            mTTree = mTFileService->make<TTree>("particle_maps", "particle_maps");
             mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
             mTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
             mTTree->Branch("pdg_map", &mPDGMap);

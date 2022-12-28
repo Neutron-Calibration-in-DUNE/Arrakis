@@ -15,7 +15,6 @@ namespace arrakis
     )
     : mSavePrimaryData(SavePrimaryData)
     , mSavePrimaryDataEdeps(SavePrimaryDataEdeps)
-    , mSavePrimaryDataSimChannel(SavePrimaryDataSimChannel)
     , mSavePrimaryDataRawTPC(SavePrimaryDataRawTPC)
     {
         if(SavePrimaryData) {
@@ -48,16 +47,32 @@ namespace arrakis
 
             if(mSavePrimaryDataEdeps)
             {
+                mTTree->Branch("total_edep_energy", &mPrimary.total_edep_energy);
                 mTTree->Branch("edep_energy", &mPrimary.edep_energy);
+                mTTree->Branch("edep_volume", &mPrimary.edep_volume);
+                mTTree->Branch("edep_material", &mPrimary.edep_material);
                 mTTree->Branch("edep_x", &mPrimary.edep_x);
                 mTTree->Branch("edep_y", &mPrimary.edep_y);
                 mTTree->Branch("edep_y", &mPrimary.edep_z);
                 
+                mTTree->Branch("total_daughter_edep_energy", &mPrimary.total_daughter_edep_energy);
                 mTTree->Branch("daughter_edep_ids", &mPrimary.daughter_edep_ids);
                 mTTree->Branch("daughter_edep_energy", &mPrimary.daughter_edep_energy);
+                mTTree->Branch("daughter_edep_volume", &mPrimary.daughter_edep_volume);
+                mTTree->Branch("daughter_edep_material", &mPrimary.daughter_edep_material);
                 mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
                 mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
                 mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_z);
+            }
+
+            if(mSavePrimaryDataRawTPC)
+            {
+                mTTree->Branch("det_track_id", &mPrimary.det_track_id);
+                mTTree->Branch("det_energy_fraction", &mPrimary.det_energy_fraction);
+                mTTree->Branch("det_energy", &mPrimary.det_energy);
+                mTTree->Branch("det_channel", &mPrimary.det_channel);
+                mTTree->Branch("det_tdc", &mPrimary.det_channel);
+                mTTree->Branch("det_adc", &mPrimary.det_adc);
             }
         }
     }
@@ -75,6 +90,51 @@ namespace arrakis
             }
         }
         return -1;
+    }
+
+    void PrimaryData::FindDetectorProcess(
+        detinfo::DetectorClocksData const& clockData,
+        Int_t primary_index, Int_t track_id, 
+        Double_t energy, unsigned int tdc, 
+    )
+    {
+        Int_t edep_index = -1;
+        std::string process = "not_found";
+        if(mPrimaries[primary_index].track_id == track_id)
+        {
+            for(size_t ii = 0; ii < mPrimaries[primary_index].edep_energy.size(); ii++)
+            {
+                if(
+                    mPrimaries[primary_index].edep_energy[ii] == energy &&
+                    clockData.TPCG4Time2TDC(mPrimaries[primary_index].edep_t[ii]) == tdc
+                ) 
+                {
+                    edep_index = ii;
+                    process = mPrimaries[primary_index].edep_process[ii]
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for(size_t ii == 0; ii < mPrimaries[primary_index].daughter_edep_energy.size(); ii++)
+            {
+                if(
+                    mPrimaries[primary_index].daughter_edep_ids[ii] == id &&
+                    mPrimaries[primary_index].daughter_edep_energy[ii] == energy &&
+                    clockData.TPCG4Time2TDC(mPrimaries[primary_index].daughter_edep_t[ii]) == tdc
+                ) 
+                {
+                    edep_index = ii;
+                    process = mPrimaries[primary_index].daughter_edep_process[ii];
+                    break;
+                }
+            }
+        }
+        mPrimaries[primary_index].det_edep.emplace_back(edep_index);
+        mPrimaries[primary_index].det_process.emplace_back(
+            process
+        );
     }
 
     void PrimaryData::ResetEvent()
@@ -141,9 +201,18 @@ namespace arrakis
             Int_t primary_index = FindPrimary(
                 edep.TrackID()
             );
-            if(primary_index != -1) {
+            auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
+                edep.MidPointX(),
+                edep.MidPointY(),
+                edep.MidPointZ()
+            )
+            if(primary_index != -1) 
+            {
                 mPrimaries[primary_index].AddEdep(
                     edep.Energy(),
+                    volume.volume_name,
+                    volume.material_name,
+                    edep.Time(),
                     edep.MidPointX(),
                     edep.MidPointY(),
                     edep.MidPointZ()
@@ -157,6 +226,9 @@ namespace arrakis
                 mPrimaries[primary_index].AddDaughterEdep(
                     edep.TrackID(),
                     edep.Energy(),
+                    volume.volume_name,
+                    volume.material_name,
+                    edep.Time(),
                     edep.MidPointX(),
                     edep.MidPointY(),
                     edep.MidPointZ()
@@ -165,13 +237,64 @@ namespace arrakis
         }
     }
 
-    void PrimaryData::ProcessEventDetectorSim(
+    void PrimaryData::ProcessEventDetectorSimulation(
         ParticleMaps* particle_maps,
         detinfo::DetectorClocksData const& clockData,
         const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
         const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
     )
     {
+        for(auto digit : *rawTPC)
+        {
+            // Get the channel number for this digit, number of samples,
+            // and the pedestal value so that we can uncompress and
+            // remove the pedestal.
+            raw::ChannelID_t channel = digit.Channel();
+            int num_samples = digit.Samples();
+            int pedestal = (int)digit.GetPedestal();
+            
+            // uncompress the digits and remove the pedestal
+            std::vector<short> uncompressed(num_samples);
+            raw::Uncompress(
+                digit.ADCs(), uncompressed, 
+                pedestal, digit.Compression()
+            );
+            for (auto uncomp : uncompressed) {
+                uncompressed -= pedestal;
+            }
+            auto truth_channel = mcChannels[channel]; 
+
+            for(unsigned int l=0; l < num_samples; l++) 
+            {
+                auto const& trackIDs = truth_channel.TrackIDEs(l, l);
+                if (trackIDs.size() == 0) { 
+                    continue; 
+                }
+
+                for (auto track : trackIDs)
+                {
+                    Int_t primary_index = FindPrimary(
+                        particle_maps.GetAncestorTrackID(track.trackID)
+                    );
+                    if(primary_index != -1) 
+                    {
+                        mPrimaries[primary_index].AddDetectorSimulation(
+                            track.trackID,
+                            track.energyFrac,
+                            track.energy,
+                            l,
+                            channel,
+                            (Int_t) (std::abs(uncompressed_pedestal[l]))
+                        );
+                        FindDetectorProcess(
+                            clockData, 
+                            primary_index, track.trackID, 
+                            track.energy, l
+                        ); 
+                    }  
+                }
+            }
+        }
     }
 
     void PrimaryData::FillTTree()

@@ -96,17 +96,17 @@ namespace arrakis
             mVolumeTypeMap[mGeometryCore->VolumeName(TPC.GetCenter())] = VolumeType::TPC;
         }
         // find the total TPC and total Active TPC volumes
-        findTotalTPCBoxes();
+        FindTotalTPCBoxes();
         mTotalTPCMass = mGeometryCore->TotalMass();    
     }
 
     // get volume information for a point
-    DetectorVolume DetectorGeometry::getVolume(std::vector<double> position)
+    DetectorVolume DetectorGeometry::GetVolume(std::vector<double> position)
     {
         return getVolume(position[0], position[1], position[2]);
     }
     // get volume information for a point
-    DetectorVolume DetectorGeometry::getVolume(double x, double y, double z)
+    DetectorVolume DetectorGeometry::GetVolume(double x, double y, double z)
     {
         mMaterialPOI.SetCoordinates(x,y,z);
 
@@ -124,7 +124,7 @@ namespace arrakis
     }
     
     // get total tpc volume information
-    void DetectorGeometry::findTotalTPCBoxes()
+    void DetectorGeometry::FindTotalTPCBoxes()
     {
         double x_min = 0; double x_max = 0;
         double y_min = 0; double y_max = 0;

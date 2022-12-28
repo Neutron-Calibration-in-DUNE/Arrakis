@@ -51,7 +51,12 @@ namespace arrakis
         Double_t end_y = {0};
         Double_t end_z = {0};
 
+        Double_t total_edep_energy = {0};
         std::vector<Double_t> edep_energy = {};
+        std::vector<std::string> edep_process = {};
+        std::vector<std::string> edep_volume = {};
+        std::vector<std::string> edep_material = {};
+        std::vector<Double_t> edep_t = {};
         std::vector<Double_t> edep_x = {};
         std::vector<Double_t> edep_y = {};
         std::vector<Double_t> edep_z = {};
@@ -71,11 +76,26 @@ namespace arrakis
         std::vector<Double_t> daughter_end_y = {};
         std::vector<Double_t> daughter_end_z = {};
 
+        Double_t total_daughter_edep_energy = {0};
         std::vector<Int_t> daughter_edep_ids = {};
         std::vector<Double_t> daughter_edep_energy = {};
+        std::vector<std::string> daughter_edep_process = {};
+        std::vector<std::string> daughter_edep_volume = {};
+        std::vector<std::string> daughter_edep_material = {};
+        std::vector<Double_t> daughter_edep_t = {};
         std::vector<Double_t> daughter_edep_x = {};
         std::vector<Double_t> daughter_edep_y = {};
         std::vector<Double_t> daughter_edep_z = {};
+
+        std::vector<Int_t> det_track_id = {};
+        std::vector<Double_t> det_energy_fraction = {};
+        std::vector<Double_t> det_energy = {};
+        std::vector<Int_t> det_channel = {};
+        std::vector<Int_t> det_tdc = {};
+        std::vector<Int_t> det_adc = {};
+        std::vector<Int_t> det_edep = {};
+        std::vector<std::string> det_process = {};
+
 
         Primary(){}
         Primary(
@@ -100,13 +120,18 @@ namespace arrakis
 
         void AddEdep(
             Double_t energy, 
+            std::string volume, std::string material,
             Double_t x, Double_t y, Double_t z
         )
         {
             edep_energy.emplace_back(energy);
+            edep_volume.emplace_back(volume);
+            edep_material.emplace_back(material);
+            edep_t.emplace_back(t);
             edep_x.emplace_back(x);
             edep_y.emplace_back(y);
             edep_z.emplace_back(z);
+            total_edep_energy += energy;
         }
 
         void AddDaughter(
@@ -133,14 +158,36 @@ namespace arrakis
 
         void AddDaughterEdep(
             Int_t track_id, Double_t energy, 
-            Double_t x, Double_t y, Double_t z
+            std::string volume, std::string material,
+            Double_t t, Double_t x, Double_t y, Double_t z
         )
         {
             daughter_edep_ids.emplace_back(track_id);
             daughter_edep_energy.emplace_back(energy);
+            daughter_edep_volume.emplace_back(volume);
+            daughter_edep_material.emplace_back(material);
+            daughter_edep_t.emplace_back(t);
             daughter_edep_x.emplace_back(x);
             daughter_edep_y.emplace_back(y);
             daughter_edep_z.emplace_back(z);
+            total_daughter_edep_energy += energy;
+        }
+
+        void AddDetectorSimulation(
+            Int_t track_id,
+            Double_t energy_frac,
+            Double_t energy,
+            Int_t channel,
+            Int_t tdc,
+            Int_t adc
+        )
+        {
+            det_track_id.emplace_back(track_id);
+            det_energy_fraction.emplace_back(energy_frac);
+            det_energy.emplace_back(energy);
+            det_channel.emplace_back(channel);
+            det_tdc.emplace_back(tdc);
+            det_adc.emplace_back(adc);
         }
     };
 
@@ -149,7 +196,7 @@ namespace arrakis
     public:
         PrimaryData(
             bool SavePrimaryData, bool SavePrimaryDataEdeps,
-            bool SavePrimaryDataSimChannel, bool SavePrimaryDataRawTPC
+            bool SavePrimaryDataRawTPC
         );
         ~PrimaryData();
 
@@ -167,11 +214,19 @@ namespace arrakis
         );
         void FillTTree();
         Int_t FindPrimary(Int_t track_id);
+        void FindEnergyDepositionProcess(
+            Int_t primary_index, Int_t track_id,
+            Double_t energy, Double_t t
+        );
+        void FindDetectorProcess(
+            detinfo::DetectorClocksData const& clockData,
+            Int_t primary_index, Int_t track_id, 
+            Double_t energy, unsigned int tdc
+        );
 
     private:
         bool mSavePrimaryData = {false};
         bool mSavePrimaryDataEdeps = {false};
-        bool mSavePrimaryDataSimChannel = {false};
         bool mSavePrimaryDataRawTPC = {false};
 
         art::ServiceHandle<art::TFileService> mTFileService;

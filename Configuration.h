@@ -53,11 +53,6 @@ namespace arrakis
             fhicl::Name("SavePrimaryDataEdeps"),
             fhicl::Comment("Whether to save primary data arrays.")
         };
-        fhicl::Atom<bool> SavePrimaryDataSimChannel
-        {
-            fhicl::Name("SavePrimaryDataSimChannel"),
-            fhicl::Comment("Whether to save primary data arrays.")
-        };
         fhicl::Atom<bool> SavePrimaryDataRawTPC
         {
             fhicl::Name("SavePrimaryDataRawTPC"),

@@ -56,6 +56,7 @@
 #include "DetectorGeometry.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
+#include "SoloPointCloudGenerator.h"
 
 #include "ArrayGenerator.h"
 #include "GammaTable.h"
@@ -89,8 +90,9 @@ namespace arrakis
         bool    mSaveParticleMaps;
         bool    mSavePrimaryData;
         bool    mSavePrimaryDataEdeps;
-        bool    mSavePrimaryDataSimChannel;
         bool    mSavePrimaryDataRawTPC;
+
+        bool    mGenerateSoloPointCloudData;
         
         bool    mGenerate2DArrays;
         bool    mGenerateEvtLvlNInfo;
@@ -123,6 +125,9 @@ namespace arrakis
         ParticleMaps* mParticleMaps;
         // Primary Data
         PrimaryData* mPrimaryData;
+        // SoloPointCloudGenerator
+        SoloPointCloudGenerator mSoloPointCloudGenerator;
+
         //ArrayGenerator
         ArrayGenerator mArrayGenerator;
         // Gamma table
@@ -150,16 +155,10 @@ namespace arrakis
         mSaveParticleMaps = mParameters().SaveParticleMaps();
         mSavePrimaryData =  mParameters().SavePrimaryData();
         mSavePrimaryDataEdeps =  mParameters().SavePrimaryDataEdeps();
-        mSavePrimaryDataSimChannel =  mParameters().SavePrimaryDataSimChannel();
         mSavePrimaryDataRawTPC =  mParameters().SavePrimaryDataRawTPC();
 
-        mGenerate2DArrays =     mParameters().Generate2DArrays();
-        mGenerateEvtLvlNInfo =  mParameters().GenerateEvtLvlNInfo();
-        mGenerateNCapInfo =     mParameters().GenerateNCapInfo();
-        mADCThresholdUPlane =   mParameters().ADCThresholdUPlane();
-        mADCThresholdVPlane =   mParameters().ADCThresholdVPlane();
-        mADCThresholdZPlane =   mParameters().ADCThresholdZPlane();
-        mClockTicks =           mParameters().ClockTicks();
+        // generators
+        mGenerateSoloPointCloudData = mParameters().GenerateSoloPointCloudData();
 
         mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
         mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
@@ -177,30 +176,14 @@ namespace arrakis
         mPrimaryData = new PrimaryData(
             mSavePrimaryData,
             mSavePrimaryDataEdeps,
-            mSavePrimaryDataSimChannel,
             mSavePrimaryDataRawTPC
         );
+
+        mSoloPointCloudGenerator = new SoloPointCloudGenerator();
 
         if(mSaveMeta) {
             mMetaTree = mTFileService->make<TTree>("meta", "meta");
         }
-
-        mArrayGenerator.setThreshold(
-            mADCThresholdUPlane, 
-            mADCThresholdVPlane, 
-            mADCThresholdZPlane
-        );
-        mSingleNeutronCalibration.setThreshold(
-            mADCThresholdUPlane, 
-            mADCThresholdVPlane, 
-            mADCThresholdZPlane
-        );
-        mEvtLvlNeutronInfo.setThreshold(
-            mADCThresholdUPlane, 
-            mADCThresholdVPlane, 
-            mADCThresholdZPlane
-        );
-        mEvtLvlNeutronInfo.setClockTicks(mClockTicks);
     }
 
     // begin job
@@ -242,14 +225,14 @@ namespace arrakis
         );
 
         if(
-            event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
-                mSimChannelProducerLabel.label(), 
-                mSimChannelInstanceProducerLabel.label()
-            )) &&
-            event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
-                mTPCInputLabel.label(), 
-                mTPCInstanceLabel.label()
-            ))
+            event.getByLabel(
+                art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label()), 
+                mcSimChannelHandle
+            ) &&
+            event.getByLabel(
+                art::InputTag(mTPCInputLabel.label(), mTPCInstanceLabel.label()), 
+                mcRawDigitHandle
+            )
         )
         {
             auto mcSimChannels = 
@@ -272,79 +255,17 @@ namespace arrakis
             );
         }
         mPrimaryData->FillTTree();
+        /**
+         * @brief Now that everything is collected, we pass the data to 
+         * the various classes which construct training data.
+         */
+        if(mGenerateSoloPointCloudData) {
+            mSoloPointCloudGenerator->ProcessEvevnt(
+                mParticleMaps,
+                mPrimaryData
+            );
+        }
         
-        
-
-
-        
-        
-        
-        
-         
-
-        
-
-        // mGammaTable.processEvent(
-        //     clockData,
-        //     mcParticles, 
-        //     mcEnergyDeposits
-        // );
-
-        // mSingleNeutronCalibration.processEvent(mParticleTree, mcEnergyDeposits);
-
-        // if (mGenerate2DArrays) {
-        //     mArrayGenerator.processEvent(
-        //         clockData,
-        //         mcSimChannels,
-        //         rawDigit
-        //     );
-        //     mLabelGenerator.processEvent(
-        //         mParticleTree,
-        //         mGammaTable,
-        //         mArrayGenerator
-        //     );
-        // }
-
-        // if (mGenerateEvtLvlNInfo) {
-        //     mEvtLvlNeutronInfo.processEvent(
-        //         clockData,
-        //         mcSimChannels,
-        //         mcParticles,
-        //         rawDigit
-        //     );
-        // }
-
-        // if (mGenerateNCapInfo) {
-        //     bool storeEvent = mNeutronCapture.processEvent(mParticleTree, mcEnergyDeposits);
-        //     if(storeEvent){
-        //         // mArrayGenerator.processEvent(
-        //         //     clockData,
-        //         //     mcSimChannels,
-        //         //     rawDigit
-        //         // );
-        //         mSingleNeutronCalibration.processEvent(
-        //             mParticleTree,
-        //             mcSimChannels,
-        //             rawDigit
-        //         );
-        //         mLabelGenerator.processEvent(
-        //             mParticleTree,
-        //             mGammaTable,
-        //             mArrayGenerator
-        //         );
-        //     }
-        // } else {
-        //     mSingleNeutronCalibration.processEvent(
-        //         mParticleTree,
-        //         mcSimChannels,
-        //         rawDigit
-        //     );
-        //     mLabelGenerator.processEvent(
-        //         mParticleTree,
-        //         mGammaTable,
-        //         mArrayGenerator
-        //     );
-        // }
     }
     
     // end job

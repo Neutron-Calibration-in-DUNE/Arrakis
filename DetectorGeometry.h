@@ -71,8 +71,12 @@ namespace arrakis
 
         DetectorVolume() {}
         
-        DetectorVolume(VolumeType volumeType, std::string volumeName, 
-            std::string materialName, double material)
+        DetectorVolume(
+            VolumeType volumeType, 
+            std::string volumeName, 
+            std::string materialName, 
+            double material
+        )
         : volume_type(volumeType)
         , volume_name(volumeName)
         , material_name(materialName)
@@ -185,11 +189,11 @@ namespace arrakis
         double GetTPCDriftDistance(const size_t i);
         
         // get volume information for a point
-        DetectorVolume getVolume(std::vector<double> position);
-        DetectorVolume getVolume(double x, double y, double z);
+        DetectorVolume GetVolume(std::vector<double> position);
+        DetectorVolume GetVolume(double x, double y, double z);
 
         // function for finding total tpc volumes
-        void findTotalTPCBoxes();
+        void FindTotalTPCBoxes();
         // fill the geometry ttree
         void FillTTree();
         
