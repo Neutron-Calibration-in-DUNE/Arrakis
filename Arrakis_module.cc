@@ -217,13 +217,16 @@ namespace arrakis
         auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
             mIonAndScintProducerLabel
         );
+        // Add the particle maps and primary data
+        // for MCParticle and SimEnergyDeposit.
         mParticleMaps->ProcessEvent(mcParticles);
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
             mcParticles, 
             mcEnergyDeposits
         );
-
+        // Check if SimChannel and RawDigit are available,
+        // and then process those into primary data.
         if(
             event.getByLabel(
                 art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label()), 

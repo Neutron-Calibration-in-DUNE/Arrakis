@@ -23,11 +23,13 @@ namespace arrakis
             mTTree->Branch("pdg", &mPrimary.pdg);
             mTTree->Branch("init_process", &mPrimary.init_process);
             mTTree->Branch("init_energy", &mPrimary.init_energy);
+            mTTree->Branch("init_t", &mPrimary.init_t);
             mTTree->Branch("init_x", &mPrimary.init_x);
             mTTree->Branch("init_y", &mPrimary.init_y);
             mTTree->Branch("init_y", &mPrimary.init_z);
             mTTree->Branch("end_process", &mPrimary.end_process);
             mTTree->Branch("end_energy", &mPrimary.end_energy);
+            mTTree->Branch("end_t", &mPrimary.end_t);
             mTTree->Branch("end_x", &mPrimary.end_x);
             mTTree->Branch("end_y", &mPrimary.end_y);
             mTTree->Branch("end_y", &mPrimary.end_z);
@@ -36,11 +38,13 @@ namespace arrakis
             mTTree->Branch("daughter_level", &mPrimary.daughter_level);
             mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
             mTTree->Branch("daughter_init_energy", &mPrimary.daughter_init_energy);
+            mTTree->Branch("daughter_init_t", &mPrimary.daughter_init_t);
             mTTree->Branch("daughter_init_x", &mPrimary.daughter_init_x);
             mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_y);
             mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_z);
             mTTree->Branch("daughter_end_process", &mPrimary.daughter_end_process);
             mTTree->Branch("daughter_end_energy", &mPrimary.daughter_end_energy);
+            mTTree->Branch("daughter_end_t", &mPrimary.daughter_end_t);
             mTTree->Branch("daughter_end_x", &mPrimary.daughter_end_x);
             mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_y);
             mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_z);
@@ -51,6 +55,8 @@ namespace arrakis
                 mTTree->Branch("edep_energy", &mPrimary.edep_energy);
                 mTTree->Branch("edep_volume", &mPrimary.edep_volume);
                 mTTree->Branch("edep_material", &mPrimary.edep_material);
+                mTTree->Branch("edep_process", &mPrimary.edep_process);
+                mTTree->Branch("edep_t", &mPrimary.edep_t);
                 mTTree->Branch("edep_x", &mPrimary.edep_x);
                 mTTree->Branch("edep_y", &mPrimary.edep_y);
                 mTTree->Branch("edep_y", &mPrimary.edep_z);
@@ -60,6 +66,8 @@ namespace arrakis
                 mTTree->Branch("daughter_edep_energy", &mPrimary.daughter_edep_energy);
                 mTTree->Branch("daughter_edep_volume", &mPrimary.daughter_edep_volume);
                 mTTree->Branch("daughter_edep_material", &mPrimary.daughter_edep_material);
+                mTTree->Branch("daughter_edep_process", &mPrimary.daughter_edep_process);
+                mTTree->Branch("daughter_edep_t", &mPrimary.daughter_edep_t);
                 mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
                 mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
                 mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_z);
@@ -73,6 +81,8 @@ namespace arrakis
                 mTTree->Branch("det_channel", &mPrimary.det_channel);
                 mTTree->Branch("det_tdc", &mPrimary.det_channel);
                 mTTree->Branch("det_adc", &mPrimary.det_adc);
+                mTTree->Branch("det_edep", &mPrimary.det_edep);
+                mTTree->Branch("det_process", &mPrimary.det_process);
             }
         }
     }
