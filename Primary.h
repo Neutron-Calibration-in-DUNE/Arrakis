@@ -247,7 +247,7 @@ namespace arrakis
             edep_x.emplace_back(edep.MidPointX());
             edep_y.emplace_back(edep.MidPointY());
             edep_z.emplace_back(edep.MidPointZ());
-            total_edep_energy += edcep.Energy();
+            total_edep_energy += edep.Energy();
         }
 
         void AddDaughterEdep(sim::SimEnergyDeposit edep)
@@ -267,7 +267,7 @@ namespace arrakis
             daughter_edep_x.emplace_back(edep.MidPointX());
             daughter_edep_y.emplace_back(edep.MidPointY());
             daughter_edep_z.emplace_back(edep.MidPointZ());
-            total_daughter_edep_energy += edcep.Energy();
+            total_daughter_edep_energy += edep.Energy();
         }
 
         void AddDetectorSimulation(
