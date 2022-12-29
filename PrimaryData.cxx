@@ -219,7 +219,7 @@ namespace arrakis
                 edep.MidPointX(),
                 edep.MidPointY(),
                 edep.MidPointZ()
-            )
+            );
             if(primary_index != -1) 
             {
                 std::string process = FindEnergyDepositionProcess(

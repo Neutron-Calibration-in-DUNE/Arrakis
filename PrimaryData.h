@@ -30,6 +30,7 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "DetectorGeometry.h"
 #include "ParticleMaps.h"
 
 namespace arrakis
