@@ -172,11 +172,13 @@ namespace arrakis
                     particle.PdgCode(),
                     particle.Process(),
                     particle.E(),
+                    particle.T(),
                     particle.Vx(),
                     particle.Vy(),
                     particle.Vz(),
                     particle.EndProcess(),
                     particle.EndE(),
+                    particle.EndT(),
                     particle.EndX(),
                     particle.EndY(),
                     particle.EndZ()
@@ -195,11 +197,13 @@ namespace arrakis
                     particle_maps->GetAncestorLevel(particle.TrackId()),
                     particle.Process(),
                     particle.E(),
+                    particle.T(),
                     particle.Vx(),
                     particle.Vy(),
                     particle.Vz(),
                     particle.EndProcess(),
                     particle.EndE(),
+                    particle.EndT(),
                     particle.EndX(),
                     particle.EndY(),
                     particle.EndZ()
@@ -218,8 +222,13 @@ namespace arrakis
             )
             if(primary_index != -1) 
             {
+                std::string process = FindEnergyDepositionProcess(
+                    primary_index, edep.TrackID(),
+                    edep.Energy(), edep.Time()
+                );
                 mPrimaries[primary_index].AddEdep(
                     edep.Energy(),
+                    process,
                     volume.volume_name,
                     volume.material_name,
                     edep.Time(),
@@ -233,9 +242,14 @@ namespace arrakis
                 primary_index = FindPrimary(
                     particle_maps->GetAncestorTrackID(edep.TrackID())
                 );
+                std::string process = FindEnergyDepositionProcess(
+                    primary_index, edep.TrackID(),
+                    edep.Energy(), edep.Time()
+                );
                 mPrimaries[primary_index].AddDaughterEdep(
                     edep.TrackID(),
                     edep.Energy(),
+                    process,
                     volume.volume_name,
                     volume.material_name,
                     edep.Time(),

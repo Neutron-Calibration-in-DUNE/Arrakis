@@ -109,31 +109,34 @@ namespace arrakis
         Primary(){}
         Primary(
             Int_t _track_id, Int_t _pdg, std::string _init_process,
-            Double_t _init_energy, Double_t _init_x, Double_t _init_y,
+            Double_t _init_energy, Double_t init_t, Double_t _init_x, Double_t _init_y,
             Double_t _init_z, std::string _end_process, Double_t _end_energy,
-            Double_t _end_x, Double_t _end_y, Double_t _end_z
+            Double_t end_t, Double_t _end_x, Double_t _end_y, Double_t _end_z
         )
         : track_id(_track_id)
         , pdg(_pdg)
         , init_process(_init_process)
         , init_energy(_init_energy)
+        , init_t(_init_t)
         , init_x(_init_x)
         , init_y(_init_y)
         , init_z(_init_z)
         , end_process(_end_process)
         , end_energy(_end_energy)
+        , end_t(_end_t)
         , end_x(_end_x)
         , end_y(_end_y)
         , end_z(_end_z)
         {}
 
         void AddEdep(
-            Double_t energy, 
+            Double_t energy, std::string process,
             std::string volume, std::string material,
             Double_t x, Double_t y, Double_t z
         )
         {
             edep_energy.emplace_back(energy);
+            edep_process.emplace_back(process);
             edep_volume.emplace_back(volume);
             edep_material.emplace_back(material);
             edep_t.emplace_back(t);
@@ -146,33 +149,36 @@ namespace arrakis
         void AddDaughter(
             Int_t track_id, Int_t level,
             std::string init_process, Double_t init_energy,
-            Double_t init_x, Double_t init_y, Double_t init_z,
+            Double_t init_t, Double_t init_x, Double_t init_y, Double_t init_z,
             std::string end_process, Double_t end_energy,
-            Double_t end_x, Double_t end_y, Double_t end_z
+            Double_t end_t, Double_t end_x, Double_t end_y, Double_t end_z
         )
         {
             daughter_ids.emplace_back(track_id);
             daughter_level.emplace_back(level);
             daughter_init_process.emplace_back(init_process);
             daughter_init_energy.emplace_back(init_energy);
+            daughter_init_t.emplace_back(init_t);
             daughter_init_x.emplace_back(init_x);
             daughter_init_y.emplace_back(init_y);
             daughter_init_z.emplace_back(init_z);
             daughter_end_process.emplace_back(end_process);
             daughter_end_energy.emplace_back(end_energy);
+            daughter_end_t.emplace_back(end_t);
             daughter_end_x.emplace_back(end_x);
             daughter_end_y.emplace_back(end_y);
             daughter_end_z.emplace_back(end_z);
         }
 
         void AddDaughterEdep(
-            Int_t track_id, Double_t energy, 
+            Int_t track_id, Double_t energy, std::string process,
             std::string volume, std::string material,
             Double_t t, Double_t x, Double_t y, Double_t z
         )
         {
             daughter_edep_ids.emplace_back(track_id);
             daughter_edep_energy.emplace_back(energy);
+            daughter_edep_process.emplace_back(process);
             daughter_edep_volume.emplace_back(volume);
             daughter_edep_material.emplace_back(material);
             daughter_edep_t.emplace_back(t);

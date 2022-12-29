@@ -103,7 +103,7 @@ namespace arrakis
     // get volume information for a point
     DetectorVolume DetectorGeometry::GetVolume(std::vector<double> position)
     {
-        return getVolume(position[0], position[1], position[2]);
+        return GetVolume(position[0], position[1], position[2]);
     }
     // get volume information for a point
     DetectorVolume DetectorGeometry::GetVolume(double x, double y, double z)
