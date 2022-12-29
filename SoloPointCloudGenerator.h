@@ -42,7 +42,7 @@ namespace arrakis
         NeutronCapture = 2,
         NeutronGammaLarge = 3,
         NeutronGammaSmall = 4
-    }
+    };
 
     struct SoloPointCloud
     {
@@ -58,6 +58,9 @@ namespace arrakis
         bool all_lar = false;
         bool same_apa = false;
         Double_t lar_edep_fraction = {0};
+
+        SoloPointCloud() {}
+        
     };
 
 
@@ -69,11 +72,11 @@ namespace arrakis
 
         void ProcessEvent(ParticleMaps particle_maps, PrimaryData primary_data);
 
-        void SoloPointCloudGenerator::ProcessNeutron(
-            PrimaryData neutron
+        void ProcessNeutron(
+            Primary neutron
         );
-        void SoloPointCloudGenerator::ProcessGamma(
-            PrimaryData gamma
+        void ProcessGamma(
+            Primary gamma
         );
     private:
         art::ServiceHandle<art::TFileService> mTFileService;

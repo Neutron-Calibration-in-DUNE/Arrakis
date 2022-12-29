@@ -34,7 +34,7 @@ namespace arrakis
         PrimaryData primary_data
     )
     {
-        for(auto primary : primary_data)
+        for(auto primary : primary_data.GetPrimaries())
         {
             /**
              * @brief Depending on the type of particle,
@@ -80,7 +80,7 @@ namespace arrakis
     }
 
     void SoloPointCloudGenerator::ProcessNeutron(
-        PrimaryData neutron
+        Primary neutron
     )
     {
         /**
@@ -123,7 +123,7 @@ namespace arrakis
 
     }
     void SoloPointCloudGenerator::ProcessGamma(
-        PrimaryData primary
+        Primary primary
     )
     {
         SoloPointCloud solo_point_cloud;

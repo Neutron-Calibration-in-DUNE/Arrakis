@@ -299,7 +299,7 @@ namespace arrakis
 
             for(int l=0; l < num_samples; l++) 
             {
-                auto const& trackIDs = truth_channel.TrackIDs(l, l);
+                auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                 if (trackIDs.size() == 0) { 
                     continue; 
                 }

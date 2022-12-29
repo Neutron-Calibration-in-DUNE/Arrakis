@@ -241,6 +241,8 @@ namespace arrakis
             Double_t energy, unsigned int tdc
         );
 
+        std::vector<Primary> GetPrimaries() { return mPrimaries; }
+
     private:
         bool mSavePrimaryData = {false};
         bool mSavePrimaryDataEdeps = {false};
