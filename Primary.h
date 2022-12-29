@@ -112,9 +112,10 @@ namespace arrakis
         std::vector<Double_t> det_energy_fraction = {};
         std::vector<Double_t> det_energy = {};
         std::vector<Int_t> det_channel = {};
-        std::vector<Int_t> det_tdc = {};
+        std::vector<Int_t> det_tick = {};
         std::vector<Int_t> det_adc = {};
         std::vector<Int_t> det_edep = {};
+        std::vector<Double_t> det_tdc = {};
         std::vector<std::string> det_process = {};
 
         // Daughter raw digit information.
@@ -122,9 +123,10 @@ namespace arrakis
         std::vector<Double_t> daughter_det_energy_fraction = {};
         std::vector<Double_t> daughter_det_energy = {};
         std::vector<Int_t> daughter_det_channel = {};
-        std::vector<Int_t> daughter_det_tdc = {};
+        std::vector<Int_t> daughter_det_tick = {};
         std::vector<Int_t> daughter_det_adc = {};
         std::vector<Int_t> daughter_det_edep = {};
+        std::vector<Double_t> daughter_det_tdc = {};
         std::vector<std::string> daughter_det_process = {};
 
         /**
@@ -174,7 +176,7 @@ namespace arrakis
             Int_t edep_index = -1;
             for(size_t ii = 0; ii < edep_t.size(); ii++)
             {
-                std::cout << "time: " << time << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
+                std::cout << "time: " << clockData.TPCTick2TDC(time) << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
                 if(edep_energy[ii] == energy) {
                     edep_index = ii;
                 }
@@ -334,15 +336,16 @@ namespace arrakis
             Double_t energy_frac,
             Double_t energy,
             Int_t channel, 
-            Int_t tdc,
+            Int_t tick,
             Int_t adc
         )
         {
             det_energy_fraction.emplace_back(energy_frac);
             det_energy.emplace_back(energy);
             det_channel.emplace_back(channel);
-            det_tdc.emplace_back(tdc);
+            det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
+            det_tdc.emplace_back(clockData.TPCTick2TDC(tdc));
             Int_t edep_index = FindPrimaryEnergyDepositionProcess(
                 clockData, tdc, energy_frac * energy
             );
@@ -355,7 +358,7 @@ namespace arrakis
             Double_t energy_frac,
             Double_t energy,
             Int_t channel,
-            Int_t tdc,
+            Int_t tick,
             Int_t adc
         )
         {
@@ -363,8 +366,9 @@ namespace arrakis
             daughter_det_energy_fraction.emplace_back(energy_frac);
             daughter_det_energy.emplace_back(energy);
             daughter_det_channel.emplace_back(channel);
-            daughter_det_tdc.emplace_back(tdc);
+            daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
+            daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tdc));
         }
     };
 }
