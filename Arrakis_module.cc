@@ -113,7 +113,7 @@ namespace arrakis
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
-         *  by the directories.or each type.
+         *  by the directories for each type.
          */ 
         art::ServiceHandle<art::TFileService> mTFileService;
         /// TTrees

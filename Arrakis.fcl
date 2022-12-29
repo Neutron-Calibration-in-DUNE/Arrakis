@@ -13,7 +13,7 @@ Arrakis:
     SavePrimaryDataEdeps:      true
     SavePrimaryDataRawTPC:     true
 
-    GenerateSoloPointCloudData: true
+    GenerateSoloPointCloudData: false
 
     Generate2DArrays:       false
     GenerateEvtLvlNInfo:    false

@@ -236,6 +236,7 @@ namespace arrakis
         // Now loop through the SimEnergyDeposits.
         for(auto edep : *mcEnergyDeposits)
         {
+            std::cout << "HERE" << std::endl;
             Int_t primary_index = FindPrimary(
                 edep.TrackID()
             );
