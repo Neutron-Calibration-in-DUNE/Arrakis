@@ -172,8 +172,13 @@ namespace arrakis
         }
         ResetEvent();
 
+        // Loop through every particle and save
+        // information to the primary that was
+        // generated.
         for (auto particle : *mcParticles)
         {
+            // If the particle is a primary, make
+            // a new entry in mPrimaries.
             if(particle.Mother() == 0) 
             {
                 mPrimaries.emplace_back(Primary(
@@ -193,6 +198,8 @@ namespace arrakis
                     particle.EndZ()
                 ));
             }
+            // Otherwise, find the associated primary
+            // using the ancestor map.
             else
             {
                 Int_t primary_index = FindPrimary(
@@ -219,16 +226,21 @@ namespace arrakis
                 );
             }
         }
+        // Now loop through the SimEnergyDeposits.
         for(auto edep : *mcEnergyDeposits)
         {
             Int_t primary_index = FindPrimary(
                 edep.TrackID()
             );
+            // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
                 edep.MidPointX(),
                 edep.MidPointY(),
                 edep.MidPointZ()
             );
+            // If the primary is found, find the process that 
+            // caused the energy deposit, and then save the information
+            // associated with it.
             if(primary_index != -1) 
             {
                 std::string process = FindEnergyDepositionProcess(
