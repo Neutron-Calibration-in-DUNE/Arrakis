@@ -11,7 +11,7 @@ namespace arrakis
 {
     PrimaryData::PrimaryData(
         bool SavePrimaryData, bool SavePrimaryDataEdeps,
-        bool SavePrimaryDataSimChannel, bool SavePrimaryDataRawTPC
+        bool SavePrimaryDataRawTPC
     )
     : mSavePrimaryData(SavePrimaryData)
     , mSavePrimaryDataEdeps(SavePrimaryDataEdeps)
@@ -105,7 +105,7 @@ namespace arrakis
     void PrimaryData::FindDetectorProcess(
         detinfo::DetectorClocksData const& clockData,
         Int_t primary_index, Int_t track_id, 
-        Double_t energy, unsigned int tdc, 
+        Double_t energy, unsigned int tdc
     )
     {
         Int_t edep_index = -1;
