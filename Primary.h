@@ -168,15 +168,18 @@ namespace arrakis
             return process;
         }
 
-        Int_t FindPrimaryEnergyDepositionProcess(
+        Int_t FindPrimaryEnergyDeposition(
             detinfo::DetectorClocksData const& clockData,
-            Double_t time, Double_t energy
+            Double_t time, Double_t energy, 
+            Double_t x, Double_t y, Double_t z
         )
         {
             Int_t edep_index = -1;
             for(size_t ii = 0; ii < edep_t.size(); ii++)
             {
-                std::cout << track_id << " - " << ii << " - time: " << clockData.TPCTick2TDC(time) << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
+                std::cout << "tpc: (" << x << "," << y << "," << z << ")\n";
+                std::cout << "edep: (" << edep_x[ii] << "," << edep_y[ii] << "," << edep_z[ii] << ")" << std::endl;
+                //std::cout << track_id << " - " << ii << " - time: " << clockData.TPCTick2TDC(time) << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
                 if(edep_energy[ii] == energy) {
                     edep_index = ii;
                 }
@@ -333,38 +336,37 @@ namespace arrakis
 
         void AddPrimaryDetectorSimulation(
             detinfo::DetectorClocksData const& clockData,
-            Double_t energy_frac,
-            Double_t energy,
+            sim::IDE ide,
+            Double_t total_energy,
             Int_t channel, 
             Int_t tick,
             Int_t adc
         )
         {
-            det_energy_fraction.emplace_back(energy_frac);
-            det_energy.emplace_back(energy);
+            det_energy_fraction.emplace_back(ide.energy/total_energy);
+            det_energy.emplace_back(ide.energy);
             det_channel.emplace_back(channel);
             det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
-            Int_t edep_index = FindPrimaryEnergyDepositionProcess(
-                clockData, tick, energy_frac * energy
+            Int_t edep_index = FindPrimaryEnergyDeposition(
+                clockData, tick, ide.energy, ide.x, ide.y, ide.z
             );
             det_edep.emplace_back(edep_index);
         }
 
         void AddDaughterDetectorSimulation(
             detinfo::DetectorClocksData const& clockData,
-            Int_t track_id,
-            Double_t energy_frac,
-            Double_t energy,
+            sim::IDE ide,
+            Double_t total_energy,
             Int_t channel,
             Int_t tick,
             Int_t adc
         )
         {
-            daughter_det_track_id.emplace_back(track_id);
-            daughter_det_energy_fraction.emplace_back(energy_frac);
-            daughter_det_energy.emplace_back(energy);
+            daughter_det_track_id.emplace_back(ide.trackID);
+            daughter_det_energy_fraction.emplace_back(ide.energy/total_energy);
+            daughter_det_energy.emplace_back(ide.energy);
             daughter_det_channel.emplace_back(channel);
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);

@@ -259,11 +259,15 @@ namespace arrakis
             for(int l=0; l < num_samples; l++) 
             {
                 auto const& trackIDs = truth_channel.TrackIDEs(l, l);
+                auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
                 if (trackIDs.size() == 0) { 
                     continue; 
                 }
-
-                for (auto track : trackIDs)
+                Double_t total_energy = 0;
+                for(auto track : trackIDsAndEnergy) {
+                    total_energy += track.energy;
+                }
+                for(auto track : trackIDsAndEnergy)
                 {
                     Int_t primary_index = FindPrimary(
                         track.trackID
@@ -272,8 +276,8 @@ namespace arrakis
                     {
                         mPrimaries[primary_index].AddPrimaryDetectorSimulation(
                             clockData,
-                            track.energyFrac,
-                            track.energy,
+                            track,
+                            total_energy,
                             l,
                             channel,
                             (Int_t) (std::abs(uncompressed[l]))
@@ -288,9 +292,8 @@ namespace arrakis
                         {
                             mPrimaries[primary_index].AddDaughterDetectorSimulation(
                                 clockData,
-                                track.trackID,
-                                track.energyFrac,
-                                track.energy,
+                                track,
+                                total_energy,
                                 l,
                                 channel,
                                 (Int_t) (std::abs(uncompressed[l]))
