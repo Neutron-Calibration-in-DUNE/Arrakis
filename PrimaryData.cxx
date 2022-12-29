@@ -26,13 +26,13 @@ namespace arrakis
             mTTree->Branch("init_t", &mPrimary.init_t);
             mTTree->Branch("init_x", &mPrimary.init_x);
             mTTree->Branch("init_y", &mPrimary.init_y);
-            mTTree->Branch("init_y", &mPrimary.init_z);
+            mTTree->Branch("init_z", &mPrimary.init_z);
             mTTree->Branch("end_process", &mPrimary.end_process);
             mTTree->Branch("end_energy", &mPrimary.end_energy);
             mTTree->Branch("end_t", &mPrimary.end_t);
             mTTree->Branch("end_x", &mPrimary.end_x);
             mTTree->Branch("end_y", &mPrimary.end_y);
-            mTTree->Branch("end_y", &mPrimary.end_z);
+            mTTree->Branch("end_z", &mPrimary.end_z);
 
             mTTree->Branch("daughter_ids", &mPrimary.daughter_ids);
             mTTree->Branch("daughter_level", &mPrimary.daughter_level);
@@ -41,13 +41,13 @@ namespace arrakis
             mTTree->Branch("daughter_init_t", &mPrimary.daughter_init_t);
             mTTree->Branch("daughter_init_x", &mPrimary.daughter_init_x);
             mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_y);
-            mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_z);
+            mTTree->Branch("daughter_init_z", &mPrimary.daughter_init_z);
             mTTree->Branch("daughter_end_process", &mPrimary.daughter_end_process);
             mTTree->Branch("daughter_end_energy", &mPrimary.daughter_end_energy);
             mTTree->Branch("daughter_end_t", &mPrimary.daughter_end_t);
             mTTree->Branch("daughter_end_x", &mPrimary.daughter_end_x);
             mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_y);
-            mTTree->Branch("daughter_end_y", &mPrimary.daughter_end_z);
+            mTTree->Branch("daughter_end_z", &mPrimary.daughter_end_z);
 
             if(mSavePrimaryDataEdeps)
             {
@@ -59,7 +59,7 @@ namespace arrakis
                 mTTree->Branch("edep_t", &mPrimary.edep_t);
                 mTTree->Branch("edep_x", &mPrimary.edep_x);
                 mTTree->Branch("edep_y", &mPrimary.edep_y);
-                mTTree->Branch("edep_y", &mPrimary.edep_z);
+                mTTree->Branch("edep_z", &mPrimary.edep_z);
                 
                 mTTree->Branch("total_daughter_edep_energy", &mPrimary.total_daughter_edep_energy);
                 mTTree->Branch("daughter_edep_ids", &mPrimary.daughter_edep_ids);
@@ -70,7 +70,7 @@ namespace arrakis
                 mTTree->Branch("daughter_edep_t", &mPrimary.daughter_edep_t);
                 mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
                 mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
-                mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_z);
+                mTTree->Branch("daughter_edep_z", &mPrimary.daughter_edep_z);
             }
 
             if(mSavePrimaryDataRawTPC)
@@ -118,6 +118,10 @@ namespace arrakis
         return process;    
     }
 
+    /**
+     * Here we match the detector output to the sim energy deposit,
+     * and then grab the process that created the energy deposit.
+    */
     void PrimaryData::FindDetectorProcess(
         detinfo::DetectorClocksData const& clockData,
         Int_t primary_index, Int_t track_id, 
@@ -202,7 +206,8 @@ namespace arrakis
                     particle.EndT(),
                     particle.EndX(),
                     particle.EndY(),
-                    particle.EndZ()
+                    particle.EndZ(),
+                    particle.Trajectory()
                 ));
             }
             // Otherwise, find the associated primary
@@ -229,22 +234,16 @@ namespace arrakis
                     particle.EndT(),
                     particle.EndX(),
                     particle.EndY(),
-                    particle.EndZ()
+                    particle.EndZ(),
+                    particle.Trajectory()
                 );
             }
         }
         // Now loop through the SimEnergyDeposits.
         for(auto edep : *mcEnergyDeposits)
         {
-            std::cout << "HERE" << std::endl;
             Int_t primary_index = FindPrimary(
                 edep.TrackID()
-            );
-            // Get the volume information for the energy deposit.
-            auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                edep.MidPointX(),
-                edep.MidPointY(),
-                edep.MidPointZ()
             );
             // If the primary is found, find the process that 
             // caused the energy deposit, and then save the information
@@ -258,8 +257,6 @@ namespace arrakis
                 mPrimaries[primary_index].AddEdep(
                     edep.Energy(),
                     process,
-                    volume.volume_name,
-                    volume.material_name,
                     edep.Time(),
                     edep.MidPointX(),
                     edep.MidPointY(),
@@ -279,8 +276,6 @@ namespace arrakis
                     edep.TrackID(),
                     edep.Energy(),
                     process,
-                    volume.volume_name,
-                    volume.material_name,
                     edep.Time(),
                     edep.MidPointX(),
                     edep.MidPointY(),
