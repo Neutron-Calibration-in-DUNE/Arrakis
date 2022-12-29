@@ -54,7 +54,7 @@ namespace arrakis
         {
         }
 
-        Trajetory(
+        Trajectory(
             Double_t _t, Double_t _x, Double_t _y, Double_t _z,
             Double_t _energy, std::string _process, std::string _volume, 
             std::string _material
