@@ -38,6 +38,8 @@
 // #include "lardataobj/RecoBase/Track.h"
 // #include "lardataobj/RecoBase/SpacePoint.h"
 // #include "lardataobj/RecoBase/Slice.h"
+#include "nusimdata/SimulationBase/MCGeneratorInfo.h"
+#include "nusimdata/SimulationBase/MCTruth.h"
 #include "lardataobj/Simulation/SimChannel.h"
 #include "larsim/Simulation/LArG4Parameters.h"
 #include "larsim/Utils/TruthMatchUtils.h"

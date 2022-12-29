@@ -212,9 +212,8 @@ namespace arrakis
 
             for(int l=0; l < num_samples; l++) 
             {
-                auto const& trackIDs = truth_channel.TrackIDEs(l, l);
                 auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
-                if (trackIDs.size() == 0) { 
+                if (trackIDsAndEnergy.size() == 0) { 
                     continue; 
                 }
                 Double_t total_energy = 0;
