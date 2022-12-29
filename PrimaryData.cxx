@@ -75,7 +75,6 @@ namespace arrakis
 
             if(mSavePrimaryDataRawTPC)
             {
-                mTTree->Branch("det_track_id", &mPrimary.det_track_id);
                 mTTree->Branch("det_energy_fraction", &mPrimary.det_energy_fraction);
                 mTTree->Branch("det_energy", &mPrimary.det_energy);
                 mTTree->Branch("det_channel", &mPrimary.det_channel);
@@ -83,6 +82,14 @@ namespace arrakis
                 mTTree->Branch("det_adc", &mPrimary.det_adc);
                 mTTree->Branch("det_edep", &mPrimary.det_edep);
                 mTTree->Branch("det_process", &mPrimary.det_process);
+
+                mTTree->Branch("daughter_det_energy_fraction", &mPrimary.daughter_det_energy_fraction);
+                mTTree->Branch("daughter_det_energy", &mPrimary.daughter_det_energy);
+                mTTree->Branch("daughter_det_channel", &mPrimary.daughter_det_channel);
+                mTTree->Branch("daughter_det_tdc", &mPrimary.daughter_det_channel);
+                mTTree->Branch("daughter_det_adc", &mPrimary.daughter_det_adc);
+                mTTree->Branch("daughter_det_edep", &mPrimary.daughter_det_edep);
+                mTTree->Branch("daughter_det_process", &mPrimary.daughter_det_process);
             }
         }
     }
