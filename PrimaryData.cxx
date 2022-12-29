@@ -259,24 +259,37 @@ namespace arrakis
                 for (auto track : trackIDs)
                 {
                     Int_t primary_index = FindPrimary(
-                        particle_maps->GetAncestorTrackID(track.trackID)
+                        track.trackID
                     );
                     if(primary_index != -1) 
                     {
-                        mPrimaries[primary_index].AddDetectorSimulation(
-                            track.trackID,
+                        mPrimaries[primary_index].AddPrimaryDetectorSimulation(
+                            clockData,
                             track.energyFrac,
                             track.energy,
                             l,
                             channel,
                             (Int_t) (std::abs(uncompressed[l]))
                         );
-                        FindDetectorProcess(
-                            clockData, 
-                            primary_index, track.trackID, 
-                            track.energy, l
-                        ); 
                     }  
+                    else
+                    {
+                        Int_t primary_index = FindPrimary(
+                            particle_maps->GetAncestorTrackID(track.trackID)
+                        );
+                        if(primary_index != -1) 
+                        {
+                            mPrimaries[primary_index].AddDaughterDetectorSimulation(
+                                clockData,
+                                track.trackID,
+                                track.energyFrac,
+                                track.energy,
+                                l,
+                                channel,
+                                (Int_t) (std::abs(uncompressed[l]))
+                            );
+                        }  
+                    }
                 }
             }
         }

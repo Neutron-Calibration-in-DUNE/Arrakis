@@ -63,7 +63,7 @@ namespace arrakis
 
         Trajectory primary_trajectory;
 
-        // Energy deposits of the parent
+        // Energy deposits of the parent.
         Double_t total_edep_energy = {0};
         std::vector<Double_t> edep_energy = {};
         std::vector<std::string> edep_process = {};
@@ -76,6 +76,7 @@ namespace arrakis
 
         // Daughter MC Particle info.
         std::vector<Int_t> daughter_ids = {};
+        std::vector<Int_t> daughter_pdgs = {};
         std::map<Int_t, Int_t> daughter_map = {};
         std::vector<Int_t> daughter_level = {};
 
@@ -108,7 +109,6 @@ namespace arrakis
         std::vector<Double_t> daughter_edep_z = {};
 
         // Raw digit information.
-        std::vector<Int_t> det_track_id = {};
         std::vector<Double_t> det_energy_fraction = {};
         std::vector<Double_t> det_energy = {};
         std::vector<Int_t> det_channel = {};
@@ -116,6 +116,16 @@ namespace arrakis
         std::vector<Int_t> det_adc = {};
         std::vector<Int_t> det_edep = {};
         std::vector<std::string> det_process = {};
+
+        // Daughter raw digit information.
+        std::vector<Int_t> daughter_det_track_id = {};
+        std::vector<Double_t> daughter_det_energy_fraction = {};
+        std::vector<Double_t> daughter_det_energy = {};
+        std::vector<Int_t> daughter_det_channel = {};
+        std::vector<Int_t> daughter_det_tdc = {};
+        std::vector<Int_t> daughter_det_adc = {};
+        std::vector<Int_t> daughter_det_edep = {};
+        std::vector<std::string> daughter_det_process = {};
 
         /**
          * Here we are trying to match up the point at which
@@ -154,6 +164,18 @@ namespace arrakis
                 }
             }
             return process;
+        }
+
+        Int_t FindPrimaryEnergyDepositionProcess(
+            Double_t time, Double_t energy
+        )
+        {
+            for(size_t ii = 0; ii < edep_energy.size(); ii++)
+            {
+                if(edep_energy[ii] == energy) {
+                    std::cout << time << "," << edep_t[ii] << std::endl;
+                }
+            }
         }
 
         Primary(){}
@@ -212,6 +234,7 @@ namespace arrakis
         void AddDaughter(simb::MCParticle particle, Int_t level)
         {
             daughter_ids.emplace_back(particle.TrackId());
+            daughter_pdgs.emplace_back(particle.PdgCode());
             daughter_map[particle.TrackId()] = daughter_ids.size() - 1;
             daughter_level.emplace_back(level);
             daughter_init_process.emplace_back(particle.Process());
@@ -302,7 +325,27 @@ namespace arrakis
             total_daughter_edep_energy += edep.Energy();
         }
 
-        void AddDetectorSimulation(
+        void AddPrimaryDetectorSimulation(
+            detinfo::DetectorClocksData const& clockData,
+            Double_t energy_frac,
+            Double_t energy,
+            Int_t channel, 
+            Int_t tdc,
+            Int_t adc
+        )
+        {
+            det_energy_fraction.emplace_back(energy_frac);
+            det_energy.emplace_back(energy);
+            det_channel.emplace_back(channel);
+            det_tdc.emplace_back(tdc);
+            det_adc.emplace_back(adc);
+            Int_t edep_index = FindPrimaryEnergyDepositionProcess(
+                clockData.TPCG4Time2TDC(tdc), energy_frac * energy
+            );
+        }
+
+        void AddDaughterDetectorSimulation(
+            detinfo::DetectorClocksData const& clockData,
             Int_t track_id,
             Double_t energy_frac,
             Double_t energy,
@@ -311,12 +354,12 @@ namespace arrakis
             Int_t adc
         )
         {
-            det_track_id.emplace_back(track_id);
-            det_energy_fraction.emplace_back(energy_frac);
-            det_energy.emplace_back(energy);
-            det_channel.emplace_back(channel);
-            det_tdc.emplace_back(tdc);
-            det_adc.emplace_back(adc);
+            daughter_det_track_id.emplace_back(track_id);
+            daughter_det_energy_fraction.emplace_back(energy_frac);
+            daughter_det_energy.emplace_back(energy);
+            daughter_det_channel.emplace_back(channel);
+            daughter_det_tdc.emplace_back(tdc);
+            daughter_det_adc.emplace_back(adc);
         }
     };
 }
