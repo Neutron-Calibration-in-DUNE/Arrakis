@@ -78,7 +78,7 @@ namespace arrakis
                 mTTree->Branch("det_energy_fraction", &mPrimary.det_energy_fraction);
                 mTTree->Branch("det_energy", &mPrimary.det_energy);
                 mTTree->Branch("det_channel", &mPrimary.det_channel);
-                mTTree->Branch("det_tick", *mPrimary.det_tick);
+                mTTree->Branch("det_tick", &mPrimary.det_tick);
                 mTTree->Branch("det_tdc", &mPrimary.det_channel);
                 mTTree->Branch("det_adc", &mPrimary.det_adc);
                 mTTree->Branch("det_edep", &mPrimary.det_edep);
