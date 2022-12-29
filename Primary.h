@@ -176,7 +176,7 @@ namespace arrakis
             Int_t edep_index = -1;
             for(size_t ii = 0; ii < edep_t.size(); ii++)
             {
-                std::cout << "time: " << clockData.TPCTick2TDC(time) << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
+                std::cout << track_id << " - " << ii << " - time: " << clockData.TPCTick2TDC(time) << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
                 if(edep_energy[ii] == energy) {
                     edep_index = ii;
                 }
