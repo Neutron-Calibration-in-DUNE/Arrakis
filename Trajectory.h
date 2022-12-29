@@ -55,8 +55,9 @@ namespace arrakis
         }
 
         Trajetory(
-            _t, _x, _y, _z,
-            _energy, _process, _volume, _material
+            Double_t _t, Double_t _x, Double_t _y, Double_t _z,
+            Double_t _energy, std::string _process, std::string _volume, 
+            std::string _material
         )
         {
             t.emplace_back(_t);
@@ -70,8 +71,9 @@ namespace arrakis
         }
 
         void AddTrajectoryPoint(
-            _t, _x, _y, _z, _energy,
-            _process, _volume, _material
+            Double_t _t, Double_t _x, Double_t _y, Double_t _z,
+            Double_t _energy, std::string _process, std::string _volume, 
+            std::string _material
         )
         {
             t.emplace_back(_t);
