@@ -345,9 +345,9 @@ namespace arrakis
             det_channel.emplace_back(channel);
             det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
-            det_tdc.emplace_back(clockData.TPCTick2TDC(tdc));
+            det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
             Int_t edep_index = FindPrimaryEnergyDepositionProcess(
-                clockData, tdc, energy_frac * energy
+                clockData, tick, energy_frac * energy
             );
             det_edep.emplace_back(edep_index);
         }
@@ -368,7 +368,7 @@ namespace arrakis
             daughter_det_channel.emplace_back(channel);
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
-            daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tdc));
+            daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
         }
     };
 }
