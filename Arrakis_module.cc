@@ -213,6 +213,9 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
+        const art::FindManyP<simb::MCTruth> mcTruth(
+            mcParticleHandle, event, mLArGeantProducerLabel
+        );
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
             mLArGeantProducerLabel
         );
@@ -224,6 +227,7 @@ namespace arrakis
         mParticleMaps->ProcessEvent(mcParticles);
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
+            mcTruth,
             mcParticles, 
             mcEnergyDeposits
         );

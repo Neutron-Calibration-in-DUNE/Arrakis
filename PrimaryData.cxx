@@ -119,6 +119,7 @@ namespace arrakis
 
     void PrimaryData::ProcessEventMC(
         ParticleMaps* particle_maps,
+        const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
         const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
     )
