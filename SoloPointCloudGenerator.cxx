@@ -7,7 +7,7 @@
  */
 #include "SoloPointCloudGenerator.h"
 
-namespace
+namespace arrakis
 {
     SoloPointCloudGenerator::SoloPointCloudGenerator()
     {
