@@ -129,15 +129,10 @@ namespace arrakis
             std::string process = "not_found";
             for(size_t ii = 0; ii < primary_trajectory.t.size(); ii++)
             {
-                if(edep.StartT() == primary_trajectory.t[ii])
-                {
-                    process = primary_trajectory.process[ii];
-                }
-                else if(edep.EndT() == primary_trajectory.t[ii])
-                {
-                    process = primary_trajectory.process[ii];
-                }
-                else if(edep.Time() == primary_trajectory.t[ii])
+                if(
+                    edep.StartT() <= primary_trajectory.t[ii] &&
+                    edep.EndT() >= primary_trajectory.t[ii]
+                )
                 {
                     process = primary_trajectory.process[ii];
                 }
@@ -151,15 +146,9 @@ namespace arrakis
             Int_t daughter_index = daughter_map[edep.TrackID()];
             for(size_t ii = 0; ii < daughter_trajectories[daughter_index].t.size(); ii++)
             {
-                if(edep.StartT() == daughter_trajectories[daughter_index].t[ii])
-                {
-                    process = daughter_trajectories[daughter_index].process[ii];
-                }
-                else if(edep.EndT() == daughter_trajectories[daughter_index].t[ii])
-                {
-                    process = daughter_trajectories[daughter_index].process[ii];
-                }
-                else if(edep.Time() == daughter_trajectories[daughter_index].t[ii])
+                if(
+                    edep.StartT() <= daughter_trajectories[daughter_index].t[ii] &&
+                    edep.EndT() >= daughter_trajectories[daughter_index].t[ii])
                 {
                     process = daughter_trajectories[daughter_index].process[ii];
                 }
