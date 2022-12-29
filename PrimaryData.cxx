@@ -101,6 +101,15 @@ namespace arrakis
         }
         return -1;
     }
+    std::string PrimaryData::FindEnergyDepositionProcess(
+        Int_t primary_index, Int_t track_id,
+        Double_t energy, Double_t t
+    )
+    {
+        std::string process = "not_found";
+
+        return process;    
+    }
 
     void PrimaryData::FindDetectorProcess(
         detinfo::DetectorClocksData const& clockData,
@@ -120,14 +129,14 @@ namespace arrakis
                 ) 
                 {
                     edep_index = ii;
-                    process = mPrimaries[primary_index].edep_process[ii]
+                    process = mPrimaries[primary_index].edep_process[ii];
                     break;
                 }
             }
         }
         else
         {
-            for(size_t ii == 0; ii < mPrimaries[primary_index].daughter_edep_energy.size(); ii++)
+            for(size_t ii = 0; ii < mPrimaries[primary_index].daughter_edep_energy.size(); ii++)
             {
                 if(
                     mPrimaries[primary_index].daughter_edep_ids[ii] == id &&

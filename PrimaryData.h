@@ -222,7 +222,7 @@ namespace arrakis
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
-        void ProcessEventDetectorSim(
+        void ProcessEventDetectorSimulation(
             ParticleMaps* particle_maps,
             detinfo::DetectorClocksData const& clockData,
             const art::ValidHandle<std::vector<sim::SimChannel>>& mcChannels,
@@ -230,7 +230,7 @@ namespace arrakis
         );
         void FillTTree();
         Int_t FindPrimary(Int_t track_id);
-        void FindEnergyDepositionProcess(
+        std::string FindEnergyDepositionProcess(
             Int_t primary_index, Int_t track_id,
             Double_t energy, Double_t t
         );

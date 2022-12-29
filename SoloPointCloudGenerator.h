@@ -37,11 +37,11 @@ namespace arrakis
 {
     enum SoloPointCloudLabel
     {
-        "None" = 0,
-        "NeutronElastic" = 1,
-        "NeutronCapture" = 2,
-        "NeutronGamma_4.75" = 3,
-        "NeutronGamma_1.18" = 4
+        None = 0,
+        NeutronElastic = 1,
+        NeutronCapture = 2,
+        NeutronGamma_4.75 = 3,
+        NeutronGamma_1.18 = 4
     };
 
     struct SoloPointCloud
