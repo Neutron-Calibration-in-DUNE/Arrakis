@@ -138,7 +138,7 @@ namespace arrakis
             simb::MCTrajectory trajectory = particle.Trajectory();
             auto trajectory_processes = trajectory.TrajectoryProcesses();
 
-            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints; ii++)
+            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints(); ii++)
             {
                 // Get the volume information for trajectory point.
                 auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
@@ -146,7 +146,7 @@ namespace arrakis
                 );
                 primary_trajectory.AddTrajectoryPoint(
                     particle.T(ii), particle.Vx(ii), particle.Vy(ii), particle.Vz(ii),
-                    particle.E(ii), trajectory_processes[ii], volume.volume_name,
+                    particle.E(ii), std::to_string(trajectory_processes[ii]), volume.volume_name,
                     volume.material_name
                 );
             }
@@ -224,7 +224,7 @@ namespace arrakis
             auto trajectory_processes = trajectory.TrajectoryProcesses();
             Trajectory daughter_trajectory;
 
-            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints; ii++)
+            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints(); ii++)
             {
                 // Get the volume information for trajectory point.
                 auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
@@ -232,7 +232,7 @@ namespace arrakis
                 );
                 daughter_trajectory.AddTrajectoryPoint(
                     particle.T(ii), particle.Vx(ii), particle.Vy(ii), particle.Vz(ii),
-                    particle.E(ii), trajectory_processes[ii], volume.volume_name,
+                    particle.E(ii), std::to_string(trajectory_processes[ii]), volume.volume_name,
                     volume.material_name
                 );
             }
