@@ -395,7 +395,7 @@ namespace arrakis
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
             daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
-            Int_t edep_index = FindDaugterEnergyDeposition(
+            Int_t edep_index = FindDaughterEnergyDeposition(
                 ide.trackID, ide.x, ide.y, ide.z
             );
             daughter_det_edep.emplace_back(edep_index);
