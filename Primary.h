@@ -172,12 +172,11 @@ namespace arrakis
         )
         {
             Int_t edep_index = -1;
-            for(size_t ii = 0; ii < edep_energy.size(); ii++)
+            for(size_t ii = 0; ii < edep_t.size(); ii++)
             {
-                std::cout << "energy: " << energy << " - edep energy: " << edep_energy[ii] << std::endl;
+                std::cout << "time: " << time << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
                 if(edep_energy[ii] == energy) {
                     edep_index = ii;
-                    std::cout << "time: " << time << " - G4 time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
                 }
             }
             return edep_index;
@@ -347,7 +346,7 @@ namespace arrakis
             Int_t edep_index = FindPrimaryEnergyDepositionProcess(
                 clockData, tdc, energy_frac * energy
             );
-            std::cout << edep_index << std::endl;
+            det_edep.emplace_back(edep_index);
         }
 
         void AddDaughterDetectorSimulation(
