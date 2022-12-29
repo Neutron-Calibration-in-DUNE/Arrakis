@@ -59,6 +59,12 @@ namespace arrakis
             fhicl::Comment("Whether to save primary data arrays.")
         };
 
+        fhicl::Atom<bool> GenerateSoloPointCloudData
+        {
+            fhicl::Name("GenerateSoloPointCloudData"),
+            fhicl::Comment("Whether to save point cloud data from different sources.")
+        };
+
         fhicl::Atom<bool> Generate2DArrays
         {
             fhicl::Name("Generate2DArrays"),

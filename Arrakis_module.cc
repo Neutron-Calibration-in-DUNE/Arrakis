@@ -126,20 +126,20 @@ namespace arrakis
         // Primary Data
         PrimaryData* mPrimaryData;
         // SoloPointCloudGenerator
-        SoloPointCloudGenerator mSoloPointCloudGenerator;
+        SoloPointCloudGenerator* mSoloPointCloudGenerator;
 
-        //ArrayGenerator
-        ArrayGenerator mArrayGenerator;
-        // Gamma table
-        GammaTable mGammaTable;
-        // Label Generator
-        LabelGenerator mLabelGenerator;
-        // Event Level Neutron Information
-        EvtLvlNeutronInfo mEvtLvlNeutronInfo;
-        // Neutron Capture Info
-        NeutronCapture mNeutronCapture;
+        // //ArrayGenerator
+        // ArrayGenerator mArrayGenerator;
+        // // Gamma table
+        // GammaTable mGammaTable;
+        // // Label Generator
+        // LabelGenerator mLabelGenerator;
+        // // Event Level Neutron Information
+        // EvtLvlNeutronInfo mEvtLvlNeutronInfo;
+        // // Neutron Capture Info
+        // NeutronCapture mNeutronCapture;
 
-        SingleNeutronCalibration mSingleNeutronCalibration;
+        // SingleNeutronCalibration mSingleNeutronCalibration;
 
     };
 
@@ -250,7 +250,7 @@ namespace arrakis
                     mTPCInstanceLabel.label()
                 )
             );
-            mPrimaryData->ProcessEventDetectorSim(
+            mPrimaryData->ProcessEventDetectorSimulation(
                 mParticleMaps, 
                 clockData,
                 mcSimChannels,
