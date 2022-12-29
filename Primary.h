@@ -76,6 +76,7 @@ namespace arrakis
 
         // Daughter MC Particle info.
         std::vector<Int_t> daughter_ids = {};
+        std::map<Int_t, Int_t> daughter_map = {};
         std::vector<Int_t> daughter_level = {};
 
         std::vector<std::string> daughter_init_process = {};
@@ -142,7 +143,7 @@ namespace arrakis
         {
             // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                _init_x, _init_y, _init_z,
+                _init_x, _init_y, _init_z
             );
         }
 
@@ -178,7 +179,7 @@ namespace arrakis
         {
             // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                init_x, init_y, init_z,
+                init_x, init_y, init_z
             );
 
             daughter_ids.emplace_back(track_id);
