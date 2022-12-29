@@ -295,7 +295,7 @@ namespace arrakis
             for (auto uncomp : uncompressed) {
                 uncomp -= pedestal;
             }
-            auto truth_channel = mcChannels[channel]; 
+            sim::SimChannel truth_channel = mcChannels[channel]; 
 
             for(int l=0; l < num_samples; l++) 
             {
