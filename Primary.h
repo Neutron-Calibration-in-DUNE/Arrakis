@@ -93,7 +93,7 @@ namespace arrakis
         std::vector<Double_t> daughter_end_y = {};
         std::vector<Double_t> daughter_end_z = {};
 
-        std::vector<Trajectory> daughter_trajectory = {};
+        std::vector<Trajectory> daughter_trajectories = {};
 
         // Daughter energy deposits.
         Double_t total_daughter_edep_energy = {0};
@@ -117,14 +117,48 @@ namespace arrakis
         std::vector<Int_t> det_edep = {};
         std::vector<std::string> det_process = {};
 
-
         Primary(){}
+
+        Primary(simb::MCParticle particle)
+        {
+            track_id = particle.TrackId();
+            pdg = particle.PdgCode();
+            init_process = particle.Process();
+            init_energy = particle.E();
+            init_t = particle.T();
+            init_x = particle.Vx();
+            init_y = particle.Vy();
+            init_z = particle.Vz();
+            end_process = particle.EndProcess();
+            end_energy = particle.EndE();
+            end_x = particle.EndX();
+            end_y = particle.EndY();
+            end_z = particle.EndZ();
+
+            simb::MCTrajectory trajectory = particle.Trajectory();
+            auto trajectory_processes = trajectory.TrajectoryProcesses();
+
+            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints; ii++)
+            {
+                // Get the volume information for trajectory point.
+                auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
+                   particle.Vx(ii), particle.Vy(ii), particle.Vz(ii)
+                );
+                primary_trajectory.AddTrajectoryPoint(
+                    particle.T(ii), particle.Vx(ii), particle.Vy(ii), particle.Vz(ii),
+                    particle.E(ii), trajectory_processes[ii], volume.volume_name,
+                    volume.material_name
+                );
+            }
+
+        }
+
         Primary(
             Int_t _track_id, Int_t _pdg, std::string _init_process,
             Double_t _init_energy, Double_t _init_t, Double_t _init_x, Double_t _init_y,
             Double_t _init_z, std::string _end_process, Double_t _end_energy,
             Double_t _end_t, Double_t _end_x, Double_t _end_y, Double_t _end_z,
-            simb::MCTrajectory trajectory
+            simb::MCTrajectory _trajectory
         )
         : track_id(_track_id)
         , pdg(_pdg)
@@ -145,6 +179,7 @@ namespace arrakis
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
                 _init_x, _init_y, _init_z
             );
+            
         }
 
         void AddEdep(
@@ -166,6 +201,42 @@ namespace arrakis
             edep_y.emplace_back(y);
             edep_z.emplace_back(z);
             total_edep_energy += energy;
+        }
+
+        void AddDaughter(simb::MCParticle particle, Int_t level)
+        {
+            daughter_ids.emplace_back(particle.TrackId());
+            daughter_level.emplace_back(level);
+            daughter_init_process.emplace_back(particle.Process());
+            daughter_init_energy.emplace_back(particle.E());
+            daughter_init_t.emplace_back(particle.T());
+            daughter_init_x.emplace_back(particle.Vx());
+            daughter_init_y.emplace_back(particle.Vy());
+            daughter_init_z.emplace_back(particle.Vz());
+            daughter_end_process.emplace_back(particle.EndProcess());
+            daughter_end_energy.emplace_back(particle.EndE());
+            daughter_end_t.emplace_back(particle.EndT());
+            daughter_end_x.emplace_back(particle.EndX());
+            daughter_end_y.emplace_back(particle.EndY());
+            daughter_end_z.emplace_back(particle.EndZ());
+
+            simb::MCTrajectory trajectory = particle.Trajectory();
+            auto trajectory_processes = trajectory.TrajectoryProcesses();
+            Trajectory daughter_trajectory;
+
+            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints; ii++)
+            {
+                // Get the volume information for trajectory point.
+                auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
+                   particle.Vx(ii), particle.Vy(ii), particle.Vz(ii)
+                );
+                daughter_trajectory.AddTrajectoryPoint(
+                    particle.T(ii), particle.Vx(ii), particle.Vy(ii), particle.Vz(ii),
+                    particle.E(ii), trajectory_processes[ii], volume.volume_name,
+                    volume.material_name
+                );
+            }
+            daughter_trajectories.emplace_back(daughter_trajectory);
         }
 
         void AddDaughter(

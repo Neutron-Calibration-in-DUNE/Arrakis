@@ -192,22 +192,25 @@ namespace arrakis
             // a new entry in mPrimaries.
             if(particle.Mother() == 0) 
             {
+                // mPrimaries.emplace_back(Primary(
+                //     particle.TrackId(),
+                //     particle.PdgCode(),
+                //     particle.Process(),
+                //     particle.E(),
+                //     particle.T(),
+                //     particle.Vx(),
+                //     particle.Vy(),
+                //     particle.Vz(),
+                //     particle.EndProcess(),
+                //     particle.EndE(),
+                //     particle.EndT(),
+                //     particle.EndX(),
+                //     particle.EndY(),
+                //     particle.EndZ(),
+                //     particle.Trajectory()
+                // ));
                 mPrimaries.emplace_back(Primary(
-                    particle.TrackId(),
-                    particle.PdgCode(),
-                    particle.Process(),
-                    particle.E(),
-                    particle.T(),
-                    particle.Vx(),
-                    particle.Vy(),
-                    particle.Vz(),
-                    particle.EndProcess(),
-                    particle.EndE(),
-                    particle.EndT(),
-                    particle.EndX(),
-                    particle.EndY(),
-                    particle.EndZ(),
-                    particle.Trajectory()
+                    particle
                 ));
             }
             // Otherwise, find the associated primary
@@ -220,22 +223,25 @@ namespace arrakis
                 if(primary_index == -1) {
                     continue;
                 }
+                // mPrimaries[primary_index].AddDaughter(
+                //     particle.TrackId(),
+                //     particle_maps->GetAncestorLevel(particle.TrackId()),
+                //     particle.Process(),
+                //     particle.E(),
+                //     particle.T(),
+                //     particle.Vx(),
+                //     particle.Vy(),
+                //     particle.Vz(),
+                //     particle.EndProcess(),
+                //     particle.EndE(),
+                //     particle.EndT(),
+                //     particle.EndX(),
+                //     particle.EndY(),
+                //     particle.EndZ(),
+                //     particle.Trajectory()
+                // );
                 mPrimaries[primary_index].AddDaughter(
-                    particle.TrackId(),
-                    particle_maps->GetAncestorLevel(particle.TrackId()),
-                    particle.Process(),
-                    particle.E(),
-                    particle.T(),
-                    particle.Vx(),
-                    particle.Vy(),
-                    particle.Vz(),
-                    particle.EndProcess(),
-                    particle.EndE(),
-                    particle.EndT(),
-                    particle.EndX(),
-                    particle.EndY(),
-                    particle.EndZ(),
-                    particle.Trajectory()
+                    particle, particle_maps->GetAncestorLevel(particle.TrackId())
                 );
             }
         }
