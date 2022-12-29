@@ -78,14 +78,17 @@ namespace arrakis
                 mTTree->Branch("det_energy_fraction", &mPrimary.det_energy_fraction);
                 mTTree->Branch("det_energy", &mPrimary.det_energy);
                 mTTree->Branch("det_channel", &mPrimary.det_channel);
+                mTTree->Branch("det_tick", *mPrimary.det_tick);
                 mTTree->Branch("det_tdc", &mPrimary.det_channel);
                 mTTree->Branch("det_adc", &mPrimary.det_adc);
                 mTTree->Branch("det_edep", &mPrimary.det_edep);
                 mTTree->Branch("det_process", &mPrimary.det_process);
 
+                mTTree->Branch("daughter_det_track_id", &mPrimary.daughter_det_track_id);
                 mTTree->Branch("daughter_det_energy_fraction", &mPrimary.daughter_det_energy_fraction);
                 mTTree->Branch("daughter_det_energy", &mPrimary.daughter_det_energy);
                 mTTree->Branch("daughter_det_channel", &mPrimary.daughter_det_channel);
+                mTTree->Branch("daughter_det_tick", &mPrimary.daughter_det_tick);
                 mTTree->Branch("daughter_det_tdc", &mPrimary.daughter_det_channel);
                 mTTree->Branch("daughter_det_adc", &mPrimary.daughter_det_adc);
                 mTTree->Branch("daughter_det_edep", &mPrimary.daughter_det_edep);
@@ -107,55 +110,6 @@ namespace arrakis
             }
         }
         return -1;
-    }
-    
-    /**
-     * Here we match the detector output to the sim energy deposit,
-     * and then grab the process that created the energy deposit.
-    */
-    void PrimaryData::FindDetectorProcess(
-        detinfo::DetectorClocksData const& clockData,
-        Int_t primary_index, Int_t track_id, 
-        Double_t energy, unsigned int tdc
-    )
-    {
-        Int_t edep_index = -1;
-        std::string process = "not_found";
-        if(mPrimaries[primary_index].track_id == track_id)
-        {
-            for(size_t ii = 0; ii < mPrimaries[primary_index].edep_energy.size(); ii++)
-            {
-                if(
-                    mPrimaries[primary_index].edep_energy[ii] == energy &&
-                    clockData.TPCG4Time2TDC(mPrimaries[primary_index].edep_t[ii]) == tdc
-                ) 
-                {
-                    edep_index = ii;
-                    process = mPrimaries[primary_index].edep_process[ii];
-                    break;
-                }
-            }
-        }
-        else
-        {
-            for(size_t ii = 0; ii < mPrimaries[primary_index].daughter_edep_energy.size(); ii++)
-            {
-                if(
-                    mPrimaries[primary_index].daughter_edep_ids[ii] == track_id &&
-                    mPrimaries[primary_index].daughter_edep_energy[ii] == energy &&
-                    clockData.TPCG4Time2TDC(mPrimaries[primary_index].daughter_edep_t[ii]) == tdc
-                ) 
-                {
-                    edep_index = ii;
-                    process = mPrimaries[primary_index].daughter_edep_process[ii];
-                    break;
-                }
-            }
-        }
-        mPrimaries[primary_index].det_edep.emplace_back(edep_index);
-        mPrimaries[primary_index].det_process.emplace_back(
-            process
-        );
     }
 
     void PrimaryData::ResetEvent()

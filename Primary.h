@@ -169,19 +169,42 @@ namespace arrakis
         }
 
         Int_t FindPrimaryEnergyDeposition(
-            detinfo::DetectorClocksData const& clockData,
-            Double_t time, Double_t energy, 
             Double_t x, Double_t y, Double_t z
         )
         {
             Int_t edep_index = -1;
+            Double_t distance = 10e10;
             for(size_t ii = 0; ii < edep_t.size(); ii++)
             {
-                std::cout << "tpc: (" << x << "," << y << "," << z << ")\n";
-                std::cout << "edep: (" << edep_x[ii] << "," << edep_y[ii] << "," << edep_z[ii] << ")" << std::endl;
-                //std::cout << track_id << " - " << ii << " - time: " << clockData.TPCTick2TDC(time) << " - edep time: " << clockData.TPCG4Time2TDC(edep_t[ii]) << std::endl;
-                if(edep_energy[ii] == energy) {
+                Double_t temp_distance = sqrt(
+                    (edep_x[ii] - x)**2 + (edep_y[ii] - y)**2 + (edep_z[ii] - z)**2
+                );
+                if(temp_distance < distance) 
+                {
                     edep_index = ii;
+                    distance = temp_distance;
+                }
+            }
+            return edep_index;
+        }
+        Int_t FindDaughterEnergyDeposition(
+            Int_t track_id, Double_t x, Double_t y, Double_t z
+        )
+        {
+            Int_t edep_index = -1;
+            Double_t distance = 10e10;
+            for(size_t ii = 0; ii < daughter_edep_x.size(); ii++)
+            {
+                if(daughter_ids[ii] != track_id) { 
+                    continue;
+                }
+                Double_t temp_distance = sqrt(
+                    (daughter_edep_x[ii] - x)**2 + (daughter_edep_y[ii] - y)**2 + (daughter_edep_z[ii] - z)**2
+                );
+                if(temp_distance < distance) 
+                {
+                    edep_index = ii;
+                    distance = temp_distance;
                 }
             }
             return edep_index;
@@ -350,9 +373,10 @@ namespace arrakis
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
             Int_t edep_index = FindPrimaryEnergyDeposition(
-                clockData, tick, ide.energy, ide.x, ide.y, ide.z
+                ide.x, ide.y, ide.z
             );
             det_edep.emplace_back(edep_index);
+            det_process.emplace_back(edep_process[edep_index]);
         }
 
         void AddDaughterDetectorSimulation(
@@ -371,6 +395,11 @@ namespace arrakis
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
             daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
+            Int_t edep_index = FindDaugterEnergyDeposition(
+                ide.trackID, ide.x, ide.y, ide.z
+            );
+            det_edep.emplace_back(edep_index);
+            det_process.emplace_back(edep_process[edep_index]);
         }
     };
 }
