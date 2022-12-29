@@ -147,8 +147,8 @@ namespace arrakis
                 std::string process = "not_defined";
                 for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
                 {
-                    if(trajectory_process[jj].first == ii) {
-                        process = trajectory_process[jj].second;
+                    if(trajectory_processes[jj].first == ii) {
+                        process = trajectory_processes[jj].second;
                     }
                 }
                 primary_trajectory.AddTrajectoryPoint(
@@ -240,8 +240,8 @@ namespace arrakis
                 std::string process = "not_defined";
                 for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
                 {
-                    if(trajectory_process[jj].first == ii) {
-                        process = trajectory_process[jj].second;
+                    if(trajectory_processes[jj].first == ii) {
+                        process = trajectory_processes[jj].second;
                     }
                 }
                 daughter_trajectory.AddTrajectoryPoint(
