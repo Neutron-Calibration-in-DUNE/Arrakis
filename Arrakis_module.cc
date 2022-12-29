@@ -58,12 +58,12 @@
 #include "PrimaryData.h"
 #include "SoloPointCloudGenerator.h"
 
-#include "ArrayGenerator.h"
-#include "GammaTable.h"
-#include "LabelGenerator.h"
-#include "EvtLvlNeutronInfo.h"
-#include "NeutronCapture.h"
-#include "SingleNeutronCalibration.h"
+// #include "ArrayGenerator.h"
+// #include "GammaTable.h"
+// #include "LabelGenerator.h"
+// #include "EvtLvlNeutronInfo.h"
+// #include "NeutronCapture.h"
+// #include "SingleNeutronCalibration.h"
 
 namespace arrakis
 {

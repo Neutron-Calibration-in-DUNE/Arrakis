@@ -35,7 +35,7 @@
 
 namespace arrakis
 {
-    enum SoloPointCloudLabel = 
+    enum SoloPointCloudLabel
     {
         "None" = 0,
         "NeutronElastic" = 1,
