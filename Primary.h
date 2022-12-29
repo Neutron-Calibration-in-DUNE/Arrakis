@@ -145,7 +145,7 @@ namespace arrakis
                    particle.Vx(ii), particle.Vy(ii), particle.Vz(ii)
                 );
                 std::string process = "not_defined";
-                for(size_t jj = 0; jj < trajectory_process.size(); jj++)
+                for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
                 {
                     if(trajectory_process[jj].first == ii) {
                         process = trajectory_process[jj].second;
@@ -238,7 +238,7 @@ namespace arrakis
                    particle.Vx(ii), particle.Vy(ii), particle.Vz(ii)
                 );
                 std::string process = "not_defined";
-                for(size_t jj = 0; jj < trajectory_process.size(); jj++)
+                for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
                 {
                     if(trajectory_process[jj].first == ii) {
                         process = trajectory_process[jj].second;
