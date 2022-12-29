@@ -177,7 +177,7 @@ namespace arrakis
             for(size_t ii = 0; ii < edep_t.size(); ii++)
             {
                 Double_t temp_distance = sqrt(
-                    (edep_x[ii] - x)**2 + (edep_y[ii] - y)**2 + (edep_z[ii] - z)**2
+                    pow(edep_x[ii] - x, 2.0) + pow(edep_y[ii] - y, 2.0) + pow(edep_z[ii] - z, 2.0)
                 );
                 if(temp_distance < distance) 
                 {
@@ -199,7 +199,7 @@ namespace arrakis
                     continue;
                 }
                 Double_t temp_distance = sqrt(
-                    (daughter_edep_x[ii] - x)**2 + (daughter_edep_y[ii] - y)**2 + (daughter_edep_z[ii] - z)**2
+                    pow(daughter_edep_x[ii] - x, 2.0) + pow(daughter_edep_y[ii] - y, 2.0) + pow(daughter_edep_z[ii] - z, 2.0)
                 );
                 if(temp_distance < distance) 
                 {
