@@ -173,10 +173,20 @@ namespace arrakis
                    particle.Vx(ii), particle.Vy(ii), particle.Vz(ii)
                 );
                 std::string process = "not_defined";
-                for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
-                {
-                    if(trajectory_processes[jj].first == ii) {
-                        process = trajectory_processes[jj].second;
+                if(ii == 0) {
+                    process = init_process;
+                }
+                else if (ii == particle.NumberTrajectoryPoints() - 1) {
+                    process = end_process;
+                }
+                else
+                {   
+                    for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
+                    {
+                        if(trajectory_processes[jj].first == ii) {
+                            process = trajectory_processes[jj].second;
+                            break;
+                        }
                     }
                 }
                 primary_trajectory.AddTrajectoryPoint(
@@ -216,10 +226,20 @@ namespace arrakis
                    particle.Vx(ii), particle.Vy(ii), particle.Vz(ii)
                 );
                 std::string process = "not_defined";
-                for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
-                {
-                    if(trajectory_processes[jj].first == ii) {
-                        process = trajectory_processes[jj].second;
+                if(ii == 0) {
+                    process = particle.Process();
+                }
+                else if (ii == particle.NumberTrajectoryPoints() - 1) {
+                    process = particle.EndProcess();
+                }
+                else
+                {   
+                    for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
+                    {
+                        if(trajectory_processes[jj].first == ii) {
+                            process = trajectory_processes[jj].second;
+                            break;
+                        }
                     }
                 }
                 daughter_trajectory.AddTrajectoryPoint(
