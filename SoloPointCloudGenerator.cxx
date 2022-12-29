@@ -42,10 +42,10 @@ namespace arrakis
              * here.  
              */
             if(primary.pdg == 2112) {
-                ProcessNeutron(primary);
+                ProcessNeutron(primary, particle_maps);
             }
             else if(primary.pdg == 11) {
-                ProcessGamma(primary);
+                ProcessGamma(primary, particle_maps);
             }
             /**
              * @brief Determine the fraction of initial energy which was
@@ -59,7 +59,7 @@ namespace arrakis
             if(edep_energy_fraction < mEdepEnergyThreshold) {
                 solo_point_cloud.all_deposited = true;
             }
-            Int_t num_lar_edeps = 0;
+            size_t num_lar_edeps = 0;
             for(auto material : primary.edep_material)
             {
                 if(material == "LAr") {
@@ -80,7 +80,7 @@ namespace arrakis
     }
 
     void SoloPointCloudGenerator::ProcessNeutron(
-        Primary neutron
+        Primary neutron, ParticleMaps particle_maps
     )
     {
         /**
@@ -123,7 +123,7 @@ namespace arrakis
 
     }
     void SoloPointCloudGenerator::ProcessGamma(
-        Primary primary
+        Primary primary, ParticleMaps particle_maps
     )
     {
         SoloPointCloud solo_point_cloud;
