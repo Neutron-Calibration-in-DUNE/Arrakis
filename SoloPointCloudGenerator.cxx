@@ -30,11 +30,11 @@ namespace arrakis
     }
 
     void SoloPointCloudGenerator::ProcessEvent(
-        ParticleMaps particle_maps,
-        PrimaryData primary_data
+        ParticleMaps* particle_maps,
+        PrimaryData* primary_data
     )
     {
-        for(auto primary : primary_data.GetPrimaries())
+        for(auto primary : primary_data->GetPrimaries())
         {
             /**
              * @brief Depending on the type of particle,
@@ -80,7 +80,7 @@ namespace arrakis
     }
 
     void SoloPointCloudGenerator::ProcessNeutron(
-        Primary neutron, ParticleMaps particle_maps
+        Primary neutron, ParticleMaps* particle_maps
     )
     {
         /**
@@ -109,7 +109,7 @@ namespace arrakis
         std::vector<Int_t> gamma_ids;
         for(auto daughter : neutron.daughter_ids)
         {
-            if(particle_maps.GetPDGCode[daughter] == 22) {
+            if(particle_maps->GetPDGCode(daughter) == 22) {
                 gamma_ids.emplace_back(daughter);
             }
         }
@@ -123,7 +123,7 @@ namespace arrakis
 
     }
     void SoloPointCloudGenerator::ProcessGamma(
-        Primary primary, ParticleMaps particle_maps
+        Primary primary, ParticleMaps* particle_maps
     )
     {
         SoloPointCloud solo_point_cloud;

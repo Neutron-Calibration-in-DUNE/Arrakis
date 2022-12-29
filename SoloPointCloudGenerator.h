@@ -70,13 +70,13 @@ namespace arrakis
         SoloPointCloudGenerator();
         ~SoloPointCloudGenerator();
 
-        void ProcessEvent(ParticleMaps particle_maps, PrimaryData primary_data);
+        void ProcessEvent(ParticleMaps* particle_maps, PrimaryData* primary_data);
 
         void ProcessNeutron(
-            Primary neutron, ParticleMaps particle_maps
+            Primary neutron, ParticleMaps* particle_maps
         );
         void ProcessGamma(
-            Primary gamma, ParticleMaps particle_maps
+            Primary gamma, ParticleMaps* particle_maps
         );
     private:
         art::ServiceHandle<art::TFileService> mTFileService;
