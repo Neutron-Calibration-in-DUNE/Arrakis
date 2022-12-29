@@ -117,6 +117,34 @@ namespace arrakis
         std::vector<Int_t> det_edep = {};
         std::vector<std::string> det_process = {};
 
+        /**
+         * Here we are trying to match up the point at which
+         * the energy deposition was created with the MC Particle
+         * process that caused the energy deposition.  We do this
+         * by checking if the energy values and local time of the 
+         * event match.
+        */
+        std::string FindPrimaryEnergyDepositionProcess(sim::SimEnergyDeposit edep)
+        {
+            std::string process = "not_found";
+            for(size_t ii = 0; ii < primary_trajectory.t.size(); ii++)
+            {
+                if(edep.StartT() == primary_trajectory.t[ii])
+                {
+                    process = primary_trajectory.process[ii];
+                    std::cout << edep.Energy() << ", " << primary_trajectory.energy[ii] << std::endl;
+                }
+            }
+            return process;
+        }
+
+        std::string FindDaughterEnergyDepositionProcess(sim::SimEnergyDeposit edep)
+        {
+            std::string process = "not_found";
+
+            return process;
+        }
+
         Primary(){}
 
         Primary(simb::MCParticle particle)
@@ -158,56 +186,6 @@ namespace arrakis
                 );
             }
 
-        }
-
-        Primary(
-            Int_t _track_id, Int_t _pdg, std::string _init_process,
-            Double_t _init_energy, Double_t _init_t, Double_t _init_x, Double_t _init_y,
-            Double_t _init_z, std::string _end_process, Double_t _end_energy,
-            Double_t _end_t, Double_t _end_x, Double_t _end_y, Double_t _end_z,
-            simb::MCTrajectory _trajectory
-        )
-        : track_id(_track_id)
-        , pdg(_pdg)
-        , init_process(_init_process)
-        , init_energy(_init_energy)
-        , init_t(_init_t)
-        , init_x(_init_x)
-        , init_y(_init_y)
-        , init_z(_init_z)
-        , end_process(_end_process)
-        , end_energy(_end_energy)
-        , end_t(_end_t)
-        , end_x(_end_x)
-        , end_y(_end_y)
-        , end_z(_end_z)
-        {
-            // Get the volume information for the energy deposit.
-            auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                _init_x, _init_y, _init_z
-            );
-            
-        }
-
-        void AddEdep(
-            Double_t energy, std::string process,
-            Double_t t, Double_t x, Double_t y, Double_t z
-        )
-        {
-            // Get the volume information for the energy deposit.
-            auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                x, y, z
-            );
-
-            edep_energy.emplace_back(energy);
-            edep_process.emplace_back(process);
-            edep_volume.emplace_back(volume.volume_name);
-            edep_material.emplace_back(volume.material_name);
-            edep_t.emplace_back(t);
-            edep_x.emplace_back(x);
-            edep_y.emplace_back(y);
-            edep_z.emplace_back(z);
-            total_edep_energy += energy;
         }
 
         void AddDaughter(simb::MCParticle particle, Int_t level)
@@ -253,56 +231,43 @@ namespace arrakis
             daughter_trajectories.emplace_back(daughter_trajectory);
         }
 
-        void AddDaughter(
-            Int_t track_id, Int_t level,
-            std::string init_process, Double_t init_energy,
-            Double_t init_t, Double_t init_x, Double_t init_y, Double_t init_z,
-            std::string end_process, Double_t end_energy,
-            Double_t end_t, Double_t end_x, Double_t end_y, Double_t end_z,
-            simb::MCTrajectory trajectory
-        )
+        void AddEdep(sim::SimEnergyDeposit edep)
         {
             // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                init_x, init_y, init_z
+                edep.MidPointX(), edep.MidPointY(), edep.MidPointZ()
             );
+            std::string process = FindPrimaryEnergyDepositionProcess(edep);
 
-            daughter_ids.emplace_back(track_id);
-            daughter_level.emplace_back(level);
-            daughter_init_process.emplace_back(init_process);
-            daughter_init_energy.emplace_back(init_energy);
-            daughter_init_t.emplace_back(init_t);
-            daughter_init_x.emplace_back(init_x);
-            daughter_init_y.emplace_back(init_y);
-            daughter_init_z.emplace_back(init_z);
-            daughter_end_process.emplace_back(end_process);
-            daughter_end_energy.emplace_back(end_energy);
-            daughter_end_t.emplace_back(end_t);
-            daughter_end_x.emplace_back(end_x);
-            daughter_end_y.emplace_back(end_y);
-            daughter_end_z.emplace_back(end_z);
+            edep_energy.emplace_back(edep.Energy());
+            edep_process.emplace_back(process);
+            edep_volume.emplace_back(volume.volume_name);
+            edep_material.emplace_back(volume.material_name);
+            edep_t.emplace_back(edep.Time());
+            edep_x.emplace_back(edep.MidPointX());
+            edep_y.emplace_back(edep.MidPointY());
+            edep_z.emplace_back(edep.MidPointZ());
+            total_edep_energy += edcep.Energy();
         }
 
-        void AddDaughterEdep(
-            Int_t track_id, Double_t energy, std::string process,
-            Double_t t, Double_t x, Double_t y, Double_t z
-        )
+        void AddDaughterEdep(sim::SimEnergyDeposit edep)
         {
             // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
-                x, y, z
+                edep.MidPointX(), edep.MidPointY(), edep.MidPointZ()
             );
+            std::string process = FindDaughterEnergyDepositionProcess(edep);
 
-            daughter_edep_ids.emplace_back(track_id);
-            daughter_edep_energy.emplace_back(energy);
+            daughter_edep_ids.emplace_back(edep.TrackID());
+            daughter_edep_energy.emplace_back(edep.Energy());
             daughter_edep_process.emplace_back(process);
             daughter_edep_volume.emplace_back(volume.volume_name);
             daughter_edep_material.emplace_back(volume.material_name);
-            daughter_edep_t.emplace_back(t);
-            daughter_edep_x.emplace_back(x);
-            daughter_edep_y.emplace_back(y);
-            daughter_edep_z.emplace_back(z);
-            total_daughter_edep_energy += energy;
+            daughter_edep_t.emplace_back(edep.Time());
+            daughter_edep_x.emplace_back(edep.MidPointX());
+            daughter_edep_y.emplace_back(edep.MidPointY());
+            daughter_edep_z.emplace_back(edep.MidPointZ());
+            total_daughter_edep_energy += edcep.Energy();
         }
 
         void AddDetectorSimulation(

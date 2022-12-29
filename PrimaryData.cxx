@@ -101,23 +101,7 @@ namespace arrakis
         }
         return -1;
     }
-    /**
-     * Here we are trying to match up the point at which
-     * the energy deposition was created with the MC Particle
-     * process that caused the energy deposition.  We do this
-     * by checking if the energy values and local time of the 
-     * event match.
-    */
-    std::string PrimaryData::FindEnergyDepositionProcess(
-        Int_t primary_index, Int_t track_id,
-        Double_t energy, Double_t t
-    )
-    {
-        std::string process = "not_found";
-
-        return process;    
-    }
-
+    
     /**
      * Here we match the detector output to the sim energy deposit,
      * and then grab the process that created the energy deposit.
@@ -192,23 +176,6 @@ namespace arrakis
             // a new entry in mPrimaries.
             if(particle.Mother() == 0) 
             {
-                // mPrimaries.emplace_back(Primary(
-                //     particle.TrackId(),
-                //     particle.PdgCode(),
-                //     particle.Process(),
-                //     particle.E(),
-                //     particle.T(),
-                //     particle.Vx(),
-                //     particle.Vy(),
-                //     particle.Vz(),
-                //     particle.EndProcess(),
-                //     particle.EndE(),
-                //     particle.EndT(),
-                //     particle.EndX(),
-                //     particle.EndY(),
-                //     particle.EndZ(),
-                //     particle.Trajectory()
-                // ));
                 mPrimaries.emplace_back(Primary(
                     particle
                 ));
@@ -223,23 +190,6 @@ namespace arrakis
                 if(primary_index == -1) {
                     continue;
                 }
-                // mPrimaries[primary_index].AddDaughter(
-                //     particle.TrackId(),
-                //     particle_maps->GetAncestorLevel(particle.TrackId()),
-                //     particle.Process(),
-                //     particle.E(),
-                //     particle.T(),
-                //     particle.Vx(),
-                //     particle.Vy(),
-                //     particle.Vz(),
-                //     particle.EndProcess(),
-                //     particle.EndE(),
-                //     particle.EndT(),
-                //     particle.EndX(),
-                //     particle.EndY(),
-                //     particle.EndZ(),
-                //     particle.Trajectory()
-                // );
                 mPrimaries[primary_index].AddDaughter(
                     particle, particle_maps->GetAncestorLevel(particle.TrackId())
                 );
@@ -256,17 +206,8 @@ namespace arrakis
             // associated with it.
             if(primary_index != -1) 
             {
-                std::string process = FindEnergyDepositionProcess(
-                    primary_index, edep.TrackID(),
-                    edep.Energy(), edep.Time()
-                );
                 mPrimaries[primary_index].AddEdep(
-                    edep.Energy(),
-                    process,
-                    edep.Time(),
-                    edep.MidPointX(),
-                    edep.MidPointY(),
-                    edep.MidPointZ()
+                    edep
                 );
             }
             else 
@@ -274,18 +215,8 @@ namespace arrakis
                 primary_index = FindPrimary(
                     particle_maps->GetAncestorTrackID(edep.TrackID())
                 );
-                std::string process = FindEnergyDepositionProcess(
-                    primary_index, edep.TrackID(),
-                    edep.Energy(), edep.Time()
-                );
                 mPrimaries[primary_index].AddDaughterEdep(
-                    edep.TrackID(),
-                    edep.Energy(),
-                    process,
-                    edep.Time(),
-                    edep.MidPointX(),
-                    edep.MidPointY(),
-                    edep.MidPointZ()
+                    edep
                 );
             }
         }

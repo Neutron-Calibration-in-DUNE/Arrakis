@@ -63,10 +63,6 @@ namespace arrakis
         );
         void FillTTree();
         Int_t FindPrimary(Int_t track_id);
-        std::string FindEnergyDepositionProcess(
-            Int_t primary_index, Int_t track_id,
-            Double_t energy, Double_t t
-        );
         void FindDetectorProcess(
             detinfo::DetectorClocksData const& clockData,
             Int_t primary_index, Int_t track_id, 
