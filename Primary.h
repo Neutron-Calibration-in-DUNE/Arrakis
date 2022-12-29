@@ -398,8 +398,8 @@ namespace arrakis
             Int_t edep_index = FindDaugterEnergyDeposition(
                 ide.trackID, ide.x, ide.y, ide.z
             );
-            det_edep.emplace_back(edep_index);
-            det_process.emplace_back(edep_process[edep_index]);
+            daughter_det_edep.emplace_back(edep_index);
+            daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
         }
     };
 }
