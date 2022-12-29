@@ -24,28 +24,48 @@ namespace arrakis
 
     std::string DetectorGeometry::GetTPCName(const size_t i) 
     {
-        if (i < mTPCNames.size()) { return mTPCNames[i]; }
-        else { return mTPCNames[0]; }
+        if (i < mTPCNames.size()) { 
+            return mTPCNames[i]; 
+        }
+        else { 
+            return mTPCNames[0]; 
+        }
     }
     BoundingBox DetectorGeometry::GetTPCBox(const size_t i) 
     {
-        if (i < mTPCBoxes.size()) { return mTPCBoxes[i]; }
-        else { return mTPCBoxes[0]; }
+        if (i < mTPCBoxes.size()) { 
+            return mTPCBoxes[i]; 
+        }
+        else { 
+            return mTPCBoxes[0]; 
+        }
     }
     BoundingBox DetectorGeometry::GetActiveTPCBox(const size_t i) 
     {
-        if (i < mActiveTPCBoxes.size()) { return mActiveTPCBoxes[i]; }
-        else { return mActiveTPCBoxes[0]; }
+        if (i < mActiveTPCBoxes.size()) { 
+            return mActiveTPCBoxes[i]; 
+        }
+        else { 
+            return mActiveTPCBoxes[0]; 
+        }
     }
     double DetectorGeometry::GetTPCMass(const size_t i) 
     {
-        if (i < mTPCMasses.size()) { return mTPCMasses[i]; }
-        else { return mTPCMasses[0]; }
+        if (i < mTPCMasses.size()) { 
+            return mTPCMasses[i]; 
+        }
+        else { 
+            return mTPCMasses[0]; 
+        }
     }
     double DetectorGeometry::GetTPCDriftDistance(const size_t i) 
     {
-        if (i < mTPCDriftDistances.size()) { return mTPCDriftDistances[i]; }
-        else { return mTPCDriftDistances[0]; }
+        if (i < mTPCDriftDistances.size()) { 
+            return mTPCDriftDistances[i]; 
+        }
+        else { 
+            return mTPCDriftDistances[0]; 
+        }
     }
 
     DetectorGeometry::DetectorGeometry(const std::string name)

@@ -109,9 +109,9 @@ namespace arrakis
         Primary(){}
         Primary(
             Int_t _track_id, Int_t _pdg, std::string _init_process,
-            Double_t _init_energy, Double_t init_t, Double_t _init_x, Double_t _init_y,
+            Double_t _init_energy, Double_t _init_t, Double_t _init_x, Double_t _init_y,
             Double_t _init_z, std::string _end_process, Double_t _end_energy,
-            Double_t end_t, Double_t _end_x, Double_t _end_y, Double_t _end_z
+            Double_t _end_t, Double_t _end_x, Double_t _end_y, Double_t _end_z
         )
         : track_id(_track_id)
         , pdg(_pdg)
@@ -132,7 +132,7 @@ namespace arrakis
         void AddEdep(
             Double_t energy, std::string process,
             std::string volume, std::string material,
-            Double_t x, Double_t y, Double_t z
+            Double_t t, Double_t x, Double_t y, Double_t z
         )
         {
             edep_energy.emplace_back(energy);
