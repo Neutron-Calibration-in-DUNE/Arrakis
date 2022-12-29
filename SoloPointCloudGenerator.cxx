@@ -18,7 +18,7 @@ namespace arrakis
         mTTree->Branch("tdc", &mSoloPointCloud.tdc);
         mTTree->Branch("adc", &mSoloPointCloud.adc);
         mTTree->Branch("energy", &mSoloPointCloud.energy);
-        mTTree->Branch("label", &mSoloPointCloud.label);
+        //mTTree->Branch("label", &mSoloPointCloud.label);
         mTTree->Branch("all_deposited", &mSoloPointCloud.all_deposited);
         mTTree->Branch("all_lar", &mSoloPointCloud.all_lar);
         mTTree->Branch("same_apa", &mSoloPointCloud.same_apa);
