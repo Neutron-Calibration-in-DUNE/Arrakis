@@ -34,7 +34,7 @@ namespace arrakis
         PrimaryData primary_data
     )
     {
-        for(auto primary : parimary_data)
+        for(auto primary : primary_data)
         {
             /**
              * @brief Depending on the type of particle,
@@ -54,7 +54,7 @@ namespace arrakis
              * it was deposited in the same TPC.  
              */
             SoloPointCloud solo_point_cloud;
-            Double_t edep_energy_fraciton = 
+            Double_t edep_energy_fraction = 
                 1.0 - (primary.total_edep_energy + primary.total_daughter_edep_energy) / primary.init_energy;
             if(edep_energy_fraction < mEdepEnergyThreshold) {
                 solo_point_cloud.all_deposited = true;

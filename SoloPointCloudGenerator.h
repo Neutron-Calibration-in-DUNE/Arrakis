@@ -52,7 +52,7 @@ namespace arrakis
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
         std::vector<Double_t> energy = {};
-        enum SoloPointCloudLabel label = {};
+        SoloPointCloudLabel label = {};
 
         bool all_deposited = false;
         bool all_lar = false;
@@ -68,6 +68,13 @@ namespace arrakis
         ~SoloPointCloudGenerator();
 
         void ProcessEvent(ParticleMaps particle_maps, PrimaryData primary_data);
+
+        void SoloPointCloudGenerator::ProcessNeutron(
+            PrimaryData neutron
+        );
+        void SoloPointCloudGenerator::ProcessGamma(
+            PrimaryData gamma
+        );
     private:
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;

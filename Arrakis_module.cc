@@ -265,7 +265,7 @@ namespace arrakis
         if(mGenerateSoloPointCloudData) {
             mSoloPointCloudGenerator->ProcessEvent(
                 mParticleMaps,
-                mPrimaryData
+               &mPrimaryData
             );
         }
         
