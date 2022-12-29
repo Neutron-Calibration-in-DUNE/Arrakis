@@ -36,13 +36,13 @@ namespace arrakis
 
             mTTree->Branch("daughter_ids", &mPrimary.daughter_ids);
             mTTree->Branch("daughter_level", &mPrimary.daughter_level);
-            mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
+            //mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
             mTTree->Branch("daughter_init_energy", &mPrimary.daughter_init_energy);
             mTTree->Branch("daughter_init_t", &mPrimary.daughter_init_t);
             mTTree->Branch("daughter_init_x", &mPrimary.daughter_init_x);
             mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_y);
             mTTree->Branch("daughter_init_y", &mPrimary.daughter_init_z);
-            mTTree->Branch("daughter_end_process", &mPrimary.daughter_end_process);
+            //mTTree->Branch("daughter_end_process", &mPrimary.daughter_end_process);
             mTTree->Branch("daughter_end_energy", &mPrimary.daughter_end_energy);
             mTTree->Branch("daughter_end_t", &mPrimary.daughter_end_t);
             mTTree->Branch("daughter_end_x", &mPrimary.daughter_end_x);
@@ -53,9 +53,9 @@ namespace arrakis
             {
                 mTTree->Branch("total_edep_energy", &mPrimary.total_edep_energy);
                 mTTree->Branch("edep_energy", &mPrimary.edep_energy);
-                mTTree->Branch("edep_volume", &mPrimary.edep_volume);
-                mTTree->Branch("edep_material", &mPrimary.edep_material);
-                mTTree->Branch("edep_process", &mPrimary.edep_process);
+                //mTTree->Branch("edep_volume", &mPrimary.edep_volume);
+                //mTTree->Branch("edep_material", &mPrimary.edep_material);
+                //mTTree->Branch("edep_process", &mPrimary.edep_process);
                 mTTree->Branch("edep_t", &mPrimary.edep_t);
                 mTTree->Branch("edep_x", &mPrimary.edep_x);
                 mTTree->Branch("edep_y", &mPrimary.edep_y);
@@ -64,9 +64,9 @@ namespace arrakis
                 mTTree->Branch("total_daughter_edep_energy", &mPrimary.total_daughter_edep_energy);
                 mTTree->Branch("daughter_edep_ids", &mPrimary.daughter_edep_ids);
                 mTTree->Branch("daughter_edep_energy", &mPrimary.daughter_edep_energy);
-                mTTree->Branch("daughter_edep_volume", &mPrimary.daughter_edep_volume);
-                mTTree->Branch("daughter_edep_material", &mPrimary.daughter_edep_material);
-                mTTree->Branch("daughter_edep_process", &mPrimary.daughter_edep_process);
+                //mTTree->Branch("daughter_edep_volume", &mPrimary.daughter_edep_volume);
+                //mTTree->Branch("daughter_edep_material", &mPrimary.daughter_edep_material);
+                //mTTree->Branch("daughter_edep_process", &mPrimary.daughter_edep_process);
                 mTTree->Branch("daughter_edep_t", &mPrimary.daughter_edep_t);
                 mTTree->Branch("daughter_edep_x", &mPrimary.daughter_edep_x);
                 mTTree->Branch("daughter_edep_y", &mPrimary.daughter_edep_y);
@@ -82,7 +82,7 @@ namespace arrakis
                 mTTree->Branch("det_tdc", &mPrimary.det_channel);
                 mTTree->Branch("det_adc", &mPrimary.det_adc);
                 mTTree->Branch("det_edep", &mPrimary.det_edep);
-                mTTree->Branch("det_process", &mPrimary.det_process);
+                //mTTree->Branch("det_process", &mPrimary.det_process);
             }
         }
     }
@@ -101,6 +101,13 @@ namespace arrakis
         }
         return -1;
     }
+    /**
+     * Here we are trying to match up the point at which
+     * the energy deposition was created with the MC Particle
+     * process that caused the energy deposition.  We do this
+     * by checking if the energy values and local time of the 
+     * event match.
+    */
     std::string PrimaryData::FindEnergyDepositionProcess(
         Int_t primary_index, Int_t track_id,
         Double_t energy, Double_t t
