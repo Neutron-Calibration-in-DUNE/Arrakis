@@ -148,7 +148,22 @@ namespace arrakis
         std::string FindDaughterEnergyDepositionProcess(sim::SimEnergyDeposit edep)
         {
             std::string process = "not_found";
-
+            Int_t daughter_index = daughter_map[edep.TrackID()];
+            for(size_t ii = 0; ii < daughter_trajectories[daughter_index].t.size(); ii++)
+            {
+                if(edep.StartT() == daughter_trajectories[daughter_index].t[ii])
+                {
+                    process = daughter_trajectories[daughter_index].process[ii];
+                }
+                else if(edep.EndT() == daughter_trajectories[daughter_index].t[ii])
+                {
+                    process = daughter_trajectories[daughter_index].process[ii];
+                }
+                else if(edep.Time() == daughter_trajectories[daughter_index].t[ii])
+                {
+                    process = daughter_trajectories[daughter_index].process[ii];
+                }
+            }
             return process;
         }
 
@@ -208,6 +223,7 @@ namespace arrakis
         void AddDaughter(simb::MCParticle particle, Int_t level)
         {
             daughter_ids.emplace_back(particle.TrackId());
+            daughter_map[particle.TrackId()] = daughter_ids.size() - 1;
             daughter_level.emplace_back(level);
             daughter_init_process.emplace_back(particle.Process());
             daughter_init_energy.emplace_back(particle.E());
