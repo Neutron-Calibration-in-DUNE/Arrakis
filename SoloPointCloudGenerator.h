@@ -40,9 +40,9 @@ namespace arrakis
         None = 0,
         NeutronElastic = 1,
         NeutronCapture = 2,
-        NeutronGamma_4.75 = 3,
-        NeutronGamma_1.18 = 4
-    };
+        NeutronGammaLarge = 3,
+        NeutronGammaSmall = 4
+    }
 
     struct SoloPointCloud
     {

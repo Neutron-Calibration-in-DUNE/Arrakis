@@ -263,7 +263,7 @@ namespace arrakis
          * the various classes which construct training data.
          */
         if(mGenerateSoloPointCloudData) {
-            mSoloPointCloudGenerator->ProcessEvevnt(
+            mSoloPointCloudGenerator->ProcessEvent(
                 mParticleMaps,
                 mPrimaryData
             );

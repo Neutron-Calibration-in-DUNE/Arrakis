@@ -139,7 +139,7 @@ namespace arrakis
             for(size_t ii = 0; ii < mPrimaries[primary_index].daughter_edep_energy.size(); ii++)
             {
                 if(
-                    mPrimaries[primary_index].daughter_edep_ids[ii] == id &&
+                    mPrimaries[primary_index].daughter_edep_ids[ii] == track_id &&
                     mPrimaries[primary_index].daughter_edep_energy[ii] == energy &&
                     clockData.TPCG4Time2TDC(mPrimaries[primary_index].daughter_edep_t[ii]) == tdc
                 ) 
@@ -293,13 +293,13 @@ namespace arrakis
                 pedestal, digit.Compression()
             );
             for (auto uncomp : uncompressed) {
-                uncompressed -= pedestal;
+                uncomp -= pedestal;
             }
             auto truth_channel = mcChannels[channel]; 
 
-            for(unsigned int l=0; l < num_samples; l++) 
+            for(int l=0; l < num_samples; l++) 
             {
-                auto const& trackIDs = truth_channel.TrackIDEs(l, l);
+                auto const& trackIDs = truth_channel.TrackIDs(l, l);
                 if (trackIDs.size() == 0) { 
                     continue; 
                 }
@@ -307,7 +307,7 @@ namespace arrakis
                 for (auto track : trackIDs)
                 {
                     Int_t primary_index = FindPrimary(
-                        particle_maps.GetAncestorTrackID(track.trackID)
+                        particle_maps->GetAncestorTrackID(track.trackID)
                     );
                     if(primary_index != -1) 
                     {
@@ -317,7 +317,7 @@ namespace arrakis
                             track.energy,
                             l,
                             channel,
-                            (Int_t) (std::abs(uncompressed_pedestal[l]))
+                            (Int_t) (std::abs(uncompressed[l]))
                         );
                         FindDetectorProcess(
                             clockData, 
