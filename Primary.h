@@ -132,7 +132,14 @@ namespace arrakis
                 if(edep.StartT() == primary_trajectory.t[ii])
                 {
                     process = primary_trajectory.process[ii];
-                    std::cout << edep.Energy() << ", " << primary_trajectory.energy[ii] << std::endl;
+                }
+                else if(edep.EndT() == primary_trajectory.t[ii])
+                {
+                    process = primary_trajectory.process[ii];
+                }
+                else if(edep.Time() == primary_trajectory.t[ii])
+                {
+                    process = primary_trajectory.process[ii];
                 }
             }
             return process;
