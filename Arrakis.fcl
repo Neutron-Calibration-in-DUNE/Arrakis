@@ -13,12 +13,8 @@ Arrakis:
     SavePrimaryDataEdeps:      true
     SavePrimaryDataRawTPC:     true
 
+    # solo point clouds
     GenerateSoloPointCloudData: false
-
-    Generate2DArrays:       false
-    GenerateEvtLvlNInfo:    false
-    GenerateNCapInfo:       false
-    # GenerateSemanticLabels: true
 
     # module labels
     LArGeantProducerLabel:          "largeant"
@@ -27,6 +23,10 @@ Arrakis:
     SimChannelInstanceProducerLabel:"simpleSC"
     TPCInputLabel:                  "tpcrawdecoder"
     TPCInstanceLabel:               "daq"
+
+    # generator labels
+    Ar39Label:      "Ar39"
+
 
     # array parameters
     ADCThresholdUPlane:     0.0

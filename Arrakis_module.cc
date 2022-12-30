@@ -95,6 +95,8 @@ namespace arrakis
         bool    mSavePrimaryDataRawTPC;
 
         bool    mGenerateSoloPointCloudData;
+
+        bool    mAr39Simulated;
         
         bool    mGenerate2DArrays;
         bool    mGenerateEvtLvlNInfo;
@@ -113,6 +115,9 @@ namespace arrakis
         art::InputTag mTPCInputLabel;
         art::InputTag mTPCInstanceLabel;
 
+        std::vector<art::InputTag> mGeneratorLabels;
+        art::InputTag mAr39Label;
+
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
          *  by the directories for each type.
@@ -130,19 +135,6 @@ namespace arrakis
         // SoloPointCloudGenerator
         SoloPointCloudGenerator* mSoloPointCloudGenerator;
 
-        // //ArrayGenerator
-        // ArrayGenerator mArrayGenerator;
-        // // Gamma table
-        // GammaTable mGammaTable;
-        // // Label Generator
-        // LabelGenerator mLabelGenerator;
-        // // Event Level Neutron Information
-        // EvtLvlNeutronInfo mEvtLvlNeutronInfo;
-        // // Neutron Capture Info
-        // NeutronCapture mNeutronCapture;
-
-        // SingleNeutronCalibration mSingleNeutronCalibration;
-
     };
 
     // constructor
@@ -159,15 +151,22 @@ namespace arrakis
         mSavePrimaryDataEdeps =  mParameters().SavePrimaryDataEdeps();
         mSavePrimaryDataRawTPC =  mParameters().SavePrimaryDataRawTPC();
 
-        // generators
+        // solo point clouds
         mGenerateSoloPointCloudData = mParameters().GenerateSoloPointCloudData();
 
+        // module labels
         mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
         mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
         mSimChannelProducerLabel =  mParameters().SimChannelProducerLabel();
         mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
         mTPCInputLabel =    mParameters().TPCInputLabel();
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
+
+        // generator labels
+        mAr39Simulated = mParameters().Ar39Simulated();
+        if(mAr39Simulated) {
+            mGeneratorLabels.emplace_back(mParameters().Ar39Label());
+        }
 
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
@@ -213,9 +212,15 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
-        const art::FindManyP<simb::MCTruth> mcTruth(
-            mcParticleHandle, event, mLArGeantProducerLabel
-        );
+        std::vector<const art::Handle<simb::MCTruth>>   mcTruth;
+        for(auto label : mGeneratorLabels) {
+            mcTruth.emplace_back(
+                event.getValidHandle<simb::MCTruth>(label)
+            );
+        }
+        // const art::FindManyP<simb::MCTruth> mcTruth(
+        //     mcParticleHandle, event, mLArGeantProducerLabel
+        // );
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
             mLArGeantProducerLabel
         );

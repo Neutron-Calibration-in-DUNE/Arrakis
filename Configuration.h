@@ -65,48 +65,6 @@ namespace arrakis
             fhicl::Comment("Whether to save point cloud data from different sources.")
         };
 
-        fhicl::Atom<bool> Generate2DArrays
-        {
-            fhicl::Name("Generate2DArrays"),
-            fhicl::Comment("Whether to generate tdc/channel/adc arrays.")
-        };
-
-        fhicl::Atom<bool> GenerateEvtLvlNInfo
-        {
-            fhicl::Name("GenerateEvtLvlNInfo"),
-            fhicl::Comment("Whether to generate event level neutron info.")
-        };
-
-        fhicl::Atom<bool> GenerateNCapInfo
-        {
-            fhicl::Name("GenerateNCapInfo"),
-            fhicl::Comment("Whether to generate single neutron calibration info.")
-        };
-
-        fhicl::Atom<double> ADCThresholdUPlane
-        {
-            fhicl::Name("ADCThresholdUPlane"),
-            fhicl::Comment("ADC threshold value for U plane to use for filling 2D arrays.")
-        };
-
-        fhicl::Atom<double> ADCThresholdVPlane
-        {
-            fhicl::Name("ADCThresholdVPlane"),
-            fhicl::Comment("ADC threshold value for V plane to use for filling 2D arrays.")
-        };
-
-        fhicl::Atom<double> ADCThresholdZPlane
-        {
-            fhicl::Name("ADCThresholdZPlane"),
-            fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
-        };
-
-        fhicl::Atom<double> ClockTicks
-        {
-            fhicl::Name("ClockTicks"),
-            fhicl::Comment("Total clock ticks in an event.")
-        };
-
         /////////////////////////// Labels /////////////////////////////////////////////
 
         fhicl::Atom<art::InputTag> LArGeantProducerLabel
@@ -144,11 +102,45 @@ namespace arrakis
             fhicl::Comment("Tag of the input data product for the TPCInstanceLabel.")
         };
 
-        // fhicl::Atom<bool> GenerateSemanticLabels
-        // {
-        //     fhicl::Name("GenerateSemanticLabels"),
-        //     fhicl::Comment("Whether to generate semantic labels.")
-        // };
+        /////////////////////////// Generator Labels ////////////////////////////////////
+
+        fhicl::Atom<bool> Ar39Simulated
+        {
+            fhicl::Name("Ar39Simulated"),
+            fhicl::Comment("Whether ar39 was simulated.")
+        };
+        fhicl::Atom<art::InputTag> Ar39Label
+        {
+            fhicl::Name("Ar39Label"),
+            fhicl::Comment("Tag of the input data product for the Ar39Label.")
+        };
+
+        fhicl::Atom<double> ADCThresholdUPlane
+        {
+            fhicl::Name("ADCThresholdUPlane"),
+            fhicl::Comment("ADC threshold value for U plane to use for filling 2D arrays.")
+        };
+
+        fhicl::Atom<double> ADCThresholdVPlane
+        {
+            fhicl::Name("ADCThresholdVPlane"),
+            fhicl::Comment("ADC threshold value for V plane to use for filling 2D arrays.")
+        };
+
+        fhicl::Atom<double> ADCThresholdZPlane
+        {
+            fhicl::Name("ADCThresholdZPlane"),
+            fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
+        };
+
+        fhicl::Atom<double> ClockTicks
+        {
+            fhicl::Name("ClockTicks"),
+            fhicl::Comment("Total clock ticks in an event.")
+        };
+
+        
+
     };
 
     using Parameters = art::EDAnalyzer::Table<Configuration>;
