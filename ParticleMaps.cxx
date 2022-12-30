@@ -32,17 +32,21 @@ namespace arrakis
 
     void ParticleMaps::ResetEvent()
     {
-        mParentTrackIDMap.clear();
-        mAncestorTrackIDMap.clear();
+        mOriginMap.clear();
+        
+        
         mPDGMap.clear();
         mParentPDGMap.clear();
+        mParentTrackIDMap.clear();
         mAncestorPDGMap.clear();
+        mAncestorTrackIDMap.clear();
         mAncestorLevelMap.clear();
         mAncestorEnergyMap.clear();
         mParticleEnergyMap.clear();
     }
 
     void ParticleMaps::ProcessEvent(
+        const art::FindManyP<simb::MCTruth>& mcTruth,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
@@ -50,9 +54,8 @@ namespace arrakis
 
         for (auto particle : *mcParticles)
         {
-            mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mPDGMap[particle.TrackId()] = particle.PdgCode();
-
+            mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
         }
         for (auto particle : *mcParticles)
@@ -78,6 +81,13 @@ namespace arrakis
                 mAncestorPDGMap[particle.TrackId()] = mPDGMap[track_id];
                 mAncestorTrackIDMap[particle.TrackId()] = track_id;
                 mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
+            }
+        }
+        for(auto truth : *mcTruth)
+        {
+            for(size_t ii = 0; ii < truth.NParticles(); ii++)
+            {
+                mOriginMap[truth.GetParticle(ii).TrackId()] = truth.Origin();
             }
         }
         if(mSaveParticleMaps) {

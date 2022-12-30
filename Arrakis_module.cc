@@ -224,10 +224,12 @@ namespace arrakis
         );
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.
-        mParticleMaps->ProcessEvent(mcParticles);
+        mParticleMaps->ProcessEvent(
+            mcTruth, 
+            mcParticles
+        );
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
-            mcTruth,
             mcParticles, 
             mcEnergyDeposits
         );

@@ -23,6 +23,8 @@
 // LArSoft includes
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
+#include "nusimdata/SimulationBase/MCGeneratorInfo.h"
+#include "nusimdata/SimulationBase/MCNeutrino.h"
 
 // necessary ROOT libraries
 #include <TTree.h>
@@ -37,6 +39,7 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEvent(
+            const art::FindManyP<simb::MCTruth>& mcTruth,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
@@ -54,6 +57,7 @@ namespace arrakis
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
         
+        std::map<Int_t, simb::Origin_t> mOriginMap;
         std::map<Int_t, Int_t>      mPDGMap;
         std::map<Int_t, Int_t>      mParentPDGMap;
         std::map<Int_t, Int_t>      mParentTrackIDMap;
