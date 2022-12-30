@@ -212,7 +212,7 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
-        std::vector<const art::ValidHandle<simb::MCTruth>>   mcTruth;
+        std::vector<art::ValidHandle<simb::MCTruth>>   mcTruth;
         for(auto label : mGeneratorLabels) {
             mcTruth.emplace_back(
                 event.getValidHandle<simb::MCTruth>(label)

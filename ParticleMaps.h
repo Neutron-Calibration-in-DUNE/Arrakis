@@ -40,7 +40,7 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEvent(
-            std::vector<const art::ValidHandle<simb::MCTruth>>& mcTruth,
+            std::vector<art::ValidHandle<simb::MCTruth>>& mcTruth,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
