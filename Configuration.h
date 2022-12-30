@@ -104,10 +104,10 @@ namespace arrakis
 
         /////////////////////////// Generator Labels ////////////////////////////////////
 
-        fhicl::Atom<art::InputTag> Ar39InputTag
+        fhicl::Atom<art::InputTag> Ar39Label
         {
-            fhicl::Name("Ar39InputTag"),
-            fhicl::Comment("Tag of the input data product for the Ar39InputTag.")
+            fhicl::Name("Ar39Label"),
+            fhicl::Comment("Tag of the input data product for the Ar39Label.")
         };
 
         fhicl::Atom<double> ADCThresholdUPlane
