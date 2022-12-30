@@ -43,14 +43,17 @@ namespace arrakis
     }
 
     void ParticleMaps::ProcessEvent(
-        std::vector<art::ValidHandle<simb::MCTruth>>& mcTruth,
+        Generators* generators,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
         ResetEvent();
-        for(size_t ii = 0; ii < mcTruth.size(); ii++)
+        for(auto generator : generators->GetGenerators())
         {
-            
+            for(size_t jj = 0; jj < generator.truth.NParticles(); jj++)
+            {
+                
+            }
         }
         for (auto particle : *mcParticles)
         {

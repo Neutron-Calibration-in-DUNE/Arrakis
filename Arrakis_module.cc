@@ -31,13 +31,6 @@
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 
 #include "lardataobj/Simulation/SimEnergyDeposit.h"
-
-// #include "lardataobj/RecoBase/PFParticle.h"
-// #include "lardataobj/RecoBase/Cluster.h"
-// #include "lardataobj/RecoBase/Hit.h"
-// #include "lardataobj/RecoBase/Track.h"
-// #include "lardataobj/RecoBase/SpacePoint.h"
-// #include "lardataobj/RecoBase/Slice.h"
 #include "nusimdata/SimulationBase/MCGeneratorInfo.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
 #include "lardataobj/Simulation/SimChannel.h"
@@ -56,16 +49,10 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
+#include "GeneratorLabels.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
 #include "SoloPointCloudGenerator.h"
-
-// #include "ArrayGenerator.h"
-// #include "GammaTable.h"
-// #include "LabelGenerator.h"
-// #include "EvtLvlNeutronInfo.h"
-// #include "NeutronCapture.h"
-// #include "SingleNeutronCalibration.h"
 
 namespace arrakis
 {
@@ -115,8 +102,8 @@ namespace arrakis
         art::InputTag mTPCInputLabel;
         art::InputTag mTPCInstanceLabel;
 
-        std::vector<art::InputTag> mGeneratorLabels;
-        art::InputTag mAr39Label;
+        std::vector<art::InputTag> mGeneratorInputTags;
+        art::InputTag mAr39InputTag;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -128,6 +115,8 @@ namespace arrakis
 
         // Detector Geometry Instance
         DetectorGeometry* mGeometry;
+        // Generator Labels
+        Generators* mGenerators;
         // Particle Tree
         ParticleMaps* mParticleMaps;
         // Primary Data
@@ -212,15 +201,13 @@ namespace arrakis
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
-        std::vector<art::ValidHandle<simb::MCTruth>>   mcTruth;
+        // prepare generator labels, mc particles and sim energy deposits
+        std::vector<art::ValidHandle<simb::MCTruth>> mcTruth;
         for(auto label : mGeneratorLabels) {
             mcTruth.emplace_back(
                 event.getValidHandle<simb::MCTruth>(label)
             );
         }
-        // const art::FindManyP<simb::MCTruth> mcTruth(
-        //     mcParticleHandle, event, mLArGeantProducerLabel
-        // );
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
             mLArGeantProducerLabel
         );
@@ -229,8 +216,12 @@ namespace arrakis
         );
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.
+        mGenerators->ProcessEvent(
+            mGeneratorLabels,
+            mcTruth
+        );
         mParticleMaps->ProcessEvent(
-            mcTruth, 
+            mGenerators, 
             mcParticles
         );
         mPrimaryData->ProcessEventMC(

@@ -30,6 +30,8 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "Generators.h"
+
 namespace arrakis
 {
     class ParticleMaps
@@ -40,7 +42,7 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEvent(
-            std::vector<art::ValidHandle<simb::MCTruth>>& mcTruth,
+            Generators* generators,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
