@@ -24,6 +24,9 @@ Arrakis:
     TPCInputLabel:                  "tpcrawdecoder"
     TPCInstanceLabel:               "daq"
 
+    # generator 
+    Ar39Simulated:  true
+
     # generator labels
     Ar39Label:      "Ar39"
 
