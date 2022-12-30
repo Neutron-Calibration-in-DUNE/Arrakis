@@ -35,6 +35,7 @@ namespace arrakis
     void ParticleMaps::ResetEvent()
     {
         mOriginMap.clear();
+        mGeneratorMap.clear();
         mPDGMap.clear();
         mParentPDGMap.clear();
         mParentTrackIDMap.clear();
