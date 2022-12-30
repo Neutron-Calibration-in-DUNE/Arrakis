@@ -44,6 +44,8 @@ namespace arrakis
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
+        inline simb::Origin_t GetOrigin(Int_t trackID)  { return mOriginMap[trackID]; }
+        inline simb::MCGeneratorInfo GetGenerator(Int_t trackID)    { return mGeneratorMap[trackID]; }
         inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }
         inline Int_t GetParentPDG(Int_t trackID)        { return mParentPDGMap[trackID]; }
         inline Int_t GetParentTrackID(Int_t trackID)    { return mParentTrackIDMap[trackID]; }
@@ -59,6 +61,7 @@ namespace arrakis
         TTree *mTTree;
         
         std::map<Int_t, simb::Origin_t> mOriginMap;
+        std::map<Int_t, simb::MCGeneratorInfo> mGeneratorMap;
         std::map<Int_t, Int_t>      mPDGMap;
         std::map<Int_t, Int_t>      mParentPDGMap;
         std::map<Int_t, Int_t>      mParentTrackIDMap;

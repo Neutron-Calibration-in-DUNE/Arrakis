@@ -33,8 +33,6 @@ namespace arrakis
     void ParticleMaps::ResetEvent()
     {
         mOriginMap.clear();
-        
-        
         mPDGMap.clear();
         mParentPDGMap.clear();
         mParentTrackIDMap.clear();
@@ -54,7 +52,9 @@ namespace arrakis
         for(size_t ii = 0; ii < (*mcParticles).size(); ii++)
         {
             auto const& truth = mcTruth.at(ii);
+            const simb::MCGeneratorInfo& generator_info = truth[0]->GeneratorInfo();
             mOriginMap[truth[0]->GetParticle(0).TrackId()] = truth[0]->Origin();
+            mGeneratorMap[truth[0]->GetParticle(0).TrackId()] = generator_info.generator();
         }
         for (auto particle : *mcParticles)
         {
