@@ -246,8 +246,6 @@ namespace arrakis
                 rawDigit
             );
         }
-        mParticleMaps->FillTTree();
-        mPrimaryData->FillTTree();
         /**
          * @brief Now that everything is collected, we pass the data to 
          * the various classes which construct training data.
@@ -258,6 +256,8 @@ namespace arrakis
                 mPrimaryData
             );
         }
+        mParticleMaps->FillTTree();
+        mPrimaryData->FillTTree();
         
     }
     
