@@ -213,7 +213,7 @@ namespace arrakis
             mcParticles, 
             mcEnergyDeposits
         );
-
+        std::cout << "Processed MC..." << std::endl;
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
         if(
@@ -246,6 +246,7 @@ namespace arrakis
                 rawDigit
             );
         }
+        std::cout << "Processed Detector Simulation..." << std::endl;
         /**
          * @brief Now that everything is collected, we pass the data to 
          * the various classes which construct training data.
