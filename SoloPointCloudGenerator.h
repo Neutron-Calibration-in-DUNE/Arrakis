@@ -52,7 +52,6 @@ namespace arrakis
         Double_t lar_edep_fraction = {0};
 
         SoloPointCloud() {}
-        
     };
 
 

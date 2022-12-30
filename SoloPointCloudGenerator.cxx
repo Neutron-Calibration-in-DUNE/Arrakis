@@ -19,6 +19,7 @@ namespace arrakis
         mTTree->Branch("adc", &mSoloPointCloud.adc);
         mTTree->Branch("energy", &mSoloPointCloud.energy);
         mTTree->Branch("label", &mSoloPointCloud.label);
+        mTTree->Branch("label_id", &mSoloPointCloud.label_id);
         mTTree->Branch("all_deposited", &mSoloPointCloud.all_deposited);
         mTTree->Branch("all_lar", &mSoloPointCloud.all_lar);
         mTTree->Branch("same_apa", &mSoloPointCloud.same_apa);
@@ -28,6 +29,7 @@ namespace arrakis
         {
             {kNone, "none"},
             {kAr39, "ar39"},
+            {kPNS, "pns"},
             {kNeutronElastic, "neutron_elastic"},
             {kNeutronInelastic, "neutron_inelastic"},
             {kNeutronCapture, "neutron_capture"},
@@ -38,11 +40,12 @@ namespace arrakis
         {
             {kNone, -1},
             {kAr39, 0},
-            {kNeutronElastic, 1},
-            {kNeutronInelastic, 2},
-            {kNeutronCapture, 3},
-            {kNeutronCaptureGamma4_75, 4},
-            {kNeutronCaptureGamma1_18, 5},
+            {kPNS, 1},
+            {kNeutronElastic, 2},
+            {kNeutronInelastic, 3},
+            {kNeutronCapture, 4},
+            {kNeutronCaptureGamma4_75, 5},
+            {kNeutronCaptureGamma1_18, 6},
         };
     }
 
@@ -117,8 +120,11 @@ namespace arrakis
     {
         SoloPointCloud solo_point_cloud;
         solo_point_cloud.point_cloud_id = mPointCloudID;
+        std::cout << "HERE" << std::endl;
         solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
         solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
+        std::cout << solo_point_cloud.label << std::endl;
+        std::cout << solo_point_cloud.label_id << std::endl;
 
         // copy channels
         solo_point_cloud.channel.insert(
