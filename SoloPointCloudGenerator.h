@@ -41,7 +41,8 @@ namespace arrakis
         NeutronElastic = 1,
         NeutronCapture = 2,
         NeutronGammaLarge = 3,
-        NeutronGammaSmall = 4
+        NeutronGammaSmall = 4,
+        Ar39 = 5,
     };
 
     struct SoloPointCloud
@@ -71,6 +72,10 @@ namespace arrakis
         ~SoloPointCloudGenerator();
 
         void ProcessEvent(ParticleMaps* particle_maps, PrimaryData* primary_data);
+
+        void ProcessAr39(
+            Primary ar39, ParticleMaps* particle_maps
+        );
 
         void ProcessNeutron(
             Primary neutron, ParticleMaps* particle_maps

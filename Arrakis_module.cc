@@ -204,10 +204,10 @@ namespace arrakis
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
         // prepare generator labels, mc particles and sim energy deposits
-        std::vector<art::ValidHandle<simb::MCTruth>> mcTruth;
+        std::vector<art::ValidHandle<std::vector<simb::MCTruth>>> mcTruth;
         for(auto label : mGeneratorInputTags) {
             mcTruth.emplace_back(
-                event.getValidHandle<simb::MCTruth>(label)
+                event.getValidHandle<std::vector<simb::MCTruth>>(label)
             );
         }
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(

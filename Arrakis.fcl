@@ -4,7 +4,7 @@ Arrakis:
 {
     module_type:    "Arrakis"
 
-    # which products to generate
+    # which products to save
     SaveMeta:       true
     SaveGeometry:   true
 
@@ -13,6 +13,7 @@ Arrakis:
     SavePrimaryDataEdeps:      true
     SavePrimaryDataRawTPC:     true
 
+    # which products to generate
     # solo point clouds
     GenerateSoloPointCloudData: false
 

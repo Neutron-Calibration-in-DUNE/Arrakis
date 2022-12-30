@@ -52,9 +52,12 @@ namespace arrakis
         ResetEvent();
         for(auto generator : generators->GetGenerators())
         {
-            for(Int_t jj = 0; jj < (*generator.truth).NParticles(); jj++)
+            for(auto truth : (*generator.truth))
             {
-                mGeneratorLabelMap[(*generator.truth).GetParticle(jj).TrackId()] = generator.label;
+                for(Int_t jj = 0; jj < truth.NParticles(); jj++)
+                {
+                    mGeneratorLabelMap[truth.GetParticle(jj).TrackId()] = generator.label;
+                }
             }
         }
         for (auto particle : *mcParticles)

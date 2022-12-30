@@ -42,12 +42,12 @@ namespace arrakis
     {
         art::InputTag input_tag;
         std::string label;
-        art::ValidHandle<simb::MCTruth> truth;
+        art::ValidHandle<std::vector<simb::MCTruth>> truth;
 
         Generator(
             art::InputTag _input_tag,
             std::string _label, 
-            art::ValidHandle<simb::MCTruth> _truth
+            art::ValidHandle<std::vector<simb::MCTruth>> _truth
         )
         : input_tag(_input_tag)
         , label(_label)
@@ -65,7 +65,7 @@ namespace arrakis
         void ProcessEvent(
             std::vector<art::InputTag> inputTags,
             std::vector<std::string> labels,
-            std::vector<art::ValidHandle<simb::MCTruth>> mcTruth
+            std::vector<art::ValidHandle<std::vector<simb::MCTruth>>> mcTruth
         );
 
         const std::vector<Generator>& GetGenerators() { return mGenerators; }

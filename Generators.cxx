@@ -19,7 +19,7 @@ namespace arrakis
     void Generators::ProcessEvent(
         std::vector<art::InputTag> inputTags,
         std::vector<std::string> labels,
-        std::vector<art::ValidHandle<simb::MCTruth>> mcTruth
+        std::vector<art::ValidHandle<std::vector<simb::MCTruth>>> mcTruth
     )
     {
         for(size_t ii = 0; ii < labels.size(); ii++)
