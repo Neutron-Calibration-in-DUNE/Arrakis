@@ -15,11 +15,13 @@ namespace arrakis
         if(mSaveParticleMaps) 
         {
             mTTree = mTFileService->make<TTree>("particle_maps", "particle_maps");
-            mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
-            mTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
+            mTTree->Branch("origin", &mOriginMap);
+            mTTree->Branch("generator", &mGeneratorMap);
             mTTree->Branch("pdg_map", &mPDGMap);
             mTTree->Branch("parent_pdg_map", &mParentPDGMap);
+            mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
             mTTree->Branch("ancestor_pdg_map", &mAncestorPDGMap);
+            mTTree->Branch("ancestor_track_id_map", &mAncestorTrackIDMap);
             mTTree->Branch("ancestor_level_map", &mAncestorLevelMap);
             mTTree->Branch("ancestor_energy_map", &mAncestorEnergyMap);
             mTTree->Branch("parent_energy_map", &mParticleEnergyMap);
@@ -54,7 +56,7 @@ namespace arrakis
             auto const& truth = mcTruth.at(ii);
             const simb::MCGeneratorInfo& generator_info = truth[0]->GeneratorInfo();
             mOriginMap[truth[0]->GetParticle(0).TrackId()] = truth[0]->Origin();
-            mGeneratorMap[truth[0]->GetParticle(0).TrackId()] = generator_info.generator();
+            mGeneratorMap[truth[0]->GetParticle(0).TrackId()] = generator_info.generator;
         }
         for (auto particle : *mcParticles)
         {
