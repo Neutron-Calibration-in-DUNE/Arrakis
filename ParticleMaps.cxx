@@ -50,7 +50,7 @@ namespace arrakis
         ResetEvent();
         for(auto generator : generators->GetGenerators())
         {
-            for(size_t jj = 0; jj < generator.truth.NParticles(); jj++)
+            for(size_t jj = 0; jj < (*generator.truth).NParticles(); jj++)
             {
                 
             }

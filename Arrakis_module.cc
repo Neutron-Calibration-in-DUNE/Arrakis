@@ -49,7 +49,7 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
-#include "GeneratorLabels.h"
+#include "Generators.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
 #include "SoloPointCloudGenerator.h"
