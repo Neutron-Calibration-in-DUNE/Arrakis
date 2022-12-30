@@ -41,6 +41,8 @@ namespace arrakis
     struct Generator
     {
         std::string label = {"LES"};
+
+        art::InputTag input_tag;
         art::ValidHandle<simb::MCTruth> truth;
 
         Generator(
@@ -64,7 +66,7 @@ namespace arrakis
             std::vector<art::ValidHandle<simb::MCTruth>> mcTruth
         );
 
-        const std::vector<Generator>& Generators() { return mGenerators; }
+        const std::vector<Generator>& GetGenerators() { return mGenerators; }
 
     private:
         std::vector<Generator> mGenerators;
