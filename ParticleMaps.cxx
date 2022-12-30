@@ -16,7 +16,7 @@ namespace arrakis
         {
             mTTree = mTFileService->make<TTree>("particle_maps", "particle_maps");
             mTTree->Branch("origin", &mOriginMap);
-            mTTree->Branch("generator", &mGeneratorMap);
+            //mTTree->Branch("generator", &mGeneratorMap);
             mTTree->Branch("pdg_map", &mPDGMap);
             mTTree->Branch("parent_pdg_map", &mParentPDGMap);
             mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
@@ -55,9 +55,9 @@ namespace arrakis
         for(size_t ii = 0; ii < (*mcParticles).size(); ii++)
         {
             auto const& truth = mcTruth.at(ii);
-            const simb::MCGeneratorInfo& generator_info = truth[0]->GeneratorInfo();
+            //const simb::MCGeneratorInfo& generator_info = truth[0]->GeneratorInfo();
             mOriginMap[truth[0]->GetParticle(0).TrackId()] = truth[0]->Origin();
-            mGeneratorMap[truth[0]->GetParticle(0).TrackId()] = generator_info.generator;
+            //mGeneratorMap[truth[0]->GetParticle(0).TrackId()] = generator_info.generator;
         }
         for (auto particle : *mcParticles)
         {
