@@ -138,6 +138,7 @@ namespace arrakis
             if(particle.Mother() == 0) 
             {
                 mPrimaries.emplace_back(Primary(
+                    particle_maps->GetGeneratorLabel(particle.TrackId()),
                     particle
                 ));
             }

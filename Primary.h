@@ -44,7 +44,7 @@ namespace arrakis
 {
     struct Primary
     {
-        std::string generator_label = {"none"};
+        GeneratorLabel generator_label = {kNone};
         Int_t track_id = {0};
         Int_t pdg = {0};
 
@@ -218,8 +218,9 @@ namespace arrakis
 
         Primary(){}
 
-        Primary(simb::MCParticle particle)
+        Primary(GeneratorLabel label, simb::MCParticle particle)
         {
+            generator_label = label;
             track_id = particle.TrackId();
             pdg = particle.PdgCode();
             init_process = particle.Process();
