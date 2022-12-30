@@ -44,6 +44,7 @@ namespace arrakis
 {
     struct Primary
     {
+        std::string generator_label = {"none"};
         Int_t track_id = {0};
         Int_t pdg = {0};
 

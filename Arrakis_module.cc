@@ -83,17 +83,6 @@ namespace arrakis
 
         bool    mGenerateSoloPointCloudData;
 
-        bool    mAr39Simulated;
-        
-        bool    mGenerate2DArrays;
-        bool    mGenerateEvtLvlNInfo;
-        bool    mGenerateNCapInfo;
-        
-        double  mADCThresholdUPlane;
-        double  mADCThresholdVPlane;
-        double  mADCThresholdZPlane;
-        int     mClockTicks;
-
         // producer labels
         art::InputTag mLArGeantProducerLabel;
         art::InputTag mIonAndScintProducerLabel;
@@ -102,8 +91,7 @@ namespace arrakis
         art::InputTag mTPCInputLabel;
         art::InputTag mTPCInstanceLabel;
 
-        std::vector<art::InputTag> mGeneratorInputTags;
-        std::vector<std::string> mGeneratorLabels;
+        std::map<art::InputTag, GeneratorLabel> mGeneratorMap;
         art::InputTag mAr39InputTag;
 
         /// ROOT output through art::TFileService
@@ -153,11 +141,8 @@ namespace arrakis
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
 
         // generator labels
-        mAr39Simulated = mParameters().Ar39Simulated();
-        if(mAr39Simulated) {
-            mGeneratorInputTags.emplace_back(mParameters().Ar39Label());
-            mGeneratorLabels.emplace_back("ar39");
-        }
+        mAr39InputTag = mParameters().Ar39InputTag();
+        mGeneratorMap[mAr39InputTag] = GeneratorLabel::kAr39;
 
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
@@ -204,12 +189,6 @@ namespace arrakis
         art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
 
         // prepare generator labels, mc particles and sim energy deposits
-        std::vector<art::ValidHandle<std::vector<simb::MCTruth>>> mcTruth;
-        for(auto label : mGeneratorInputTags) {
-            mcTruth.emplace_back(
-                event.getValidHandle<std::vector<simb::MCTruth>>(label)
-            );
-        }
         auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
             mLArGeantProducerLabel
         );
@@ -218,13 +197,7 @@ namespace arrakis
         );
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.
-        mGenerators->ProcessEvent(
-            mGeneratorInputTags,
-            mGeneratorLabels,
-            mcTruth
-        );
         mParticleMaps->ProcessEvent(
-            mGenerators, 
             mcParticles
         );
         mPrimaryData->ProcessEventMC(
@@ -232,6 +205,8 @@ namespace arrakis
             mcParticles, 
             mcEnergyDeposits
         );
+        
+
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
         if(

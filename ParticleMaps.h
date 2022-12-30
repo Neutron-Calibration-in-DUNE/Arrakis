@@ -42,11 +42,10 @@ namespace arrakis
 
         void ResetEvent();
         void ProcessEvent(
-            Generators* generators,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
-        inline std::string GetGeneratorLabel(Int_t trackID) { return mGeneratorLabelMap[trackID]; }
+        inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return mGeneratorLabelMap[trackID]; }
         inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }
         inline Int_t GetParentPDG(Int_t trackID)        { return mParentPDGMap[trackID]; }
         inline Int_t GetParentTrackID(Int_t trackID)    { return mParentTrackIDMap[trackID]; }
@@ -61,7 +60,7 @@ namespace arrakis
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
         
-        std::map<Int_t, std::string> mGeneratorLabelMap;
+        std::map<Int_t, GeneratorLabel> mGeneratorLabelMap;
         std::map<Int_t, Int_t>      mPDGMap;
         std::map<Int_t, Int_t>      mParentPDGMap;
         std::map<Int_t, Int_t>      mParentTrackIDMap;

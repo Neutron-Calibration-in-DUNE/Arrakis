@@ -45,23 +45,13 @@ namespace arrakis
     }
 
     void ParticleMaps::ProcessEvent(
-        Generators* generators,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
         ResetEvent();
-        for(auto generator : generators->GetGenerators())
-        {
-            for(auto truth : (*generator.truth))
-            {
-                for(Int_t jj = 0; jj < truth.NParticles(); jj++)
-                {
-                    mGeneratorLabelMap[truth.GetParticle(jj).TrackId()] = generator.label;
-                }
-            }
-        }
         for (auto particle : *mcParticles)
         {
+            mGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::kNone;
             mPDGMap[particle.TrackId()] = particle.PdgCode();
             mParentTrackIDMap[particle.TrackId()] = particle.Mother();
             mParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;

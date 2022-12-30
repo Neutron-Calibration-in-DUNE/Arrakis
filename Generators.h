@@ -38,39 +38,10 @@
 
 namespace arrakis
 {
-    struct Generator
+    enum GeneratorLabel
     {
-        art::InputTag input_tag;
-        std::string label;
-        art::ValidHandle<std::vector<simb::MCTruth>> truth;
-
-        Generator(
-            art::InputTag _input_tag,
-            std::string _label, 
-            art::ValidHandle<std::vector<simb::MCTruth>> _truth
-        )
-        : input_tag(_input_tag)
-        , label(_label)
-        , truth(_truth)
-        {
-        }
+        kNone = 0,
+        kAr39 = 1,
     };
 
-    class Generators
-    {
-    public:
-        Generators();
-        ~Generators();
-
-        void ProcessEvent(
-            std::vector<art::InputTag> inputTags,
-            std::vector<std::string> labels,
-            std::vector<art::ValidHandle<std::vector<simb::MCTruth>>> mcTruth
-        );
-
-        const std::vector<Generator>& GetGenerators() { return mGenerators; }
-
-    private:
-        std::vector<Generator> mGenerators;
-    };
 }

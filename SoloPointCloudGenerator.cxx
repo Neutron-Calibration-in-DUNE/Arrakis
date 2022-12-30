@@ -79,6 +79,13 @@ namespace arrakis
         }
     }
 
+    void SoloPointCloudGenerator::ProcessAr39(
+        Primary ar39, ParticleMaps* particle_maps
+    )
+    {
+        
+    }
+
     void SoloPointCloudGenerator::ProcessNeutron(
         Primary neutron, ParticleMaps* particle_maps
     )
