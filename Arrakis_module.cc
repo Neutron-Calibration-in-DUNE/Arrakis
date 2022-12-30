@@ -103,6 +103,7 @@ namespace arrakis
         art::InputTag mTPCInstanceLabel;
 
         std::vector<art::InputTag> mGeneratorInputTags;
+        std::vector<std::string> mGeneratorLabels;
         art::InputTag mAr39InputTag;
 
         /// ROOT output through art::TFileService
@@ -154,7 +155,8 @@ namespace arrakis
         // generator labels
         mAr39Simulated = mParameters().Ar39Simulated();
         if(mAr39Simulated) {
-            mGeneratorLabels.emplace_back(mParameters().Ar39Label());
+            mGeneratorInputTags.emplace_back(mParameters().Ar39Label());
+            mGeneratorLabels.emplace_back("ar39");
         }
 
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
@@ -203,7 +205,7 @@ namespace arrakis
 
         // prepare generator labels, mc particles and sim energy deposits
         std::vector<art::ValidHandle<simb::MCTruth>> mcTruth;
-        for(auto label : mGeneratorLabels) {
+        for(auto label : mGeneratorInputTags) {
             mcTruth.emplace_back(
                 event.getValidHandle<simb::MCTruth>(label)
             );
@@ -217,6 +219,7 @@ namespace arrakis
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.
         mGenerators->ProcessEvent(
+            mGeneratorInputTags,
             mGeneratorLabels,
             mcTruth
         );

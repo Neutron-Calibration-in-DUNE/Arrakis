@@ -46,10 +46,12 @@ namespace arrakis
         art::ValidHandle<simb::MCTruth> truth;
 
         Generator(
+            art::InputTag _input_tag,
             std::string _label, 
             art::ValidHandle<simb::MCTruth> _truth
         )
-        : label(_label)
+        : input_tag(_input_tag)
+        , label(_label)
         , truth(_truth)
         {
         }
@@ -62,7 +64,8 @@ namespace arrakis
         ~Generators();
 
         void ProcessEvent(
-            std::vector<art::InputTag> labels,
+            std::vector<art::InputTag> inputTags,
+            std::vector<std::string> labels,
             std::vector<art::ValidHandle<simb::MCTruth>> mcTruth
         );
 

@@ -17,14 +17,15 @@ namespace arrakis
     }
 
     void Generators::ProcessEvent(
-        std::vector<art::InputTag> labels,
+        std::vector<art::InputTag> inputTags,
+        std::vector<std::string> labels,
         std::vector<art::ValidHandle<simb::MCTruth>> mcTruth
     )
     {
         for(size_t ii = 0; ii < labels.size(); ii++)
         {
             mGenerators.emplace_back(
-                Generator(labels[ii], mcTruth[ii])
+                Generator(inputTags[ii], labels[ii], mcTruth[ii])
             );
         }
     }
