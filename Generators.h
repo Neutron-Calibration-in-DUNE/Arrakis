@@ -42,11 +42,12 @@ namespace arrakis
     {
         kNone = 0,
         kAr39 = 1,
-        kNeutronElastic = 2,
-        kNeutronInelastic = 3,
-        kNeutronCapture = 4,
-        kNeutronCaptureGamma4_75 = 5,
-        kNeutronCaptureGamma1_18 = 6,
+        kPNS = 2,
+        kNeutronElastic = 3,
+        kNeutronInelastic = 4,
+        kNeutronCapture = 5,
+        kNeutronCaptureGamma4_75 = 6,
+        kNeutronCaptureGamma1_18 = 7,
     };
 
 }
