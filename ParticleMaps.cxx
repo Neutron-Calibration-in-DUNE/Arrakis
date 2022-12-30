@@ -15,6 +15,7 @@ namespace arrakis
         if(mSaveParticleMaps) 
         {
             mTTree = mTFileService->make<TTree>("particle_maps", "particle_maps");
+            mTTree->Branch("generator_label_map", &mGeneratorLabelMap);
             mTTree->Branch("pdg_map", &mPDGMap);
             mTTree->Branch("parent_pdg_map", &mParentPDGMap);
             mTTree->Branch("parent_track_id_map", &mParentTrackIDMap);
@@ -32,6 +33,7 @@ namespace arrakis
 
     void ParticleMaps::ResetEvent()
     {
+        mGeneratorLabelMap.clear();
         mPDGMap.clear();
         mParentPDGMap.clear();
         mParentTrackIDMap.clear();
@@ -50,9 +52,9 @@ namespace arrakis
         ResetEvent();
         for(auto generator : generators->GetGenerators())
         {
-            for(size_t jj = 0; jj < (*generator.truth).NParticles(); jj++)
+            for(Int_t jj = 0; jj < (*generator.truth).NParticles(); jj++)
             {
-                
+                mGeneratorLabelMap[(*generator.truth).GetParticle(jj).TrackId()] = generator.label;
             }
         }
         for (auto particle : *mcParticles)
