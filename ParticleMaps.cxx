@@ -43,12 +43,12 @@ namespace arrakis
     }
 
     void ParticleMaps::ProcessEvent(
-        std::vector<const art::Handle<simb::MCTruth>>& mcTruth,
+        std::vector<const art::ValidHandle<simb::MCTruth>>& mcTruth,
         const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
         ResetEvent();
-        for(auto truth : mcTruth)
+        for(size_t ii = 0; ii < mcTruth.size(); ii++)
         {
             
         }
