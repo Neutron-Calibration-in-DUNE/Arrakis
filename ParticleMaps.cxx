@@ -91,7 +91,10 @@ namespace arrakis
     {
         for(auto truth : *mcTruth)
         {
-            std::cout << truth.NParticles() << std::endl;
+            for(Int_t ii = 0; ii < truth.NParticles(); ii++)
+            {
+                mGeneratorLabelMap[truth.GetParticle(ii).TrackId()] = label;
+            }
         }
     }
 
