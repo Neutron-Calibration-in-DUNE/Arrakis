@@ -35,16 +35,6 @@
 
 namespace arrakis
 {
-    enum SoloPointCloudLabel
-    {
-        None = 0,
-        NeutronElastic = 1,
-        NeutronCapture = 2,
-        NeutronGammaLarge = 3,
-        NeutronGammaSmall = 4,
-        Ar39 = 5,
-    };
-
     struct SoloPointCloud
     {
         Int_t event_id = {-1};
@@ -53,7 +43,8 @@ namespace arrakis
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
         std::vector<Double_t> energy = {};
-        SoloPointCloudLabel label = {};
+        std::string label = {"none"};
+        Int_t label_id = {-1};
 
         bool all_deposited = false;
         bool all_lar = false;
@@ -71,15 +62,26 @@ namespace arrakis
         SoloPointCloudGenerator();
         ~SoloPointCloudGenerator();
 
-        void ProcessEvent(ParticleMaps* particle_maps, PrimaryData* primary_data);
+        void ProcessEvent(
+            ParticleMaps* particle_maps, PrimaryData* primary_data
+        );
 
         void ProcessAr39(
             Primary ar39, ParticleMaps* particle_maps
         );
 
+        void ProcessPNS(
+            Primary neutron, ParticleMaps* particle_maps
+        );
+
+        void ProcessLES(
+            Primary primary, ParticleMaps* particle_maps
+        );
+
         void ProcessNeutron(
             Primary neutron, ParticleMaps* particle_maps
         );
+        
         void ProcessGamma(
             Primary gamma, ParticleMaps* particle_maps
         );
@@ -87,7 +89,12 @@ namespace arrakis
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
 
+        Int_t mPointCloudID = {0};
+
         Double_t mEdepEnergyThreshold = {0.01};
+
+        std::map<GeneratorLabel, std::string> mGeneratorLabelNameMap;
+        std::map<GeneratorLabel, Int_t> mGeneratorLabelIDMap;
 
         std::vector<SoloPointCloud> mSoloPointClouds;
         SoloPointCloud mSoloPointCloud;

@@ -18,11 +18,32 @@ namespace arrakis
         mTTree->Branch("tdc", &mSoloPointCloud.tdc);
         mTTree->Branch("adc", &mSoloPointCloud.adc);
         mTTree->Branch("energy", &mSoloPointCloud.energy);
-        //mTTree->Branch("label", &mSoloPointCloud.label);
+        mTTree->Branch("label", &mSoloPointCloud.label);
         mTTree->Branch("all_deposited", &mSoloPointCloud.all_deposited);
         mTTree->Branch("all_lar", &mSoloPointCloud.all_lar);
         mTTree->Branch("same_apa", &mSoloPointCloud.same_apa);
         mTTree->Branch("lar_edep_fraction", &mSoloPointCloud.lar_edep_fraction);
+
+        mGeneratorLabelNameMap = 
+        {
+            {kNone, "none"},
+            {kAr39, "ar39"},
+            {kNeutronElastic, "neutron_elastic"},
+            {kNeutronInelastic, "neutron_inelastic"},
+            {kNeutronCapture, "neutron_capture"},
+            {kNeutronCaptureGamma4_75, "neutron_capture_gamma_4_75"},
+            {kNeutronCaptureGamma1_18, "neutron_capture_gamma_1_18"},
+        };
+        mGeneratorLabelIDMap = 
+        {
+            {kNone, -1},
+            {kAr39, 0},
+            {kNeutronElastic, 1},
+            {kNeutronInelastic, 2},
+            {kNeutronCapture, 3},
+            {kNeutronCaptureGamma4_75, 4},
+            {kNeutronCaptureGamma1_18, 5},
+        };
     }
 
     SoloPointCloudGenerator::~SoloPointCloudGenerator()
@@ -34,6 +55,7 @@ namespace arrakis
         PrimaryData* primary_data
     )
     {
+        mPointCloudID = 0;
         for(auto primary : primary_data->GetPrimaries())
         {
             /**
@@ -41,49 +63,118 @@ namespace arrakis
              * we will attach labels to the data that is stored from 
              * here.  
              */
-            if(primary.pdg == 2112) {
-                ProcessNeutron(primary, particle_maps);
+            if(primary.generator_label == kAr39) {
+                ProcessAr39(primary, particle_maps);
             }
-            else if(primary.pdg == 11) {
-                ProcessGamma(primary, particle_maps);
+            else if(primary.generator_label == kPNS) {
+                ProcessPNS(primary, particle_maps);
             }
-            /**
-             * @brief Determine the fraction of initial energy which was
-             * deposited in the detector, as well as whether it was 
-             * deposited all in the active volume LAr, and whether
-             * it was deposited in the same TPC.  
-             */
-            SoloPointCloud solo_point_cloud;
-            Double_t edep_energy_fraction = 
-                1.0 - (primary.total_edep_energy + primary.total_daughter_edep_energy) / primary.init_energy;
-            if(edep_energy_fraction < mEdepEnergyThreshold) {
-                solo_point_cloud.all_deposited = true;
+            else {
+                ProcessLES(primary, particle_maps);
             }
-            size_t num_lar_edeps = 0;
-            for(auto material : primary.edep_material)
-            {
-                if(material == "LAr") {
-                    num_lar_edeps += 1;
-                }
-            }
-            for(auto material : primary.daughter_edep_material)
-            {
-                if(material == "LAr") {
-                    num_lar_edeps += 1;
-                }
-            }
-            if(num_lar_edeps == (primary.edep_material.size() + primary.daughter_edep_material.size())) {
-                solo_point_cloud.all_lar = true;
-            }
-            solo_point_cloud.lar_edep_fraction = num_lar_edeps / (primary.edep_material.size() + primary.daughter_edep_material.size());
+            // /**
+            //  * @brief Determine the fraction of initial energy which was
+            //  * deposited in the detector, as well as whether it was 
+            //  * deposited all in the active volume LAr, and whether
+            //  * it was deposited in the same TPC.  
+            //  */
+            // SoloPointCloud solo_point_cloud;
+            mPointCloudID += 1;
         }
+    }
+
+    void SoloPointCloudGenerator::CollectStatistics(
+        Primary primary, SoloPointCloud& solo_point_cloud
+    )
+    {
+        Double_t edep_energy_fraction = 
+            (primary.total_edep_energy + primary.total_daughter_edep_energy) 
+            / primary.init_energy;
+        if(edep_energy_fraction < mEdepEnergyThreshold) {
+            solo_point_cloud.all_deposited = true;
+        }
+        size_t num_lar_edeps = 0;
+        for(auto material : primary.edep_material)
+        {
+            if(material == "LAr") {
+                num_lar_edeps += 1;
+            }
+        }
+        for(auto material : primary.daughter_edep_material)
+        {
+            if(material == "LAr") {
+                num_lar_edeps += 1;
+            }
+        }
+        if(num_lar_edeps == (primary.edep_material.size() + primary.daughter_edep_material.size())) {
+            solo_point_cloud.all_lar = true;
+        }
+        solo_point_cloud.lar_edep_fraction = num_lar_edeps / (primary.edep_material.size() + primary.daughter_edep_material.size());
     }
 
     void SoloPointCloudGenerator::ProcessAr39(
         Primary ar39, ParticleMaps* particle_maps
     )
     {
-        
+        SoloPointCloud solo_point_cloud;
+        solo_point_cloud.point_cloud_id = mPointCloudID;
+        solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
+        solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
+
+        // copy channels
+        solo_point_cloud.channel.insert(
+            solo_point_cloud.channel.end(),
+            ar39.det_channel.begin(), 
+            ar39.det_channel.end()
+        );
+        solo_point_cloud.channel.insert(
+            solo_point_cloud.channel.end(),
+            ar39.daughter_det_channel.begin(), 
+            ar39.daughter_det_channel.end()
+        );
+        // copy tdc
+        solo_point_cloud.tdc.insert(
+            solo_point_cloud.tdc.end(),
+            ar39.det_tdc.begin(), 
+            ar39.det_tdc.end()
+        );
+        solo_point_cloud.tdc.insert(
+            solo_point_cloud.tdc.end(),
+            ar39.daughter_det_tdc.begin(), 
+            ar39.daughter_det_tdc.end()
+        );
+        // copy adc
+        solo_point_cloud.adc.insert(
+            solo_point_cloud.adc.end(),
+            ar39.det_adc.begin(), 
+            ar39.det_adc.end()
+        );
+        solo_point_cloud.adc.insert(
+            solo_point_cloud.adc.end(),
+            ar39.daughter_det_adc.begin(), 
+            ar39.daughter_det_adc.end()
+        );
+        CollectStatistics(ar39, solo_point_cloud);
+        mSoloPointCloud = solo_point_cloud;
+        mTTree->Fill();
+    }
+
+    void SoloPointCloudGenerator::ProcessPNS(
+        Primary neutron, ParticleMaps* particle_maps
+    )
+    {
+        CollectStatistics(neutron, solo_point_cloud);
+        mSoloPointCloud = solo_point_cloud;
+        mTTree->Fill();
+    }
+
+    void SoloPointCloudGenerator::ProcessLES(
+        Primary primary, ParticleMaps* particle_maps
+    )
+    {
+        CollectStatistics(primary, solo_point_cloud);
+        mSoloPointCloud = solo_point_cloud;
+        mTTree->Fill();
     }
 
     void SoloPointCloudGenerator::ProcessNeutron(
