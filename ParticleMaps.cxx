@@ -51,10 +51,10 @@ namespace arrakis
     )
     {
         ResetEvent();
-        for(size_t ii = 0; ii < mcParticles.size(); ii++)
+        for(size_t ii = 0; ii < (*mcParticles).size(); ii++)
         {
             auto const& truth = mcTruth.at(ii);
-            mOriginMap[truth[0].GetParticle(0).TrackId()] = truth[0].Origin();
+            mOriginMap[truth[0]->GetParticle(0).TrackId()] = truth[0]->Origin();
         }
         for (auto particle : *mcParticles)
         {
