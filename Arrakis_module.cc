@@ -92,7 +92,7 @@ namespace arrakis
         art::InputTag mTPCInstanceLabel;
 
         std::map<art::InputTag, GeneratorLabel> mGeneratorMap;
-        art::InputTag mAr39InputTag;
+        art::InputTag mAr39Label;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -104,8 +104,6 @@ namespace arrakis
 
         // Detector Geometry Instance
         DetectorGeometry* mGeometry;
-        // Generator Labels
-        Generators* mGenerators;
         // Particle Tree
         ParticleMaps* mParticleMaps;
         // Primary Data
@@ -141,8 +139,8 @@ namespace arrakis
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
 
         // generator labels
-        mAr39InputTag = mParameters().Ar39InputTag();
-        mGeneratorMap[mAr39InputTag] = GeneratorLabel::kAr39;
+        mAr39Label = mParameters().Ar39Label();
+        mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
 
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
@@ -183,6 +181,7 @@ namespace arrakis
         detinfo::DetectorClocksData const clockData(
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         );
+        art::Handle<std::vector<simb::MCTruth>>         mcTruthHandle;
         art::Handle<std::vector<simb::MCParticle>>      mcParticleHandle;
         art::Handle<std::vector<sim::SimEnergyDeposit>> mcSimEnergyDepositHandle;
         art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
@@ -200,12 +199,20 @@ namespace arrakis
         mParticleMaps->ProcessEvent(
             mcParticles
         );
+        // Add MCTruth labels to particle maps.
+        for(auto const& [key, val] : mGeneratorMap)
+        {
+            if(event.getByLabel(key), mcTruthHandle)
+            {
+                auto mcTruth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
+                mParticleMaps->ProcessMCTruth(val, mcTruth);
+            }
+        }
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
             mcParticles, 
             mcEnergyDeposits
         );
-        
 
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
@@ -239,6 +246,7 @@ namespace arrakis
                 rawDigit
             );
         }
+        mParticleMaps->FillTTree();
         mPrimaryData->FillTTree();
         /**
          * @brief Now that everything is collected, we pass the data to 

@@ -44,6 +44,12 @@ namespace arrakis
         void ProcessEvent(
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
+        void ProcessMCTruth(
+            GeneratorLabel label,
+            const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
+        );
+        
+        void FillTTree();
         
         inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return mGeneratorLabelMap[trackID]; }
         inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }

@@ -81,6 +81,19 @@ namespace arrakis
                 mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
             }
         }
+    }
+
+
+    void ParticleMaps::ProcessMCTruth(
+        GeneratorLabel label,
+        const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
+    )
+    {
+
+    }
+
+    void ParticleMaps::FillTTree()
+    {
         if(mSaveParticleMaps) {
             mTTree->Fill();
         }
