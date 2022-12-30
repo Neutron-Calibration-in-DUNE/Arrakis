@@ -51,7 +51,10 @@ namespace arrakis
     )
     {
         ResetEvent();
-
+        for(size_t ii = 0; ii < mcTruth.NParticles(); ii++)
+        {
+            mOriginMap[mcTruth.GetParticle(ii).TrackId()] = mcTruth.Origin();
+        }
         for (auto particle : *mcParticles)
         {
             mPDGMap[particle.TrackId()] = particle.PdgCode();
@@ -81,13 +84,6 @@ namespace arrakis
                 mAncestorPDGMap[particle.TrackId()] = mPDGMap[track_id];
                 mAncestorTrackIDMap[particle.TrackId()] = track_id;
                 mAncestorEnergyMap[particle.TrackId()] = mParticleEnergyMap[track_id];
-            }
-        }
-        for(auto truth : *mcTruth)
-        {
-            for(size_t ii = 0; ii < truth.NParticles(); ii++)
-            {
-                mOriginMap[truth.GetParticle(ii).TrackId()] = truth.Origin();
             }
         }
         if(mSaveParticleMaps) {
