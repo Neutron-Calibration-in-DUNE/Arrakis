@@ -66,6 +66,10 @@ namespace arrakis
             ParticleMaps* particle_maps, PrimaryData* primary_data
         );
 
+        void CollectStatistics(
+            Primary primary, SoloPointCloud& solo_point_cloud
+        );
+
         void ProcessAr39(
             Primary ar39, ParticleMaps* particle_maps
         );
@@ -81,7 +85,7 @@ namespace arrakis
         void ProcessNeutron(
             Primary neutron, ParticleMaps* particle_maps
         );
-        
+
         void ProcessGamma(
             Primary gamma, ParticleMaps* particle_maps
         );
