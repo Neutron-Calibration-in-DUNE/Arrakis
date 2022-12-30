@@ -186,10 +186,6 @@ namespace arrakis
         if(mSaveMeta) {
             mMetaTree = mTFileService->make<TTree>("meta", "meta");
         }
-
-        consumes<std::vector<simb::MCParticle>>(mLArGeantProducerLabel);
-        consumes<std::vector<sim::SimChannel>>(mLArGeantProducerLabel);
-        consumes<art::Assns<simb::MCTruth, simb::MCParticle>>(mLArGeantProducerLabel);
     }
 
     // begin job
