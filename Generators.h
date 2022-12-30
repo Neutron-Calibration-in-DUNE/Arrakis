@@ -40,9 +40,8 @@ namespace arrakis
 {
     struct Generator
     {
-        std::string label = {"LES"};
-
         art::InputTag input_tag;
+        std::string label;
         art::ValidHandle<simb::MCTruth> truth;
 
         Generator(
