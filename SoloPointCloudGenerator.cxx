@@ -72,13 +72,6 @@ namespace arrakis
             else {
                 ProcessLES(primary, particle_maps);
             }
-            // /**
-            //  * @brief Determine the fraction of initial energy which was
-            //  * deposited in the detector, as well as whether it was 
-            //  * deposited all in the active volume LAr, and whether
-            //  * it was deposited in the same TPC.  
-            //  */
-            // SoloPointCloud solo_point_cloud;
             mPointCloudID += 1;
         }
     }
@@ -87,6 +80,12 @@ namespace arrakis
         Primary primary, SoloPointCloud& solo_point_cloud
     )
     {
+        /**
+         * @brief Determine the fraction of initial energy which was
+         * deposited in the detector, as well as whether it was 
+         * deposited all in the active volume LAr, and whether
+         * it was deposited in the same TPC.  
+         */
         Double_t edep_energy_fraction = 
             (primary.total_edep_energy + primary.total_daughter_edep_energy) 
             / primary.init_energy;
@@ -163,6 +162,7 @@ namespace arrakis
         Primary neutron, ParticleMaps* particle_maps
     )
     {
+        SoloPointCloud solo_point_cloud;
         CollectStatistics(neutron, solo_point_cloud);
         mSoloPointCloud = solo_point_cloud;
         mTTree->Fill();
@@ -172,6 +172,7 @@ namespace arrakis
         Primary primary, ParticleMaps* particle_maps
     )
     {
+        SoloPointCloud solo_point_cloud;
         CollectStatistics(primary, solo_point_cloud);
         mSoloPointCloud = solo_point_cloud;
         mTTree->Fill();
