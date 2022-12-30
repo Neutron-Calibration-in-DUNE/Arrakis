@@ -89,7 +89,10 @@ namespace arrakis
         const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
     )
     {
-
+        for(auto truth : *mcTruth)
+        {
+            std::cout << truth.NParticles() << std::endl;
+        }
     }
 
     void ParticleMaps::FillTTree()

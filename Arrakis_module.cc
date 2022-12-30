@@ -202,7 +202,7 @@ namespace arrakis
         // Add MCTruth labels to particle maps.
         for(auto const& [key, val] : mGeneratorMap)
         {
-            if(event.getByLabel(key), mcTruthHandle)
+            if(event.getByLabel(key, mcTruthHandle))
             {
                 auto mcTruth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
                 mParticleMaps->ProcessMCTruth(val, mcTruth);
