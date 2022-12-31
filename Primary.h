@@ -225,6 +225,13 @@ namespace arrakis
                     distance = temp_distance;
                 }
             }
+            if(edep_index == -1) {
+                std::cout << "ERROR! Daughter: " <<track_id << std::endl;
+                std::cout << "x: " << x << ", y: " << y << ", z:" << z << std::endl;
+                Int_t error;
+                std::cin >> error;
+                exit(0);
+            }
             return edep_index;
         }
 
@@ -424,12 +431,7 @@ namespace arrakis
             Int_t edep_index = FindDaughterEnergyDeposition(
                 ide.trackID, ide.x, ide.y, ide.z
             );
-            if(edep_index == -1) {
-                std::cout << "ERROR! Daughter" << std::endl;
-                Int_t error;
-                std::cin >> error;
-                exit(0);
-            }
+            
             daughter_det_edep.emplace_back(edep_index);
             std::cout << "daughter index: " << edep_index << " - daughter process: " << daughter_edep_process[edep_index] << std::endl;
             daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
