@@ -209,9 +209,7 @@ namespace arrakis
             for (auto uncomp : uncompressed) {
                 uncomp -= pedestal;
             }
-            std::cout << "channel: " << channel << std::endl;
             sim::SimChannel truth_channel = (*mcChannels)[channel]; 
-            std::cout << "did we make it?" << std::endl;
 
             for(int l=0; l < num_samples; l++) 
             {
