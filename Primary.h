@@ -226,20 +226,11 @@ namespace arrakis
                     pow(daughter_edep_y[ii] - y, 2.0) + 
                     pow(daughter_edep_z[ii] - z, 2.0)
                 );
-                std::cout << "temp distance: " << temp_distance << std::endl;
-                std::cout << "distance: " << distance << std::endl;
                 if(temp_distance < distance) 
                 {
                     edep_index = ii;
                     distance = temp_distance;
                 }
-            }
-            if(edep_index == -1) {
-                std::cout << "ERROR! Daughter: " <<track_id << std::endl;
-                std::cout << "x: " << x << ", y: " << y << ", z:" << z << std::endl;
-                Int_t error;
-                std::cin >> error;
-                exit(0);
             }
             return edep_index;
         }
@@ -410,15 +401,13 @@ namespace arrakis
             Int_t edep_index = FindPrimaryEnergyDeposition(
                 ide.x, ide.y, ide.z
             );
-            if(edep_index == -1) {
-                std::cout << "ERROR! Primary" << std::endl;
-                Int_t error;
-                std::cin >> error;
-                exit(0);
-            }
             det_edep.emplace_back(edep_index);
-            std::cout << "primary index: " << edep_index << " - primary process: " << edep_process[edep_index] << std::endl;
-            det_process.emplace_back(edep_process[edep_index]);
+            if(edep_index == -1) {
+                det_process.emplace_back("no_associated_edep");
+            }
+            else {
+                det_process.emplace_back(edep_process[edep_index]);
+            }            
         }
 
         void AddDaughterDetectorSimulation(
@@ -440,10 +429,13 @@ namespace arrakis
             Int_t edep_index = FindDaughterEnergyDeposition(
                 ide.trackID, ide.x, ide.y, ide.z
             );
-            
             daughter_det_edep.emplace_back(edep_index);
-            std::cout << "daughter index: " << edep_index << " - daughter process: " << daughter_edep_process[edep_index] << std::endl;
-            daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
+            if(edep_index == -1) {
+                daughter_det_process.emplace_back("no_associated_edep");
+            }
+            else {
+                daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
+            }
         }
     };
 }
