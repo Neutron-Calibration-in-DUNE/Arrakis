@@ -135,8 +135,8 @@ namespace arrakis
          * Here we are trying to match up the point at which
          * the energy deposition was created with the MC Particle
          * process that caused the energy deposition.  We do this
-         * by checking if the local time of the 
-         * event match.
+         * by checking if the local time of the energy deposition
+         * encloses the trajectory point.
         */
         std::string FindPrimaryEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
