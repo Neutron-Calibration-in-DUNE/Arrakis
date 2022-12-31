@@ -226,6 +226,8 @@ namespace arrakis
                     pow(daughter_edep_y[ii] - y, 2.0) + 
                     pow(daughter_edep_z[ii] - z, 2.0)
                 );
+                std::cout << "temp distance: " << temp_distance << std::endl;
+                std::cout << "distance: " << distance << std::endl;
                 if(temp_distance < distance) 
                 {
                     edep_index = ii;
