@@ -392,7 +392,7 @@ namespace arrakis
                 ide.x, ide.y, ide.z
             );
             det_edep.emplace_back(edep_index);
-            std::cout << "primary process: " << edep_prcoess[edep_index] << std::endl;
+            std::cout << "primary process: " << edep_process[edep_index] << std::endl;
             det_process.emplace_back(edep_process[edep_index]);
         }
 
@@ -416,7 +416,7 @@ namespace arrakis
                 ide.trackID, ide.x, ide.y, ide.z
             );
             daughter_det_edep.emplace_back(edep_index);
-            std::cout << "daughter process: " << edep_prcoess[edep_index] << std::endl;
+            std::cout << "daughter process: " << edep_process[edep_index] << std::endl;
             daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
         }
     };
