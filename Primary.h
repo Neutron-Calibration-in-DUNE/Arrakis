@@ -209,6 +209,13 @@ namespace arrakis
         {
             Int_t edep_index = -1;
             Double_t distance = 10e10;
+            if(daughter_map.find(track_id) == daughter_map.end()) { 
+                std::cout << "ERROR! Daughter: " << track_id << " not found!" << std::endl;
+                std::cout << "x: " << x << ", y: " << y << ", z:" << z << std::endl;
+                Int_t error;
+                std::cin >> error;
+                exit(0);
+            }
             for(size_t ii = 0; ii < daughter_edep_x.size(); ii++)
             {
                 if(daughter_ids[ii] != track_id) { 
