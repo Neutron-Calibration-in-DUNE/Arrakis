@@ -431,7 +431,7 @@ namespace arrakis
                 exit(0);
             }
             daughter_det_edep.emplace_back(edep_index);
-            std::cout << "daughter index: " << edep_index << " - daughter process: " << edep_process[edep_index] << std::endl;
+            std::cout << "daughter index: " << edep_index << " - daughter process: " << daughter_edep_process[edep_index] << std::endl;
             daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
         }
     };
