@@ -42,14 +42,14 @@ namespace arrakis
 {
     struct Trajectory
     {
-        std::vector<Double_t> t = {};
-        std::vector<Double_t> x = {};
-        std::vector<Double_t> y = {};
-        std::vector<Double_t> z = {};
-        std::vector<Double_t> energy = {};
-        std::vector<std::string> process = {};
-        std::vector<std::string> volume = {};
-        std::vector<std::string> material = {};
+        std::vector<Double_t> t;
+        std::vector<Double_t> x;
+        std::vector<Double_t> y;
+        std::vector<Double_t> z;
+        std::vector<Double_t> energy;
+        std::vector<std::string> process;
+        std::vector<std::string> volume;
+        std::vector<std::string> material;
 
         Trajectory()
         {

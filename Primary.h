@@ -67,69 +67,69 @@ namespace arrakis
 
         // Energy deposits of the parent.
         Double_t total_edep_energy = {0};
-        std::vector<Double_t> edep_energy = {};
-        std::vector<std::string> edep_process = {};
-        std::vector<std::string> edep_volume = {};
-        std::vector<std::string> edep_material = {};
-        std::vector<Double_t> edep_t = {};
-        std::vector<Double_t> edep_x = {};
-        std::vector<Double_t> edep_y = {};
-        std::vector<Double_t> edep_z = {};
+        std::vector<Double_t> edep_energy;
+        std::vector<std::string> edep_process;
+        std::vector<std::string> edep_volume;
+        std::vector<std::string> edep_material;
+        std::vector<Double_t> edep_t;
+        std::vector<Double_t> edep_x;
+        std::vector<Double_t> edep_y;
+        std::vector<Double_t> edep_z;
 
         // Daughter MC Particle info.
-        std::vector<Int_t> daughter_ids = {};
-        std::vector<Int_t> daughter_pdgs = {};
-        std::map<Int_t, Int_t> daughter_map = {};
-        std::vector<Int_t> daughter_level = {};
+        std::vector<Int_t> daughter_ids;
+        std::vector<Int_t> daughter_pdgs;
+        std::map<Int_t, Int_t> daughter_map;
+        std::vector<Int_t> daughter_level;
 
-        std::vector<std::string> daughter_init_process = {};
-        std::vector<Double_t> daughter_init_energy = {};
-        std::vector<Double_t> daughter_init_t = {};
-        std::vector<Double_t> daughter_init_x = {};
-        std::vector<Double_t> daughter_init_y = {};
-        std::vector<Double_t> daughter_init_z = {};
+        std::vector<std::string> daughter_init_process;
+        std::vector<Double_t> daughter_init_energy;
+        std::vector<Double_t> daughter_init_t;
+        std::vector<Double_t> daughter_init_x;
+        std::vector<Double_t> daughter_init_y;
+        std::vector<Double_t> daughter_init_z;
 
-        std::vector<std::string> daughter_end_process = {};
-        std::vector<Double_t> daughter_end_energy = {};
-        std::vector<Double_t> daughter_end_t = {};
-        std::vector<Double_t> daughter_end_x = {};
-        std::vector<Double_t> daughter_end_y = {};
-        std::vector<Double_t> daughter_end_z = {};
+        std::vector<std::string> daughter_end_process;
+        std::vector<Double_t> daughter_end_energy;
+        std::vector<Double_t> daughter_end_t;
+        std::vector<Double_t> daughter_end_x;
+        std::vector<Double_t> daughter_end_y;
+        std::vector<Double_t> daughter_end_z;
 
-        std::vector<Trajectory> daughter_trajectories = {};
+        std::vector<Trajectory> daughter_trajectories;
 
         // Daughter energy deposits.
         Double_t total_daughter_edep_energy = {0};
-        std::vector<Int_t> daughter_edep_ids = {};
-        std::vector<Double_t> daughter_edep_energy = {};
-        std::vector<std::string> daughter_edep_process = {};
-        std::vector<std::string> daughter_edep_volume = {};
-        std::vector<std::string> daughter_edep_material = {};
-        std::vector<Double_t> daughter_edep_t = {};
-        std::vector<Double_t> daughter_edep_x = {};
-        std::vector<Double_t> daughter_edep_y = {};
-        std::vector<Double_t> daughter_edep_z = {};
+        std::vector<Int_t> daughter_edep_ids;
+        std::vector<Double_t> daughter_edep_energy;
+        std::vector<std::string> daughter_edep_process;
+        std::vector<std::string> daughter_edep_volume;
+        std::vector<std::string> daughter_edep_material;
+        std::vector<Double_t> daughter_edep_t;
+        std::vector<Double_t> daughter_edep_x;
+        std::vector<Double_t> daughter_edep_y;
+        std::vector<Double_t> daughter_edep_z;
 
         // Raw digit information.
-        std::vector<Double_t> det_energy_fraction = {};
-        std::vector<Double_t> det_energy = {};
-        std::vector<Int_t> det_channel = {};
-        std::vector<Int_t> det_tick = {};
-        std::vector<Int_t> det_adc = {};
-        std::vector<Int_t> det_edep = {};
-        std::vector<Double_t> det_tdc = {};
-        std::vector<std::string> det_process = {};
+        std::vector<Double_t> det_energy_fraction;
+        std::vector<Double_t> det_energy;
+        std::vector<Int_t> det_channel;
+        std::vector<Int_t> det_tick;
+        std::vector<Int_t> det_adc;
+        std::vector<Int_t> det_edep;
+        std::vector<Double_t> det_tdc;
+        std::vector<std::string> det_process;
 
         // Daughter raw digit information.
-        std::vector<Int_t> daughter_det_track_id = {};
-        std::vector<Double_t> daughter_det_energy_fraction = {};
-        std::vector<Double_t> daughter_det_energy = {};
-        std::vector<Int_t> daughter_det_channel = {};
-        std::vector<Int_t> daughter_det_tick = {};
-        std::vector<Int_t> daughter_det_adc = {};
-        std::vector<Int_t> daughter_det_edep = {};
-        std::vector<Double_t> daughter_det_tdc = {};
-        std::vector<std::string> daughter_det_process = {};
+        std::vector<Int_t> daughter_det_track_id;
+        std::vector<Double_t> daughter_det_energy_fraction;
+        std::vector<Double_t> daughter_det_energy;
+        std::vector<Int_t> daughter_det_channel;
+        std::vector<Int_t> daughter_det_tick;
+        std::vector<Int_t> daughter_det_adc;
+        std::vector<Int_t> daughter_det_edep;
+        std::vector<Double_t> daughter_det_tdc;
+        std::vector<std::string> daughter_det_process;
 
         /**
          * Here we are trying to match up the point at which
@@ -385,7 +385,7 @@ namespace arrakis
             det_energy_fraction.emplace_back(ide.energy/total_energy);
             det_energy.emplace_back(ide.energy);
             det_channel.emplace_back(channel);
-            det_tick.emplace_back(tick);
+            det_tick.emplace_back(tick);track
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
             Int_t edep_index = FindPrimaryEnergyDeposition(
