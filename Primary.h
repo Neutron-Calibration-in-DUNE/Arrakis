@@ -392,7 +392,7 @@ namespace arrakis
                 ide.x, ide.y, ide.z
             );
             if(edep_index == -1) {
-                std::cout << "ERROR!" << std::endl;
+                std::cout << "ERROR! Primary" << std::endl;
                 exit(0);
             }
             det_edep.emplace_back(edep_index);
@@ -420,7 +420,7 @@ namespace arrakis
                 ide.trackID, ide.x, ide.y, ide.z
             );
             if(edep_index == -1) {
-                std::cout << "ERROR!" << std::endl;
+                std::cout << "ERROR! Daughter" << std::endl;
                 exit(0);
             }
             daughter_det_edep.emplace_back(edep_index);
