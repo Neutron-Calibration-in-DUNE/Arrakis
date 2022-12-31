@@ -15,7 +15,7 @@ Arrakis:
 
     # which products to generate
     # solo point clouds
-    GenerateSoloPointCloudData: false
+    GenerateSoloPointCloudData: true
 
     # module labels
     LArGeantProducerLabel:          "largeant"
