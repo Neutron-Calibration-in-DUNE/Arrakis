@@ -391,6 +391,10 @@ namespace arrakis
             Int_t edep_index = FindPrimaryEnergyDeposition(
                 ide.x, ide.y, ide.z
             );
+            if(edep_index == -1) {
+                std::cout << "ERROR!" << std::endl;
+                exit(0);
+            }
             det_edep.emplace_back(edep_index);
             std::cout << "primary index: " << edep_index << " - primary process: " << edep_process[edep_index] << std::endl;
             det_process.emplace_back(edep_process[edep_index]);
@@ -415,6 +419,10 @@ namespace arrakis
             Int_t edep_index = FindDaughterEnergyDeposition(
                 ide.trackID, ide.x, ide.y, ide.z
             );
+            if(edep_index == -1) {
+                std::cout << "ERROR!" << std::endl;
+                exit(0);
+            }
             daughter_det_edep.emplace_back(edep_index);
             std::cout << "daughter index: " << edep_index << " - daughter process: " << edep_process[edep_index] << std::endl;
             daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
