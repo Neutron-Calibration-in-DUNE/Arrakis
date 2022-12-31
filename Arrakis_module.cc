@@ -208,6 +208,10 @@ namespace arrakis
                 mParticleMaps->ProcessMCTruth(val, mcTruth);
             }
         }
+        /**
+         * This section processes MCTruth, MCParticles, SimEnergyDeposits,
+         * SimChannel, and RawDigit into PrimaryData objects to be used later.
+        */
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
             mcParticles, 
@@ -218,7 +222,10 @@ namespace arrakis
         // and then process those into primary data.
         if(
             event.getByLabel(
-                art::InputTag(mSimChannelProducerLabel.label(), mSimChannelInstanceProducerLabel.label()), 
+                art::InputTag(
+                    mSimChannelProducerLabel.label(), 
+                    mSimChannelInstanceProducerLabel.label()
+                ), 
                 mcSimChannelHandle
             ) &&
             event.getByLabel(

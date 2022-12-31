@@ -135,10 +135,10 @@ namespace arrakis
          * Here we are trying to match up the point at which
          * the energy deposition was created with the MC Particle
          * process that caused the energy deposition.  We do this
-         * by checking if the energy values and local time of the 
+         * by checking if the local time of the 
          * event match.
         */
-        std::string FindPrimaryEnergyDepositionProcess(sim::SimEnergyDeposit edep)
+        std::string FindPrimaryEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
             std::string process = "not_found";
             for(size_t ii = 0; ii < primary_trajectory.t.size(); ii++)
@@ -153,8 +153,10 @@ namespace arrakis
             }
             return process;
         }
-
-        std::string FindDaughterEnergyDepositionProcess(sim::SimEnergyDeposit edep)
+        /**
+         * Same thing as above except we loop over all daughter trajectories.
+        */
+        std::string FindDaughterEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
             std::string process = "not_found";
             Int_t daughter_index = daughter_map[edep.TrackID()];
@@ -170,8 +172,12 @@ namespace arrakis
             return process;
         }
 
+        /**
+         * This looks for the closest energy deposition of the primary 
+         * in (x,y,z) to the specified points.
+        */
         Int_t FindPrimaryEnergyDeposition(
-            Double_t x, Double_t y, Double_t z
+            Double_t& x, Double_t& y, Double_t& z
         )
         {
             Int_t edep_index = -1;
@@ -191,8 +197,11 @@ namespace arrakis
             }
             return edep_index;
         }
+        /**
+         * Same as above except for daughters.
+        */
         Int_t FindDaughterEnergyDeposition(
-            Int_t track_id, Double_t x, Double_t y, Double_t z
+            Int_t& track_id, Double_t& x, Double_t& y, Double_t& z
         )
         {
             Int_t edep_index = -1;
@@ -218,7 +227,7 @@ namespace arrakis
 
         Primary(){}
 
-        Primary(GeneratorLabel label, simb::MCParticle particle)
+        Primary(GeneratorLabel label, simb::MCParticle& particle)
         {
             generator_label = label;
             track_id = particle.TrackId();
@@ -270,7 +279,7 @@ namespace arrakis
 
         }
 
-        void AddDaughter(simb::MCParticle particle, Int_t level)
+        void AddDaughter(simb::MCParticle& particle, Int_t level)
         {
             daughter_ids.emplace_back(particle.TrackId());
             daughter_pdgs.emplace_back(particle.PdgCode());
@@ -325,7 +334,7 @@ namespace arrakis
             daughter_trajectories.emplace_back(daughter_trajectory);
         }
 
-        void AddEdep(sim::SimEnergyDeposit edep)
+        void AddEdep(sim::SimEnergyDeposit& edep)
         {
             // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
@@ -344,7 +353,7 @@ namespace arrakis
             total_edep_energy += edep.Energy();
         }
 
-        void AddDaughterEdep(sim::SimEnergyDeposit edep)
+        void AddDaughterEdep(sim::SimEnergyDeposit& edep)
         {
             // Get the volume information for the energy deposit.
             auto volume = DetectorGeometry::GetInstance("PrimaryData")->GetVolume(
@@ -383,6 +392,7 @@ namespace arrakis
                 ide.x, ide.y, ide.z
             );
             det_edep.emplace_back(edep_index);
+            std::cout << "primary process: " << edep_prcoess[edep_index] << std::endl;
             det_process.emplace_back(edep_process[edep_index]);
         }
 
@@ -406,6 +416,7 @@ namespace arrakis
                 ide.trackID, ide.x, ide.y, ide.z
             );
             daughter_det_edep.emplace_back(edep_index);
+            std::cout << "daughter process: " << edep_prcoess[edep_index] << std::endl;
             daughter_det_process.emplace_back(daughter_edep_process[edep_index]);
         }
     };
