@@ -193,6 +193,7 @@ namespace arrakis
     {
         for(auto digit : *rawTPC)
         {
+            std::cout << "for loop" << std::endl;
             // Get the channel number for this digit, number of samples,
             // and the pedestal value so that we can uncompress and
             // remove the pedestal.
@@ -213,6 +214,7 @@ namespace arrakis
 
             for(int l=0; l < num_samples; l++) 
             {
+                std::cout << "second for loop" << std::endl;
                 auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
                 if (trackIDsAndEnergy.size() == 0) { 
                     continue; 
@@ -223,6 +225,7 @@ namespace arrakis
                 }
                 for(auto track : trackIDsAndEnergy)
                 {
+                    std::cout << "third for loop" << std::endl;
                     Int_t primary_index = FindPrimary(
                         track.trackID
                     );

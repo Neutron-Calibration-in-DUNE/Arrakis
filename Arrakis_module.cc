@@ -239,7 +239,6 @@ namespace arrakis
                     mTPCInstanceLabel.label()
                 )
             );
-            std::cout << "HERE" << std::endl;
             mPrimaryData->ProcessEventDetectorSimulation(
                 mParticleMaps, 
                 clockData,
