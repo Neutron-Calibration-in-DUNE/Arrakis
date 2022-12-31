@@ -385,7 +385,7 @@ namespace arrakis
             det_energy_fraction.emplace_back(ide.energy/total_energy);
             det_energy.emplace_back(ide.energy);
             det_channel.emplace_back(channel);
-            det_tick.emplace_back(tick);track
+            det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
             Int_t edep_index = FindPrimaryEnergyDeposition(
