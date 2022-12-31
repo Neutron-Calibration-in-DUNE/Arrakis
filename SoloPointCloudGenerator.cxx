@@ -108,14 +108,14 @@ namespace arrakis
                 num_lar_edeps += 1;
             }
         }
-        if(num_lar_edeps == (primary.edep_material.size() + primary.daughter_edep_material.size())) {
-            solo_point_cloud.all_lar = true;
-        }
-        if(num_lar_edeps = 0) {
+        if(num_lar_edeps == 0) {
             solo_point_cloud.lar_edep_fraction = 0;
         }
         else {
             solo_point_cloud.lar_edep_fraction = num_lar_edeps / (primary.edep_material.size() + primary.daughter_edep_material.size());
+            if(num_lar_edeps == (primary.edep_material.size() + primary.daughter_edep_material.size())) {
+                solo_point_cloud.all_lar = true;
+            }
         }
     }
 
