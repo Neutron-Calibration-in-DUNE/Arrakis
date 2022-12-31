@@ -393,6 +393,8 @@ namespace arrakis
             );
             if(edep_index == -1) {
                 std::cout << "ERROR! Primary" << std::endl;
+                Int_t error;
+                std::cin >> error;
                 exit(0);
             }
             det_edep.emplace_back(edep_index);
@@ -421,6 +423,8 @@ namespace arrakis
             );
             if(edep_index == -1) {
                 std::cout << "ERROR! Daughter" << std::endl;
+                Int_t error;
+                std::cin >> error;
                 exit(0);
             }
             daughter_det_edep.emplace_back(edep_index);
