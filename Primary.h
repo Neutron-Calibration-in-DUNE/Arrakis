@@ -177,7 +177,7 @@ namespace arrakis
          * in (x,y,z) to the specified points.
         */
         Int_t FindPrimaryEnergyDeposition(
-            Double_t& x, Double_t& y, Double_t& z
+            Double_t x, Double_t y, Double_t z
         )
         {
             Int_t edep_index = -1;
@@ -201,7 +201,7 @@ namespace arrakis
          * Same as above except for daughters.
         */
         Int_t FindDaughterEnergyDeposition(
-            Int_t& track_id, Double_t& x, Double_t& y, Double_t& z
+            Int_t track_id, Double_t x, Double_t y, Double_t z
         )
         {
             Int_t edep_index = -1;
