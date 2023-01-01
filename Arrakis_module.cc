@@ -93,6 +93,8 @@ namespace arrakis
 
         std::map<art::InputTag, GeneratorLabel> mGeneratorMap;
         art::InputTag mAr39Label;
+        art::InputTag mSingleNeutronLabel;
+        art::InputTag mPNSLabel;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -210,6 +212,10 @@ namespace arrakis
             {
                 auto mcTruth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
                 mParticleMaps->ProcessMCTruth(val, mcTruth);
+            }
+            else
+            {
+
             }
         }
         /**
