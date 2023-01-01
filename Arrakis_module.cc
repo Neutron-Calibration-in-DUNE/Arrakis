@@ -218,7 +218,7 @@ namespace arrakis
             mcEnergyDeposits
         );
         mPrimaryData->PrintPrimaryEnergyDepositions();
-        mPrimaryData->PrintDaughterEnergyDeposition();
+        mPrimaryData->PrintDaughterEnergyDepositions();
         std::cout << "Processed MC..." << std::endl;
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
