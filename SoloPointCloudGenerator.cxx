@@ -29,7 +29,7 @@ namespace arrakis
         {
             {kNone, "none"},
             {kAr39, "ar39"},
-            {kSingleNeutron, "neutron"}
+            {kSingleNeutron, "neutron"},
             {kPNS, "pns"},
             {kNeutronCaptureGamma4_75, "neutron_capture_gamma_4_75"},
             {kNeutronCaptureGamma1_18, "neutron_capture_gamma_1_18"},
@@ -38,7 +38,7 @@ namespace arrakis
         {
             {kNone, -1},
             {kAr39, 0},
-            {kSingleNeutron, 1}
+            {kSingleNeutron, 1},
             {kPNS, 2},
             {kNeutronCaptureGamma4_75, 3},
             {kNeutronCaptureGamma1_18, 4},
@@ -64,6 +64,9 @@ namespace arrakis
              */
             if(primary.generator_label == kAr39) {
                 ProcessAr39(primary, particle_maps);
+            }
+            else if(primary.generator_label == kSingleNeutron) {
+                ProcessSingleNeutron(primary, particle_maps);
             }
             else if(primary.generator_label == kPNS) {
                 ProcessPNS(primary, particle_maps);
@@ -161,6 +164,16 @@ namespace arrakis
             ar39.daughter_det_adc.end()
         );
         CollectStatistics(ar39, solo_point_cloud);
+        mSoloPointCloud = solo_point_cloud;
+        mTTree->Fill();
+    }
+
+    void SoloPointCloudGenerator::ProcessSingleNeutron(
+        Primary neutron, ParticleMaps* particle_maps
+    )
+    {
+        SoloPointCloud solo_point_cloud;
+        CollectStatistics(neutron, solo_point_cloud);
         mSoloPointCloud = solo_point_cloud;
         mTTree->Fill();
     }

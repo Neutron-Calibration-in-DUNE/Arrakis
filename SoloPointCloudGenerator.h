@@ -73,6 +73,10 @@ namespace arrakis
             Primary ar39, ParticleMaps* particle_maps
         );
 
+        void ProcessSingleNeutron(
+            Primary neutron, ParticleMaps* particle_maps
+        );
+
         void ProcessPNS(
             Primary neutron, ParticleMaps* particle_maps
         );
