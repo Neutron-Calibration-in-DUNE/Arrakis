@@ -307,7 +307,6 @@ namespace arrakis
                     {
                         if(trajectory_processes[jj].first == ii) {
                             process = trajectory_processes[jj].second;
-                            break;
                         }
                     }
                 }
@@ -362,7 +361,6 @@ namespace arrakis
                     {
                         if(trajectory_processes[jj].first == ii) {
                             process = trajectory_processes[jj].second;
-                            break;
                         }
                     }
                 }
