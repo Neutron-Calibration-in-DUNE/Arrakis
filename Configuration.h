@@ -109,6 +109,16 @@ namespace arrakis
             fhicl::Name("Ar39Label"),
             fhicl::Comment("Tag of the input data product for the Ar39Label.")
         };
+        fhicl::Atom<art::InputTag> SingleNeutronLabel
+        {
+            fhicl::Name("SingleNeutronLabel"),
+            fhicl::Comment("Tag of the input data product for the SingleNeutronLabel.")
+        };
+        fhicl::Atom<art::InputTag> PNSLabel
+        {
+            fhicl::Name("PNSLabel"),
+            fhicl::Comment("Tag of the input data product for the PNSLabel.")
+        };
 
         fhicl::Atom<double> ADCThresholdUPlane
         {

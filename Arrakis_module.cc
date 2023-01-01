@@ -140,7 +140,11 @@ namespace arrakis
 
         // generator labels
         mAr39Label = mParameters().Ar39Label();
+        mSingleNeutronLabel = mParameters().SingleNeutronLabel();
+        mPNSLabel = mParameters().PNSLabel();
         mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
+        mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
+        mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
 
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
@@ -205,7 +209,6 @@ namespace arrakis
             if(event.getByLabel(key, mcTruthHandle))
             {
                 auto mcTruth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
-                std::cout << "val: " << val << std::endl;
                 mParticleMaps->ProcessMCTruth(val, mcTruth);
             }
         }

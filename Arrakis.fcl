@@ -26,7 +26,9 @@ Arrakis:
     TPCInstanceLabel:               "daq"
 
     # generator labels
-    Ar39Label:      "Ar39"
+    Ar39Label:          "Ar39"
+    SingleNeutronLabel: "SingleNeutron"
+    PNSLabel:           "PNS"
 
 
     # array parameters
