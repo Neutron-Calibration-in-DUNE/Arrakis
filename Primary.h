@@ -131,6 +131,21 @@ namespace arrakis
         std::vector<Double_t> daughter_det_tdc = {};
         std::vector<std::string> daughter_det_process = {};
 
+        void PrintPrimaryEnergyDepositions()
+        {
+            std::cout << "\n ----- Primary Energy Deposits -----\n";
+            std::cout << "(t,x,y,z) - energy - process - volume - material\n";
+            for(size_t ii = 0; ii < edep_t.size(); ii++)
+            {
+                std::cout << "(" << edep_t[ii] << ", " << edep_x[ii];
+                std::cout << ", " << edep_y[ii] << ", " << edep_z[ii];
+                std::cout << ") - " << edep_energy[ii] << " - ";
+                std::cout << edep_process[ii] << " - " << edep_volume[ii];
+                std::cout << " - " << edep_material[ii] << "\n";
+            }
+            std::cout << " -----   End   -----" << std::endl;
+        }
+
         /**
          * Here we are trying to match up the point at which
          * the energy deposition was created with the MC Particle
@@ -285,8 +300,8 @@ namespace arrakis
                     particle.E(ii), process, volume.volume_name,
                     volume.material_name
                 );
-                primary_trajectory.PrintTrajectory();
             }
+            primary_trajectory.PrintTrajectory();
         }
 
         void AddDaughter(simb::MCParticle& particle, Int_t level)

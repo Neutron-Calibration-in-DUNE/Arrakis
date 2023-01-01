@@ -102,6 +102,14 @@ namespace arrakis
     {
     }
 
+    void PrintPrimaryEnergyDepositions()
+    {
+        for(size_t ii = 0; ii < mPrimaries.size(); ii++)
+        {
+            mPrimaries[ii].PrintPrimaryEnergyDepositions();
+        }
+    }
+
     Int_t PrimaryData::FindPrimary(Int_t track_id)
     {
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)

@@ -69,6 +69,8 @@ namespace arrakis
             Double_t energy, unsigned int tdc
         );
 
+        void PrintPrimaryEnergyDepositions();
+
         std::vector<Primary> GetPrimaries() { return mPrimaries; }
 
     private:
