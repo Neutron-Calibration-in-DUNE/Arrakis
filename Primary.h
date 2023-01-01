@@ -316,6 +316,7 @@ namespace arrakis
                     volume.material_name
                 );
             }
+            std::cout << "label: " << label << std::endl;
             primary_trajectory.PrintTrajectory();
         }
 

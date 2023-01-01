@@ -205,6 +205,7 @@ namespace arrakis
             if(event.getByLabel(key, mcTruthHandle))
             {
                 auto mcTruth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
+                std::cout << "val: " << val << std::endl;
                 mParticleMaps->ProcessMCTruth(val, mcTruth);
             }
         }
