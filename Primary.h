@@ -146,6 +146,22 @@ namespace arrakis
             std::cout << " -----   End   -----" << std::endl;
         }
 
+        void PrintDaughterEnergyDepositions()
+        {
+            std::cout << "\n ----- Daughter Energy Deposits -----\n";
+            std::cout << "id - (t,x,y,z) - energy - process - volume - material\n";
+            for(size_t ii = 0; ii < daughter_edep_t.size(); ii++)
+            {
+                std::cout << daughter_edep_ids[ii] << "(" << daughter_edep_t[ii];
+                std::cout << ", " << daughter_edep_x[ii];
+                std::cout << ", " << daughter_edep_y[ii] << ", " << daughter_edep_z[ii];
+                std::cout << ") - " << daughter_edep_energy[ii] << " - ";
+                std::cout << daughter_edep_process[ii] << " - " << daughter_edep_volume[ii];
+                std::cout << " - " << daughter_edep_material[ii] << "\n";
+            }
+            std::cout << " -----   End   -----" << std::endl;
+        }
+
         /**
          * Here we are trying to match up the point at which
          * the energy deposition was created with the MC Particle
@@ -356,6 +372,7 @@ namespace arrakis
                     volume.material_name
                 );
             }
+            daughter_trajectory.PrintTrajectory();
             daughter_trajectories.emplace_back(daughter_trajectory);
         }
 
