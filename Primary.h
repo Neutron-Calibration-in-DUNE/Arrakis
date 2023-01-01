@@ -372,6 +372,7 @@ namespace arrakis
                     volume.material_name
                 );
             }
+            std::cout << "\n ---- Daughter: " << particle.TrackId() << " ----";
             daughter_trajectory.PrintTrajectory();
             daughter_trajectories.emplace_back(daughter_trajectory);
         }
