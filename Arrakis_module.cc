@@ -219,6 +219,7 @@ namespace arrakis
             else
             {
 
+
             }
         }
         /**
@@ -268,7 +269,7 @@ namespace arrakis
             );
         }
         std::cout << "Processed Detector Simulation..." << std::endl;
-        
+
         /**
          * @brief Now that everything is collected, we pass the data to 
          * the various classes which construct training data.
