@@ -102,7 +102,7 @@ namespace arrakis
     {
     }
 
-    void PrintPrimaryEnergyDepositions()
+    void PrimaryData::PrintPrimaryEnergyDepositions()
     {
         for(size_t ii = 0; ii < mPrimaries.size(); ii++)
         {
