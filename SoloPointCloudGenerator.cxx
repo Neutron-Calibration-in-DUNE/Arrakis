@@ -127,7 +127,6 @@ namespace arrakis
     {
         SoloPointCloud solo_point_cloud;
         solo_point_cloud.point_cloud_id = mPointCloudID;
-        std::cout << "HERE" << std::endl;
         solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
         solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
         std::cout << solo_point_cloud.label << std::endl;
