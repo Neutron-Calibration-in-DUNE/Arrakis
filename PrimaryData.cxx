@@ -153,7 +153,6 @@ namespace arrakis
             // a new entry in mPrimaries.
             if(particle.Mother() == 0) 
             {
-                std::cout << "label: " << particle_maps->GetGeneratorLabel(particle.TrackId()) << std::endl;
                 mPrimaries.emplace_back(Primary(
                     particle_maps->GetGeneratorLabel(particle.TrackId()),
                     particle
