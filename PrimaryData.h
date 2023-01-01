@@ -70,6 +70,7 @@ namespace arrakis
         );
 
         void PrintPrimaryEnergyDepositions();
+        void PrintDaughterEnergyDepositions();
 
         std::vector<Primary> GetPrimaries() { return mPrimaries; }
 
