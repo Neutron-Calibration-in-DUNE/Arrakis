@@ -140,7 +140,7 @@ namespace arrakis
         */
         std::string FindPrimaryEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
-            std::string process = "not_found";
+            std::string process_not_found = "not_found";
             for(size_t ii = 0; ii < primary_trajectory.t.size(); ii++)
             {
                 if(
@@ -148,17 +148,17 @@ namespace arrakis
                     edep.EndT() >= primary_trajectory.t[ii]
                 )
                 {
-                    process = primary_trajectory.process[ii];
+                    return primary_trajectory.process[ii];
                 }
             }
-            return process;
+            return process_not_found;
         }
         /**
          * Same thing as above except we loop over all daughter trajectories.
         */
         std::string FindDaughterEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
-            std::string process = "not_found";
+            std::string process_not_found = "not_found";
             if(daughter_map.find(edep.TrackID()) == daughter_map.end()) { 
                 return "invalid_track_id";
             }
@@ -169,10 +169,10 @@ namespace arrakis
                     edep.StartT() <= daughter_trajectories[daughter_index].t[ii] &&
                     edep.EndT() >= daughter_trajectories[daughter_index].t[ii])
                 {
-                    process = daughter_trajectories[daughter_index].process[ii];
+                    return daughter_trajectories[daughter_index].process[ii];
                 }
             }
-            return process;
+            return process_not_found;
         }
 
         /**
@@ -285,8 +285,8 @@ namespace arrakis
                     particle.E(ii), process, volume.volume_name,
                     volume.material_name
                 );
+                primary_trajectory.PrintTrajectory();
             }
-
         }
 
         void AddDaughter(simb::MCParticle& particle, Int_t level)

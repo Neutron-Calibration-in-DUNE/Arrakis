@@ -35,6 +35,7 @@ namespace arrakis
             mTTree->Branch("end_z", &mPrimary.end_z);
 
             mTTree->Branch("daughter_ids", &mPrimary.daughter_ids);
+            mTTree->Branch("daughter_pdgs", &mPrimary.daughter_pdgs);
             mTTree->Branch("daughter_level", &mPrimary.daughter_level);
             mTTree->Branch("daughter_init_process", &mPrimary.daughter_init_process);
             mTTree->Branch("daughter_init_energy", &mPrimary.daughter_init_energy);

@@ -86,5 +86,20 @@ namespace arrakis
             volume.emplace_back(_volume);
             material.emplace_back(_material);
         }
+
+        void PrintTrajectory()
+        {
+            std::cout << "\n ----- Trajectory ----- \n";
+            std::cout << "(t,x,y,z) - energy - process - volume - material\n";
+            for(size_t ii = 0; ii < t.size(); ii++)
+            {
+                std::cout << "(" << t[ii] << ", " << x[ii];
+                std::cout << ", " << y[ii] << ", " << z[ii];
+                std::cout << ") - " << energy[ii] << " - ";
+                std::cout << process[ii] << " - " << volume[ii];
+                std::cout << " - " << material[ii] << "\n";
+            }
+            std::cout << " -----    End     -----" << std::endl;
+        }
     };
 }
