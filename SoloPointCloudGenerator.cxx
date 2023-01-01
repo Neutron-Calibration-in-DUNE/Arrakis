@@ -29,10 +29,8 @@ namespace arrakis
         {
             {kNone, "none"},
             {kAr39, "ar39"},
+            {kSingleNeutron, "neutron"}
             {kPNS, "pns"},
-            {kNeutronElastic, "neutron_elastic"},
-            {kNeutronInelastic, "neutron_inelastic"},
-            {kNeutronCapture, "neutron_capture"},
             {kNeutronCaptureGamma4_75, "neutron_capture_gamma_4_75"},
             {kNeutronCaptureGamma1_18, "neutron_capture_gamma_1_18"},
         };
@@ -40,12 +38,10 @@ namespace arrakis
         {
             {kNone, -1},
             {kAr39, 0},
-            {kPNS, 1},
-            {kNeutronElastic, 2},
-            {kNeutronInelastic, 3},
-            {kNeutronCapture, 4},
-            {kNeutronCaptureGamma4_75, 5},
-            {kNeutronCaptureGamma1_18, 6},
+            {kSingleNeutron, 1}
+            {kPNS, 2},
+            {kNeutronCaptureGamma4_75, 3},
+            {kNeutronCaptureGamma1_18, 4},
         };
     }
 
