@@ -95,6 +95,8 @@ namespace arrakis
             {
                 std::cout << label << std::endl;
                 std::cout << truth.GetParticle(ii).TrackId() << std::endl;
+                std::cout << truth.GetParticle(ii).PdgCode() << std::endl;
+                std::cout << truth.GetParticle(ii).Process() << std::endl;
                 mGeneratorLabelMap[truth.GetParticle(ii).TrackId()] = label;
             }
         }

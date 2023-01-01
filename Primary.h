@@ -270,7 +270,6 @@ namespace arrakis
 
         Primary(GeneratorLabel label, simb::MCParticle& particle)
         {
-            std::cout << "id: " << particle.TrackId() << std::endl;
             generator_label = label;
             track_id = particle.TrackId();
             pdg = particle.PdgCode();
