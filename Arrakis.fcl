@@ -16,6 +16,12 @@ Arrakis:
     # which products to generate
     # solo point clouds
     GenerateSoloPointCloudData: true
+    # generator labels
+    # if GenerateSoloPointCloudData is set to false,
+    # then these labels are ignored.
+    Ar39Label:          "Ar39"
+    SingleNeutronLabel: "SingleNeutron"
+    PNSLabel:           "PNS"
 
     # module labels
     LArGeantProducerLabel:          "largeant"
@@ -24,12 +30,6 @@ Arrakis:
     SimChannelInstanceProducerLabel:"simpleSC"
     TPCInputLabel:                  "tpcrawdecoder"
     TPCInstanceLabel:               "daq"
-
-    # generator labels
-    Ar39Label:          "Ar39"
-    SingleNeutronLabel: "SingleNeutron"
-    PNSLabel:           "PNS"
-
 
     # array parameters
     ADCThresholdUPlane:     0.0

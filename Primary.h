@@ -316,8 +316,6 @@ namespace arrakis
                     volume.material_name
                 );
             }
-            std::cout << "label: " << label << std::endl;
-            primary_trajectory.PrintTrajectory();
         }
 
         void AddDaughter(simb::MCParticle& particle, Int_t level)
@@ -371,8 +369,6 @@ namespace arrakis
                     volume.material_name
                 );
             }
-            std::cout << "\n ---- Daughter: " << particle.TrackId() << " ----";
-            daughter_trajectory.PrintTrajectory();
             daughter_trajectories.emplace_back(daughter_trajectory);
         }
 

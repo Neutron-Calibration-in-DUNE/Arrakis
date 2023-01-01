@@ -57,6 +57,9 @@ namespace arrakis
         mPointCloudID = 0;
         for(auto primary : primary_data->GetPrimaries())
         {
+            if(primary.det_tdc.empty() && primary.daughter_det_tdc.empty()) { 
+                continue;
+            }
             /**
              * @brief Depending on the type of particle,
              * we will attach labels to the data that is stored from 

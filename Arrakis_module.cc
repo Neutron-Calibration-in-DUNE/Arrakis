@@ -141,12 +141,15 @@ namespace arrakis
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
 
         // generator labels
-        mAr39Label = mParameters().Ar39Label();
-        mSingleNeutronLabel = mParameters().SingleNeutronLabel();
-        mPNSLabel = mParameters().PNSLabel();
-        mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
-        mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
-        mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
+        if(mGenerateSoloPointCloudData)
+        {
+            mAr39Label = mParameters().Ar39Label();
+            mSingleNeutronLabel = mParameters().SingleNeutronLabel();
+            mPNSLabel = mParameters().PNSLabel();
+            mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
+            mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
+            mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
+        }
 
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
@@ -227,9 +230,8 @@ namespace arrakis
             mcParticles, 
             mcEnergyDeposits
         );
-        mPrimaryData->PrintPrimaryEnergyDepositions();
-        mPrimaryData->PrintDaughterEnergyDepositions();
         std::cout << "Processed MC..." << std::endl;
+
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
         if(
@@ -266,6 +268,7 @@ namespace arrakis
             );
         }
         std::cout << "Processed Detector Simulation..." << std::endl;
+        
         /**
          * @brief Now that everything is collected, we pass the data to 
          * the various classes which construct training data.
