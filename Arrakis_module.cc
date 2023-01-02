@@ -71,6 +71,10 @@ namespace arrakis
         void beginJob() override;
         void endJob() override;
 
+        art::ValidHandle<std::vector<simb::MCParticle>> GetMCParticles(
+            const art::Event& event
+        );
+
     private:
         Logger* mLogger;
         Parameters mParameters;
@@ -98,6 +102,12 @@ namespace arrakis
         art::InputTag mSingleNeutronLabel;
         art::InputTag mPNSLabel;
 
+        art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
+        art::Handle<std::vector<simb::MCParticle>>      mMCParticleHandle;
+        art::Handle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositHandle;
+        art::Handle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
+        art::Handle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
+
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
          *  by the directories for each type.
@@ -122,6 +132,7 @@ namespace arrakis
     : EDAnalyzer(config)
     , mParameters(config)
     {
+        mLogger = Logger::GetInstance("arrakis_module");
         // Set various configuration parameters
         mSaveMeta = mParameters().SaveMeta();
         mSaveGeometry = mParameters().SaveGeometry();
@@ -180,9 +191,36 @@ namespace arrakis
         }
     }
 
+    art::ValidHandle<std::vector<simb::MCParticle>> Arrakis::GetMCParticles(
+        const art::Event& event
+    )
+    {
+        mLogger->trace("collecting simb::MCParticle from label <" + mLArGeantProducerLabel.label() + ">");
+        if(!event.getByLabel(mLArGeantProducerLabel, mMCParticleHandle))
+        {
+            mLogger->error("no label matching " + mLArGeantProducerLabel.label() + " for simb::MCParticle!");
+            exit(0);
+        }
+        else 
+        {
+            return event.getValidHandle<std::vector<simb::MCParticle>>(
+                mLArGeantProducerLabel
+            );
+        }
+    }
+
     // analyze.unction
     void Arrakis::analyze(art::Event const& event)
     {
+        auto event_id = event.id().event();
+        auto run_id = event.run();
+        auto sub_run_id = event.subRun();
+        mLogger->trace(
+            "processing event " + 
+            std::to_string(run_id) + ":" + 
+            std::to_string(sub_run_id) + ":" + 
+            std::to_string(event_id)
+        );
         /**
          * @details  For each event, we will look through the various
          * available data products and send event info to the 
@@ -193,16 +231,10 @@ namespace arrakis
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         );
 
-        art::Handle<std::vector<simb::MCTruth>>         mc_truth_handle;
-        art::Handle<std::vector<simb::MCParticle>>      mc_particle_handle;
-        art::Handle<std::vector<sim::SimEnergyDeposit>> mc_sim_energy_deposit_handle;
-        art::Handle<std::vector<sim::SimChannel>>       mc_sim_channel_handle;
-        art::Handle<std::vector<raw::RawDigit>>         mc_raw_digit_handle;
+        
 
         // prepare generator labels, mc particles and sim energy deposits
-        auto mc_particles = event.getValidHandle<std::vector<simb::MCParticle>>(
-            mLArGeantProducerLabel
-        );
+        auto mc_particles = GetMCParticles(event);
         auto mc_energy_deposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
             mIonAndScintProducerLabel
         );

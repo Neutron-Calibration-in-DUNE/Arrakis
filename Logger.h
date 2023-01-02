@@ -122,7 +122,7 @@ namespace arrakis
             // if(file.fail()) {
             //     throw std::ios_base::failure(std::strerror(errno));
             // }
-            // file.exceptions(file.exceptions() | std::ios::failbit | std::ifstream::badbit);
+            file.exceptions(file.exceptions() | std::ios::failbit | std::ifstream::badbit);
             file << status << std::endl;
         }
 
@@ -131,6 +131,30 @@ namespace arrakis
             std::cout << Preamble() + " [" << green << Name() << def << "] ";
             std::cout << "[" << light_gray << "trace" << def << "] " + status << std::endl;
             std::string file_output = Preamble() + " [" + Name() + "] [trace] " + status;
+            WriteToFile(file_output);
+        }
+
+        void info(std::string status)
+        {
+            std::cout << Preamble() + " [" << green << Name() << def << "] ";
+            std::cout << "[" << blue << "info" << def << "] " + status << std::endl;
+            std::string file_output = Preamble() + " [" + Name() + "] [info] " + status;
+            WriteToFile(file_output);
+        }
+
+        void warning(std::string status)
+        {
+            std::cout << Preamble() + " [" << green << Name() << def << "] ";
+            std::cout << "[" << yellow << "warning" << def << "] " + status << std::endl;
+            std::string file_output = Preamble() + " [" + Name() + "] [warning] " + status;
+            WriteToFile(file_output);
+        }
+
+        void error(std::string status)
+        {
+            std::cout << Preamble() + " [" << green << Name() << def << "] ";
+            std::cout << "[" << red << "error" << def << "] " + status << std::endl;
+            std::string file_output = Preamble() + " [" + Name() + "] [error] " + status;
             WriteToFile(file_output);
         }
         
@@ -144,3 +168,6 @@ namespace arrakis
 }
 
 #define ARRAKIS_TRACE(...)  ::arrakis::Logger::GetInstance("default")->trace(__VA_ARGS__)
+#define ARRAKIS_INFO(...)  ::arrakis::Logger::GetInstance("default")->info(__VA_ARGS__)
+#define ARRAKIS_WARNING(...)  ::arrakis::Logger::GetInstance("default")->warning(__VA_ARGS__)
+#define ARRAKIS_ERROR(...)  ::arrakis::Logger::GetInstance("default")->error(__VA_ARGS__)
