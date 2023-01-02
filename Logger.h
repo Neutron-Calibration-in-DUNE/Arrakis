@@ -66,10 +66,10 @@ namespace arrakis
         }
         
     private:
-        static std::string sYear;
-        static std::string sMonth;
-        static std::string sDay;
-        static std::string sDate;
+        std::string sYear;
+        std::string sMonth;
+        std::string sDay;
+        std::string sDate;
     };    
 }
 
