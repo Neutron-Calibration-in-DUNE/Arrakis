@@ -115,9 +115,9 @@ namespace arrakis
         {
             std::ofstream file;
             file.open(sOutputFileName, std::ios::out | std::ios::app);
-            if(file.fail()) {
-                throw std::ios_base::failure(std::strerror(errno));
-            }
+            // if(file.fail()) {
+            //     throw std::ios_base::failure(std::strerror(errno));
+            // }
             file.exceptions(file.exceptions() | std::ios::failbit | std::ifstream::badbit);
             file << status << std::endl;
         }
