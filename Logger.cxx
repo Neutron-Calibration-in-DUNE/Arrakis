@@ -27,11 +27,9 @@ namespace arrakis
     {
         std::time_t now = std::time(0);
         std::tm *ltm = std::localtime(&now);
-        sYear = std::to_string(ltm->tm_year);
-        sMonth = std::to_string(ltm->tm_mon);
+        sYear = std::to_string(1900 + ltm->tm_year);
+        sMonth = std::to_string(1 + ltm->tm_mon);
         sDay = std::to_string(ltm->tm_mday);
         sDate = sMonth + "-" + sDay + "-" + sYear;
     }
-
-
 }

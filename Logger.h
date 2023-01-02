@@ -18,6 +18,28 @@
 
 namespace arrakis
 {
+    namespace Color 
+    {
+        enum Code {
+            FG_RED      = 31,
+            FG_GREEN    = 32,
+            FG_BLUE     = 34,
+            FG_DEFAULT  = 39,
+            BG_RED      = 41,
+            BG_GREEN    = 42,
+            BG_BLUE     = 44,
+            BG_DEFAULT  = 49
+        };
+        class Modifier {
+            Code code;
+        public:
+            Modifier(Code pCode) : code(pCode) {}
+            friend std::ostream&
+            operator<<(std::ostream& os, const Modifier& mod) {
+                return os << "\033[" << mod.code << "m";
+            }
+        };
+    }
     /**
      * @brief Singleton class for logging information.
      * 
@@ -42,6 +64,8 @@ namespace arrakis
         ~Logger() {}
 
     public:
+        Color::Modifier red(Color::FG_RED);
+        Color::Modifier def(Color::FG_DEFAULT);
         // this singleton cannot be cloned
         Logger(Logger &other) = delete;
         // singleton should also not be assignable
@@ -55,14 +79,15 @@ namespace arrakis
         {
             std::time_t now = std::time(0);
             std::tm *ltm = std::localtime(&now);
-            std::string t = std::to_string(ltm->tm_hour) + ":" + std::to_string(ltm->tm_min) + ":" + std::to_string(ltm->tm_sec);
-            std::string preamble = "[" + Date() + " " + t + "] [" + Name() + "] ";
-            return preamble;
+            std::string t = std::to_string(ltm->tm_hour);
+            t += ":" + std::to_string(ltm->tm_min);
+            t += ":" + std::to_string(ltm->tm_sec);
+            return "[" + Date() + " " + t + "] [" + Name() + "] ";
         }
 
         void trace(std::string status)
         {
-            std::cout << Preamble() + "[trace] " + status << std::endl;
+            std::cout << Preamble() + "[" << red << "trace" << def << "] " + status << std::endl;
         }
         
     private:

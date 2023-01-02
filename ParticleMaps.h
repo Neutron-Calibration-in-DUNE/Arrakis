@@ -31,6 +31,7 @@
 #include <TTree.h>
 
 #include "Generators.h"
+#include "Logger.h"
 
 namespace arrakis
 {
@@ -62,6 +63,7 @@ namespace arrakis
         inline Int_t GetAncestorEnergy(Int_t trackID)   { return mAncestorEnergyMap[trackID]; }
 
     private:
+        Logger* mLogger;
         bool mSaveParticleMaps = {false};
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
