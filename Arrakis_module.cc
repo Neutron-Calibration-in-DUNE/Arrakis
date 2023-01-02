@@ -70,6 +70,8 @@ namespace arrakis
         void beginJob() override;
         void endJob() override;
 
+        std::vector<art::InputTag> GetInputTags(art::Event const& event);
+
     private:
         Parameters mParameters;
         // Set of configuration parameters
@@ -194,38 +196,39 @@ namespace arrakis
         /**
          * @details  For each event, we will look through the various
          * available data products and send event info to the 
-         * corresponding submodules that process them, starting with MCParticles
+         * corresponding submodules that process them, starting with mc_particles
          * then SimEnergyDeposit, SimChannel and RawDigit.
          */
-        detinfo::DetectorClocksData const clockData(
+        detinfo::DetectorClocksData const clock_data(
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         );
         std::vector<art::InputTag> input_tags = GetInputTags(event);
-        art::Handle<std::vector<simb::MCTruth>>         mcTruthHandle;
-        art::Handle<std::vector<simb::MCParticle>>      mcParticleHandle;
-        art::Handle<std::vector<sim::SimEnergyDeposit>> mcSimEnergyDepositHandle;
-        art::Handle<std::vector<sim::SimChannel>>       mcSimChannelHandle;
-        art::Handle<std::vector<raw::RawDigit>>         mcRawDigitHandle;
+
+        art::Handle<std::vector<simb::MCTruth>>         mc_truth_handle;
+        art::Handle<std::vector<simb::MCParticle>>      mc_particle_handle;
+        art::Handle<std::vector<sim::SimEnergyDeposit>> mc_sim_energy_deposit_handle;
+        art::Handle<std::vector<sim::SimChannel>>       mc_sim_channel_handle;
+        art::Handle<std::vector<raw::RawDigit>>         mc_raw_digit_handle;
 
         // prepare generator labels, mc particles and sim energy deposits
-        auto mcParticles = event.getValidHandle<std::vector<simb::MCParticle>>(
+        auto mc_particles = event.getValidHandle<std::vector<simb::MCParticle>>(
             mLArGeantProducerLabel
         );
-        auto mcEnergyDeposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
+        auto mc_energy_deposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
             mIonAndScintProducerLabel
         );
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.
         mParticleMaps->ProcessEvent(
-            mcParticles
+            mc_particles
         );
         // Add MCTruth labels to particle maps.
         for(auto const& [key, val] : mGeneratorMap)
         {
-            if(event.getByLabel(key, mcTruthHandle))
+            if(event.getByLabel(key, mc_truth_handle))
             {
-                auto mcTruth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
-                mParticleMaps->ProcessMCTruth(val, mcTruth);
+                auto mc_truth = event.getValidHandle<std::vector<simb::MCTruth>>(key);
+                mParticleMaps->ProcessMCTruth(val, mc_truth);
             }
             else
             {
@@ -234,13 +237,13 @@ namespace arrakis
             }
         }
         /**
-         * This section processes MCTruth, MCParticles, SimEnergyDeposits,
+         * This section processes MCTruth, mc_particles, SimEnergyDeposits,
          * SimChannel, and RawDigit into PrimaryData objects to be used later.
         */
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
-            mcParticles, 
-            mcEnergyDeposits
+            mc_particles, 
+            mc_energy_deposits
         );
         std::cout << "Processed MC..." << std::endl;
 
@@ -252,21 +255,21 @@ namespace arrakis
                     mSimChannelProducerLabel.label(), 
                     mSimChannelInstanceProducerLabel.label()
                 ), 
-                mcSimChannelHandle
+                mc_sim_channel_handle
             ) &&
             event.getByLabel(
                 art::InputTag(mTPCInputLabel.label(), mTPCInstanceLabel.label()), 
-                mcRawDigitHandle
+                mc_raw_digit_handle
             )
         )
         {
-            auto mcSimChannels = 
+            auto mc_sim_channels = 
                 event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
                     mSimChannelProducerLabel.label(), 
                     mSimChannelInstanceProducerLabel.label()
                 )
             );
-            auto rawDigit = 
+            auto mc_raw_digits = 
                 event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
                     mTPCInputLabel.label(), 
                     mTPCInstanceLabel.label()
@@ -274,9 +277,9 @@ namespace arrakis
             );
             mPrimaryData->ProcessEventDetectorSimulation(
                 mParticleMaps, 
-                clockData,
-                mcSimChannels,
-                rawDigit
+                clock_data,
+                mc_sim_channels,
+                mc_raw_digits
             );
         }
         std::cout << "Processed Detector Simulation..." << std::endl;
