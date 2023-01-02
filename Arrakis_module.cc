@@ -70,8 +70,6 @@ namespace arrakis
         void beginJob() override;
         void endJob() override;
 
-        std::vector<art::InputTag> GetInputTags(art::Event const& event);
-
     private:
         Parameters mParameters;
         // Set of configuration parameters
@@ -180,16 +178,6 @@ namespace arrakis
         }
     }
 
-    std::vector<art::InputTag> Arrakis::GetInputTags(art::Event const& event)
-    {
-        std::vector<art::InputTag> input_tags = event.getInputTags();
-        std::cout << "\n Input Tags\n";
-        for(auto tag : input_tags) {
-            std::cout << tag.label() << std::endl;
-        }
-        return input_tags;
-    }
-
     // analyze.unction
     void Arrakis::analyze(art::Event const& event)
     {
@@ -202,7 +190,6 @@ namespace arrakis
         detinfo::DetectorClocksData const clock_data(
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         );
-        std::vector<art::InputTag> input_tags = GetInputTags(event);
 
         art::Handle<std::vector<simb::MCTruth>>         mc_truth_handle;
         art::Handle<std::vector<simb::MCParticle>>      mc_particle_handle;
