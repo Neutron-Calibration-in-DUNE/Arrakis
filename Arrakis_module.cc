@@ -196,21 +196,21 @@ namespace arrakis
             mGeometry->FillTTree();
         }
     }
-    art::ValidHandle<std::vector<simb::MCTruth>> Arrakis::GetMCTruth(
-        const art::Event& event, art::InputTag label
+    void Arrakis::ProcessMCTruth(
+        const art::Event& event, art::InputTag input_tag, GeneratorLabel label
     )
     {
-        mLogger->trace("collecting simb::MCTruth from label <" + label.label() + ">");
-        if(!event.getByLabel(label, mMCTruthHandle))
+        mLogger->trace("collecting simb::MCTruth from input_tag <" + input_tag.label() + ">");
+        if(!event.getByLabel(input_tag, mMCTruthHandle))
         {
-            mLogger->error("no label matching " + label.label() + " for simb::MCTruth!");
-            exit(0);
+            mLogger->warning("no input_tag matching " + input_tag.label() + " for simb::MCTruth");
         }
         else 
         {
-            return event.getValidHandle<std::vector<simb::MCTruth>>(
-                label
+            auto mc_truth = event.getValidHandle<std::vector<simb::MCTruth>>(
+                input_tag
             );
+            mParticleMaps->ProcessMCTruth(label, mc_truth);
         }
     }
     art::ValidHandle<std::vector<simb::MCParticle>> Arrakis::GetMCParticles(
@@ -282,8 +282,7 @@ namespace arrakis
         // Add MCTruth labels to particle maps.
         for(auto const& [key, val] : mGeneratorMap)
         {
-            auto mc_truth = GetMCTruth(event, key);
-            mParticleMaps->ProcessMCTruth(val, mc_truth);
+            auto mc_truth = GetMCTruth(event, key, val);
         }
         /**
          * This section processes MCTruth, mc_particles, SimEnergyDeposits,
