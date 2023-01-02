@@ -31,5 +31,7 @@ namespace arrakis
         sMonth = std::to_string(1 + ltm->tm_mon);
         sDay = std::to_string(ltm->tm_mday);
         sDate = sMonth + "-" + sDay + "-" + sYear;
+
+        sOutputFileName = ".logs/arrakis_" + sDate + ".log";
     }
 }
