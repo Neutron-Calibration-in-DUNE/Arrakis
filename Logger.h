@@ -40,6 +40,8 @@ namespace arrakis
             }
         };
     }
+    static Color::Modifier red = Color::Modifier(Color::FG_RED);
+    static Color::Modifier def = Color::Modifier(Color::FG_DEFAULT);
     /**
      * @brief Singleton class for logging information.
      * 
@@ -64,8 +66,7 @@ namespace arrakis
         ~Logger() {}
 
     public:
-        static Color::Modifier red(Color::FG_RED);
-        static Color::Modifier def(Color::FG_DEFAULT);
+        
         // this singleton cannot be cloned
         Logger(Logger &other) = delete;
         // singleton should also not be assignable
