@@ -178,6 +178,16 @@ namespace arrakis
         }
     }
 
+    std::vector<art::InputTag> Arrakis::GetInputTags(art::Event const& event)
+    {
+        std::vector<art::InputTag> input_tags = event.getInputTags();
+        std::cout << "\n Input Tags\n";
+        for(auto tag : input_tags) {
+            std::cout << tag.label() << std::endl;
+        }
+        return input_tags;
+    }
+
     // analyze.unction
     void Arrakis::analyze(art::Event const& event)
     {
@@ -190,6 +200,7 @@ namespace arrakis
         detinfo::DetectorClocksData const clockData(
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         );
+        std::vector<art::InputTag> input_tags = GetInputTags(event);
         art::Handle<std::vector<simb::MCTruth>>         mcTruthHandle;
         art::Handle<std::vector<simb::MCParticle>>      mcParticleHandle;
         art::Handle<std::vector<sim::SimEnergyDeposit>> mcSimEnergyDepositHandle;
