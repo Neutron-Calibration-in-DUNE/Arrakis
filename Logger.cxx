@@ -31,9 +31,7 @@ namespace arrakis
         sMonth = std::to_string(1 + ltm->tm_mon);
         sDay = std::to_string(ltm->tm_mday);
         sDate = sMonth + "-" + sDay + "-" + sYear;
-        int check;
-        char* dirname = ".logs";
-        check = mkdir(dirname,0777);
+        mkdir(".logs", 0777);
         sOutputFileName = ".logs/arrakis_" + sDate + ".log";
     }
 }
