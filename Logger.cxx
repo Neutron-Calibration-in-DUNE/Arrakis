@@ -12,19 +12,26 @@ namespace arrakis
     Logger* Logger::sInstance{nullptr};
     std::mutex Logger::sMutex;
 
-    Logger *Logger::GetInstance()
+    Logger *Logger::GetInstance(const std::string& name)
     {
         std::lock_guard<std::mutex> lock(sMutex);
         if (sInstance == nullptr)
         {
-            sInstance = new Logger();
+            sInstance = new Logger(name);
+            std::time_t now = std::time(0);
+            std::tm *ltm = std::localtime(&now);
+            sYear = std::to_string(ltm->tm_year);
+            sMonth = std::to_string(ltm->tm_mon);
+            sDay = std::to_string(ltm->tm_mday);
+            sDate = sMonth + "-" + sDay + "-" + sYear;
         }
         return sInstance;
     }
 
-    Logger::Logger()
+    Logger::Logger(const std::string name)
+    : sName(name)
     {
     }
 
-    
+
 }
