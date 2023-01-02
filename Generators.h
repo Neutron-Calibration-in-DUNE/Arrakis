@@ -48,4 +48,14 @@ namespace arrakis
         kNeutronCaptureGamma1_18 = 5,
     };
 
+    std::map<GeneratorLabel, std::string> GeneratorLabelName = 
+    {
+        {kNone, "kNone"},
+        {kAr39, "kAr39"},
+        {kSingleNeutron, "kSingleNeutron"},
+        {kPNS, "kPNS"},
+        {kNeutronCaptureGamma4_75, "kNeutronCaptureGamma4_75"},
+        {kNeutronCaptureGamma1_18, "kNeutronCaptureGamma1_18"}
+    };
+
 }
