@@ -50,6 +50,7 @@
 #include "Configuration.h"
 #include "DetectorGeometry.h"
 #include "Generators.h"
+#include "Logger.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
 #include "SoloPointCloudGenerator.h"
@@ -232,7 +233,7 @@ namespace arrakis
             mc_particles, 
             mc_energy_deposits
         );
-        std::cout << "Processed MC..." << std::endl;
+        ARRAKIS_TRACE("Processed MC...");
 
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
