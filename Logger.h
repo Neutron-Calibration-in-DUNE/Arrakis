@@ -16,12 +16,10 @@
 #include <mutex>
 #include <ctime>
 #include <cstring>
-#include <conio.h>
-#include <sys/types.h>
+#include <bits/stdc++.h>
+#include <iostream>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <sys/types.h>
 
 namespace arrakis
 {

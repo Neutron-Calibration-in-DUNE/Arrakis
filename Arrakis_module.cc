@@ -72,6 +72,7 @@ namespace arrakis
         void endJob() override;
 
     private:
+        Logger* mLogger;
         Parameters mParameters;
         // Set of configuration parameters
         bool    mSaveMeta;
