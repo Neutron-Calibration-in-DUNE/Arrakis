@@ -100,7 +100,7 @@ namespace arrakis
                 GeneratorLabelName[label] + 
                 " for " + std::to_string(truth.NParticles()) + 
                 " particles starting with track ID = " + 
-                std::to_string(truth.GetParticle(ii).TrackId())
+                std::to_string(truth.GetParticle(0).TrackId())
             );
             for(Int_t ii = 0; ii < truth.NParticles(); ii++)
             {
