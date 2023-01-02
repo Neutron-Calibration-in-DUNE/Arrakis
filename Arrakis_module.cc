@@ -74,7 +74,7 @@ namespace arrakis
         art::ValidHandle<std::vector<simb::MCParticle>> GetMCParticles(
             const art::Event& event
         );
-        art::ValidHandle<std::vector<simb::SimEnergyDeposit>> GetSimEnergyDeposits(
+        art::ValidHandle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposits(
             const art::Event& event
         );
 
