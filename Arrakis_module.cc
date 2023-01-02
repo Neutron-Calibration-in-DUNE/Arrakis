@@ -216,7 +216,7 @@ namespace arrakis
     )
     {
         mLogger->trace("collecting sim::SimEnergyDeposit from label <" + mIonAndScintProducerLabel.label() + ">");
-        if(!event.getByLabel(mIonAndScintProducerLabel, mMCSimEnergyDeposit))
+        if(!event.getByLabel(mIonAndScintProducerLabel, mMCSimEnergyDepositHandle))
         {
             mLogger->error("no label matching " + mIonAndScintProducerLabel.label() + " for sim::SimEnergyDeposit!");
             exit(0);

@@ -51,6 +51,7 @@ namespace arrakis
     )
     {
         ResetEvent();
+        mLogger->trace("constructing particle maps for " + std::to_string((*mcParticles).size()) + " particles");
         for (auto particle : *mcParticles)
         {
             mGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::kNone;
