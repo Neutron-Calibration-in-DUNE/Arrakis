@@ -64,8 +64,8 @@ namespace arrakis
         ~Logger() {}
 
     public:
-        Color::Modifier red(Color::FG_RED);
-        Color::Modifier def(Color::FG_DEFAULT);
+        static Color::Modifier red(Color::FG_RED);
+        static Color::Modifier def(Color::FG_DEFAULT);
         // this singleton cannot be cloned
         Logger(Logger &other) = delete;
         // singleton should also not be assignable
