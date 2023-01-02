@@ -62,7 +62,7 @@ namespace arrakis
 
         void trace(std::string status)
         {
-            return Preamble() + "[trace] " + status;
+            std::cout << Preamble() + "[trace] " + status << std::endl;
         }
         
     private:
