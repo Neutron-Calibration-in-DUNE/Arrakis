@@ -60,7 +60,7 @@ namespace arrakis
             return preamble;
         }
 
-        static void trace(std::string status)
+        void trace(std::string status)
         {
             return Preamble() + "[trace] " + status;
         }
