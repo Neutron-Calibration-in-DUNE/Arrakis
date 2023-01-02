@@ -71,6 +71,9 @@ namespace arrakis
         void beginJob() override;
         void endJob() override;
 
+        art::ValidHandle<std::vector<simb::MCTruth>> GetMCTruth(
+            const art::Event& event, art::InputTag label
+        );
         art::ValidHandle<std::vector<simb::MCParticle>> GetMCParticles(
             const art::Event& event
         );
