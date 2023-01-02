@@ -15,6 +15,7 @@
 #include <fstream>
 #include <mutex>
 #include <ctime>
+#include <cstring>
 
 namespace arrakis
 {
