@@ -97,7 +97,7 @@ namespace arrakis
         {
             mLogger->trace(
                 "adding labels of type " + 
-                GeneratorLabelName[label] + 
+                std::to_string(label) + 
                 " for " + std::to_string(truth.NParticles()) + 
                 " particles starting with track ID = " + 
                 std::to_string(truth.GetParticle(0).TrackId())
