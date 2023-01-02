@@ -18,12 +18,6 @@ namespace arrakis
         if (sInstance == nullptr)
         {
             sInstance = new Logger(name);
-            std::time_t now = std::time(0);
-            std::tm *ltm = std::localtime(&now);
-            sYear = std::to_string(ltm->tm_year);
-            sMonth = std::to_string(ltm->tm_mon);
-            sDay = std::to_string(ltm->tm_mday);
-            sDate = sMonth + "-" + sDay + "-" + sYear;
         }
         return sInstance;
     }
@@ -31,6 +25,12 @@ namespace arrakis
     Logger::Logger(const std::string name)
     : sName(name)
     {
+        std::time_t now = std::time(0);
+        std::tm *ltm = std::localtime(&now);
+        sYear = std::to_string(ltm->tm_year);
+        sMonth = std::to_string(ltm->tm_mon);
+        sDay = std::to_string(ltm->tm_mday);
+        sDate = sMonth + "-" + sDay + "-" + sYear;
     }
 
 
