@@ -41,7 +41,10 @@ namespace arrakis
         };
     }
     static Color::Modifier red = Color::Modifier(Color::FG_RED);
+    static Color::Modifier green = Color::Modifier(Color::FG_GREEN);
+    static Color::Modifier blue = Color::Modifier(Color::FG_BLUE);
     static Color::Modifier def = Color::Modifier(Color::FG_DEFAULT);
+
     /**
      * @brief Singleton class for logging information.
      * 
@@ -51,6 +54,7 @@ namespace arrakis
     private:
         static Logger * sInstance;
         static std::mutex sMutex;
+
         std::string sName;
 
         std::string Name() const {
@@ -83,12 +87,13 @@ namespace arrakis
             std::string t = std::to_string(ltm->tm_hour);
             t += ":" + std::to_string(ltm->tm_min);
             t += ":" + std::to_string(ltm->tm_sec);
-            return "[" + Date() + " " + t + "] [" + Name() + "] ";
+            return "[" + Date() + " " + t + "]";
         }
 
         void trace(std::string status)
         {
-            std::cout << Preamble() + "[" << red << "trace" << def << "] " + status << std::endl;
+            std::cout << Preamble() + " [" << green << Name() << def << "] ";
+            std::cout << "[" << red << "trace" << def << "] " + status << std::endl;
         }
         
     private:
