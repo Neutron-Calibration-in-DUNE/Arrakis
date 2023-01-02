@@ -74,6 +74,9 @@ namespace arrakis
         art::ValidHandle<std::vector<simb::MCParticle>> GetMCParticles(
             const art::Event& event
         );
+        art::ValidHandle<std::vector<simb::SimEnergyDeposit>> GetSimEnergyDeposits(
+            const art::Event& event
+        );
 
     private:
         Logger* mLogger;
@@ -208,6 +211,23 @@ namespace arrakis
             );
         }
     }
+    art::ValidHandle<std::vector<sim::SimEnergyDeposit>> Arrakis::GetMCParticles(
+        const art::Event& event
+    )
+    {
+        mLogger->trace("collecting sim::SimEnergyDeposit from label <" + mIonAndScintProducerLabel.label() + ">");
+        if(!event.getByLabel(mIonAndScintProducerLabel, mMCSimEnergyDeposit))
+        {
+            mLogger->error("no label matching " + mIonAndScintProducerLabel.label() + " for sim::SimEnergyDeposit!");
+            exit(0);
+        }
+        else 
+        {
+            return event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
+                mIonAndScintProducerLabel
+            );
+        }
+    }
 
     // analyze.unction
     void Arrakis::analyze(art::Event const& event)
@@ -231,13 +251,10 @@ namespace arrakis
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         );
 
-        
-
         // prepare generator labels, mc particles and sim energy deposits
         auto mc_particles = GetMCParticles(event);
-        auto mc_energy_deposits = event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
-            mIonAndScintProducerLabel
-        );
+        auto mc_energy_deposits = GetMCSimEnergyDeposits(event);
+
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.
         mParticleMaps->ProcessEvent(
