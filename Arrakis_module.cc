@@ -71,8 +71,8 @@ namespace arrakis
         void beginJob() override;
         void endJob() override;
 
-        art::ValidHandle<std::vector<simb::MCTruth>> GetMCTruth(
-            const art::Event& event, art::InputTag label
+        void ProcessMCTruth(
+            const art::Event& event, art::InputTag input_tag, GeneratorLabel label
         );
         art::ValidHandle<std::vector<simb::MCParticle>> GetMCParticles(
             const art::Event& event
@@ -282,7 +282,7 @@ namespace arrakis
         // Add MCTruth labels to particle maps.
         for(auto const& [key, val] : mGeneratorMap)
         {
-            auto mc_truth = GetMCTruth(event, key, val);
+            ProcessMCTruth(event, key, val);
         }
         /**
          * This section processes MCTruth, mc_particles, SimEnergyDeposits,
