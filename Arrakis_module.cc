@@ -211,7 +211,7 @@ namespace arrakis
             );
         }
     }
-    art::ValidHandle<std::vector<sim::SimEnergyDeposit>> Arrakis::GetMCParticles(
+    art::ValidHandle<std::vector<sim::SimEnergyDeposit>> Arrakis::GetSimEnergyDeposits(
         const art::Event& event
     )
     {
@@ -253,7 +253,7 @@ namespace arrakis
 
         // prepare generator labels, mc particles and sim energy deposits
         auto mc_particles = GetMCParticles(event);
-        auto mc_energy_deposits = GetMCSimEnergyDeposits(event);
+        auto mc_energy_deposits = GetSimEnergyDeposits(event);
 
         // Add the particle maps and primary data
         // for MCParticle and SimEnergyDeposit.

@@ -15,7 +15,7 @@ namespace arrakis
         mLogger = Logger::GetInstance("particle_maps");
         if(mSaveParticleMaps) 
         {
-            mLogger->trace("Setting up TTree.");
+            mLogger->trace("setting up TTree.");
             mTTree = mTFileService->make<TTree>("particle_maps", "particle_maps");
             mTTree->Branch("generator_label_map", &mGeneratorLabelMap);
             mTTree->Branch("pdg_map", &mPDGMap);
