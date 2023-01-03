@@ -17,7 +17,6 @@ namespace arrakis
     , mSavePrimaryDataEdeps(SavePrimaryDataEdeps)
     , mSavePrimaryDataRawTPC(SavePrimaryDataRawTPC)
     {
-        mLogger = Logger::GetInstance("primary_data");
         if(SavePrimaryData) {
             mTTree = mTFileService->make<TTree>("primary_data", "primary_data");
             mTTree->Branch("track_id", &mPrimary.track_id);
@@ -141,15 +140,15 @@ namespace arrakis
     )
     {
         if (!mcParticles.isValid()) {
-            mLogger->error("MCParticles handle is not valid!");
+            Logger::GetInstance("primary_data")->error("MCParticles handle is not valid!");
             return;
         }
         if (!mcEnergyDeposits.isValid()) {
-            mLogger->error("SimEnergyDeposits handle is not valid!");
+            Logger::GetInstance("primary_data")->error("SimEnergyDeposits handle is not valid!");
             return;
         }
         ResetEvent();
-        mLogger->trace("processing " + std::to_string((*mcParticles).size()) + " MCParticles");
+        Logger::GetInstance("primary_data")->trace("processing " + std::to_string((*mcParticles).size()) + " MCParticles");
         // Loop through every particle and save
         // information to the primary that was
         // generated.
@@ -173,7 +172,7 @@ namespace arrakis
                 );
                 if(primary_index == -1) 
                 {
-                    mLogger->warning(
+                    Logger::GetInstance("primary_data")->warning(
                         "could not find primary with track id " + 
                         std::to_string(particle_maps->GetAncestorTrackID(particle.TrackId())) + 
                         " from particle ancestor with track id " + 
@@ -186,7 +185,7 @@ namespace arrakis
                 );
             }
         }
-        mLogger->trace("processing " + std::to_string((*mcEnergyDeposits).size()) + " SimEnergyDeposits");
+        Logger::GetInstance("primary_data")->trace("processing " + std::to_string((*mcEnergyDeposits).size()) + " SimEnergyDeposits");
         // Now loop through the SimEnergyDeposits.
         for(auto edep : *mcEnergyDeposits)
         {
@@ -209,7 +208,7 @@ namespace arrakis
                 );
                 if(primary_index == -1) 
                 {
-                    mLogger->warning(
+                    Logger::GetInstance("primary_data")->warning(
                         "could not find primary with track id " + 
                         std::to_string(particle_maps->GetAncestorTrackID(edep.TrackID())) + 
                         " from energy deposit ancestor with track id " + 
@@ -231,6 +230,7 @@ namespace arrakis
         const art::ValidHandle<std::vector<raw::RawDigit>>& rawTPC
     )
     {
+        Logger::GetInstance("primary_data")->trace("processing " + std::to_string((*rawTPC).size()) + " raw digits");
         for(auto digit : *rawTPC)
         {
             // Get the channel number for this digit, number of samples,
@@ -291,6 +291,17 @@ namespace arrakis
                                 l,
                                 channel,
                                 (Int_t) (std::abs(uncompressed[l]))
+                            );
+                        }
+                        else
+                        {
+                            Logger::GetInstance("primary_data")->warning(
+                                "could not find track id = " + 
+                                std::to_string(particle_maps->GetAncestorTrackID(track.trackID)) + 
+                                " associated to track in sim channel " + 
+                                std::to_string(channel) + 
+                                " with track id = " + 
+                                std::to_string(track.trackID)
                             );
                         }  
                     }

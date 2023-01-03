@@ -30,6 +30,7 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "Logger.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
 

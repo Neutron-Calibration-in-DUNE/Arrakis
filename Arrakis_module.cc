@@ -82,7 +82,6 @@ namespace arrakis
         );
 
     private:
-        Logger* mLogger;
         Parameters mParameters;
         // Set of configuration parameters
         bool    mSaveMeta;
@@ -138,52 +137,52 @@ namespace arrakis
     : EDAnalyzer(config)
     , mParameters(config)
     {
-        mLogger = Logger::GetInstance("arrakis_module");
-        mLogger->trace("initializing arrakis module");
+        auto logger = Logger::GetInstance("arrakis_module");
+        logger->trace("initializing arrakis module");
 
         // Set various configuration parameters
         mSaveMeta = mParameters().SaveMeta();
-        mLogger->trace("setting SaveMeta = " + std::to_string(mSaveMeta));
+        logger->trace("setting SaveMeta = " + std::to_string(mSaveMeta));
 
         mSaveGeometry = mParameters().SaveGeometry();
-        mLogger->trace("setting SaveGeometry = " + std::to_string(mSaveGeometry));
+        logger->trace("setting SaveGeometry = " + std::to_string(mSaveGeometry));
 
         mSaveParticleMaps = mParameters().SaveParticleMaps();
-        mLogger->trace("setting SaveParticleMaps = " + std::to_string(mSaveParticleMaps));
+        logger->trace("setting SaveParticleMaps = " + std::to_string(mSaveParticleMaps));
         mSavePrimaryData =  mParameters().SavePrimaryData();
-        mLogger->trace("setting SavePrimaryData = " + std::to_string(mSavePrimaryData));
+        logger->trace("setting SavePrimaryData = " + std::to_string(mSavePrimaryData));
         mSavePrimaryDataEdeps =  mParameters().SavePrimaryDataEdeps();
-        mLogger->trace("setting SavePrimaryDataEdeps = " + std::to_string(mSavePrimaryDataEdeps));
+        logger->trace("setting SavePrimaryDataEdeps = " + std::to_string(mSavePrimaryDataEdeps));
         mSavePrimaryDataRawTPC =  mParameters().SavePrimaryDataRawTPC();
-        mLogger->trace("setting SavePrimaryDataRawTPC = " + std::to_string(mSavePrimaryDataRawTPC));
+        logger->trace("setting SavePrimaryDataRawTPC = " + std::to_string(mSavePrimaryDataRawTPC));
 
         // solo point clouds
         mGenerateSoloPointCloudData = mParameters().GenerateSoloPointCloudData();
-        mLogger->trace("setting GenerateSoloPointCloudData = " + std::to_string(mGenerateSoloPointCloudData));
+        logger->trace("setting GenerateSoloPointCloudData = " + std::to_string(mGenerateSoloPointCloudData));
 
         // module labels
         mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
-        mLogger->trace("setting LArGeantProducerLabel = " + mLArGeantProducerLabel.label());
+        logger->trace("setting LArGeantProducerLabel = " + mLArGeantProducerLabel.label());
         mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
-        mLogger->trace("setting IonAndScintProducerLabel = " + mIonAndScintProducerLabel.label());
+        logger->trace("setting IonAndScintProducerLabel = " + mIonAndScintProducerLabel.label());
         mSimChannelProducerLabel =  mParameters().SimChannelProducerLabel();
-        mLogger->trace("setting SimChannelProducerLabel = " + mSimChannelProducerLabel.label());
+        logger->trace("setting SimChannelProducerLabel = " + mSimChannelProducerLabel.label());
         mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
-        mLogger->trace("setting SimChannelInstanceProducerLabel = " + mSimChannelInstanceProducerLabel.label());
+        logger->trace("setting SimChannelInstanceProducerLabel = " + mSimChannelInstanceProducerLabel.label());
         mTPCInputLabel =    mParameters().TPCInputLabel();
-        mLogger->trace("setting TPCInputLabel = " + mTPCInputLabel.label());
+        logger->trace("setting TPCInputLabel = " + mTPCInputLabel.label());
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
-        mLogger->trace("setting TPCInstanceLabel = " + mTPCInstanceLabel.label());
+        logger->trace("setting TPCInstanceLabel = " + mTPCInstanceLabel.label());
 
         // generator labels
         if(mGenerateSoloPointCloudData)
         {
             mAr39Label = mParameters().Ar39Label();
-            mLogger->trace("setting Ar39Label = " + mAr39Label.label());
+            logger->trace("setting Ar39Label = " + mAr39Label.label());
             mSingleNeutronLabel = mParameters().SingleNeutronLabel();
-            mLogger->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
+            logger->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
             mPNSLabel = mParameters().PNSLabel();
-            mLogger->trace("setting PNSLabel = " + mPNSLabel.label());
+            logger->trace("setting PNSLabel = " + mPNSLabel.label());
             mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
             mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
             mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
@@ -219,10 +218,10 @@ namespace arrakis
         const art::Event& event, art::InputTag input_tag, GeneratorLabel label
     )
     {
-        mLogger->trace("collecting simb::MCTruth from input_tag <" + input_tag.label() + ">");
+        Logger::GetInstance("arrakis_module")->trace("collecting simb::MCTruth from input_tag <" + input_tag.label() + ">");
         if(!event.getByLabel(input_tag, mMCTruthHandle))
         {
-            mLogger->warning("no input_tag matching " + input_tag.label() + " for simb::MCTruth");
+            Logger::GetInstance("arrakis_module")->warning("no input_tag matching " + input_tag.label() + " for simb::MCTruth");
         }
         else 
         {
@@ -236,10 +235,10 @@ namespace arrakis
         const art::Event& event
     )
     {
-        mLogger->trace("collecting simb::MCParticle from label <" + mLArGeantProducerLabel.label() + ">");
+        Logger::GetInstance("arrakis_module")->trace("collecting simb::MCParticle from label <" + mLArGeantProducerLabel.label() + ">");
         if(!event.getByLabel(mLArGeantProducerLabel, mMCParticleHandle))
         {
-            mLogger->error("no label matching " + mLArGeantProducerLabel.label() + " for simb::MCParticle!");
+            Logger::GetInstance("arrakis_module")->error("no label matching " + mLArGeantProducerLabel.label() + " for simb::MCParticle!");
             exit(0);
         }
         else 
@@ -253,10 +252,10 @@ namespace arrakis
         const art::Event& event
     )
     {
-        mLogger->trace("collecting sim::SimEnergyDeposit from label <" + mIonAndScintProducerLabel.label() + ">");
+        Logger::GetInstance("arrakis_module")->trace("collecting sim::SimEnergyDeposit from label <" + mIonAndScintProducerLabel.label() + ">");
         if(!event.getByLabel(mIonAndScintProducerLabel, mMCSimEnergyDepositHandle))
         {
-            mLogger->error("no label matching " + mIonAndScintProducerLabel.label() + " for sim::SimEnergyDeposit!");
+            Logger::GetInstance("arrakis_module")->error("no label matching " + mIonAndScintProducerLabel.label() + " for sim::SimEnergyDeposit!");
             exit(0);
         }
         else 
@@ -273,7 +272,7 @@ namespace arrakis
         auto event_id = event.id().event();
         auto run_id = event.run();
         auto sub_run_id = event.subRun();
-        mLogger->trace(
+        Logger::GetInstance("arrakis_module")->trace(
             "processing event " + 
             std::to_string(run_id) + ":" + 
             std::to_string(sub_run_id) + ":" + 
@@ -312,7 +311,7 @@ namespace arrakis
             mc_particles, 
             mc_energy_deposits
         );
-        mLogger->trace("processed MCParticle, SimEnergyDeposit and MCTruth products");
+        Logger::GetInstance("arrakis_module")->trace("processed MCParticle, SimEnergyDeposit and MCTruth products");
 
         // Check if SimChannel and RawDigit are available,
         // and then process those into primary data.
@@ -348,7 +347,7 @@ namespace arrakis
                 mc_sim_channels,
                 mc_raw_digits
             );
-            mLogger->trace("processed SimChannel and RawDigit products");
+            Logger::GetInstance("arrakis_module")->trace("processed SimChannel and RawDigit products");
         }
         
 

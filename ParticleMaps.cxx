@@ -12,10 +12,10 @@ namespace arrakis
     ParticleMaps::ParticleMaps(bool SaveParticleMaps)
     : mSaveParticleMaps(SaveParticleMaps)
     {
-        mLogger = Logger::GetInstance("particle_maps");
+        auto logger = Logger::GetInstance("particle_maps");
         if(mSaveParticleMaps) 
         {
-            mLogger->trace("setting up TTree.");
+            logger->trace("setting up TTree.");
             mTTree = mTFileService->make<TTree>("particle_maps", "particle_maps");
             mTTree->Branch("generator_label_map", &mGeneratorLabelMap);
             mTTree->Branch("pdg_map", &mPDGMap);
@@ -51,7 +51,7 @@ namespace arrakis
     )
     {
         ResetEvent();
-        mLogger->trace("constructing particle maps for " + std::to_string((*mcParticles).size()) + " particles");
+        Logger::GetInstance("particle_maps")->trace("constructing particle maps for " + std::to_string((*mcParticles).size()) + " particles");
         for (auto particle : *mcParticles)
         {
             mGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::kNone;
@@ -92,14 +92,14 @@ namespace arrakis
         const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
     )
     {
-        mLogger->trace("adding MCTruth data to particle maps");
+        Logger::GetInstance("particle_maps")->trace("adding MCTruth data to particle maps");
         for(auto truth : *mcTruth)
         {
             /**
              * MCTruth stores MCParticles starting with trackID = 0,
              * rather than Geant4 which starts with trackID = 1.
             */
-            mLogger->trace(
+            Logger::GetInstance("particle_maps")->trace(
                 "adding labels of type " + 
                 std::to_string(label) + 
                 " for " + std::to_string(truth.NParticles()) + 

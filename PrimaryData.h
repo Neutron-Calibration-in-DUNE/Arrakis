@@ -76,7 +76,6 @@ namespace arrakis
         std::vector<Primary> GetPrimaries() { return mPrimaries; }
 
     private:
-        Logger* mLogger;
         bool mSavePrimaryData = {false};
         bool mSavePrimaryDataEdeps = {false};
         bool mSavePrimaryDataRawTPC = {false};

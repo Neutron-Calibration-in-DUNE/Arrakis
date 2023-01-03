@@ -82,13 +82,8 @@ namespace arrakis
 
         std::string sName;
 
-        std::string Name() const {
-            return sName;
-        }
-
-        std::string Date() const {
-            return sDate;
-        }
+        std::string Name() const { return sName; }
+        std::string Date() const { return sDate; }
 
     protected:
         Logger(const std::string name);
@@ -104,6 +99,8 @@ namespace arrakis
         // static method that controls access to the singleton
         // instance
         static Logger* GetInstance(const std::string& name);
+
+        void SetName(const std::string& name) { sName = name; }
 
         std::string Preamble()
         {

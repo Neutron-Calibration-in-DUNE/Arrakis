@@ -46,6 +46,8 @@
 #include <vector>
 #include <memory>
 
+#include "Logger.h"
+
 namespace arrakis 
 {
     // list of materials in the detector

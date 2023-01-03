@@ -19,6 +19,7 @@ namespace arrakis
         {
             sInstance = new Logger(name);
         }
+        sInstance->SetName(name);
         return sInstance;
     }
 
