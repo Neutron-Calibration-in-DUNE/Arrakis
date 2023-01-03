@@ -170,6 +170,7 @@ namespace arrakis
             ar39.daughter_det_adc.end()
         );
         CollectStatistics(ar39, solo_point_cloud);
+
         mSoloPointCloud = solo_point_cloud;
         mTTree->Fill();
         mPointCloudID += 1;
@@ -251,6 +252,7 @@ namespace arrakis
             if(gamma_channel.size() != 0)
             {
                 SoloPointCloud gamma_point_cloud;
+                gamma_point_cloud.label = "gamma";
                 gamma_point_cloud.channel = gamma_channel;
                 gamma_point_cloud.tick = gamma_tick;
                 gamma_point_cloud.adc = gamma_adc;
@@ -286,6 +288,7 @@ namespace arrakis
         if(capture_channel.size() != 0)
         {
             SoloPointCloud capture_point_cloud;
+            capture_point_cloud.label = "capture";
             capture_point_cloud.channel = capture_channel;
             capture_point_cloud.tick = capture_tick;
             capture_point_cloud.adc = capture_adc;

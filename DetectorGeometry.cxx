@@ -105,6 +105,21 @@ namespace arrakis
         mNumberOfVChannels = mVChannelMax - mVChannelMin+1; //V
         mNumberOfZChannels = mZChannelMax - mZChannelMin+1; //Z (collection plane)
 
+        for(auto channel : mGeometryCore->ChannelsInTPCs())
+        {
+            std::vector<geo::WireID> wires = mGeometryCore->ChannelToWire(channel);
+            if(wires.size() > 1) {
+                Logger::GetInstance("geometry")->trace(
+                    "channel " + std::to_string(channel) + 
+                    " has " + std::to_string(wires.size()) + 
+                    " wires associated to it!"
+                );
+            }
+            else {
+                mChannelToWireIDMap[channel] = wires[0];
+            }
+        }
+
         // collect world info
         mWorldName = mGeometryCore->GetWorldVolumeName();
         mWorldBox.setBox(mGeometryCore->WorldBox());
