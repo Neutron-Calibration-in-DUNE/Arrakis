@@ -181,7 +181,7 @@ namespace arrakis
         unsigned int NumberOfAPAs() { return mNumberOfAPAs; }
         unsigned int NumberOfChannelsPerAPA() { return mNumberOfChannelsPerAPA; }
 
-        geo::View_t View(geo::PlaneID const& pid) { return mGeometryCore->View(pid); }
+        geo::View_t View(raw::ChannelID_t const channel) { return mGeometryCore->View(channel); }
 
         // getters
         std::string GetWorldName()      { return mWorldName; }
