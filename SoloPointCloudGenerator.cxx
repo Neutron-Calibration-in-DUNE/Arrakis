@@ -190,7 +190,7 @@ namespace arrakis
         std::vector<Int_t> capture_gamma_ids;
         std::vector<Double_t> capture_gamma_energy;
         std::vector<std::vector<Int_t>> capture_gamma_daughters;
-        for(size_t ii = 0; ii < neutron.daughter_ids; ii++) 
+        for(size_t ii = 0; ii < neutron.daughter_ids.size(); ii++) 
         {
             if(neutron.daughter_init_process[ii] == 'nCapture') 
             {
@@ -203,7 +203,7 @@ namespace arrakis
         for(size_t ii = 0; ii < capture_gamma_ids.size(); ii++)
         {
             std::vector<Int_t> gamma_daughters;
-            for(size_t jj = 0; jj < neutron.daughter_ids; jj++)
+            for(size_t jj = 0; jj < neutron.daughter_ids.size(); jj++)
             {
                 Int_t daughter_parent = particle_maps->GetParentTrackID(neutron.daughter_ids[jj]);
                 while(daughter_parent != 0)
@@ -276,7 +276,7 @@ namespace arrakis
                     gamma_tdc.begin(),
                     gamma_tdc.end()
                 );
-                mSoloPointCloud = solo_point_cloud;
+                mSoloPointCloud = gamma_point_cloud;
                 mTTree->Fill();
                 mPointCloudID += 1;
             }
@@ -290,7 +290,7 @@ namespace arrakis
             capture_point_cloud.tdc = capture_tdc;
             capture_point_cloud.point_cloud_id = mPointCloudID;
             mPointCloudID += 1;
-            mSoloPointCloud = solo_point_cloud;
+            mSoloPointCloud = capture_point_cloud;
             mTTree->Fill();
         }
     }
