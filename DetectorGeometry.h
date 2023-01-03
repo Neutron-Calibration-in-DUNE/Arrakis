@@ -239,7 +239,7 @@ namespace arrakis
         unsigned int mNumberOfChannelsPerAPA; //Number of channels in each APA
 
         std::map<raw::ChannelID_t, std::vector<geo::WireID>> mChannelToWireIDMap;
-        std::map<geo::View_t, geo:Length_t> mWirePitchMap;
+        std::map<geo::View_t, geo::Length_t> mWirePitchMap;
 
         TTree *mGeometryTree;
         size_t mTriggerOffset;
