@@ -208,7 +208,7 @@ namespace arrakis
                 Int_t daughter_parent = particle_maps->GetParentTrackID(neutron.daughter_ids[jj]);
                 while(daughter_parent != 0)
                 {
-                    if(daughter_parent = capture_gamma_ids[ii])
+                    if(daughter_parent == capture_gamma_ids[ii])
                     {
                         gamma_daughters.emplace_back(neutron.daughter_ids[jj]);
                         break;
