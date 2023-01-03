@@ -143,23 +143,23 @@ namespace arrakis
 
         // Set various configuration parameters
         mSaveMeta = mParameters().SaveMeta();
-        mLogger->trace("setting SaveMeta = " + std::string(mSaveMeta.label()));
+        mLogger->trace("setting SaveMeta = " + std::string(mSaveMeta));
 
         mSaveGeometry = mParameters().SaveGeometry();
-        mLogger->trace("setting SaveGeometry = " + std::string(mSaveGeometry.label()));
+        mLogger->trace("setting SaveGeometry = " + std::string(mSaveGeometry));
 
         mSaveParticleMaps = mParameters().SaveParticleMaps();
-        mLogger->trace("setting SaveParticleMaps = " + std::string(mSaveParticleMaps.label()));
+        mLogger->trace("setting SaveParticleMaps = " + std::string(mSaveParticleMaps));
         mSavePrimaryData =  mParameters().SavePrimaryData();
-        mLogger->trace("setting SavePrimaryData = " + std::string(mSavePrimaryData.label()));
+        mLogger->trace("setting SavePrimaryData = " + std::string(mSavePrimaryData));
         mSavePrimaryDataEdeps =  mParameters().SavePrimaryDataEdeps();
-        mLogger->trace("setting SavePrimaryDataEdeps = " + std::string(mSavePrimaryDataEdeps.label()));
+        mLogger->trace("setting SavePrimaryDataEdeps = " + std::string(mSavePrimaryDataEdeps));
         mSavePrimaryDataRawTPC =  mParameters().SavePrimaryDataRawTPC();
-        mLogger->trace("setting SavePrimaryDataRawTPC = " + std::string(mSavePrimaryDataRawTPC.label()));
+        mLogger->trace("setting SavePrimaryDataRawTPC = " + std::string(mSavePrimaryDataRawTPC));
 
         // solo point clouds
         mGenerateSoloPointCloudData = mParameters().GenerateSoloPointCloudData();
-        mLogger->trace("setting GenerateSoloPointCloudData = " + std::string(mGenerateSoloPointCloudData.label()));
+        mLogger->trace("setting GenerateSoloPointCloudData = " + std::string(mGenerateSoloPointCloudData));
 
         // module labels
         mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
