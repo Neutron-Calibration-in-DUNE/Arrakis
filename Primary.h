@@ -440,7 +440,7 @@ namespace arrakis
             det_energy.emplace_back(ide.energy);
             det_view.emplace_back(view);
             det_channel.emplace_back(channel);
-            det_wire.emplace_back(wires[view]);
+            det_wire.emplace_back(wires[view].Wire);
             det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
@@ -472,7 +472,7 @@ namespace arrakis
             daughter_det_energy.emplace_back(ide.energy);
             daughter_det_view.emplace_back(view);
             daughter_det_channel.emplace_back(channel);
-            daughter_det_wire.emplace_back(wires[view]);
+            daughter_det_wire.emplace_back(wires[view].Wire);
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
             daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
