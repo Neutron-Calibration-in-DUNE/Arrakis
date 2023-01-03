@@ -166,6 +166,23 @@ namespace arrakis
             return sName;
         }
 
+        unsigned int NumberOfUChannels() { return mNumberOfUChannels; }
+        unsigned int NumberOfVChannels() { return mNumberOfVChannels; }
+        unsigned int NumberOfZChannels() { return mNumberOfZChannels; }
+
+        // find channel boundaries for each view
+        unsigned int UChannelMin() { return mUChannelMin; }
+        unsigned int UChannelMax() { return mUChannelMax; }
+        unsigned int VChannelMin() { return mVChannelMin; }
+        unsigned int VChannelMax() { return mVChannelMax; }
+        unsigned int ZChannelMin() { return mZChannelMin; }
+        unsigned int ZChannelMax() { return mZChannelMax; }
+
+        unsigned int NumberOfAPAs() { return mNumberOfAPAs; }
+        unsigned int NumberOfChannelsPerAPA() { return mNumberOfChannelsPerAPA; }
+
+        View_t View(geo::PlaneID const& pid) { return mGeometryCore->View(pid); }
+
         // getters
         std::string GetWorldName()      { return mWorldName; }
         BoundingBox GetWorldBox()       { return mWorldBox; }
@@ -203,6 +220,22 @@ namespace arrakis
         art::ServiceHandle<geo::Geometry> mGeometryService;
         geo::GeometryCore const* mGeometryCore;
         art::ServiceHandle<art::TFileService> mTFileService;
+
+        // TPC // Number of channels in each planes
+        unsigned int mNumberOfUChannels;
+        unsigned int mNumberOfVChannels;
+        unsigned int mNumberOfZChannels;
+
+        // find channel boundaries for each view
+        unsigned int mUChannelMin;
+        unsigned int mUChannelMax;
+        unsigned int mVChannelMin;
+        unsigned int mVChannelMax;
+        unsigned int mZChannelMin;
+        unsigned int mZChannelMax;
+
+        unsigned int mNumberOfAPAs; //Number of APAs
+        unsigned int mNumberOfChannelsPerAPA; //Number of channels in each APA
 
         TTree *mGeometryTree;
         size_t mTriggerOffset;

@@ -113,6 +113,7 @@ namespace arrakis
         // Raw digit information.
         std::vector<Double_t> det_energy_fraction = {};
         std::vector<Double_t> det_energy = {};
+        std::vector<Int_t> det_view = {};
         std::vector<Int_t> det_channel = {};
         std::vector<Int_t> det_tick = {};
         std::vector<Int_t> det_adc = {};
@@ -124,6 +125,7 @@ namespace arrakis
         std::vector<Int_t> daughter_det_track_id = {};
         std::vector<Double_t> daughter_det_energy_fraction = {};
         std::vector<Double_t> daughter_det_energy = {};
+        std::vector<Int_t> daughter_det_view = {};
         std::vector<Int_t> daughter_det_channel = {};
         std::vector<Int_t> daughter_det_tick = {};
         std::vector<Int_t> daughter_det_adc = {};
@@ -432,6 +434,7 @@ namespace arrakis
         {
             det_energy_fraction.emplace_back(ide.energy/total_energy);
             det_energy.emplace_back(ide.energy);
+            det_view.emplace_back(DetectorGeometry::GetInstance("primary")->View(channel));
             det_channel.emplace_back(channel);
             det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
@@ -460,6 +463,7 @@ namespace arrakis
             daughter_det_track_id.emplace_back(ide.trackID);
             daughter_det_energy_fraction.emplace_back(ide.energy/total_energy);
             daughter_det_energy.emplace_back(ide.energy);
+            daughter_det_view.emplace_back(DetectorGeometry::GetInstance("primary")->View(channel));
             daughter_det_channel.emplace_back(channel);
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
