@@ -163,27 +163,27 @@ namespace arrakis
 
         // module labels
         mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
-        mLogger->trace("setting LArGeantProducerLabel = " + std::to_string(mLArGeantProducerLabel.label()));
+        mLogger->trace("setting LArGeantProducerLabel = " + mLArGeantProducerLabel.label());
         mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
-        mLogger->trace("setting IonAndScintProducerLabel = " + std::to_string(mIonAndScintProducerLabel.label()));
+        mLogger->trace("setting IonAndScintProducerLabel = " + mIonAndScintProducerLabel.label());
         mSimChannelProducerLabel =  mParameters().SimChannelProducerLabel();
-        mLogger->trace("setting SimChannelProducerLabel = " + std::to_string(mSimChannelProducerLabel.label()));
+        mLogger->trace("setting SimChannelProducerLabel = " + mSimChannelProducerLabel.label());
         mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
-        mLogger->trace("setting SimChannelInstanceProducerLabel = " + std::to_string(mSimChannelInstanceProducerLabel.label()));
+        mLogger->trace("setting SimChannelInstanceProducerLabel = " + mSimChannelInstanceProducerLabel.label());
         mTPCInputLabel =    mParameters().TPCInputLabel();
-        mLogger->trace("setting TPCInputLabel = " + std::to_string(mTPCInputLabel.label()));
+        mLogger->trace("setting TPCInputLabel = " + mTPCInputLabel.label());
         mTPCInstanceLabel = mParameters().TPCInstanceLabel();
-        mLogger->trace("setting TPCInstanceLabel = " + std::to_string(mTPCInstanceLabel.label()));
+        mLogger->trace("setting TPCInstanceLabel = " + mTPCInstanceLabel.label());
 
         // generator labels
         if(mGenerateSoloPointCloudData)
         {
             mAr39Label = mParameters().Ar39Label();
-            mLogger->trace("setting Ar39Label = " + std::to_string(mAr39Label.label()));
+            mLogger->trace("setting Ar39Label = " + mAr39Label.label());
             mSingleNeutronLabel = mParameters().SingleNeutronLabel();
-            mLogger->trace("setting SingleNeutronLabel = " + std::to_string(mSingleNeutronLabel.label()));
+            mLogger->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
             mPNSLabel = mParameters().PNSLabel();
-            mLogger->trace("setting PNSLabel = " + std::to_string(mPNSLabel.label()));
+            mLogger->trace("setting PNSLabel = " + mPNSLabel.label());
             mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
             mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
             mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
