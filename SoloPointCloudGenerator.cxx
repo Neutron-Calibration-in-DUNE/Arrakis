@@ -220,15 +220,15 @@ namespace arrakis
         }
         // Now, gather all (tdc,channel,adc) values for each of 
         // the gammas.
-        std::vector<Int_t> capture_channel;
-        std::vector<Int_t> capture_tick;
-        std::vector<Int_t> capture_adc;
+        std::vector<Double_t> capture_channel;
+        std::vector<Double_t> capture_tick;
+        std::vector<Double_t> capture_adc;
         std::vector<Double_t> capture_tdc;
         for(size_t ii = 0; ii < capture_gamma_ids.size(); ii++)
         {
-            std::vector<Int_t> gamma_channel;
-            std::vector<Int_t> gamma_tick;
-            std::vector<Int_t> gamma_adc;
+            std::vector<Double_t> gamma_channel;
+            std::vector<Double_t> gamma_tick;
+            std::vector<Double_t> gamma_adc;
             std::vector<Double_t> gamma_tdc;
             for(size_t jj = 0; jj < neutron.daughter_det_channel.size(); jj++)
             {
@@ -249,10 +249,10 @@ namespace arrakis
             if(gamma_channel.size() != 0)
             {
                 SoloPointCloud gamma_point_cloud;
-                gamma_point_cloud.channel = (std::vector<Double_t>)gamma_channel;
-                gamma_point_cloud.tick = (std::vector<Double_t>)gamma_tick;
-                gamma_point_cloud.adc = (std::vector<Double_t>)gamma_adc;
-                gamma_point_cloud.tdc = (std::vector<Double_t>)gamma_tdc;
+                gamma_point_cloud.channel = gamma_channel;
+                gamma_point_cloud.tick = gamma_tick;
+                gamma_point_cloud.adc = gamma_adc;
+                gamma_point_cloud.tdc = gamma_tdc;
                 gamma_point_cloud.point_cloud_id = mPointCloudID;
                 gamma_point_cloud.energy = capture_gamma_energy[ii];
 
@@ -284,10 +284,10 @@ namespace arrakis
         if(capture.channel.size() != 0)
         {
             SoloPointCloud capture_point_cloud;
-            capture_point_cloud.channel = (std::vector<Double_t>)capture_channel;
-            capture_point_cloud.tick = (std::vector<Double_t>)capture_tick;
-            capture_point_cloud.adc = (std::vector<Double_t>)capture_adc;
-            capture_point_cloud.tdc = (std::vector<Double_t>)capture_tdc;
+            capture_point_cloud.channel = capture_channel;
+            capture_point_cloud.tick = capture_tick;
+            capture_point_cloud.adc = capture_adc;
+            capture_point_cloud.tdc = capture_tdc;
             capture_point_cloud.point_cloud_id = mPointCloudID;
             mPointCloudID += 1;
             mSoloPointCloud = capture_point_cloud;
