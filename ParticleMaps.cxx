@@ -95,12 +95,16 @@ namespace arrakis
         mLogger->trace("adding MCTruth data to particle maps");
         for(auto truth : *mcTruth)
         {
+            /**
+             * MCTruth stores MCParticles starting with trackID = 0,
+             * rather than Geant4 which starts with trackID = 1.
+            */
             mLogger->trace(
                 "adding labels of type " + 
                 std::to_string(label) + 
                 " for " + std::to_string(truth.NParticles()) + 
                 " particles starting with track ID = " + 
-                std::to_string(truth.GetParticle(0).TrackId())
+                std::to_string(truth.GetParticle(0).TrackId()+1)
             );
             for(Int_t ii = 0; ii < truth.NParticles(); ii++)
             {

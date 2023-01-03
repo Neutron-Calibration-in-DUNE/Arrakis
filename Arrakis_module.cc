@@ -329,8 +329,9 @@ namespace arrakis
                 mc_sim_channels,
                 mc_raw_digits
             );
+            mLogger->trace("processed SimChannel and RawDigit products");
         }
-        std::cout << "Processed Detector Simulation..." << std::endl;
+        
 
         /**
          * @brief Now that everything is collected, we pass the data to 
