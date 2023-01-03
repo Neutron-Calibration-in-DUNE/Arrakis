@@ -80,6 +80,11 @@ namespace arrakis
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataForJob();
         mTriggerOffset = trigger_offset(clock_data);
 
+        std::set<geo::View_t> const views = mGeometryCore->Views();
+        for(auto view : views) {
+            mWirePitchMap[view] = mGeometryCore->WirePitch(view);
+        }
+
         // Accquiring geometry data
         mNumberOfAPAs=mGeometryCore->NTPC()*mGeometryCore->Ncryostats()/2; //No. of APAs
         mNumberOfChannelsPerAPA = mGeometryCore->Nchannels()/mNumberOfAPAs; //No. of channels per APA
@@ -107,17 +112,7 @@ namespace arrakis
 
         for(auto channel : mGeometryCore->ChannelsInTPCs())
         {
-            std::vector<geo::WireID> wires = mGeometryCore->ChannelToWire(channel);
-            if(wires.size() > 1) {
-                Logger::GetInstance("geometry")->trace(
-                    "channel " + std::to_string(channel) + 
-                    " has " + std::to_string(wires.size()) + 
-                    " wires associated to it!"
-                );
-            }
-            else {
-                mChannelToWireIDMap[channel] = wires[0];
-            }
+            mChannelToWireIDMap[channel] = mGeometryCore->ChannelToWire(channel);
         }
 
         // collect world info

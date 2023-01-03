@@ -115,6 +115,7 @@ namespace arrakis
         std::vector<Double_t> det_energy = {};
         std::vector<Int_t> det_view = {};
         std::vector<Int_t> det_channel = {};
+        std::vector<Int_t> det_wire = {};
         std::vector<Int_t> det_tick = {};
         std::vector<Int_t> det_adc = {};
         std::vector<Int_t> det_edep = {};
@@ -127,6 +128,7 @@ namespace arrakis
         std::vector<Double_t> daughter_det_energy = {};
         std::vector<Int_t> daughter_det_view = {};
         std::vector<Int_t> daughter_det_channel = {};
+        std::vector<Int_t> daughter_det_wire = {};
         std::vector<Int_t> daughter_det_tick = {};
         std::vector<Int_t> daughter_det_adc = {};
         std::vector<Int_t> daughter_det_edep = {};
@@ -432,10 +434,13 @@ namespace arrakis
             Int_t adc
         )
         {
+            auto view = DetectorGeometry::GetInstance("primary")->View(channel);
+            auto wires = DetectorGeometry::GetInstance("primary")->ChannelToWire(channel);
             det_energy_fraction.emplace_back(ide.energy/total_energy);
             det_energy.emplace_back(ide.energy);
-            det_view.emplace_back(DetectorGeometry::GetInstance("primary")->View(channel));
+            det_view.emplace_back(view);
             det_channel.emplace_back(channel);
+            det_wire.emplace_back(wires[view]);
             det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
@@ -460,11 +465,14 @@ namespace arrakis
             Int_t adc
         )
         {
+            auto view = DetectorGeometry::GetInstance("primary")->View(channel);
+            auto wires = DetectorGeometry::GetInstance("primary")->ChannelToWire(channel);
             daughter_det_track_id.emplace_back(ide.trackID);
             daughter_det_energy_fraction.emplace_back(ide.energy/total_energy);
             daughter_det_energy.emplace_back(ide.energy);
-            daughter_det_view.emplace_back(DetectorGeometry::GetInstance("primary")->View(channel));
+            daughter_det_view.emplace_back(view);
             daughter_det_channel.emplace_back(channel);
+            daughter_det_wire.emplace_back(wires[view]);
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
             daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tick));

@@ -182,6 +182,7 @@ namespace arrakis
         unsigned int NumberOfChannelsPerAPA() { return mNumberOfChannelsPerAPA; }
 
         geo::View_t View(raw::ChannelID_t const channel) { return mGeometryCore->View(channel); }
+        std::vector<geo::WireID> ChannelToWire(raw::ChannelID_t const channel) { return mChannelToWireIDMap[channel]; }
 
         // getters
         std::string GetWorldName()      { return mWorldName; }
@@ -237,7 +238,8 @@ namespace arrakis
         unsigned int mNumberOfAPAs; //Number of APAs
         unsigned int mNumberOfChannelsPerAPA; //Number of channels in each APA
 
-        std::map<raw::ChannelID_t, geo::WireID> mChannelToWireIDMap;
+        std::map<raw::ChannelID_t, std::vector<geo::WireID>> mChannelToWireIDMap;
+        std::map<geo::View_t, geo:Length_t> mWirePitchMap;
 
         TTree *mGeometryTree;
         size_t mTriggerOffset;
