@@ -231,7 +231,7 @@ namespace arrakis
         std::vector<Double_t> capture_tick;
         std::vector<Double_t> capture_adc;
         std::vector<Double_t> capture_tdc;
-        Double_t capture_total_energy;
+        Double_t capture_total_energy = 0;
         for(size_t ii = 0; ii < capture_gamma_ids.size(); ii++)
         {
             std::vector<Int_t> gamma_view;
