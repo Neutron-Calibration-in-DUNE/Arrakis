@@ -216,8 +216,8 @@ namespace arrakis
                     Int_t new_parent = particle_maps->GetParentTrackID(daughter_parent);
                     daughter_parent = new_parent;
                 }
-                capture_gamma_daughters.emplace_back(gamma_daughters);    
             }
+            capture_gamma_daughters.emplace_back(gamma_daughters);
         }
         // Now, gather all (tdc,channel,adc) values for each of 
         // the gammas.
