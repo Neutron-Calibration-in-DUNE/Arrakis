@@ -192,7 +192,7 @@ namespace arrakis
         std::vector<std::vector<Int_t>> capture_gamma_daughters;
         for(size_t ii = 0; ii < neutron.daughter_ids.size(); ii++) 
         {
-            if(neutron.daughter_init_process[ii] == 'nCapture') 
+            if(neutron.daughter_init_process[ii] == "nCapture") 
             {
                 capture_gamma_ids.emplace_back(neutron.daughter_ids[ii]);
                 capture_gamma_energy.emplace_back(neutron.daughter_init_energy[ii]);
@@ -254,7 +254,7 @@ namespace arrakis
                 gamma_point_cloud.adc = gamma_adc;
                 gamma_point_cloud.tdc = gamma_tdc;
                 gamma_point_cloud.point_cloud_id = mPointCloudID;
-                gamma_point_cloud.energy = capture_gamma_energy[ii];
+                gamma_point_cloud.total_energy = capture_gamma_energy[ii];
 
                 capture_channel.insert(
                     capture_channel.end(),
@@ -281,7 +281,7 @@ namespace arrakis
                 mPointCloudID += 1;
             }
         }
-        if(capture.channel.size() != 0)
+        if(capture_channel.size() != 0)
         {
             SoloPointCloud capture_point_cloud;
             capture_point_cloud.channel = capture_channel;
