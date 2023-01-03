@@ -183,6 +183,7 @@ namespace arrakis
 
         geo::View_t View(raw::ChannelID_t const channel) { return mGeometryCore->View(channel); }
         std::vector<geo::WireID> ChannelToWire(raw::ChannelID_t const channel) { return mChannelToWireIDMap[channel]; }
+        Double_t GetWirePitch(geo::View_t view) { return mWirePitchMap[view]; }
 
         // getters
         std::string GetWorldName()      { return mWorldName; }

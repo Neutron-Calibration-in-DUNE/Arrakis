@@ -231,6 +231,7 @@ namespace arrakis
         std::vector<Double_t> capture_tick;
         std::vector<Double_t> capture_adc;
         std::vector<Double_t> capture_tdc;
+        Double_t capture_total_energy;
         for(size_t ii = 0; ii < capture_gamma_ids.size(); ii++)
         {
             std::vector<Int_t> gamma_view;
@@ -300,12 +301,13 @@ namespace arrakis
                     gamma_tdc.begin(),
                     gamma_tdc.end()
                 );
+                capture_total_energy += gamma_point_cloud.total_energy;
                 mSoloPointCloud = gamma_point_cloud;
                 mTTree->Fill();
                 mPointCloudID += 1;
             }
         }
-        if(capture_channel.size() != 0)
+        if(capture_channel.size() != 0 && capture_total_energy >= 0.006)
         {
             SoloPointCloud capture_point_cloud;
             capture_point_cloud.label = "capture";
@@ -316,6 +318,7 @@ namespace arrakis
             capture_point_cloud.adc = capture_adc;
             capture_point_cloud.tdc = capture_tdc;
             capture_point_cloud.point_cloud_id = mPointCloudID;
+            capture_point_cloud.total_energy = capture_total_energy;
             mPointCloudID += 1;
             mSoloPointCloud = capture_point_cloud;
             mTTree->Fill();

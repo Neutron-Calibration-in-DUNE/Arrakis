@@ -436,11 +436,13 @@ namespace arrakis
         {
             auto view = DetectorGeometry::GetInstance("primary")->View(channel);
             auto wires = DetectorGeometry::GetInstance("primary")->ChannelToWire(channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance("primary")->GetWirePitch(view);
+
             det_energy_fraction.emplace_back(ide.energy/total_energy);
             det_energy.emplace_back(ide.energy);
             det_view.emplace_back(view);
             det_channel.emplace_back(channel);
-            det_wire.emplace_back(wires[view].Wire);
+            det_wire.emplace_back(wires[view].Wire * wire_multiple);
             det_tick.emplace_back(tick);
             det_adc.emplace_back(adc);
             det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
@@ -467,12 +469,14 @@ namespace arrakis
         {
             auto view = DetectorGeometry::GetInstance("primary")->View(channel);
             auto wires = DetectorGeometry::GetInstance("primary")->ChannelToWire(channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance("primary")->GetWirePitch(view);
+            
             daughter_det_track_id.emplace_back(ide.trackID);
             daughter_det_energy_fraction.emplace_back(ide.energy/total_energy);
             daughter_det_energy.emplace_back(ide.energy);
             daughter_det_view.emplace_back(view);
             daughter_det_channel.emplace_back(channel);
-            daughter_det_wire.emplace_back(wires[view].Wire);
+            daughter_det_wire.emplace_back(wires[view].Wire * wire_multiple);
             daughter_det_tick.emplace_back(tick);
             daughter_det_adc.emplace_back(adc);
             daughter_det_tdc.emplace_back(clockData.TPCTick2TDC(tick));
