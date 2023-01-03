@@ -35,6 +35,15 @@
 
 namespace arrakis
 {
+    /**
+     * @brief This class contains maps from track IDs created by
+     * Geant4 to associated variables like; parent_track_id,
+     * ancestor_track_id, pdg_code, etc.
+     * 
+     * The Arrakis module generates these maps for each event, 
+     * which can be saved to a ROOT file if one sets the 
+     * 'SaveParticleMaps' InputTag to true in their fcl file.
+     */
     class ParticleMaps
     {
     public:

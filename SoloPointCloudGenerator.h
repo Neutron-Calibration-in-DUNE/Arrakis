@@ -41,6 +41,7 @@ namespace arrakis
         Int_t event_id = {-1};
         Int_t point_cloud_id = {-1};
         std::vector<Double_t> channel = {};
+        std::vector<Double_t> tick = {};
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
         std::vector<Double_t> energy = {};

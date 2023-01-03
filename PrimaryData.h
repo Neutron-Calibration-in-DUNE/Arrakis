@@ -41,6 +41,17 @@
 
 namespace arrakis
 {
+    /**
+     * @brief This class holds a large amount of MC truth data
+     * for each primary particle that is generated in Geant4.
+     * The truth data includes MCParticle, SimEnergyDeposit,
+     * SimChannel and RawDigit information for the primary
+     * and all of its daughters.
+     * 
+     * The data can be saved to a TTree, although this can 
+     * be quite a large amount of information.  
+     * 
+     */
     class PrimaryData
     {
     public:
