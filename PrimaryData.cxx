@@ -17,6 +17,7 @@ namespace arrakis
     , mSavePrimaryDataEdeps(SavePrimaryDataEdeps)
     , mSavePrimaryDataRawTPC(SavePrimaryDataRawTPC)
     {
+        mLogger = Logger::GetInstance("primary_data");
         if(SavePrimaryData) {
             mTTree = mTFileService->make<TTree>("primary_data", "primary_data");
             mTTree->Branch("track_id", &mPrimary.track_id);
@@ -140,10 +141,15 @@ namespace arrakis
     )
     {
         if (!mcParticles.isValid()) {
+            mLogger->error("MCParticles handle is not valid!");
+            return;
+        }
+        if (!mcEnergyDeposits.isValid()) {
+            mLogger->error("SimEnergyDeposits handle is not valid!");
             return;
         }
         ResetEvent();
-
+        mLogger->trace("processing " + std::to_string((*mcParticles).size()) + " MCParticles");
         // Loop through every particle and save
         // information to the primary that was
         // generated.
@@ -165,7 +171,14 @@ namespace arrakis
                 Int_t primary_index = FindPrimary(
                     particle_maps->GetAncestorTrackID(particle.TrackId())
                 );
-                if(primary_index == -1) {
+                if(primary_index == -1) 
+                {
+                    mLogger->warning(
+                        "could not find primary with track id " + 
+                        std::to_string(particle_maps->GetAncestorTrackID(particle.TrackId())) + 
+                        " from particle ancestor with track id " + 
+                        std::to_string(particle.TrackId())
+                    );
                     continue;
                 }
                 mPrimaries[primary_index].AddDaughter(
@@ -173,6 +186,7 @@ namespace arrakis
                 );
             }
         }
+        mLogger->trace("processing " + std::to_string((*mcEnergyDeposits).size()) + " SimEnergyDeposits");
         // Now loop through the SimEnergyDeposits.
         for(auto edep : *mcEnergyDeposits)
         {
@@ -193,6 +207,16 @@ namespace arrakis
                 primary_index = FindPrimary(
                     particle_maps->GetAncestorTrackID(edep.TrackID())
                 );
+                if(primary_index == -1) 
+                {
+                    mLogger->warning(
+                        "could not find primary with track id " + 
+                        std::to_string(particle_maps->GetAncestorTrackID(edep.TrackID())) + 
+                        " from energy deposit ancestor with track id " + 
+                        std::to_string(edep.TrackID())
+                    );
+                    continue;
+                }
                 mPrimaries[primary_index].AddDaughterEdep(
                     edep
                 );

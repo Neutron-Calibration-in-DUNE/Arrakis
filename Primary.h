@@ -190,7 +190,14 @@ namespace arrakis
         std::string FindDaughterEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
             std::string process_not_found = "not_found";
-            if(daughter_map.find(edep.TrackID()) == daughter_map.end()) { 
+            if(daughter_map.find(edep.TrackID()) == daughter_map.end()) 
+            { 
+                Logger::GetInstance("primary")->warning(
+                    "could not find a daughter track id = " + 
+                    std::to_string(edep.TrackID()) + 
+                    " for edep associated to primary with track id = " + 
+                    std::to_string(track_id)
+                );
                 return "invalid_track_id";
             }
             Int_t daughter_index = daughter_map[edep.TrackID()];
@@ -235,21 +242,24 @@ namespace arrakis
          * Same as above except for daughters.
         */
         Int_t FindDaughterEnergyDeposition(
-            Int_t track_id, Double_t x, Double_t y, Double_t z
+            Int_t daughter_id, Double_t x, Double_t y, Double_t z
         )
         {
             Int_t edep_index = -1;
             Double_t distance = 10e10;
-            if(daughter_map.find(track_id) == daughter_map.end()) { 
-                std::cout << "ERROR! Daughter: " << track_id << " not found!" << std::endl;
-                std::cout << "x: " << x << ", y: " << y << ", z:" << z << std::endl;
-                Int_t error;
-                std::cin >> error;
+            if(daughter_map.find(daughter_id) == daughter_map.end()) 
+            { 
+                Logger::GetInstance("primary")->error(
+                    "could not find a daughter track id = " + 
+                    std::to_string(daughter_id) + 
+                    " for edep associated to primary with track id = " + 
+                    std::to_string(track_id)
+                );
                 exit(0);
             }
             for(size_t ii = 0; ii < daughter_edep_x.size(); ii++)
             {
-                if(daughter_ids[ii] != track_id) { 
+                if(daughter_ids[ii] != daughter_id) { 
                     continue;
                 }
                 Double_t temp_distance = sqrt(

@@ -35,6 +35,7 @@
 #include <TTree.h>
 
 #include "DetectorGeometry.h"
+#include "Logger.h"
 #include "ParticleMaps.h"
 #include "Primary.h"
 
@@ -75,6 +76,7 @@ namespace arrakis
         std::vector<Primary> GetPrimaries() { return mPrimaries; }
 
     private:
+        Logger* mLogger;
         bool mSavePrimaryData = {false};
         bool mSavePrimaryDataEdeps = {false};
         bool mSavePrimaryDataRawTPC = {false};
