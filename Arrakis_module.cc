@@ -237,7 +237,7 @@ namespace arrakis
             for(size_t ii = 0; ii < (*particles).size(); ii++)
             {
                 std::cout << (*particles)[ii].TrackId() << ", " << mc_truth << ", ";
-                std::cout << mc_truth_ptrs.at(ii) << std::endl;
+                std::cout << mc_truth_ptrs.at(ii).size() << ", " << mc_truth_ptrs.at(ii)[0] << std::endl;
             }
 
             mParticleMaps->ProcessMCTruth(label, mc_truth);
