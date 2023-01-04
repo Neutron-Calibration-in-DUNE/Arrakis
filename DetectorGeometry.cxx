@@ -80,6 +80,41 @@ namespace arrakis
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataForJob();
         mTriggerOffset = trigger_offset(clock_data);
 
+        std::set<geo::View_t> const views = mGeometryCore->Views();
+        for(auto view : views) {
+            mWirePitchMap[view] = mGeometryCore->WirePitch(view);
+        }
+
+        // Accquiring geometry data
+        mNumberOfAPAs=mGeometryCore->NTPC()*mGeometryCore->Ncryostats()/2; //No. of APAs
+        mNumberOfChannelsPerAPA = mGeometryCore->Nchannels()/mNumberOfAPAs; //No. of channels per APA
+
+        // taken from dune35t module a way to organise the channel mapping:
+        // loop through channels in the first APA to find the channel boundaries for each view
+        // will adjust for desired APA after
+        mUChannelMin = 0;
+        mZChannelMax = mNumberOfChannelsPerAPA - 1;
+        for (unsigned int c = mUChannelMin + 1; c < mZChannelMax; c++ ){
+            if ( mGeometryCore->View(c) == geo::kV && mGeometryCore->View(c-1) == geo::kU ){
+                mVChannelMin = c;
+                mUChannelMax = c - 1;
+            }
+            if ( mGeometryCore->View(c) == geo::kZ && mGeometryCore->View(c-1) == geo::kV ){
+                mZChannelMin = c;
+                mVChannelMax = c-1;
+            }
+        }
+
+        //Number of channels in each view
+        mNumberOfUChannels = mUChannelMax - mUChannelMin+1; //U
+        mNumberOfVChannels = mVChannelMax - mVChannelMin+1; //V
+        mNumberOfZChannels = mZChannelMax - mZChannelMin+1; //Z (collection plane)
+
+        for(auto channel : mGeometryCore->ChannelsInTPCs())
+        {
+            mChannelToWireIDMap[channel] = mGeometryCore->ChannelToWire(channel);
+        }
+
         // collect world info
         mWorldName = mGeometryCore->GetWorldVolumeName();
         mWorldBox.setBox(mGeometryCore->WorldBox());

@@ -78,6 +78,7 @@ namespace arrakis
             {
                 mTTree->Branch("det_energy_fraction", &mPrimary.det_energy_fraction);
                 mTTree->Branch("det_energy", &mPrimary.det_energy);
+                mTTree->Branch("det_view", &mPrimary.det_view);
                 mTTree->Branch("det_channel", &mPrimary.det_channel);
                 mTTree->Branch("det_tick", &mPrimary.det_tick);
                 mTTree->Branch("det_tdc", &mPrimary.det_channel);
@@ -88,6 +89,7 @@ namespace arrakis
                 mTTree->Branch("daughter_det_track_id", &mPrimary.daughter_det_track_id);
                 mTTree->Branch("daughter_det_energy_fraction", &mPrimary.daughter_det_energy_fraction);
                 mTTree->Branch("daughter_det_energy", &mPrimary.daughter_det_energy);
+                mTTree->Branch("daughter_det_view", &mPrimary.daughter_det_view);
                 mTTree->Branch("daughter_det_channel", &mPrimary.daughter_det_channel);
                 mTTree->Branch("daughter_det_tick", &mPrimary.daughter_det_tick);
                 mTTree->Branch("daughter_det_tdc", &mPrimary.daughter_det_channel);

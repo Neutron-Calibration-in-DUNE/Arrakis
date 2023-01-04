@@ -14,7 +14,9 @@ namespace arrakis
         mTTree = mTFileService->make<TTree>("solo_point_cloud", "solo_point_cloud");   
         mTTree->Branch("event_id", &mSoloPointCloud.event_id);
         mTTree->Branch("point_cloud_id", &mSoloPointCloud.point_cloud_id);
+        mTTree->Branch("view", &mSoloPointCloud.view);
         mTTree->Branch("channel", &mSoloPointCloud.channel);
+        mTTree->Branch("wire", &mSoloPointCloud.wire);
         mTTree->Branch("tdc", &mSoloPointCloud.tdc);
         mTTree->Branch("adc", &mSoloPointCloud.adc);
         mTTree->Branch("total_energy", &mSoloPointCloud.total_energy);
@@ -170,6 +172,7 @@ namespace arrakis
             ar39.daughter_det_adc.end()
         );
         CollectStatistics(ar39, solo_point_cloud);
+
         mSoloPointCloud = solo_point_cloud;
         mTTree->Fill();
         mPointCloudID += 1;
@@ -222,13 +225,18 @@ namespace arrakis
         }
         // Now, gather all (tdc,channel,adc) values for each of 
         // the gammas.
+        std::vector<Int_t> capture_view;
         std::vector<Double_t> capture_channel;
+        std::vector<Double_t> capture_wire;
         std::vector<Double_t> capture_tick;
         std::vector<Double_t> capture_adc;
         std::vector<Double_t> capture_tdc;
+        Double_t capture_total_energy = 0;
         for(size_t ii = 0; ii < capture_gamma_ids.size(); ii++)
         {
+            std::vector<Int_t> gamma_view;
             std::vector<Double_t> gamma_channel;
+            std::vector<Double_t> gamma_wire;
             std::vector<Double_t> gamma_tick;
             std::vector<Double_t> gamma_adc;
             std::vector<Double_t> gamma_tdc;
@@ -238,7 +246,9 @@ namespace arrakis
                 {
                     if(neutron.daughter_det_track_id[jj] == capture_gamma_daughters[ii][kk])
                     {
+                        gamma_view.emplace_back(neutron.daughter_det_view[jj]);
                         gamma_channel.emplace_back(neutron.daughter_det_channel[jj]);
+                        gamma_wire.emplace_back(neutron.daughter_det_wire[jj]);
                         gamma_tick.emplace_back(neutron.daughter_det_tick[jj]);
                         gamma_adc.emplace_back(neutron.daughter_det_adc[jj]);
                         gamma_tdc.emplace_back(neutron.daughter_det_tdc[jj]);
@@ -251,17 +261,30 @@ namespace arrakis
             if(gamma_channel.size() != 0)
             {
                 SoloPointCloud gamma_point_cloud;
+                gamma_point_cloud.label = "gamma";
+                gamma_point_cloud.view = gamma_view;
                 gamma_point_cloud.channel = gamma_channel;
+                gamma_point_cloud.wire = gamma_wire;
                 gamma_point_cloud.tick = gamma_tick;
                 gamma_point_cloud.adc = gamma_adc;
                 gamma_point_cloud.tdc = gamma_tdc;
                 gamma_point_cloud.point_cloud_id = mPointCloudID;
                 gamma_point_cloud.total_energy = capture_gamma_energy[ii];
 
+                capture_view.insert(
+                    capture_view.end(),
+                    gamma_view.begin(),
+                    gamma_view.end()
+                );
                 capture_channel.insert(
                     capture_channel.end(),
                     gamma_channel.begin(),
                     gamma_channel.end()
+                );
+                capture_wire.insert(
+                    capture_wire.end(),
+                    gamma_wire.begin(),
+                    gamma_wire.end()
                 );
                 capture_tick.insert(
                     capture_tick.end(),
@@ -278,19 +301,24 @@ namespace arrakis
                     gamma_tdc.begin(),
                     gamma_tdc.end()
                 );
+                capture_total_energy += gamma_point_cloud.total_energy;
                 mSoloPointCloud = gamma_point_cloud;
                 mTTree->Fill();
                 mPointCloudID += 1;
             }
         }
-        if(capture_channel.size() != 0)
+        if(capture_channel.size() != 0 && capture_total_energy >= 0.006)
         {
             SoloPointCloud capture_point_cloud;
+            capture_point_cloud.label = "capture";
+            capture_point_cloud.view = capture_view;
             capture_point_cloud.channel = capture_channel;
+            capture_point_cloud.wire = capture_wire;
             capture_point_cloud.tick = capture_tick;
             capture_point_cloud.adc = capture_adc;
             capture_point_cloud.tdc = capture_tdc;
             capture_point_cloud.point_cloud_id = mPointCloudID;
+            capture_point_cloud.total_energy = capture_total_energy;
             mPointCloudID += 1;
             mSoloPointCloud = capture_point_cloud;
             mTTree->Fill();
