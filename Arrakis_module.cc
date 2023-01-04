@@ -241,7 +241,7 @@ namespace arrakis
                 std::cout << mc_truth_ptrs.at(ii).size() << ":\n";
                 for(size_t jj = 0; jj < truth.size(); jj++)
                 {
-                    std::cout << "\t " << truth[jj] << ", " << truth[jj]->GetParticle(0).TrackId() << "\n";
+                    std::cout << "\t " << truth[jj] << ", " << truth[jj].get() << ", " << truth[jj]->GetParticle(0).TrackId() << "\n";
                 }
             }
 
