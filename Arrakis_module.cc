@@ -225,9 +225,21 @@ namespace arrakis
         }
         else 
         {
+            const art::FindManyP<simb::MCTruth> mc_truth_ptrs(
+                mMCParticleHandle, event, mLArGeantProducerLabel
+            );
             auto mc_truth = event.getValidHandle<std::vector<simb::MCTruth>>(
                 input_tag
             );
+            auto particles = event.getValidHandle<std::vector<simb::MCParticle>>(
+                mLArGeantProducerLabel
+            );
+            for(size_t ii = 0; ii < (*particles).size(); ii++)
+            {
+                std::cout << (*particles)[ii].TrackId() << ", " << mc_truth << ", ";
+                std::cout << mc_truth_ptrs.at(ii) << std::endl;
+            }
+
             mParticleMaps->ProcessMCTruth(label, mc_truth);
         }
     }

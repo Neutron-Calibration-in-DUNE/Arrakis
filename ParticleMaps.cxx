@@ -92,7 +92,10 @@ namespace arrakis
         const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
     )
     {
-        Logger::GetInstance("particle_maps")->trace("adding MCTruth data to particle maps");
+        Logger::GetInstance("particle_maps")->trace(
+            "adding MCTruth data to particle maps for label " + 
+            std::to_string(label)
+        );
         for(auto truth : *mcTruth)
         {
             /**
