@@ -123,11 +123,11 @@ namespace arrakis
                     for(auto particle : *mcParticles)
                     {
                         if(
-                            particle.T() == init_t &&
+                            //particle.T() == init_t &&
                             particle.Vx() == init_x &&
                             particle.Vy() == init_y &&
                             particle.Vz() == init_z &&
-                            particle.E() == energy &&
+                            //particle.E() == energy &&
                             particle.PdgCode() == pdg_code
                         )
                         {
