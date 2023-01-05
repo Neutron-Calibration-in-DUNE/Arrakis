@@ -56,7 +56,8 @@ namespace arrakis
         );
         void ProcessMCTruth(
             GeneratorLabel label,
-            const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
+            const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth,
+            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
         );
         
         void FillTTree();
