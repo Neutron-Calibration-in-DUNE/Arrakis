@@ -225,29 +225,13 @@ namespace arrakis
         }
         else 
         {
-            const art::FindManyP<simb::MCTruth> mc_truth_ptrs(
-                mMCParticleHandle, event, mLArGeantProducerLabel
-            );
             auto mc_truth = event.getValidHandle<std::vector<simb::MCTruth>>(
                 input_tag
             );
             auto particles = event.getValidHandle<std::vector<simb::MCParticle>>(
                 mLArGeantProducerLabel
             );
-            for(size_t ii = 0; ii < (*particles).size(); ii++)
-            {
-                auto const& truth = mc_truth_ptrs.at(ii);
-                std::cout << (*particles)[ii].TrackId() << ", " << mc_truth << ", ";
-                std::cout << mc_truth_ptrs.at(ii).size() << ":\n";
-                for(size_t jj = 0; jj < truth.size(); jj++)
-                {
-                    std::cout << "\t " << truth[jj] << ", " << truth[jj].get() << ", " << truth[jj]->GetParticle(0).TrackId();
-                    std::cout << truth[jj]->GetParticle(0).Vx() << "," << truth[jj]->GetParticle(0).Vy() << "," << truth[jj]->GetParticle(0).Vz();
-                    std::cout << ", " << truth[jj]->Origin() << "\n";
-                }
-            }
-
-            mParticleMaps->ProcessMCTruth(label, mc_truth);
+            mParticleMaps->ProcessMCTruth(label, mc_truth, particles);
         }
     }
     art::ValidHandle<std::vector<simb::MCParticle>> Arrakis::GetMCParticles(

@@ -89,7 +89,8 @@ namespace arrakis
 
     void ParticleMaps::ProcessMCTruth(
         GeneratorLabel label,
-        const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth
+        const art::ValidHandle<std::vector<simb::MCTruth>>& mcTruth,
+        const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles
     )
     {
         Logger::GetInstance("particle_maps")->trace(
@@ -111,7 +112,31 @@ namespace arrakis
             );
             for(Int_t ii = 0; ii < truth.NParticles(); ii++)
             {
-                mGeneratorLabelMap[truth.GetParticle(ii).TrackId()+1] = label;
+                Double_t init_t = truth.GetParticle(ii).T();
+                Double_t init_x = truth.GetParticle(ii).Vx();
+                Double_t init_y = truth.GetParticle(ii).Vy();
+                Double_t init_z = truth.GetParticle(ii).Vz();
+                Double_t energy = truth.GetParticle(ii).E();
+                Int_t pdg_code = truth.GetParticle(ii).PdgCode();
+                std::cout << init_t << "," << init_x << "," << init_y << "," init_z << "," << energy << "," << pdg_code << std::endl;
+                if(truth.GetParticle(ii).Process() == "primary")
+                {
+                    for(auto particle : *mcParticles)
+                    {
+                        if(
+                            particle.T() == init_t &&
+                            particle.Vx() == init_x &&
+                            particle.Vy() == init_y &&
+                            particle.Vz() == init_z &&
+                            particle.E() == energy &&
+                            particle.PdgCode() == pdg_code
+                        )
+                        {
+                            mGeneratorLabelMap[particle.TrackId()] = label;
+                        }
+                    }
+                }
+                
             }
         }
     }
