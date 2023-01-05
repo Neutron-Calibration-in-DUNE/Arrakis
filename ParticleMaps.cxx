@@ -118,7 +118,6 @@ namespace arrakis
                 Double_t init_z = truth.GetParticle(ii).Vz();
                 Double_t energy = truth.GetParticle(ii).E();
                 Int_t pdg_code = truth.GetParticle(ii).PdgCode();
-                std::cout << init_t << "," << init_x << "," << init_y << "," << init_z << "," << energy << "," << pdg_code << std::endl;
                 if(truth.GetParticle(ii).Process() == "primary")
                 {
                     for(auto particle : *mcParticles)
@@ -132,6 +131,7 @@ namespace arrakis
                             particle.PdgCode() == pdg_code
                         )
                         {
+                            std::cout << label << "," << init_t << "," << init_x << "," << init_y << "," << init_z << "," << energy << "," << pdg_code << std::endl;
                             mGeneratorLabelMap[particle.TrackId()] = label;
                         }
                     }
