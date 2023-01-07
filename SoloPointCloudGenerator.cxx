@@ -246,7 +246,8 @@ namespace arrakis
             if(gamma_channel.size() != 0)
             {
                 SoloPointCloud gamma_point_cloud;
-                gamma_point_cloud.label = "gamma";
+                Int_t gamma_energy = std::floor(capture_gamma_energy[ii] * 10e6 + 0.5)
+                gamma_point_cloud.label = "gamma_" + std::to_string(gamma_energy);
                 gamma_point_cloud.view = gamma_view;
                 gamma_point_cloud.channel = gamma_channel;
                 gamma_point_cloud.wire = gamma_wire;
