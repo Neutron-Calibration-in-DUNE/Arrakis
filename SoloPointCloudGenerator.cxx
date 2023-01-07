@@ -137,7 +137,7 @@ namespace arrakis
         solo_point_cloud.point_cloud_id = mPointCloudID;
         solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
         solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
-
+        solo_point_cloud.total_energy = ar39.init_energy;
         // copy channels
         solo_point_cloud.channel.insert(
             solo_point_cloud.channel.end(),
@@ -172,10 +172,12 @@ namespace arrakis
             ar39.daughter_det_adc.end()
         );
         CollectStatistics(ar39, solo_point_cloud);
-
-        mSoloPointCloud = solo_point_cloud;
-        mTTree->Fill();
-        mPointCloudID += 1;
+        if(solo_point_cloud.tdc.size() > 0)
+        {
+            mSoloPointCloud = solo_point_cloud;
+            mTTree->Fill();
+            mPointCloudID += 1;
+        }
     }
 
     void SoloPointCloudGenerator::ProcessSingleNeutron(

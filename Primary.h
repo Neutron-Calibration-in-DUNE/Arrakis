@@ -429,8 +429,8 @@ namespace arrakis
             detinfo::DetectorClocksData const& clockData,
             sim::IDE ide,
             Double_t total_energy,
-            Int_t channel, 
-            Int_t tick,
+            Int_t tick, 
+            Int_t channel,
             Int_t adc
         )
         {
@@ -462,8 +462,8 @@ namespace arrakis
             detinfo::DetectorClocksData const& clockData,
             sim::IDE ide,
             Double_t total_energy,
-            Int_t channel,
             Int_t tick,
+            Int_t channel,
             Int_t adc
         )
         {

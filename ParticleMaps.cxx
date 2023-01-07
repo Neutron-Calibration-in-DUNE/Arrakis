@@ -131,7 +131,6 @@ namespace arrakis
                             particle.PdgCode() == pdg_code
                         )
                         {
-                            std::cout << label << "," << init_t << "," << init_x << "," << init_y << "," << init_z << "," << energy << "," << pdg_code << std::endl;
                             mGeneratorLabelMap[particle.TrackId()] = label;
                         }
                     }
