@@ -138,39 +138,22 @@ namespace arrakis
         solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
         solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
         solo_point_cloud.total_energy = ar39.init_energy;
+        // copy views
+        solo_point_cloud.view.insert(solo_point_cloud.view.end(),ar39.det_view.begin(),ar39.det_view.end());
+        solo_point_cloud.view.insert(solo_point_cloud.view.end(),ar39.daughter_det_view.begin(), ar39.daughter_det_view.end());
         // copy channels
-        solo_point_cloud.channel.insert(
-            solo_point_cloud.channel.end(),
-            ar39.det_channel.begin(), 
-            ar39.det_channel.end()
-        );
-        solo_point_cloud.channel.insert(
-            solo_point_cloud.channel.end(),
-            ar39.daughter_det_channel.begin(), 
-            ar39.daughter_det_channel.end()
-        );
+        solo_point_cloud.channel.insert(solo_point_cloud.channel.end(),ar39.det_channel.begin(), ar39.det_channel.end());
+        solo_point_cloud.channel.insert(solo_point_cloud.channel.end(),ar39.daughter_det_channel.begin(), ar39.daughter_det_channel.end());
         // copy tdc
-        solo_point_cloud.tdc.insert(
-            solo_point_cloud.tdc.end(),
-            ar39.det_tdc.begin(), 
-            ar39.det_tdc.end()
-        );
-        solo_point_cloud.tdc.insert(
-            solo_point_cloud.tdc.end(),
-            ar39.daughter_det_tdc.begin(), 
-            ar39.daughter_det_tdc.end()
-        );
+        solo_point_cloud.tick.insert(solo_point_cloud.tick.end(),ar39.det_tick.begin(), ar39.det_tick.end());
+        solo_point_cloud.tick.insert(solo_point_cloud.tick.end(),ar39.daughter_det_tick.begin(), ar39.daughter_det_tick.end());
+        // copy tdc
+        solo_point_cloud.tdc.insert(solo_point_cloud.tdc.end(),ar39.det_tdc.begin(), ar39.det_tdc.end());
+        solo_point_cloud.tdc.insert(solo_point_cloud.tdc.end(),ar39.daughter_det_tdc.begin(), ar39.daughter_det_tdc.end());
         // copy adc
-        solo_point_cloud.adc.insert(
-            solo_point_cloud.adc.end(),
-            ar39.det_adc.begin(), 
-            ar39.det_adc.end()
-        );
-        solo_point_cloud.adc.insert(
-            solo_point_cloud.adc.end(),
-            ar39.daughter_det_adc.begin(), 
-            ar39.daughter_det_adc.end()
-        );
+        solo_point_cloud.adc.insert(solo_point_cloud.adc.end(),ar39.det_adc.begin(), ar39.det_adc.end());
+        solo_point_cloud.adc.insert(solo_point_cloud.adc.end(),ar39.daughter_det_adc.begin(), ar39.daughter_det_adc.end());
+
         CollectStatistics(ar39, solo_point_cloud);
         if(solo_point_cloud.tdc.size() > 0)
         {
