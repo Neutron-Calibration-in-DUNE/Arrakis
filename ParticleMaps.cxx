@@ -112,11 +112,11 @@ namespace arrakis
             );
             for(Int_t ii = 0; ii < truth.NParticles(); ii++)
             {
-                Double_t init_t = truth.GetParticle(ii).T();
+                //Double_t init_t = truth.GetParticle(ii).T();
                 Double_t init_x = truth.GetParticle(ii).Vx();
                 Double_t init_y = truth.GetParticle(ii).Vy();
                 Double_t init_z = truth.GetParticle(ii).Vz();
-                Double_t energy = truth.GetParticle(ii).E();
+                //Double_t energy = truth.GetParticle(ii).E();
                 Int_t pdg_code = truth.GetParticle(ii).PdgCode();
                 if(truth.GetParticle(ii).Process() == "primary")
                 {
