@@ -170,8 +170,10 @@ namespace arrakis
          * Here we are trying to match up the point at which
          * the energy deposition was created with the MC Particle
          * process that caused the energy deposition.  We do this
-         * by checking if the local time of the energy deposition
-         * encloses the trajectory point.
+         * by;
+         *  (1) checking if the local time of the energy deposition
+         *      encloses the trajectory point,
+         *  (2) if (1) fails, then 
         */
         std::string FindPrimaryEnergyDepositionProcess(sim::SimEnergyDeposit& edep)
         {
@@ -282,6 +284,13 @@ namespace arrakis
 
         Primary(){}
 
+        /**
+         * @brief Construct a new Primary object with an input label
+         * and a simb::MCParticle.
+         * 
+         * @param label 
+         * @param particle 
+         */
         Primary(GeneratorLabel label, simb::MCParticle& particle)
         {
             generator_label = label;
