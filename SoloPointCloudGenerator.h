@@ -48,6 +48,8 @@ namespace arrakis
         std::vector<Double_t> adc = {};
         std::vector<Double_t> energy = {};
         Double_t total_energy = {0};
+        std::string group_label = {"none"};
+        Int_t group_label_id = {-1};
         std::string label = {"none"};
         Int_t label_id = {-1};
 
