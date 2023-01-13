@@ -137,6 +137,8 @@ namespace arrakis
     {
         SoloPointCloud solo_point_cloud;
         solo_point_cloud.point_cloud_id = mPointCloudID;
+        solo_point_cloud.group_label = "ar39";
+        solo_point_cloud.group_label_id = 2;
         solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
         solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
         solo_point_cloud.total_energy = ar39.init_energy;
