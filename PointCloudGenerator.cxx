@@ -72,6 +72,7 @@ namespace arrakis
         PrimaryData* primary_data
     )
     {
+        mDetectorPointCloud = DetectorPointCloud();
         Logger::GetInstance("solo_point_cloud_generator")->trace(
             "generating point cloud data for " + 
             std::to_string(primary_data->GetPrimaries().size()) + 
