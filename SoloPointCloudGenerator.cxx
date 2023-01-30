@@ -138,10 +138,11 @@ namespace arrakis
         SoloPointCloud solo_point_cloud;
         solo_point_cloud.point_cloud_id = mPointCloudID;
         solo_point_cloud.group_label = "ar39";
-        solo_point_cloud.group_label_id = 2;
+        solo_point_cloud.group_label_id = 4;
         solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
         solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
         solo_point_cloud.total_energy = ar39.init_energy;
+
         // copy views
         solo_point_cloud.view.insert(solo_point_cloud.view.end(),ar39.det_view.begin(),ar39.det_view.end());
         solo_point_cloud.view.insert(solo_point_cloud.view.end(),ar39.daughter_det_view.begin(), ar39.daughter_det_view.end());
@@ -191,6 +192,7 @@ namespace arrakis
                 capture_gamma_energy.emplace_back(neutron.daughter_init_energy[ii]);
             }
         }
+
         // Now, for each capture_gamma_id, find all the daughters which
         // originated from them.
         for(size_t ii = 0; ii < capture_gamma_ids.size(); ii++)
@@ -212,6 +214,7 @@ namespace arrakis
             }
             capture_gamma_daughters.emplace_back(gamma_daughters);
         }
+
         // Now, gather all (tdc,channel,adc) values for each of 
         // the gammas.
         std::vector<Int_t> capture_view;
@@ -260,8 +263,24 @@ namespace arrakis
             {
                 SoloPointCloud gamma_point_cloud;
                 Int_t gamma_energy = std::floor(capture_gamma_energy[ii] * 10e5 + 0.5);
-                gamma_point_cloud.group_label = "gamma";
-                gamma_point_cloud.group_label_id = 1;
+                /**
+                 * Group label will be used in BLIP to distinguish between gammas
+                 * of different types.  If the gamma is 4.75 or 1.18, then those get 
+                 * a special label, otherwise the label is just "gamma_neutron_other".
+                 * 
+                 */
+                if(gamma_energy == 4745) {
+                    gamma_point_cloud.group_label = "gamma_neutron_4745";
+                    gamma_point_cloud.group_label_id = 1;
+                }
+                else if(gamma_energy == 1187) {
+                    gamma_point_cloud.group_label = "gamma_neutron_1187";
+                    gamma_point_cloud.group_label_id = 2;
+                }
+                else {
+                    gamma_point_cloud.group_label = "gamma_neutron_other";
+                    gamma_point_cloud.group_label_id = 3;
+                }
                 gamma_point_cloud.label = "gamma_" + std::to_string(gamma_energy);
                 gamma_point_cloud.view = gamma_view;
                 gamma_point_cloud.channel = gamma_channel;
