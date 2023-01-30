@@ -47,8 +47,6 @@ namespace arrakis
         GeneratorLabel generator_label = {kJunk};
         
         // Raw digit information.
-        std::vector<Double_t> det_energy_fraction = {};
-        std::vector<Double_t> det_energy = {};
         std::vector<Int_t> det_view = {};
         std::vector<Int_t> det_channel = {};
         std::vector<Int_t> det_wire = {};
@@ -72,8 +70,6 @@ namespace arrakis
 
         void AddJunkDetectorSimulation(
             detinfo::DetectorClocksData const& clockData,
-            sim::IDE ide,
-            Double_t total_energy,
             Int_t tick, 
             Int_t channel,
             Int_t adc
@@ -83,8 +79,6 @@ namespace arrakis
             auto wires = DetectorGeometry::GetInstance("junk")->ChannelToWire(channel);
             Double_t wire_multiple = DetectorGeometry::GetInstance("junk")->GetWirePitch(view);
 
-            det_energy_fraction.emplace_back(ide.energy/total_energy);
-            det_energy.emplace_back(ide.energy);
             det_view.emplace_back(view);
             det_channel.emplace_back(channel);
             det_wire.emplace_back(wires[view].Wire * wire_multiple);

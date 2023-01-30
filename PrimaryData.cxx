@@ -266,8 +266,6 @@ namespace arrakis
                 if (trackIDsAndEnergy.size() == 0) { 
                     mJunk.AddJunkDetectorSimulation(
                         clockData,
-                        track,
-                        total_energy,
                         l,
                         channel,
                         (Int_t) (std::abs(uncompressed[l]))

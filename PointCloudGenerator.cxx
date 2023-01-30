@@ -37,7 +37,6 @@ namespace arrakis
         mDetectorPointCloudTTree->Branch("wire", &mDetectorPointCloud.wire);
         mDetectorPointCloudTTree->Branch("tdc", &mDetectorPointCloud.tdc);
         mDetectorPointCloudTTree->Branch("adc", &mDetectorPointCloud.adc);
-        mDetectorPointCloudTTree->Branch("total_energy", &mDetectorPointCloud.total_energy);
         mDetectorPointCloudTTree->Branch("energy", &mDetectorPointCloud.energy);
         mDetectorPointCloudTTree->Branch("group_label", &mDetectorPointCloud.group_label);
         mDetectorPointCloudTTree->Branch("group_label_id", &mDetectorPointCloud.group_label_id);
