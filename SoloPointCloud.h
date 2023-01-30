@@ -1,5 +1,5 @@
 /**
- * @file Generators.h
+ * @file SoloPointCloud.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
@@ -22,30 +22,40 @@
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 #include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "nusimdata/SimulationBase/MCParticle.h"
-#include "nusimdata/SimulationBase/MCGeneratorInfo.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
-#include "nusimdata/SimulationBase/MCTrajectory.h"
 #include "lardataobj/Simulation/SimEnergyDeposit.h"
 #include "lardataobj/Simulation/SimChannel.h"
-#include "lardataobj/Simulation/AuxDetSimChannel.h"
-#include "lardataobj/Simulation/sim.h"
-#include "larcoreobj/SimpleTypesAndConstants/PhysicalConstants.h"
-#include "lardataobj/RawData/raw.h"
 #include "lardataobj/RawData/RawDigit.h"
 
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "Logger.h"
+
 namespace arrakis
 {
-    enum GeneratorLabel
+    struct SoloPointCloud
     {
-        kJunk = -1,
-        kNone = 0,
-        kAr39 = 1,
-        kSingleNeutron = 2,
-        kPNS = 3,
-        kNeutronCaptureGamma4_75 = 4,
-        kNeutronCaptureGamma1_18 = 5,
+        Int_t event_id = {-1};
+        Int_t point_cloud_id = {-1};
+        std::vector<Int_t> view = {};
+        std::vector<Double_t> wire = {};
+        std::vector<Double_t> channel = {};
+        std::vector<Double_t> tick = {};
+        std::vector<Double_t> tdc = {};
+        std::vector<Double_t> adc = {};
+        std::vector<Double_t> energy = {};
+        Double_t total_energy = {0};
+        std::string group_label = {"none"};
+        Int_t group_label_id = {-1};
+        std::string label = {"none"};
+        Int_t label_id = {-1};
+
+        bool all_deposited = false;
+        bool all_lar = false;
+        bool same_apa = false;
+        Double_t lar_edep_fraction = {0};
+
+        SoloPointCloud() {}
     };
 }

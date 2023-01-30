@@ -15,7 +15,7 @@ Arrakis:
 
     # which products to generate
     # solo point clouds
-    GenerateSoloPointCloudData: true
+    GeneratePointCloudData: true
     # generator labels
     # if GenerateSoloPointCloudData is set to false,
     # then these labels are ignored.

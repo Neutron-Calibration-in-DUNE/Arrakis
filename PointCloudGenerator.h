@@ -1,5 +1,5 @@
 /**
- * @file SoloPointCloudGenerator.h
+ * @file PointCloudGenerator.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
@@ -31,42 +31,18 @@
 #include <TTree.h>
 
 #include "Logger.h"
+#include "DetectorPointCloud.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
+#include "SoloPointCloud.h"
 
 namespace arrakis
 {
-    struct SoloPointCloud
-    {
-        Int_t event_id = {-1};
-        Int_t point_cloud_id = {-1};
-        std::vector<Int_t> view = {};
-        std::vector<Double_t> wire = {};
-        std::vector<Double_t> channel = {};
-        std::vector<Double_t> tick = {};
-        std::vector<Double_t> tdc = {};
-        std::vector<Double_t> adc = {};
-        std::vector<Double_t> energy = {};
-        Double_t total_energy = {0};
-        std::string group_label = {"none"};
-        Int_t group_label_id = {-1};
-        std::string label = {"none"};
-        Int_t label_id = {-1};
-
-        bool all_deposited = false;
-        bool all_lar = false;
-        bool same_apa = false;
-        Double_t lar_edep_fraction = {0};
-
-        SoloPointCloud() {}
-    };
-
-
-    class SoloPointCloudGenerator
+    class PointCloudGenerator
     {
     public:
-        SoloPointCloudGenerator();
-        ~SoloPointCloudGenerator();
+        PointCloudGenerator();
+        ~PointCloudGenerator();
 
         void ProcessEvent(
             ParticleMaps* particle_maps, PrimaryData* primary_data
@@ -99,9 +75,14 @@ namespace arrakis
         void ProcessGamma(
             Primary gamma, ParticleMaps* particle_maps
         );
+
+        void ProcessJunk(
+            Junk junk
+        );
     private:
         art::ServiceHandle<art::TFileService> mTFileService;
-        TTree *mTTree;
+        TTree *mSoloPointCloudTTree;
+        TTree *mDetectorPointCloudTTree;
 
         Int_t mPointCloudID = {0};
 
@@ -111,6 +92,7 @@ namespace arrakis
         std::map<GeneratorLabel, Int_t> mGeneratorLabelIDMap;
 
         std::vector<SoloPointCloud> mSoloPointClouds;
+        DetectorPointCloud mDetectorPointCloud;
         SoloPointCloud mSoloPointCloud;
     };
 }

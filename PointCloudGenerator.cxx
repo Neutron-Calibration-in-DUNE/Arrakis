@@ -1,34 +1,48 @@
 /**
- * @file SoloPointCloudGenerator.h
+ * @file PointCloudGenerator.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
  * @date 2022-12/21
  */
-#include "SoloPointCloudGenerator.h"
+#include "PointCloudGenerator.h"
 
 namespace arrakis
 {
-    SoloPointCloudGenerator::SoloPointCloudGenerator()
+    PointCloudGenerator::PointCloudGenerator()
     {
-        mTTree = mTFileService->make<TTree>("solo_point_cloud", "solo_point_cloud");   
-        mTTree->Branch("event_id", &mSoloPointCloud.event_id);
-        mTTree->Branch("point_cloud_id", &mSoloPointCloud.point_cloud_id);
-        mTTree->Branch("view", &mSoloPointCloud.view);
-        mTTree->Branch("channel", &mSoloPointCloud.channel);
-        mTTree->Branch("wire", &mSoloPointCloud.wire);
-        mTTree->Branch("tdc", &mSoloPointCloud.tdc);
-        mTTree->Branch("adc", &mSoloPointCloud.adc);
-        mTTree->Branch("total_energy", &mSoloPointCloud.total_energy);
-        mTTree->Branch("energy", &mSoloPointCloud.energy);
-        mTTree->Branch("group_label", &mSoloPointCloud.group_label);
-        mTTree->Branch("group_label_id", &mSoloPointCloud.group_label_id);
-        mTTree->Branch("label", &mSoloPointCloud.label);
-        mTTree->Branch("label_id", &mSoloPointCloud.label_id);
-        mTTree->Branch("all_deposited", &mSoloPointCloud.all_deposited);
-        mTTree->Branch("all_lar", &mSoloPointCloud.all_lar);
-        mTTree->Branch("same_apa", &mSoloPointCloud.same_apa);
-        mTTree->Branch("lar_edep_fraction", &mSoloPointCloud.lar_edep_fraction);
+        mSoloPointCloudTTree = mTFileService->make<TTree>("solo_point_cloud", "solo_point_cloud");   
+        mSoloPointCloudTTree->Branch("event_id", &mSoloPointCloud.event_id);
+        mSoloPointCloudTTree->Branch("point_cloud_id", &mSoloPointCloud.point_cloud_id);
+        mSoloPointCloudTTree->Branch("view", &mSoloPointCloud.view);
+        mSoloPointCloudTTree->Branch("channel", &mSoloPointCloud.channel);
+        mSoloPointCloudTTree->Branch("wire", &mSoloPointCloud.wire);
+        mSoloPointCloudTTree->Branch("tdc", &mSoloPointCloud.tdc);
+        mSoloPointCloudTTree->Branch("adc", &mSoloPointCloud.adc);
+        mSoloPointCloudTTree->Branch("total_energy", &mSoloPointCloud.total_energy);
+        mSoloPointCloudTTree->Branch("energy", &mSoloPointCloud.energy);
+        mSoloPointCloudTTree->Branch("group_label", &mSoloPointCloud.group_label);
+        mSoloPointCloudTTree->Branch("group_label_id", &mSoloPointCloud.group_label_id);
+        mSoloPointCloudTTree->Branch("label", &mSoloPointCloud.label);
+        mSoloPointCloudTTree->Branch("label_id", &mSoloPointCloud.label_id);
+        mSoloPointCloudTTree->Branch("all_deposited", &mSoloPointCloud.all_deposited);
+        mSoloPointCloudTTree->Branch("all_lar", &mSoloPointCloud.all_lar);
+        mSoloPointCloudTTree->Branch("same_apa", &mSoloPointCloud.same_apa);
+        mSoloPointCloudTTree->Branch("lar_edep_fraction", &mSoloPointCloud.lar_edep_fraction);
+
+        mDetectorPointCloudTTree = mTFileService->make<TTree>("detector_point_cloud", "detector_point_cloud");   
+        mDetectorPointCloudTTree->Branch("event_id", &mDetectorPointCloud.event_id);
+        mDetectorPointCloudTTree->Branch("view", &mDetectorPointCloud.view);
+        mDetectorPointCloudTTree->Branch("channel", &mDetectorPointCloud.channel);
+        mDetectorPointCloudTTree->Branch("wire", &mDetectorPointCloud.wire);
+        mDetectorPointCloudTTree->Branch("tdc", &mDetectorPointCloud.tdc);
+        mDetectorPointCloudTTree->Branch("adc", &mDetectorPointCloud.adc);
+        mDetectorPointCloudTTree->Branch("total_energy", &mDetectorPointCloud.total_energy);
+        mDetectorPointCloudTTree->Branch("energy", &mDetectorPointCloud.energy);
+        mDetectorPointCloudTTree->Branch("group_label", &mDetectorPointCloud.group_label);
+        mDetectorPointCloudTTree->Branch("group_label_id", &mDetectorPointCloud.group_label_id);
+        mDetectorPointCloudTTree->Branch("label", &mDetectorPointCloud.label);
+        mDetectorPointCloudTTree->Branch("label_id", &mDetectorPointCloud.label_id);
 
         mGeneratorLabelNameMap = 
         {
@@ -50,11 +64,11 @@ namespace arrakis
         };
     }
 
-    SoloPointCloudGenerator::~SoloPointCloudGenerator()
+    PointCloudGenerator::~PointCloudGenerator()
     {
     }
 
-    void SoloPointCloudGenerator::ProcessEvent(
+    void PointCloudGenerator::ProcessEvent(
         ParticleMaps* particle_maps,
         PrimaryData* primary_data
     )
@@ -89,9 +103,20 @@ namespace arrakis
                 ProcessLES(primary, particle_maps);
             }
         }
+        auto junk = primary_data->GetJunk();
+        if(!junk.det_tdc.empty()) {
+            ProcessJunk(junk);
+        }
+        for(auto point_cloud : mSoloPointClouds)
+        {
+            mDetectorPointCloud.AddPointCloud(point_cloud);
+            mSoloPointCloud = point_cloud;
+            mSoloPointCloudTTree->Fill();
+        }
+        mDetectorPointCloudTTree->Fill();
     }
 
-    void SoloPointCloudGenerator::CollectStatistics(
+    void PointCloudGenerator::CollectStatistics(
         Primary primary, SoloPointCloud& solo_point_cloud
     )
     {
@@ -131,44 +156,43 @@ namespace arrakis
         }
     }
 
-    void SoloPointCloudGenerator::ProcessAr39(
+    void PointCloudGenerator::ProcessAr39(
         Primary ar39, ParticleMaps* particle_maps
     )
     {
-        SoloPointCloud solo_point_cloud;
-        solo_point_cloud.point_cloud_id = mPointCloudID;
-        solo_point_cloud.group_label = "ar39";
-        solo_point_cloud.group_label_id = 4;
-        solo_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
-        solo_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
-        solo_point_cloud.total_energy = ar39.init_energy;
+        SoloPointCloud ar39_point_cloud;
+        ar39_point_cloud.point_cloud_id = mPointCloudID;
+        ar39_point_cloud.group_label = "ar39";
+        ar39_point_cloud.group_label_id = 4;
+        ar39_point_cloud.label = mGeneratorLabelNameMap[ar39.generator_label];
+        ar39_point_cloud.label_id = mGeneratorLabelIDMap[ar39.generator_label];
+        ar39_point_cloud.total_energy = ar39.init_energy;
 
         // copy views
-        solo_point_cloud.view.insert(solo_point_cloud.view.end(),ar39.det_view.begin(),ar39.det_view.end());
-        solo_point_cloud.view.insert(solo_point_cloud.view.end(),ar39.daughter_det_view.begin(), ar39.daughter_det_view.end());
+        ar39_point_cloud.view.insert(ar39_point_cloud.view.end(),ar39.det_view.begin(),ar39.det_view.end());
+        ar39_point_cloud.view.insert(ar39_point_cloud.view.end(),ar39.daughter_det_view.begin(), ar39.daughter_det_view.end());
         // copy channels
-        solo_point_cloud.channel.insert(solo_point_cloud.channel.end(),ar39.det_channel.begin(), ar39.det_channel.end());
-        solo_point_cloud.channel.insert(solo_point_cloud.channel.end(),ar39.daughter_det_channel.begin(), ar39.daughter_det_channel.end());
+        ar39_point_cloud.channel.insert(ar39_point_cloud.channel.end(),ar39.det_channel.begin(), ar39.det_channel.end());
+        ar39_point_cloud.channel.insert(ar39_point_cloud.channel.end(),ar39.daughter_det_channel.begin(), ar39.daughter_det_channel.end());
         // copy tdc
-        solo_point_cloud.tick.insert(solo_point_cloud.tick.end(),ar39.det_tick.begin(), ar39.det_tick.end());
-        solo_point_cloud.tick.insert(solo_point_cloud.tick.end(),ar39.daughter_det_tick.begin(), ar39.daughter_det_tick.end());
+        ar39_point_cloud.tick.insert(ar39_point_cloud.tick.end(),ar39.det_tick.begin(), ar39.det_tick.end());
+        ar39_point_cloud.tick.insert(ar39_point_cloud.tick.end(),ar39.daughter_det_tick.begin(), ar39.daughter_det_tick.end());
         // copy tdc
-        solo_point_cloud.tdc.insert(solo_point_cloud.tdc.end(),ar39.det_tdc.begin(), ar39.det_tdc.end());
-        solo_point_cloud.tdc.insert(solo_point_cloud.tdc.end(),ar39.daughter_det_tdc.begin(), ar39.daughter_det_tdc.end());
+        ar39_point_cloud.tdc.insert(ar39_point_cloud.tdc.end(),ar39.det_tdc.begin(), ar39.det_tdc.end());
+        ar39_point_cloud.tdc.insert(ar39_point_cloud.tdc.end(),ar39.daughter_det_tdc.begin(), ar39.daughter_det_tdc.end());
         // copy adc
-        solo_point_cloud.adc.insert(solo_point_cloud.adc.end(),ar39.det_adc.begin(), ar39.det_adc.end());
-        solo_point_cloud.adc.insert(solo_point_cloud.adc.end(),ar39.daughter_det_adc.begin(), ar39.daughter_det_adc.end());
+        ar39_point_cloud.adc.insert(ar39_point_cloud.adc.end(),ar39.det_adc.begin(), ar39.det_adc.end());
+        ar39_point_cloud.adc.insert(ar39_point_cloud.adc.end(),ar39.daughter_det_adc.begin(), ar39.daughter_det_adc.end());
 
-        CollectStatistics(ar39, solo_point_cloud);
-        if(solo_point_cloud.tdc.size() > 0)
+        CollectStatistics(ar39, ar39_point_cloud);
+        if(ar39_point_cloud.tdc.size() > 0)
         {
-            mSoloPointCloud = solo_point_cloud;
-            mTTree->Fill();
+            mSoloPointClouds.emplace_back(ar39_point_cloud);
             mPointCloudID += 1;
         }
     }
 
-    void SoloPointCloudGenerator::ProcessSingleNeutron(
+    void PointCloudGenerator::ProcessSingleNeutron(
         Primary neutron, ParticleMaps* particle_maps
     )
     {
@@ -322,8 +346,7 @@ namespace arrakis
                     gamma_tdc.end()
                 );
                 capture_total_energy += gamma_point_cloud.total_energy;
-                mSoloPointCloud = gamma_point_cloud;
-                mTTree->Fill();
+                mSoloPointClouds.emplace_back(gamma_point_cloud);
                 mPointCloudID += 1;
             }
         }
@@ -342,32 +365,27 @@ namespace arrakis
             capture_point_cloud.point_cloud_id = mPointCloudID;
             capture_point_cloud.total_energy = capture_total_energy;
             mPointCloudID += 1;
-            mSoloPointCloud = capture_point_cloud;
-            mTTree->Fill();
+            mSoloPointClouds.emplace_back(capture_point_cloud);
         }
     }
 
-    void SoloPointCloudGenerator::ProcessPNS(
+    void PointCloudGenerator::ProcessPNS(
         Primary neutron, ParticleMaps* particle_maps
     )
     {
         SoloPointCloud solo_point_cloud;
         CollectStatistics(neutron, solo_point_cloud);
-        mSoloPointCloud = solo_point_cloud;
-        mTTree->Fill();
     }
 
-    void SoloPointCloudGenerator::ProcessLES(
+    void PointCloudGenerator::ProcessLES(
         Primary primary, ParticleMaps* particle_maps
     )
     {
         SoloPointCloud solo_point_cloud;
         CollectStatistics(primary, solo_point_cloud);
-        mSoloPointCloud = solo_point_cloud;
-        mTTree->Fill();
     }
 
-    void SoloPointCloudGenerator::ProcessNeutron(
+    void PointCloudGenerator::ProcessNeutron(
         Primary neutron, ParticleMaps* particle_maps
     )
     {
@@ -410,10 +428,15 @@ namespace arrakis
          */
 
     }
-    void SoloPointCloudGenerator::ProcessGamma(
+    void PointCloudGenerator::ProcessGamma(
         Primary primary, ParticleMaps* particle_maps
     )
     {
-        SoloPointCloud solo_point_cloud;
+    }
+
+    void PointCloudGenerator::ProcessJunk(
+        Junk junk
+    )
+    {
     }
 }

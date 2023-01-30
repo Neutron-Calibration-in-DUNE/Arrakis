@@ -53,7 +53,7 @@
 #include "Logger.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
-#include "SoloPointCloudGenerator.h"
+#include "PointCloudGenerator.h"
 
 namespace arrakis
 {
@@ -92,7 +92,7 @@ namespace arrakis
         bool    mSavePrimaryDataEdeps;
         bool    mSavePrimaryDataRawTPC;
 
-        bool    mGenerateSoloPointCloudData;
+        bool    mGeneratePointCloudData;
 
         // producer labels
         art::InputTag mLArGeantProducerLabel;
@@ -127,8 +127,8 @@ namespace arrakis
         ParticleMaps* mParticleMaps;
         // Primary Data
         PrimaryData* mPrimaryData;
-        // SoloPointCloudGenerator
-        SoloPointCloudGenerator* mSoloPointCloudGenerator;
+        // PointCloudGenerator
+        PointCloudGenerator* mPointCloudGenerator;
 
     };
 
@@ -157,8 +157,8 @@ namespace arrakis
         logger->trace("setting SavePrimaryDataRawTPC = " + std::to_string(mSavePrimaryDataRawTPC));
 
         // solo point clouds
-        mGenerateSoloPointCloudData = mParameters().GenerateSoloPointCloudData();
-        logger->trace("setting GenerateSoloPointCloudData = " + std::to_string(mGenerateSoloPointCloudData));
+        mGeneratePointCloudData = mParameters().GeneratePointCloudData();
+        logger->trace("setting GeneratePointCloudData = " + std::to_string(mGeneratePointCloudData));
 
         // module labels
         mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
@@ -175,7 +175,7 @@ namespace arrakis
         logger->trace("setting TPCInstanceLabel = " + mTPCInstanceLabel.label());
 
         // generator labels
-        if(mGenerateSoloPointCloudData)
+        if(mGeneratePointCloudData)
         {
             mAr39Label = mParameters().Ar39Label();
             logger->trace("setting Ar39Label = " + mAr39Label.label());
@@ -200,7 +200,7 @@ namespace arrakis
             mSavePrimaryDataRawTPC
         );
 
-        mSoloPointCloudGenerator = new SoloPointCloudGenerator();
+        mPointCloudGenerator = new PointCloudGenerator();
 
         if(mSaveMeta) {
             mMetaTree = mTFileService->make<TTree>("meta", "meta");
@@ -358,9 +358,9 @@ namespace arrakis
          * @brief Now that everything is collected, we pass the data to 
          * the various classes which construct training data.
          */
-        if(mGenerateSoloPointCloudData) 
+        if(mGeneratePointCloudData) 
         {
-            mSoloPointCloudGenerator->ProcessEvent(
+            mPointCloudGenerator->ProcessEvent(
                 mParticleMaps,
                 mPrimaryData
             );

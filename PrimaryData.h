@@ -38,6 +38,7 @@
 #include "Logger.h"
 #include "ParticleMaps.h"
 #include "Primary.h"
+#include "Junk.h"
 
 namespace arrakis
 {
@@ -85,6 +86,7 @@ namespace arrakis
         void PrintDaughterEnergyDepositions();
 
         std::vector<Primary> GetPrimaries() { return mPrimaries; }
+        Junk GetJunk() { return mJunk; }
 
     private:
         bool mSavePrimaryData = {false};
@@ -95,6 +97,7 @@ namespace arrakis
         TTree *mTTree;
 
         std::vector<Primary> mPrimaries;
+        Junk mJunk;
         Primary mPrimary;
 
     };

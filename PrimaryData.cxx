@@ -256,8 +256,22 @@ namespace arrakis
             for(int l=0; l < num_samples; l++) 
             {
                 auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
+                /**
+                 * This step distinguishes noise from true MC particles.
+                 * If the input is noise, pass the detector output to a
+                 * noise variable, otherwise, attach the output to the
+                 * associated primary.
+                 * 
+                 */
                 if (trackIDsAndEnergy.size() == 0) { 
-                    continue; 
+                    mJunk.AddJunkDetectorSimulation(
+                        clockData,
+                        track,
+                        total_energy,
+                        l,
+                        channel,
+                        (Int_t) (std::abs(uncompressed[l]))
+                    ); 
                 }
                 Double_t total_energy = 0;
                 for(auto track : trackIDsAndEnergy) {
