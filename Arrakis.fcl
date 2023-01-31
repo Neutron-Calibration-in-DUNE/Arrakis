@@ -32,7 +32,7 @@ Arrakis:
     TPCInstanceLabel:               "daq"
 
     # array parameters
-    ADCThreshold:   4.0
+    ADCThreshold:   20.0
 }
 
 END_PROLOG
