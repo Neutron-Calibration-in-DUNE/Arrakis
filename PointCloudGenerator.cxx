@@ -442,12 +442,36 @@ namespace arrakis
         junk_point_cloud.group_label = "junk";
         junk_point_cloud.group_label_id = -1;
         junk_point_cloud.label = "junk";
-        junk_point_cloud.view = (std::vector<Double_t>)junk.det_view;
-        junk_point_cloud.channel = (std::vector<Double_t>)junk.det_channel;
-        junk_point_cloud.wire = (std::vector<Double_t>)junk.det_wire;
-        junk_point_cloud.tick = (std::vector<Double_t>)junk.det_tick;
-        junk_point_cloud.adc = (std::vector<Double_t>)junk.det_adc;
-        junk_point_cloud.tdc = (std::vector<Double_t>)junk.det_tdc;
+        junk_point_cloud.view.insert(
+            junk_point_cloud.view.end(),
+            junk.det_view.begin(),
+            junk.det_view.end()
+        );
+        junk_point_cloud.channel.insert(
+            junk_point_cloud.channel.end(),
+            junk.det_channel.begin(),
+            junk.det_channel.end()
+        );
+        junk_point_cloud.wire.insert(
+            junk_point_cloud.wire.end(),
+            junk.det_wire.begin(),
+            junk.det_wire.end()
+        );
+        junk_point_cloud.tick.insert(
+            junk_point_cloud.tick.end(),
+            junk.det_tick.begin(),
+            junk.det_tick.end()
+        );
+        junk_point_cloud.adc.insert(
+            junk_point_cloud.adc.end(),
+            junk.det_adc.begin(),
+            junk.det_adc.end()
+        );
+        junk_point_cloud.tdc.insert(
+            junk_point_cloud.tdc.end(),
+            junk.det_tdc.begin(),
+            junk.det_tdc.end()
+        );
         junk_point_cloud.point_cloud_id = mPointCloudID;
         junk_point_cloud.total_energy = 0;
         mSoloPointClouds.emplace_back(junk_point_cloud);
