@@ -94,7 +94,7 @@ namespace arrakis
 
         bool    mGeneratePointCloudData;
 
-        Double_t mADCThreshold
+        Double_t mADCThreshold;
 
         // producer labels
         art::InputTag mLArGeantProducerLabel;

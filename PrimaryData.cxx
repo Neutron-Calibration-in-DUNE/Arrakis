@@ -278,6 +278,7 @@ namespace arrakis
                         channel,
                         (Int_t) (std::abs(uncompressed[l]))
                     ); 
+                    continue;
                 }
                 Double_t total_energy = 0;
                 for(auto track : trackIDsAndEnergy) {

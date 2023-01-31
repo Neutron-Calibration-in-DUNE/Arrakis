@@ -120,31 +120,11 @@ namespace arrakis
             fhicl::Comment("Tag of the input data product for the PNSLabel.")
         };
 
-        fhicl::Atom<double> ADCThresholdUPlane
+        fhicl::Atom<double> ADCThreshold
         {
-            fhicl::Name("ADCThresholdUPlane"),
-            fhicl::Comment("ADC threshold value for U plane to use for filling 2D arrays.")
-        };
-
-        fhicl::Atom<double> ADCThresholdVPlane
-        {
-            fhicl::Name("ADCThresholdVPlane"),
-            fhicl::Comment("ADC threshold value for V plane to use for filling 2D arrays.")
-        };
-
-        fhicl::Atom<double> ADCThresholdZPlane
-        {
-            fhicl::Name("ADCThresholdZPlane"),
-            fhicl::Comment("ADC threshold value for Z plane to use for filling 2D arrays.")
-        };
-
-        fhicl::Atom<double> ClockTicks
-        {
-            fhicl::Name("ClockTicks"),
-            fhicl::Comment("Total clock ticks in an event.")
-        };
-
-        
+            fhicl::Name("ADCThreshold"),
+            fhicl::Comment("ADC threshold value to use for filling 2D arrays.")
+        };    
 
     };
 
