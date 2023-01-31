@@ -32,10 +32,7 @@ Arrakis:
     TPCInstanceLabel:               "daq"
 
     # array parameters
-    ADCThresholdUPlane:     0.0
-    ADCThresholdVPlane:     0.0
-    ADCThresholdZPlane:     0.0
-    ClockTicks:             6000
+    ADCThreshold:   4.0
 }
 
 END_PROLOG

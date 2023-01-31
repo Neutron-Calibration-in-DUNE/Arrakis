@@ -94,6 +94,8 @@ namespace arrakis
 
         bool    mGeneratePointCloudData;
 
+        Double_t mADCThreshold
+
         // producer labels
         art::InputTag mLArGeantProducerLabel;
         art::InputTag mIonAndScintProducerLabel;
@@ -188,6 +190,9 @@ namespace arrakis
             mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
         }
 
+        mADCThreshold = mParameters().ADCThreshold();
+        logger->trace("setting ADCThreshold = " + std::to_string(mADCThreshold));
+
         mGeometry = DetectorGeometry::GetInstance("Arrakis");
 
         mParticleMaps = new ParticleMaps(
@@ -197,7 +202,8 @@ namespace arrakis
         mPrimaryData = new PrimaryData(
             mSavePrimaryData,
             mSavePrimaryDataEdeps,
-            mSavePrimaryDataRawTPC
+            mSavePrimaryDataRawTPC,
+            mADCThreshold
         );
 
         mPointCloudGenerator = new PointCloudGenerator();

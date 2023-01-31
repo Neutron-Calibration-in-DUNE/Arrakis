@@ -11,11 +11,13 @@ namespace arrakis
 {
     PrimaryData::PrimaryData(
         bool SavePrimaryData, bool SavePrimaryDataEdeps,
-        bool SavePrimaryDataRawTPC
+        bool SavePrimaryDataRawTPC,
+        Double_t ADCThreshold
     )
     : mSavePrimaryData(SavePrimaryData)
     , mSavePrimaryDataEdeps(SavePrimaryDataEdeps)
     , mSavePrimaryDataRawTPC(SavePrimaryDataRawTPC)
+    , mADCThreshold(ADCThreshold)
     {
         if(SavePrimaryData) {
             mTTree = mTFileService->make<TTree>("primary_data", "primary_data");
@@ -255,13 +257,19 @@ namespace arrakis
 
             for(int l=0; l < num_samples; l++) 
             {
+                /**
+                 * Check wether the raw digit at this step passes 
+                 * the threshold cut.
+                 */
+                if(std::abs(uncompressed[l]) < mADCThreshold) {
+                    continue;
+                }
                 auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
                 /**
                  * This step distinguishes noise from true MC particles.
                  * If the input is noise, pass the detector output to a
                  * noise variable, otherwise, attach the output to the
                  * associated primary.
-                 * 
                  */
                 if (trackIDsAndEnergy.size() == 0) { 
                     mJunk.AddJunkDetectorSimulation(

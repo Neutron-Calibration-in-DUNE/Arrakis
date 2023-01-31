@@ -58,7 +58,8 @@ namespace arrakis
     public:
         PrimaryData(
             bool SavePrimaryData, bool SavePrimaryDataEdeps,
-            bool SavePrimaryDataRawTPC
+            bool SavePrimaryDataRawTPC,
+            Double_t ADCThreshold
         );
         ~PrimaryData();
 
@@ -92,6 +93,8 @@ namespace arrakis
         bool mSavePrimaryData = {false};
         bool mSavePrimaryDataEdeps = {false};
         bool mSavePrimaryDataRawTPC = {false};
+
+        Double_t mADCThreshold = {4.0};
 
         art::ServiceHandle<art::TFileService> mTFileService;
         TTree *mTTree;
