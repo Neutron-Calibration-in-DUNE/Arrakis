@@ -442,12 +442,12 @@ namespace arrakis
         junk_point_cloud.group_label = "junk";
         junk_point_cloud.group_label_id = -1;
         junk_point_cloud.label = "junk";
-        junk_point_cloud.view = junk.view;
-        junk_point_cloud.channel = junk.channel;
-        junk_point_cloud.wire = junk.wire;
-        junk_point_cloud.tick = junk.tick;
-        junk_point_cloud.adc = junk.adc;
-        junk_point_cloud.tdc = junk.tdc;
+        junk_point_cloud.view = junk.det_view;
+        junk_point_cloud.channel = junk.det_channel;
+        junk_point_cloud.wire = junk.det_wire;
+        junk_point_cloud.tick = junk.det_tick;
+        junk_point_cloud.adc = junk.det_adc;
+        junk_point_cloud.tdc = junk.det_tdc;
         junk_point_cloud.point_cloud_id = mPointCloudID;
         junk_point_cloud.total_energy = 0;
         mSoloPointClouds.emplace_back(junk_point_cloud);
