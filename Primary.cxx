@@ -9,7 +9,14 @@
 
 namespace arrakis
 {
-    Primary(GeneratorLabel label, simb::MCParticle& particle)
+    Primary::Primary()
+    {
+    }
+    Primary::~Primary()
+    {
+    }
+
+    Primary::Primary(GeneratorLabel label, simb::MCParticle& particle)
     : Node(0, NodeType::Primary)
     {
     //     generator_label = label;
