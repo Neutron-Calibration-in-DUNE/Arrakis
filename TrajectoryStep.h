@@ -40,7 +40,17 @@ namespace arrakis
         TrajectoryStep();
         ~TrajectoryStep();
         
+        TrajectoryStep(
+            size_t step, simb::MCParticle& particle, 
+            simb::MCTrajectory& trajectory, 
+            std::vector<std::string>& trajectory_processes
+        );
+
+        size_t NumberOfDaughters()  { return mDaughters.size(); }
+
     private:
-        
+        TrajectoryStep* mNextTrajectoryStep = {0};
+        EnergyDeposition* mEnergyDeposition = {0};
+        std::vector<Daughters*> mDaughters = {};
     };
 }

@@ -10,6 +10,7 @@
 namespace arrakis
 {
     Primary::Primary()
+    : Node(0, NodeType::Primary)
     {
     }
     Primary::~Primary()
@@ -19,20 +20,33 @@ namespace arrakis
     Primary::Primary(GeneratorLabel label, simb::MCParticle& particle)
     : Node(0, NodeType::Primary)
     {
-    //     generator_label = label;
-    //     track_id = particle.TrackId();
-    //     pdg = particle.PdgCode();
-    //     init_process = particle.Process();
-    //     init_energy = particle.E();
-    //     init_t = particle.T();
-    //     init_x = particle.Vx();
-    //     init_y = particle.Vy();
-    //     init_z = particle.Vz();
-    //     end_process = particle.EndProcess();
-    //     end_energy = particle.EndE();
-    //     end_x = particle.EndX();
-    //     end_y = particle.EndY();
-    //     end_z = particle.EndZ();
+        mGeneratorLabel = label;
+        mTrackID = particle.TrackId();
+        mPdgCode = particle.PdgCode();
+        mInitProcess = particle.Process();
+        mInitEnergy = particle.E();
+        mInitT = particle.T();
+        mInitX = particle.Vx();
+        mInitY = particle.Vy();
+        mInitZ = particle.Vz();
+        mEndProcess = particle.EndProcess();
+        mEndEnergy = particle.EndE();
+        mEndX = particle.EndX();
+        mEndY = particle.EndY();
+        mEndZ = particle.EndZ();
+
+        // check for trajectory points
+        simb::MCTrajectory trajectory = particle.Trajectory();
+        auto trajectory_processes = trajectory.TrajectoryProcesses();
+        if(particle.NumberTrajectoryPoints() > 0)
+        {
+            mTrajectoryStep = new TrajectoryStep(
+                1,
+                particle,
+                trajectory,
+                trajectory_processes
+            );
+        }
 
     //     simb::MCTrajectory trajectory = particle.Trajectory();
     //     auto trajectory_processes = trajectory.TrajectoryProcesses();

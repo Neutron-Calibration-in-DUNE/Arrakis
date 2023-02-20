@@ -1,5 +1,5 @@
 /**
- * @file Node.h
+ * @file EnergyDeposition.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
@@ -30,39 +30,14 @@
 
 #include "Generators.h"
 #include "Logger.h"
+#include "Node.h"
+#include "TrajectoryStep.h"
 
 namespace arrakis
 {
-    enum class NodeType
-    {
-        Empty = -1,
-        Primary = 0,
-        TrajectoryStep = 1,
-        EnergyDeposition = 2,
-        DetectorSimulation = 3
-    };
-
-    class Node
+    class EnergyDeposition : public Node
     {
     public:
-        Node();
-        ~Node();
-
-        Node(size_t rank, NodeType node_type);
-
-        NodeType Type() { return mNodeType; }
-        size_t Rank()   { return mRank; }
-
-        Node* GetParent()   { return mParent; }
-
-        size_t NumberOfChildren()   { return mChildren.size(); }
-        Node* GetChild(size_t child);
-        std::vector<Node*> GetChildren();
-
     private:
-        size_t mRank = {0};
-        NodeType mNodeType = {NodeType::Empty};
-        Node* mParent = {0};
-        std::vector<Node*> mChildren = {};
     };
 }
