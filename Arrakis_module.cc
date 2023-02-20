@@ -51,11 +51,11 @@
 #include "DetectorGeometry.h"
 #include "Generators.h"
 #include "Logger.h"
-#include "MCTree.h"
 #include "ParticleMaps.h"
 #include "Primary.h"
-#include "PrimaryData.h"
-#include "PointCloudGenerator.h"
+//#include "PrimaryData.h"
+#include "MCTree.h"
+//#include "PointCloudGenerator.h"
 
 namespace arrakis
 {
@@ -130,11 +130,11 @@ namespace arrakis
         // Particle Tree
         ParticleMaps* mParticleMaps;
         // Primary Data
-        PrimaryData* mPrimaryData;
+        //PrimaryData* mPrimaryData;
         // MCTree
         MCTree* mMCTree;
         // PointCloudGenerator
-        PointCloudGenerator* mPointCloudGenerator;
+        //PointCloudGenerator* mPointCloudGenerator;
 
     };
 
@@ -203,14 +203,14 @@ namespace arrakis
             mSaveParticleMaps
         );
 
-        mPrimaryData = new PrimaryData(
-            mSavePrimaryData,
-            mSavePrimaryDataEdeps,
-            mSavePrimaryDataRawTPC,
-            mADCThreshold
-        );
+        // mPrimaryData = new PrimaryData(
+        //     mSavePrimaryData,
+        //     mSavePrimaryDataEdeps,
+        //     mSavePrimaryDataRawTPC,
+        //     mADCThreshold
+        // );
 
-        mPointCloudGenerator = new PointCloudGenerator();
+        //mPointCloudGenerator = new PointCloudGenerator();
 
         if(mSaveMeta) {
             mMetaTree = mTFileService->make<TTree>("meta", "meta");
@@ -319,11 +319,11 @@ namespace arrakis
          * This section processes MCTruth, mc_particles, SimEnergyDeposits,
          * SimChannel, and RawDigit into PrimaryData objects to be used later.
         */
-        mPrimaryData->ProcessEventMC(
-            mParticleMaps, 
-            mc_particles, 
-            mc_energy_deposits
-        );
+        // mPrimaryData->ProcessEventMC(
+        //     mParticleMaps, 
+        //     mc_particles, 
+        //     mc_energy_deposits
+        // );
         mMCTree->ProcessEventMC(
             mParticleMaps,
             mc_particles,
@@ -359,12 +359,12 @@ namespace arrakis
                     mTPCInstanceLabel.label()
                 )
             );
-            mPrimaryData->ProcessEventDetectorSimulation(
-                mParticleMaps, 
-                clock_data,
-                mc_sim_channels,
-                mc_raw_digits
-            );
+            // mPrimaryData->ProcessEventDetectorSimulation(
+            //     mParticleMaps, 
+            //     clock_data,
+            //     mc_sim_channels,
+            //     mc_raw_digits
+            // );
             Logger::GetInstance("arrakis_module")->trace("processed SimChannel and RawDigit products");
         }
         
@@ -373,15 +373,15 @@ namespace arrakis
          * @brief Now that everything is collected, we pass the data to 
          * the various classes which construct training data.
          */
-        if(mGeneratePointCloudData) 
-        {
-            mPointCloudGenerator->ProcessEvent(
-                mParticleMaps,
-                mPrimaryData
-            );
-        }
+        // if(mGeneratePointCloudData) 
+        // {
+        //     mPointCloudGenerator->ProcessEvent(
+        //         mParticleMaps,
+        //         mPrimaryData
+        //     );
+        // }
         mParticleMaps->FillTTree();
-        mPrimaryData->FillTTree();
+        //mPrimaryData->FillTTree();
         
     }
     

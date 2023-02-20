@@ -49,6 +49,8 @@ namespace arrakis
         MCTree();
         ~MCTree();
 
+        void ResetEvent();
+
         void ProcessEventMC(
             ParticleMaps* particle_maps,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
