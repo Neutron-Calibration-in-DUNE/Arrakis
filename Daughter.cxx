@@ -19,3 +19,4 @@ namespace arrakis
     Daughter::Daughter(simb::MCParticle& particle)
     {
     }
+}
