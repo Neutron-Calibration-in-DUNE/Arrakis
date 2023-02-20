@@ -43,7 +43,6 @@ namespace arrakis
         
         Daughter(simb::MCParticle& particle);
 
-        const GeneratorLabel& GetGeneratorLabel()  { return mGeneratorLabel; }
         const Int_t& TrackID() { return mTrackID; }
         const Int_t& PdgCode() { return mPdgCode; }
         const std::string& InitProcess() const { return mInitProcess; }
@@ -57,5 +56,23 @@ namespace arrakis
         const Double_t& EndY() const           { return mEndY; }
         const Double_t& EndZ() const           { return mEndZ; }
     private:
+        Int_t mTrackID = {0};
+        Int_t mPdgCode = {0};
+
+        // MC Particle info.
+        std::string mInitProcess = {""};
+        Double_t mInitEnergy = {0};
+        Double_t mInitT = {0};
+        Double_t mInitX = {0};
+        Double_t mInitY = {0};
+        Double_t mInitZ = {0};
+        
+        std::string mEndProcess = {""};
+        Double_t mEndEnergy = {0};
+        Double_t mEndT = {0};
+        Double_t mEndX = {0};
+        Double_t mEndY = {0};
+        Double_t mEndZ = {0};
+
     };
 }

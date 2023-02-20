@@ -40,6 +40,8 @@ namespace arrakis
                 mProcess = trajectory_processes[jj].second;
             }
         }
+        std::cout << "particle: " << particle.PdgCode() << "," << particle.TrackId() << std::endl;
+        std::cout << "trajectory step: " << step << "," << mProcess << "," << mT << "," << mX << "," << mY << "," << mZ << std::endl;
         if(step < particle.NumberTrajectoryPoints() -1)
         {
             mNextTrajectoryStep = new TrajectoryStep(
