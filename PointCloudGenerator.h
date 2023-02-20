@@ -33,6 +33,7 @@
 #include "Logger.h"
 #include "DetectorPointCloud.h"
 #include "ParticleMaps.h"
+#include "Primary.h"
 #include "PrimaryData.h"
 #include "SoloPointCloud.h"
 
