@@ -31,7 +31,11 @@
 #include "Generators.h"
 #include "Logger.h"
 #include "Node.h"
-#include "TrajectoryStep.h"
+
+namespace arrakis
+{
+    class TrajectoryStep;
+}
 
 namespace arrakis
 {
