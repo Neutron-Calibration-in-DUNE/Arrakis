@@ -37,7 +37,25 @@ namespace arrakis
 {
     class Daughter : public Node
     {
-    public:
+    public:.
+        Daughter();
+        ~Daughter();
+        
+        Daughter(simb::MCParticle& particle);
+
+        const GeneratorLabel& GetGeneratorLabel()  { return mGeneratorLabel; }
+        const Int_t& TrackID() { return mTrackID; }
+        const Int_t& PdgCode() { return mPdgCode; }
+        const std::string& InitProcess() const { return mInitProcess; }
+        const Double_t& InitEnergy() const     { return mInitEnergy; }
+        const Double_t& InitX() const          { return mInitX; }
+        const Double_t& InitY() const          { return mInitY; }
+        const Double_t& InitZ() const          { return mInitZ; }
+        const std::string& EndProcess() const  { return mEndProcess; }
+        const Double_t& EndEnergy() const      { return mEndEnergy; }
+        const Double_t& EndX() const           { return mEndX; }
+        const Double_t& EndY() const           { return mEndY; }
+        const Double_t& EndZ() const           { return mEndZ; }
     private:
     };
 }

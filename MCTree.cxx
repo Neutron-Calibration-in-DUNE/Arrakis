@@ -19,6 +19,9 @@ namespace arrakis
 
     void MCTree::ResetEvent()
     {
+        if(mPrimaries.size() == 0) { 
+            return;
+        }
         mPrimaries.clear();
     }
 
