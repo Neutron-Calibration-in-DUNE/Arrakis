@@ -28,6 +28,9 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "Daughter.h"
+#include "DetectorGeometry.h"
+#include "EnergyDeposition.h"
 #include "Generators.h"
 #include "Logger.h"
 #include "Node.h"
@@ -46,9 +49,23 @@ namespace arrakis
             std::vector<std::string>& trajectory_processes
         );
 
+        const Double_t& Process() const   { return mProcess; }
+        const DetectorVolume& DetectorVolume() const  { return mDetectorVolume; }
+        const Double_t& T() const { return mT; }
+        const Double_t& X() const { return mX; }
+        const Double_t& Y() const { return mY; }
+        const Double_t& Z() const { return mZ; }
+
         size_t NumberOfDaughters()  { return mDaughters.size(); }
 
     private:
+        std::string mProcess = {"not_defined"};
+        DetectorVolume mDetectorVolume;
+        Double_t mT = {0};
+        Double_t mX = {0};
+        Double_t mY = {0};
+        Double_t mZ = {0};
+
         TrajectoryStep* mNextTrajectoryStep = {0};
         EnergyDeposition* mEnergyDeposition = {0};
         std::vector<Daughters*> mDaughters = {};

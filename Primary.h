@@ -43,19 +43,19 @@ namespace arrakis
         
         Primary(GeneratorLabel label, simb::MCParticle& particle);
 
-        GeneratorLabel GetGeneratorLabel()  { return mGeneratorLabel; }
-        Int_t TrackID() { return mTrackID; }
-        Int_t PdgCode() { return mPdgCode; }
-        std::string InitProcess()   { return mInitProcess; }
-        Double_t InitEnergy()       { return mInitEnergy; }
-        Double_t InitX()            { return mInitX; }
-        Double_t InitY()            { return mInitY; }
-        Double_t InitZ()            { return mInitZ; }
-        std::string EndProcess()    { return mEndProcess; }
-        Double_t EndEnergy()        { return mEndEnergy; }
-        Double_t EndX()             { return mEndX; }
-        Double_t EndY()             { return mEndY; }
-        Double_t EndZ()             { return mEndZ; }
+        const GeneratorLabel& GetGeneratorLabel()  { return mGeneratorLabel; }
+        const Int_t& TrackID() { return mTrackID; }
+        const Int_t& PdgCode() { return mPdgCode; }
+        const std::string& InitProcess() const { return mInitProcess; }
+        const Double_t& InitEnergy() const     { return mInitEnergy; }
+        const Double_t& InitX() const          { return mInitX; }
+        const Double_t& InitY() const          { return mInitY; }
+        const Double_t& InitZ() const          { return mInitZ; }
+        const std::string& EndProcess() const  { return mEndProcess; }
+        const Double_t& EndEnergy() const      { return mEndEnergy; }
+        const Double_t& EndX() const           { return mEndX; }
+        const Double_t& EndY() const           { return mEndY; }
+        const Double_t& EndZ() const           { return mEndZ; }
 
     private:
         GeneratorLabel mGeneratorLabel = {kNone};
