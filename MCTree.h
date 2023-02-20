@@ -20,21 +20,39 @@
 #include "canvas/Persistency/Common/FindManyP.h"
 
 // LArSoft includes
+#include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
+#include "lardata/DetectorInfoServices/DetectorClocksService.h"
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
-#include "nusimdata/SimulationBase/MCGeneratorInfo.h"
-#include "nusimdata/SimulationBase/MCNeutrino.h"
+#include "lardataobj/Simulation/SimEnergyDeposit.h"
+#include "lardataobj/Simulation/SimChannel.h"
+#include "lardataobj/Simulation/AuxDetSimChannel.h"
+#include "lardataobj/Simulation/sim.h"
+#include "larcoreobj/SimpleTypesAndConstants/PhysicalConstants.h"
+#include "lardataobj/RawData/raw.h"
+#include "lardataobj/RawData/RawDigit.h"
 
 // necessary ROOT libraries
 #include <TTree.h>
 
 #include "Generators.h"
 #include "Logger.h"
+#include "ParticleMaps.h"
 
 namespace arrakis
 {
     class MCTree
     {
+    public:
+        MCTree();
+        ~MCTree();
 
+        void ProcessEventMC(
+            ParticleMaps* particle_maps,
+            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
+            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+        );
+    private:
+        std::vector<Node*> mPrimaries = {};
     };
 }

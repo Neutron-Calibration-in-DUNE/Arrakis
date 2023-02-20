@@ -61,7 +61,7 @@ namespace arrakis
 
     private:
         NodeType mType = {NodeType::Empty};
-        size_t mRank = {-1};
+        size_t mRank = {0};
         Node* mParent = {0};
         std::vector<Node*> mChildren = {};
     };

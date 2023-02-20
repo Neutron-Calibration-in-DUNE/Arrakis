@@ -51,6 +51,7 @@
 #include "DetectorGeometry.h"
 #include "Generators.h"
 #include "Logger.h"
+#include "MCTree.h"
 #include "ParticleMaps.h"
 #include "PrimaryData.h"
 #include "PointCloudGenerator.h"
@@ -129,6 +130,8 @@ namespace arrakis
         ParticleMaps* mParticleMaps;
         // Primary Data
         PrimaryData* mPrimaryData;
+        // MCTree
+        MCTree* mMCTree;
         // PointCloudGenerator
         PointCloudGenerator* mPointCloudGenerator;
 
@@ -318,6 +321,11 @@ namespace arrakis
         mPrimaryData->ProcessEventMC(
             mParticleMaps, 
             mc_particles, 
+            mc_energy_deposits
+        );
+        mMCTree->ProcessEventMC(
+            mParticleMaps,
+            mc_particles,
             mc_energy_deposits
         );
         Logger::GetInstance("arrakis_module")->trace("processed MCParticle, SimEnergyDeposit and MCTruth products");
