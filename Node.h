@@ -50,7 +50,7 @@ namespace arrakis
 
         Node(size_t rank, NodeType node_type);
 
-        NodeType Type() { return mType; }
+        NodeType Type() { return mNodeType; }
         size_t Rank()   { return mRank; }
 
         Node* GetParent()   { return mParent; }
@@ -60,8 +60,8 @@ namespace arrakis
         std::vector<Node*> GetChildren();
 
     private:
-        NodeType mNodeType = {NodeType::Empty};
         size_t mRank = {0};
+        NodeType mNodeType = {NodeType::Empty};
         Node* mParent = {0};
         std::vector<Node*> mChildren = {};
     };
