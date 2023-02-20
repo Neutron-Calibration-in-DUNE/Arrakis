@@ -40,7 +40,7 @@ namespace arrakis
                 mProcess = trajectory_processes[jj].second;
             }
         }
-        if(step < particle.NumberOfTrajectoryPoints() -1)
+        if(step < particle.NumberTrajectoryPoints() -1)
         {
             mNextTrajectoryStep = new TrajectoryStep(
                 step + 1,
