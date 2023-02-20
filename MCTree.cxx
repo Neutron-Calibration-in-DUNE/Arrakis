@@ -39,7 +39,7 @@ namespace arrakis
             Logger::GetInstance("mc_tree")->error("SimEnergyDeposits handle is not valid!");
             return;
         }
-        ResetEvent();
+        //ResetEvent();
         Logger::GetInstance("mc_tree")->trace("processing " + std::to_string((*mcParticles).size()) + " MCParticles");
         // Loop through every particle and save
         // information to the primary that was
