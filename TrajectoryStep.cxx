@@ -10,7 +10,7 @@
 namespace arrakis
 {
     TrajectoryStep::TrajectoryStep()
-    : mNode(0, NodeType::TrajectoryStep)
+    : Node(0, NodeType::TrajectoryStep)
     {
     }
 
@@ -21,7 +21,7 @@ namespace arrakis
     TrajectoryStep::TrajectoryStep(
         size_t step, simb::MCParticle& particle, 
         simb::MCTrajectory& trajectory, 
-        std::vector<std::string>& trajectory_processes
+        simb::MCTrajectory::ProcessMap& trajectory_processes
     )
     : Node(step, NodeType::TrajectoryStep)
     {
@@ -40,6 +40,14 @@ namespace arrakis
                 mProcess = trajectory_processes[jj].second;
             }
         }
-        
+        if(step < particle.NumberOfTrajectoryPoints() -1)
+        {
+            mNextTrajectoryStep = new TrajectoryStep(
+                step + 1,
+                particle, 
+                trajectory,
+                trajectory_processes
+            );
+        }
     }
 }

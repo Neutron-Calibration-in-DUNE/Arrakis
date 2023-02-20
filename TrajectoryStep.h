@@ -46,7 +46,7 @@ namespace arrakis
         TrajectoryStep(
             size_t step, simb::MCParticle& particle, 
             simb::MCTrajectory& trajectory, 
-            std::vector<std::string>& trajectory_processes
+            simb::MCTrajectory::ProcessMap& trajectory_processes
         );
 
         const std::string& Process() const   { return mProcess; }

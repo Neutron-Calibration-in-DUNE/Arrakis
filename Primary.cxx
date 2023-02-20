@@ -37,7 +37,7 @@ namespace arrakis
 
         // check for trajectory points
         simb::MCTrajectory trajectory = particle.Trajectory();
-        auto trajectory_processes = trajectory.TrajectoryProcesses();
+        simb::MCTrajectory::ProcessMap trajectory_processes = trajectory.TrajectoryProcesses();
         if(particle.NumberTrajectoryPoints() > 0)
         {
             mTrajectoryStep = new TrajectoryStep(
