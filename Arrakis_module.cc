@@ -53,6 +53,7 @@
 #include "Logger.h"
 #include "MCTree.h"
 #include "ParticleMaps.h"
+#include "Primary.h"
 #include "PrimaryData.h"
 #include "PointCloudGenerator.h"
 
