@@ -68,6 +68,6 @@ namespace arrakis
 
         TrajectoryStep* mNextTrajectoryStep = {0};
         EnergyDeposition* mEnergyDeposition = {0};
-        std::vector<Daughters*> mDaughters = {};
+        std::vector<Daughter*> mDaughters = {};
     };
 }
