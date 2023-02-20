@@ -37,7 +37,7 @@ namespace arrakis
 {
     class Daughter : public Node
     {
-    public:.
+    public:
         Daughter();
         ~Daughter();
         
