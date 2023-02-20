@@ -60,7 +60,7 @@ namespace arrakis
         std::vector<Node*> GetChildren();
 
     private:
-        NodeType mType = {NodeType::Empty};
+        NodeType mNodeType = {NodeType::Empty};
         size_t mRank = {0};
         Node* mParent = {0};
         std::vector<Node*> mChildren = {};
