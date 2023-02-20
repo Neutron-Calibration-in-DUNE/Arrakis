@@ -47,10 +47,10 @@ namespace arrakis
             // a new entry in mPrimaries.
             if(particle.Mother() == 0) 
             {
-                // mPrimaries.emplace_back(Primary(
-                //     particle_maps->GetGeneratorLabel(particle.TrackId()),
-                //     particle
-                // ));
+                mPrimaries.emplace_back(new Primary(
+                    particle_maps->GetGeneratorLabel(particle.TrackId()),
+                    particle
+                ));
             }
             // Otherwise, find the associated primary
             // using the ancestor map.
