@@ -37,6 +37,7 @@
 
 #include "Generators.h"
 #include "Logger.h"
+#include "Node.h"
 #include "ParticleMaps.h"
 
 namespace arrakis
@@ -52,6 +53,8 @@ namespace arrakis
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         );
+
+
     private:
         std::vector<Node*> mPrimaries = {};
     };
