@@ -59,6 +59,6 @@ namespace arrakis
 
 
     private:
-        std::vector<Primary*> mPrimaries = {};
+        std::vector<Node*> mPrimaries = {};
     };
 }
