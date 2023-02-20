@@ -49,14 +49,14 @@ namespace arrakis
             std::vector<std::string>& trajectory_processes
         );
 
-        const Double_t& Process() const   { return mProcess; }
-        const DetectorVolume& DetectorVolume() const  { return mDetectorVolume; }
+        const std::string& Process() const   { return mProcess; }
+        const DetectorVolume& GetDetectorVolume() const  { return mDetectorVolume; }
         const Double_t& T() const { return mT; }
         const Double_t& X() const { return mX; }
         const Double_t& Y() const { return mY; }
         const Double_t& Z() const { return mZ; }
 
-        size_t NumberOfDaughters()  { return mDaughters.size(); }
+        Int_t NumberOfDaughters()  { return mDaughters.size(); }
 
     private:
         std::string mProcess = {"not_defined"};
