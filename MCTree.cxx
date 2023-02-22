@@ -28,7 +28,6 @@ namespace arrakis
         }
 
         void MCTree::ProcessEventMC(
-            ParticleMaps* particle_maps,
             const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
             const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
         )

@@ -37,7 +37,6 @@
 
 #include "Core.h"
 #include "Logger.h"
-#include "ParticleMaps.h"
 
 namespace arrakis
 {
@@ -52,7 +51,6 @@ namespace arrakis
             void ResetEvent();
 
             void ProcessEventMC(
-                ParticleMaps* particle_maps,
                 const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
                 const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
             );
