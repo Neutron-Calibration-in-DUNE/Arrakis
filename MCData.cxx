@@ -29,7 +29,7 @@ namespace arrakis
         )
         {
             fhicl::Table<art::InputTag> input_tags = config.get<fhicl::Table<art::InputTag>>("GeneratorLabels");
-            ProcessMCTruth(event, config);
+            ProcessMCTruth(event, input_tags);
             ProcessMCParticle(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }
@@ -144,7 +144,7 @@ namespace arrakis
                         {
                             if(truth.GetParticle(ii).Process() == "primary")
                             {
-\                               Double_t init_x = truth.GetParticle(ii).Vx();
+                                Double_t init_x = truth.GetParticle(ii).Vx();
                                 Double_t init_y = truth.GetParticle(ii).Vy();
                                 Double_t init_z = truth.GetParticle(ii).Vz();
                                 Int_t pdg_code = truth.GetParticle(ii).PdgCode();
