@@ -60,11 +60,11 @@ namespace arrakis
 
             Logger* mLogger;
 
-            art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
-            art::Handle<std::vector<simb::MCParticle>>      mMCParticleHandle;
-            art::Handle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositHandle;
-            art::Handle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
-            art::Handle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
+            art::ValidHandle<std::vector<simb::MCTruth>>         mMCTruthHandle;
+            art::ValidHandle<std::vector<simb::MCParticle>>      mMCParticleHandle;
+            art::ValidHandle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositHandle;
+            art::ValidHandle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
+            art::ValidHandle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
 
         };
     }
