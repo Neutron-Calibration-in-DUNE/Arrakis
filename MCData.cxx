@@ -28,14 +28,15 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            ProcessMCTruth(event, config().GeneratorLabels());
+            ProcessMCTruth(event, config);
             ProcessMCParticle(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }
         void MCData::ProcessMCTruth(
-            art::Event const& event, fhicl::Table<art::InputTag> input_tags
+            art::Event const& event, const Parameters& config
         )
         {
+            fhicl::Table<art::InputTag> input_tags = config.get<fhicl::Table<art::InputTag>>("GeneratorLabels");
             for(auto tag : input_tags)
             {
                 Logger::GetInstance("mcdata")->trace(
