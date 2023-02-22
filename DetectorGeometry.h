@@ -162,11 +162,7 @@ namespace arrakis
 
             // static method that controls access to 
             // the singleton instance
-            static DetectorGeometry* GetInstance(const std::string& name);
-
-            std::string Name() const {
-                return sName;
-            }
+            static DetectorGeometry* GetInstance();
 
             unsigned int NumberOfUChannels() { return mNumberOfUChannels; }
             unsigned int NumberOfVChannels() { return mNumberOfVChannels; }
@@ -221,9 +217,8 @@ namespace arrakis
             void FillTTree();
         
         protected:
-            DetectorGeometry(const std::string name);
+            DetectorGeometry();
             ~DetectorGeometry() {}
-            std::string sName;
             
         private:
             static DetectorGeometry * sInstance;
@@ -281,7 +276,7 @@ namespace arrakis
             BoundingBox mTotalTPCBox;
             BoundingBox mTotalActiveTPCBox;
             double mTotalTPCMass;
-            
+
             ////////////////////////////////////////////////
             // detector material variables
             ////////////////////////////////////////////////

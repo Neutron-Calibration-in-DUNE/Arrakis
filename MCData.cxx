@@ -45,7 +45,7 @@ namespace arrakis
                 "collecting simb::MCParticle from label <" + 
                 input_tag.label() + ">"
             );
-            if(!event.getByLabel(input_tag, mMCParticleHandle))
+            if(!event.getByLabel(input_tag, sMCParticleHandle))
             {
                 mLogger->error(
                     "no label matching " + input_tag.label() + 
@@ -55,9 +55,39 @@ namespace arrakis
             }
             else 
             {
-                mMCParticleHandle = event.getHandle<std::vector<simb::MCParticle>>(
+                sMCParticleHandle = event.getHandle<std::vector<simb::MCParticle>>(
                     input_tag
                 );
+            }
+            for (auto particle : *sMCParticleHandle)
+            {
+                sGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::kNone;
+                sPDGMap[particle.TrackId()] = particle.PdgCode();
+                sParentTrackIDMap[particle.TrackId()] = particle.Mother();
+                sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
+
+                Int_t mother = particle.Mother();
+                Int_t track_id = particle.TrackId();
+                Int_t level = 0;
+                while (mother != 0)
+                {
+                    level += 1;
+                    track_id = mother;
+                    mother = sParentTrackIDMap[track_id];
+                }
+                sAncestorLevelMap[particle.TrackId()] = level;
+                if (level == 0) {
+                    sParentPDGMap[particle.TrackId()] = 0;
+                    sAncestorPDGMap[particle.TrackId()] = 0;
+                    sAncestorTrackIDMap[particle.TrackId()] = 0;
+                    sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
+                }
+                else {
+                    sParentPDGMap[particle.TrackId()] = sPDGMap[particle.Mother()];
+                    sAncestorPDGMap[particle.TrackId()] = sPDGMap[track_id];
+                    sAncestorTrackIDMap[particle.TrackId()] = track_id;
+                    sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
+                }
             }
         }
         void MCData::ProcessSimEnergyDeposit(

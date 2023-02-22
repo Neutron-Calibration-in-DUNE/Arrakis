@@ -50,6 +50,17 @@ namespace arrakis
             void ProcessMCParticle(art::Event const& event, art::InputTag input_tag);
             void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
 
+            // particle maps from track id
+            inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return mGeneratorLabelMap[trackID]; }
+            inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }
+            inline Int_t GetParentPDG(Int_t trackID)        { return mParentPDGMap[trackID]; }
+            inline Int_t GetParentTrackID(Int_t trackID)    { return mParentTrackIDMap[trackID]; }
+            inline Int_t GetParticleEnergy(Int_t trackID)   { return mParticleEnergyMap[trackID];}
+            inline Int_t GetAncestorPDG(Int_t trackID)      { return mAncestorPDGMap[trackID]; }
+            inline Int_t GetAncestorTrackID(Int_t trackID)  { return mAncestorTrackIDMap[trackID]; }
+            inline Int_t GetAncestorLevel(Int_t trackID)    { return mAncestorLevelMap[trackID]; }
+            inline Int_t GetAncestorEnergy(Int_t trackID)   { return mAncestorEnergyMap[trackID]; }
+
         protected:
             MCData() {}
             ~MCData() {}
@@ -61,12 +72,21 @@ namespace arrakis
             Logger* mLogger = Logger::GetInstance("mcdata");
 
             // handles
-            art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
-            art::Handle<std::vector<simb::MCParticle>>      mMCParticleHandle;
-            art::Handle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositHandle;
-            art::Handle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
-            art::Handle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
+            art::Handle<std::vector<simb::MCTruth>>         sMCTruthHandle;
+            art::Handle<std::vector<simb::MCParticle>>      sMCParticleHandle;
+            art::Handle<std::vector<sim::SimEnergyDeposit>> sMCSimEnergyDepositHandle;
+            art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;
+            art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
 
+            std::map<Int_t, GeneratorLabel> sGeneratorLabelMap;
+            std::map<Int_t, Int_t>      sPDGMap;
+            std::map<Int_t, Int_t>      sParentPDGMap;
+            std::map<Int_t, Int_t>      sParentTrackIDMap;
+            std::map<Int_t, Double_t>   sParticleEnergyMap;
+            std::map<Int_t, Int_t>      sAncestorPDGMap;
+            std::map<Int_t, Int_t>      sAncestorTrackIDMap;
+            std::map<Int_t, Int_t>      sAncestorLevelMap;
+            std::map<Int_t, Double_t>   sAncestorEnergyMap;
         };
     }
 }
