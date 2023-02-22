@@ -52,6 +52,7 @@
 #include "Generators.h"
 #include "Logger.h"
 #include "ParticleMaps.h"
+#include "MCData.h"
 #include "MCTree.h"
 
 namespace arrakis
