@@ -29,7 +29,7 @@ namespace arrakis
         )
         {
             //ProcessMCTruth(event);
-            ProcessMCParticle(event, config.LArGeantProducerLabel());
+            ProcessMCParticle(event, config().LArGeantProducerLabel());
             //ProcessSimEnergyDeposit(event, );
         }
         void MCData::ProcessMCTruth(
