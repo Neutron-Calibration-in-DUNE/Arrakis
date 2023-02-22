@@ -33,11 +33,10 @@ namespace arrakis
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }
         void MCData::ProcessMCTruth(
-            art::Event const& event, art::InputTag input_tag
+            art::Event const& event, fhicl::Table<art::InputTag> input_tags
         )
         {
-            fhicl::Table<art::InputTag> input_tags = 
-            for(auto tag : input_tags())
+            for(auto tag : input_tags)
             {
                 Logger::GetInstance("mcdata")->trace(
                     "collecting simb::MCTruth from input_tag <" + 
@@ -55,7 +54,7 @@ namespace arrakis
                     sMCTruthHandles.emplace_back(event.getHandle<std::vector<simb::MCTruth>>(
                         tag
                     ));
-                    // if(mGeneratePointCloudData)
+                    // if(sGeneratePointCloudData)
                     // {
                     //     mAr39Label = mParameters().Ar39Label();
                     //     Logger::GetInstance("arrakis_module")->trace("setting Ar39Label = " + mAr39Label.label());
@@ -63,9 +62,9 @@ namespace arrakis
                     //     Logger::GetInstance("arrakis_module")->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
                     //     mPNSLabel = mParameters().PNSLabel();
                     //     Logger::GetInstance("arrakis_module")->trace("setting PNSLabel = " + mPNSLabel.label());
-                    //     mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
-                    //     mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
-                    //     mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
+                    //     sGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
+                    //     sGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
+                    //     sGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
                     // }
 
                 }
@@ -123,7 +122,7 @@ namespace arrakis
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
                 }
             }
-            for(auto const& [key, val] : mGeneratorMap)
+            for(auto const& [key, val] : sGeneratorMap)
             {
                 for(auto mcTruth : sMCTruthHandles)
                 {
@@ -157,7 +156,7 @@ namespace arrakis
                                         particle.PdgCode() == pdg_code
                                     )
                                     {
-                                        mGeneratorLabelMap[particle.TrackId()] = label;
+                                        sGeneratorLabelMap[particle.TrackId()] = label;
                                     }
                                 }
                             }

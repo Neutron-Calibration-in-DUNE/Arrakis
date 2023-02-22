@@ -51,7 +51,6 @@
 #include "DetectorGeometry.h"
 #include "Core.h"
 #include "Logger.h"
-#include "ParticleMaps.h"
 #include "MCData.h"
 #include "MCTree.h"
 
