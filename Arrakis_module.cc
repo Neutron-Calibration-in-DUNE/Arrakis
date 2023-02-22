@@ -154,7 +154,7 @@ namespace arrakis
 
         mGeometry = geometry::DetectorGeometry::GetInstance("arrakis_module");
         mLogger = Logger::GetInstance("arrakis_module");
-        mMCData = mcdata::MCData::GetInstance("arrakis_module");
+        mMCData = mcdata::MCData::GetInstance();
 
         mLogger->trace("initializing arrakis module");
 

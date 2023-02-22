@@ -22,6 +22,7 @@
 #include "lardata/ArtDataHelper/TrackUtils.h"
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
+#include "larcoreobj/SimpleTypesAndConstants/RawTypes.h"
 
 #include "Configuration.h"
 #include "Logger.h"
