@@ -25,10 +25,12 @@ namespace arrakis
         }
 
         void MCData::ProcessEvent(
-            const Parameters& params, art::Event const& event
+            const Parameters& config, art::Event const& event
         )
         {
-
+            //ProcessMCTruth(event);
+            ProcessMCParticle(event, config.LArGeantProducerLabel());
+            //ProcessSimEnergyDeposit(event, );
         }
         void MCData::ProcessMCTruth(
             art::Event const& event, art::InputTag input_tag
@@ -39,7 +41,24 @@ namespace arrakis
             art::Event const& event, art::InputTag input_tag
         )
         {
-
+            mLogger->trace(
+                "collecting simb::MCParticle from label <" + 
+                input_tag.label() + ">"
+            );
+            if(!event.getByLabel(input_tag, mMCParticleHandle))
+            {
+                mLogger->error(
+                    "no label matching " + input_tag.label() + 
+                    " for simb::MCParticle!"
+                );
+                exit(0);
+            }
+            else 
+            {
+                mMCParticleHandle = event.getValidHandle<std::vector<simb::MCParticle>>(
+                    input_tag
+                );
+            }
         }
         void MCData::ProcessSimEnergyDeposit(
             art::Event const& event, art::InputTag input_tag
