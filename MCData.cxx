@@ -33,9 +33,10 @@ namespace arrakis
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }
         void MCData::ProcessMCTruth(
-            art::Event const& event, fhicl::Table<art::InputTag> input_tags
+            art::Event const& event, art::InputTag input_tag
         )
         {
+            fhicl::Table<art::InputTag> input_tags = 
             for(auto tag : input_tags())
             {
                 Logger::GetInstance("mcdata")->trace(
@@ -122,50 +123,48 @@ namespace arrakis
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
                 }
             }
-            // for(auto const& [key, val] : mGeneratorMap)
-            // {
-            //     for(auto truth : *mcTruth)
-            //     {
-            //         /**
-            //          * MCTruth stores MCParticles starting with trackID = 0,
-            //          * rather than Geant4 which starts with trackID = 1.
-            //         */
-            //         Logger::GetInstance("particle_maps")->trace(
-            //             "adding labels of type " + 
-            //             std::to_string(label) + 
-            //             " for " + std::to_string(truth.NParticles()) + 
-            //             " particles starting with track ID = " + 
-            //             std::to_string(truth.GetParticle(0).TrackId()+1)
-            //         );
-            //         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
-            //         {
-            //             //Double_t init_t = truth.GetParticle(ii).T();
-            //             Double_t init_x = truth.GetParticle(ii).Vx();
-            //             Double_t init_y = truth.GetParticle(ii).Vy();
-            //             Double_t init_z = truth.GetParticle(ii).Vz();
-            //             //Double_t energy = truth.GetParticle(ii).E();
-            //             Int_t pdg_code = truth.GetParticle(ii).PdgCode();
-            //             if(truth.GetParticle(ii).Process() == "primary")
-            //             {
-            //                 for(auto particle : *mcParticles)
-            //                 {
-            //                     if(
-            //                         //particle.T() == init_t &&
-            //                         particle.Vx() == init_x &&
-            //                         particle.Vy() == init_y &&
-            //                         particle.Vz() == init_z &&
-            //                         //particle.E() == energy &&
-            //                         particle.PdgCode() == pdg_code
-            //                     )
-            //                     {
-            //                         mGeneratorLabelMap[particle.TrackId()] = label;
-            //                     }
-            //                 }
-            //             }
-                        
-            //         }
-            //     }
-            // }
+            for(auto const& [key, val] : mGeneratorMap)
+            {
+                for(auto mcTruth : sMCTruthHandles)
+                {
+                    for(auto truth : *mcTruth)
+                    {
+                        /**
+                         * MCTruth stores MCParticles starting with trackID = 0,
+                         * rather than Geant4 which starts with trackID = 1.
+                        */
+                        Logger::GetInstance("mcdata")->trace(
+                            "adding labels of type " + 
+                            std::to_string(label) + 
+                            " for " + std::to_string(truth.NParticles()) + 
+                            " particles starting with track ID = " + 
+                            std::to_string(truth.GetParticle(0).TrackId()+1)
+                        );
+                        for(Int_t ii = 0; ii < truth.NParticles(); ii++)
+                        {
+                            if(truth.GetParticle(ii).Process() == "primary")
+                            {
+\                               Double_t init_x = truth.GetParticle(ii).Vx();
+                                Double_t init_y = truth.GetParticle(ii).Vy();
+                                Double_t init_z = truth.GetParticle(ii).Vz();
+                                Int_t pdg_code = truth.GetParticle(ii).PdgCode();
+                                for(auto particle : *sMCParticleHandle)
+                                {
+                                    if(
+                                        particle.Vx() == init_x &&
+                                        particle.Vy() == init_y &&
+                                        particle.Vz() == init_z &&
+                                        particle.PdgCode() == pdg_code
+                                    )
+                                    {
+                                        mGeneratorLabelMap[particle.TrackId()] = label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         void MCData::ProcessSimEnergyDeposit(
             art::Event const& event, art::InputTag input_tag
