@@ -28,7 +28,7 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            fhicl::Table<art::InputTag> input_tags = config().get<fhicl::Table<art::InputTag>>("GeneratorLabels");
+            fhicl::Table<art::InputTag> input_tags = config().GeneratorLabels();
             ProcessMCTruth(event, input_tags);
             ProcessMCParticle(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
