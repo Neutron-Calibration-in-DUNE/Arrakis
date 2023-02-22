@@ -47,7 +47,7 @@ namespace arrakis
 
             // methods for processing event data
             void ProcessEvent(const Parameters& config, art::Event const& event);
-            void ProcessMCTruth(art::Event const& event, art::InputTag input_tag);
+            void ProcessMCTruth(art::Event const& event, fhicl::Table<art::InputTag> input_tags);
             void ProcessMCParticle(art::Event const& event, art::InputTag input_tag);
             void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
 
@@ -71,6 +71,7 @@ namespace arrakis
             static std::mutex sMutex;
 
             // handles
+            std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
             art::Handle<std::vector<simb::MCTruth>>         sMCTruthHandle;
             art::Handle<std::vector<simb::MCParticle>>      sMCParticleHandle;
             art::Handle<std::vector<sim::SimEnergyDeposit>> sMCSimEnergyDepositHandle;
@@ -78,6 +79,7 @@ namespace arrakis
             art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
 
             std::map<Int_t, GeneratorLabel> sGeneratorLabelMap;
+            std::map<art::InputTag, GeneratorLabel> sGeneratorMap;
             std::map<Int_t, Int_t>      sPDGMap;
             std::map<Int_t, Int_t>      sParentPDGMap;
             std::map<Int_t, Int_t>      sParentTrackIDMap;

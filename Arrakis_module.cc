@@ -78,12 +78,6 @@ namespace arrakis
         void ProcessMCTruth(
             const art::Event& event, art::InputTag input_tag, GeneratorLabel label
         );
-        art::ValidHandle<std::vector<simb::MCParticle>> GetMCParticles(
-            const art::Event& event
-        );
-        art::ValidHandle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposits(
-            const art::Event& event
-        );
 
     private:
         Parameters mParameters;
@@ -100,24 +94,10 @@ namespace arrakis
 
         Double_t mADCThreshold;
 
-        // producer labels
-        art::InputTag mLArGeantProducerLabel;
-        art::InputTag mIonAndScintProducerLabel;
-        art::InputTag mSimChannelProducerLabel;
-        art::InputTag mSimChannelInstanceProducerLabel;
-        art::InputTag mTPCInputLabel;
-        art::InputTag mTPCInstanceLabel;
-
         std::map<art::InputTag, GeneratorLabel> mGeneratorMap;
         art::InputTag mAr39Label;
         art::InputTag mSingleNeutronLabel;
         art::InputTag mPNSLabel;
-
-        art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
-        art::Handle<std::vector<simb::MCParticle>>      mMCParticleHandle;
-        art::Handle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositHandle;
-        art::Handle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
-        art::Handle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
 
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
@@ -131,17 +111,8 @@ namespace arrakis
         geometry::DetectorGeometry* mGeometry;
         mcdata::MCData* mMCData;
 
-        // Particle Tree
-        ParticleMaps* mParticleMaps;
-
-        // Primary Data
-        //PrimaryData* mPrimaryData;
-
         // MCTree
         mctree::MCTree* mMCTree;
-
-        // PointCloudGenerator
-        //PointCloudGenerator* mPointCloudGenerator;
 
     };
 
@@ -156,40 +127,6 @@ namespace arrakis
 
         Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");
 
-        // // Set various configuration parameters
-        // mSaveMeta = mParameters().SaveMeta();
-        // Logger::GetInstance("arrakis_module")->trace("setting SaveMeta = " + std::to_string(mSaveMeta));
-
-        // mSaveGeometry = mParameters().SaveGeometry();
-        // Logger::GetInstance("arrakis_module")->trace("setting SaveGeometry = " + std::to_string(mSaveGeometry));
-
-        // mSaveParticleMaps = mParameters().SaveParticleMaps();
-        // Logger::GetInstance("arrakis_module")->trace("setting SaveParticleMaps = " + std::to_string(mSaveParticleMaps));
-        // mSavePrimaryData =  mParameters().SavePrimaryData();
-        // Logger::GetInstance("arrakis_module")->trace("setting SavePrimaryData = " + std::to_string(mSavePrimaryData));
-        // mSavePrimaryDataEdeps =  mParameters().SavePrimaryDataEdeps();
-        // Logger::GetInstance("arrakis_module")->trace("setting SavePrimaryDataEdeps = " + std::to_string(mSavePrimaryDataEdeps));
-        // mSavePrimaryDataRawTPC =  mParameters().SavePrimaryDataRawTPC();
-        // Logger::GetInstance("arrakis_module")->trace("setting SavePrimaryDataRawTPC = " + std::to_string(mSavePrimaryDataRawTPC));
-
-        // // solo point clouds
-        // mGeneratePointCloudData = mParameters().GeneratePointCloudData();
-        // Logger::GetInstance("arrakis_module")->trace("setting GeneratePointCloudData = " + std::to_string(mGeneratePointCloudData));
-
-        // // module labels
-        // mLArGeantProducerLabel =    mParameters().LArGeantProducerLabel();
-        // Logger::GetInstance("arrakis_module")->trace("setting LArGeantProducerLabel = " + mLArGeantProducerLabel.label());
-        // mIonAndScintProducerLabel = mParameters().IonAndScintProducerLabel();
-        // Logger::GetInstance("arrakis_module")->trace("setting IonAndScintProducerLabel = " + mIonAndScintProducerLabel.label());
-        // mSimChannelProducerLabel =  mParameters().SimChannelProducerLabel();
-        // Logger::GetInstance("arrakis_module")->trace("setting SimChannelProducerLabel = " + mSimChannelProducerLabel.label());
-        // mSimChannelInstanceProducerLabel = mParameters().SimChannelInstanceProducerLabel();
-        // Logger::GetInstance("arrakis_module")->trace("setting SimChannelInstanceProducerLabel = " + mSimChannelInstanceProducerLabel.label());
-        // mTPCInputLabel =    mParameters().TPCInputLabel();
-        // Logger::GetInstance("arrakis_module")->trace("setting TPCInputLabel = " + mTPCInputLabel.label());
-        // mTPCInstanceLabel = mParameters().TPCInstanceLabel();
-        // Logger::GetInstance("arrakis_module")->trace("setting TPCInstanceLabel = " + mTPCInstanceLabel.label());
-
         // // generator labels
         // if(mGeneratePointCloudData)
         // {
@@ -202,27 +139,6 @@ namespace arrakis
         //     mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
         //     mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
         //     mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
-        // }
-
-        // mADCThreshold = mParameters().ADCThreshold();
-        // Logger::GetInstance("arrakis_module")->trace("setting ADCThreshold = " + std::to_string(mADCThreshold));
-        
-
-        // mParticleMaps = new ParticleMaps(
-        //     mSaveParticleMaps
-        // );
-
-        // // mPrimaryData = new PrimaryData(
-        // //     mSavePrimaryData,
-        // //     mSavePrimaryDataEdeps,
-        // //     mSavePrimaryDataRawTPC,
-        // //     mADCThreshold
-        // // );
-
-        // //mPointCloudGenerator = new PointCloudGenerator();
-
-        // if(mSaveMeta) {
-        //     mMetaTree = mTFileService->make<TTree>("meta", "meta");
         // }
     }
 
@@ -237,77 +153,25 @@ namespace arrakis
         const art::Event& event, art::InputTag input_tag, GeneratorLabel label
     )
     {
-        Logger::GetInstance("arrakis_module")->trace("collecting simb::MCTruth from input_tag <" + input_tag.label() + ">");
-        if(!event.getByLabel(input_tag, mMCTruthHandle))
-        {
-            Logger::GetInstance("arrakis_module")->warning("no input_tag matching " + input_tag.label() + " for simb::MCTruth");
-        }
-        else 
-        {
-            auto mc_truth = event.getValidHandle<std::vector<simb::MCTruth>>(
-                input_tag
-            );
-            auto particles = event.getValidHandle<std::vector<simb::MCParticle>>(
-                mLArGeantProducerLabel
-            );
-            mParticleMaps->ProcessMCTruth(label, mc_truth, particles);
-        }
-    }
-    art::ValidHandle<std::vector<simb::MCParticle>> Arrakis::GetMCParticles(
-        const art::Event& event
-    )
-    {
-        Logger::GetInstance("arrakis_module")->trace("collecting simb::MCParticle from label <" + mLArGeantProducerLabel.label() + ">");
-        if(!event.getByLabel(mLArGeantProducerLabel, mMCParticleHandle))
-        {
-            Logger::GetInstance("arrakis_module")->error("no label matching " + mLArGeantProducerLabel.label() + " for simb::MCParticle!");
-            exit(0);
-        }
-        else 
-        {
-            return event.getValidHandle<std::vector<simb::MCParticle>>(
-                mLArGeantProducerLabel
-            );
-        }
-    }
-    art::ValidHandle<std::vector<sim::SimEnergyDeposit>> Arrakis::GetSimEnergyDeposits(
-        const art::Event& event
-    )
-    {
-        Logger::GetInstance("arrakis_module")->trace("collecting sim::SimEnergyDeposit from label <" + mIonAndScintProducerLabel.label() + ">");
-        if(!event.getByLabel(mIonAndScintProducerLabel, mMCSimEnergyDepositHandle))
-        {
-            Logger::GetInstance("arrakis_module")->error("no label matching " + mIonAndScintProducerLabel.label() + " for sim::SimEnergyDeposit!");
-            exit(0);
-        }
-        else 
-        {
-            return event.getValidHandle<std::vector<sim::SimEnergyDeposit>>(
-                mIonAndScintProducerLabel
-            );
-        }
+        
     }
 
-    // analyze.unction
+    // analyze function
     void Arrakis::analyze(art::Event const& event)
     {
         auto event_id = event.id().event();
         auto run_id = event.run();
         auto sub_run_id = event.subRun();
         Logger::GetInstance("arrakis_module")->trace(
-            "processing event " + 
+            "processing event [" + 
             std::to_string(run_id) + ":" + 
             std::to_string(sub_run_id) + ":" + 
-            std::to_string(event_id)
+            std::to_string(event_id) + "]"
         );
 
         mMCData->ProcessEvent(mParameters, event);
-        /**
-         * @details  For each event, we will look through the various
-         * available data products and send event info to the 
-         * corresponding submodules that process them, starting with mc_particles
-         * then SimEnergyDeposit, SimChannel and RawDigit.
-         */
+
+        
         // detinfo::DetectorClocksData const clock_data(
         //     art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         // );
@@ -399,9 +263,9 @@ namespace arrakis
     // end job
     void Arrakis::endJob()
     {
-        if(mSaveMeta) {
-            mMetaTree->Fill();
-        }
+        // if(mSaveMeta) {
+        //     mMetaTree->Fill();
+        // }
     }
 }
 DEFINE_ART_MODULE(arrakis::Arrakis)

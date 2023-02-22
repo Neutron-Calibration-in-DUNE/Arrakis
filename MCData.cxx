@@ -28,14 +28,47 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            //ProcessMCTruth(event);
+            ProcessMCTruth(event, config().GeneratorLabels());
             ProcessMCParticle(event, config().LArGeantProducerLabel());
-            //ProcessSimEnergyDeposit(event, );
+            ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }
         void MCData::ProcessMCTruth(
-            art::Event const& event, art::InputTag input_tag
+            art::Event const& event, fhicl::Table<art::InputTag> input_tags
         )
         {
+            for(auto tag : input_tags())
+            {
+                Logger::GetInstance("mcdata")->trace(
+                    "collecting simb::MCTruth from input_tag <" + 
+                    tag.label() + ">"
+                );
+                if(!event.getByLabel(tag, sMCTruthHandle))
+                {
+                    Logger::GetInstance("mcdata")->warning(
+                        "no input_tag matching " + tag.label() + 
+                        " for simb::MCTruth"
+                    );
+                }
+                else 
+                {
+                    sMCTruthHandles.emplace_back(event.getHandle<std::vector<simb::MCTruth>>(
+                        tag
+                    ));
+                    // if(mGeneratePointCloudData)
+                    // {
+                    //     mAr39Label = mParameters().Ar39Label();
+                    //     Logger::GetInstance("arrakis_module")->trace("setting Ar39Label = " + mAr39Label.label());
+                    //     mSingleNeutronLabel = mParameters().SingleNeutronLabel();
+                    //     Logger::GetInstance("arrakis_module")->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
+                    //     mPNSLabel = mParameters().PNSLabel();
+                    //     Logger::GetInstance("arrakis_module")->trace("setting PNSLabel = " + mPNSLabel.label());
+                    //     mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
+                    //     mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
+                    //     mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
+                    // }
+
+                }
+            }
         }
         void MCData::ProcessMCParticle(
             art::Event const& event, art::InputTag input_tag
@@ -89,12 +122,73 @@ namespace arrakis
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
                 }
             }
+            // for(auto const& [key, val] : mGeneratorMap)
+            // {
+            //     for(auto truth : *mcTruth)
+            //     {
+            //         /**
+            //          * MCTruth stores MCParticles starting with trackID = 0,
+            //          * rather than Geant4 which starts with trackID = 1.
+            //         */
+            //         Logger::GetInstance("particle_maps")->trace(
+            //             "adding labels of type " + 
+            //             std::to_string(label) + 
+            //             " for " + std::to_string(truth.NParticles()) + 
+            //             " particles starting with track ID = " + 
+            //             std::to_string(truth.GetParticle(0).TrackId()+1)
+            //         );
+            //         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
+            //         {
+            //             //Double_t init_t = truth.GetParticle(ii).T();
+            //             Double_t init_x = truth.GetParticle(ii).Vx();
+            //             Double_t init_y = truth.GetParticle(ii).Vy();
+            //             Double_t init_z = truth.GetParticle(ii).Vz();
+            //             //Double_t energy = truth.GetParticle(ii).E();
+            //             Int_t pdg_code = truth.GetParticle(ii).PdgCode();
+            //             if(truth.GetParticle(ii).Process() == "primary")
+            //             {
+            //                 for(auto particle : *mcParticles)
+            //                 {
+            //                     if(
+            //                         //particle.T() == init_t &&
+            //                         particle.Vx() == init_x &&
+            //                         particle.Vy() == init_y &&
+            //                         particle.Vz() == init_z &&
+            //                         //particle.E() == energy &&
+            //                         particle.PdgCode() == pdg_code
+            //                     )
+            //                     {
+            //                         mGeneratorLabelMap[particle.TrackId()] = label;
+            //                     }
+            //                 }
+            //             }
+                        
+            //         }
+            //     }
+            // }
         }
         void MCData::ProcessSimEnergyDeposit(
             art::Event const& event, art::InputTag input_tag
         )
         {
-
+            Logger::GetInstance("mc_data")->trace(
+                "collecting sim::SimEnergyDeposit from label <" + 
+                input_tag.label() + ">"
+            );
+            if(!event.getByLabel(input_tag, sMCSimEnergyDepositHandle))
+            {
+                Logger::GetInstance("mc_data")->error(
+                    "no label matching " + input_tag.label() + 
+                    " for sim::SimEnergyDeposit!"
+                );
+                exit(0);
+            }
+            else 
+            {
+                sMCSimEnergyDepositHandle = event.getHandle<std::vector<sim::SimEnergyDeposit>>(
+                    input_tag
+                );
+            }
         }
     }
 }
