@@ -51,15 +51,15 @@ namespace arrakis
             void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
 
             // particle maps from track id
-            inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return mGeneratorLabelMap[trackID]; }
-            inline Int_t GetPDGCode(Int_t trackID)          { return mPDGMap[trackID]; }
-            inline Int_t GetParentPDG(Int_t trackID)        { return mParentPDGMap[trackID]; }
-            inline Int_t GetParentTrackID(Int_t trackID)    { return mParentTrackIDMap[trackID]; }
-            inline Int_t GetParticleEnergy(Int_t trackID)   { return mParticleEnergyMap[trackID];}
-            inline Int_t GetAncestorPDG(Int_t trackID)      { return mAncestorPDGMap[trackID]; }
-            inline Int_t GetAncestorTrackID(Int_t trackID)  { return mAncestorTrackIDMap[trackID]; }
-            inline Int_t GetAncestorLevel(Int_t trackID)    { return mAncestorLevelMap[trackID]; }
-            inline Int_t GetAncestorEnergy(Int_t trackID)   { return mAncestorEnergyMap[trackID]; }
+            inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return sGeneratorLabelMap[trackID]; }
+            inline Int_t GetPDGCode(Int_t trackID)          { return sPDGMap[trackID]; }
+            inline Int_t GetParentPDG(Int_t trackID)        { return sParentPDGMap[trackID]; }
+            inline Int_t GetParentTrackID(Int_t trackID)    { return sParentTrackIDMap[trackID]; }
+            inline Int_t GetParticleEnergy(Int_t trackID)   { return sParticleEnergyMap[trackID];}
+            inline Int_t GetAncestorPDG(Int_t trackID)      { return sAncestorPDGMap[trackID]; }
+            inline Int_t GetAncestorTrackID(Int_t trackID)  { return sAncestorTrackIDMap[trackID]; }
+            inline Int_t GetAncestorLevel(Int_t trackID)    { return sAncestorLevelMap[trackID]; }
+            inline Int_t GetAncestorEnergy(Int_t trackID)   { return sAncestorEnergyMap[trackID]; }
 
         protected:
             MCData() {}

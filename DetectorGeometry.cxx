@@ -69,8 +69,7 @@ namespace arrakis
             }
         }
 
-        DetectorGeometry::DetectorGeometry(const std::string name)
-        : sName(name)
+        DetectorGeometry::DetectorGeometry()
         {
             // set up the geometry interface
             mGeometryCore = lar::providerFrom<geo::Geometry>();
