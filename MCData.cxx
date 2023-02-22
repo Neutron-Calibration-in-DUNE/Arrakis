@@ -30,5 +30,22 @@ namespace arrakis
         {
 
         }
+        void MCData::ProcessMCTruth(
+            art::Event const& event, art::InputTag input_tag
+        )
+        {
+        }
+        void MCData::ProcessMCParticle(
+            art::Event const& event, art::InputTag input_tag
+        )
+        {
+
+        }
+        void MCData::ProcessSimEnergyDeposit(
+            art::Event const& event, art::InputTag input_tag
+        )
+        {
+
+        }
     }
 }

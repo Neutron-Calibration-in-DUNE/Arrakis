@@ -33,7 +33,10 @@ namespace arrakis
             static MCData* GetInstance();
 
             // methods for processing event data
-            void ProcessEvent(const Parameters& params, art::Event const& event);
+            void ProcessEvent(const Parameters& config, art::Event const& event);
+            void ProcessMCTruth(art::Event const& event, art::InputTag input_tag);
+            void ProcessMCParticle(art::Event const& event, art::InputTag input_tag);
+            void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
 
         protected:
             MCData();
@@ -43,7 +46,12 @@ namespace arrakis
             static MCData * sInstance;
             static std::mutex sMutex;
 
-            
+            art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
+            art::Handle<std::vector<simb::MCParticle>>      mMCParticleHandle;
+            art::Handle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositHandle;
+            art::Handle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
+            art::Handle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
+
         };
     }
 }
