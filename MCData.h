@@ -49,7 +49,7 @@ namespace arrakis
             void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
 
         protected:
-            MCData();
+            MCData() { mLogger = Logger::GetInstance("mcdata"); }
             ~MCData() {}
 
         private:

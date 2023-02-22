@@ -130,7 +130,7 @@ namespace arrakis
         // Detector Geometry Instance
         geometry::DetectorGeometry* mGeometry;
         Logger* mLogger;
-        MCData* mMCData;
+        mcdata::MCData* mMCData;
 
         // Particle Tree
         ParticleMaps* mParticleMaps;

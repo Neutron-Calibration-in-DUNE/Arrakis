@@ -20,7 +20,6 @@ namespace arrakis
             if (sInstance == nullptr)
             {
                 sInstance = new MCData();
-                mLogger = Logger::GetInstance("mcdata");
             }
             return sInstance;
         }
