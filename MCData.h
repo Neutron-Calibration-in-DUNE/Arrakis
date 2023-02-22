@@ -26,6 +26,7 @@
 #include "larcoreobj/SimpleTypesAndConstants/RawTypes.h"
 
 #include "Configuration.h"
+#include "Core.h"
 #include "Logger.h"
 
 namespace arrakis

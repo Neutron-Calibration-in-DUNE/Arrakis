@@ -49,7 +49,7 @@
 
 #include "Configuration.h"
 #include "DetectorGeometry.h"
-#include "Generators.h"
+#include "Core.h"
 #include "Logger.h"
 #include "ParticleMaps.h"
 #include "MCData.h"

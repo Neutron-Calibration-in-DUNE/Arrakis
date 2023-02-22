@@ -35,7 +35,7 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
-#include "Generators.h"
+#include "Core.h"
 #include "Logger.h"
 #include "ParticleMaps.h"
 
