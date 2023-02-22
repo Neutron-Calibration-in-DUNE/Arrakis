@@ -28,7 +28,7 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            fhicl::Table<art::InputTag> input_tags = config.get<fhicl::Table<art::InputTag>>("GeneratorLabels");
+            fhicl::Table<art::InputTag> input_tags = config().get<fhicl::Table<art::InputTag>>("GeneratorLabels");
             ProcessMCTruth(event, input_tags);
             ProcessMCParticle(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
@@ -135,7 +135,7 @@ namespace arrakis
                         */
                         Logger::GetInstance("mcdata")->trace(
                             "adding labels of type " + 
-                            std::to_string(label) + 
+                            std::to_string(val) + 
                             " for " + std::to_string(truth.NParticles()) + 
                             " particles starting with track ID = " + 
                             std::to_string(truth.GetParticle(0).TrackId()+1)
@@ -157,7 +157,7 @@ namespace arrakis
                                         particle.PdgCode() == pdg_code
                                     )
                                     {
-                                        sGeneratorLabelMap[particle.TrackId()] = label;
+                                        sGeneratorLabelMap[particle.TrackId()] = val;
                                     }
                                 }
                             }
