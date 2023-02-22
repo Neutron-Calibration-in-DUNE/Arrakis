@@ -1,8 +1,7 @@
 /**
- * @file    Configuration.h
+ * @file    Logger.h
  * @author  Nicholas Carrara [nmcarrara@ucdavis.edu]
- * @brief   A struct for holding LArSoft configuration parameters
- *          for the Arrakis module.
+ * @brief   Basic terminal/file logger for Arrakis.
  * @version 0.1
  * @date 2022-02-15
  */

@@ -15,8 +15,7 @@ namespace arrakis
     DetectorGeometry *DetectorGeometry::GetInstance(const std::string& name)
     {
         std::lock_guard<std::mutex> lock(sMutex);
-        if (sInstance == nullptr)
-        {
+        if (sInstance == nullptr) {
             sInstance = new DetectorGeometry(name);
         }
         return sInstance;

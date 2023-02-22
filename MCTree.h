@@ -43,22 +43,25 @@
 
 namespace arrakis
 {
-    class MCTree
+    namespace mctree
     {
-    public:
-        MCTree();
-        ~MCTree();
+        class MCTree
+        {
+        public:
+            MCTree();
+            ~MCTree();
 
-        void ResetEvent();
+            void ResetEvent();
 
-        void ProcessEventMC(
-            ParticleMaps* particle_maps,
-            const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-            const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
-        );
+            void ProcessEventMC(
+                ParticleMaps* particle_maps,
+                const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
+                const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
+            );
 
 
-    private:
-        std::vector<Node*> mPrimaries;
-    };
+        private:
+            std::vector<Node*> mPrimaries;
+        };
+    }
 }
