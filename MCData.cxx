@@ -55,7 +55,7 @@ namespace arrakis
             }
             else 
             {
-                mMCParticleValidHandle = event.getValidHandle<std::vector<simb::MCParticle>>(
+                mMCParticleHandle = event.getHandle<std::vector<simb::MCParticle>>(
                     input_tag
                 );
             }
