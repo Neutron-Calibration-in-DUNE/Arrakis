@@ -13,6 +13,16 @@
 #include "art/Framework/Principal/Run.h"
 #include "art/Framework/Principal/SubRun.h"
 
+#include "lardataobj/Simulation/SimEnergyDeposit.h"
+#include "nusimdata/SimulationBase/MCGeneratorInfo.h"
+#include "nusimdata/SimulationBase/MCTruth.h"
+#include "lardataobj/Simulation/SimChannel.h"
+#include "larsim/Simulation/LArG4Parameters.h"
+#include "larsim/Utils/TruthMatchUtils.h"
+#include "lardata/ArtDataHelper/TrackUtils.h"
+#include "nusimdata/SimulationBase/MCParticle.h"
+#include "nusimdata/SimulationBase/MCTruth.h"
+
 #include "Configuration.h"
 #include "Logger.h"
 
@@ -45,6 +55,8 @@ namespace arrakis
         private:
             static MCData * sInstance;
             static std::mutex sMutex;
+
+            Logger* mLogger;
 
             art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
             art::Handle<std::vector<simb::MCParticle>>      mMCParticleHandle;
