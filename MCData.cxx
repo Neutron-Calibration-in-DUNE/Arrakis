@@ -41,13 +41,13 @@ namespace arrakis
             art::Event const& event, art::InputTag input_tag
         )
         {
-            mLogger->trace(
+            Logger::GetInstance("mcdata")->trace(
                 "collecting simb::MCParticle from label <" + 
                 input_tag.label() + ">"
             );
             if(!event.getByLabel(input_tag, sMCParticleHandle))
             {
-                mLogger->error(
+                Logger::GetInstance("mcdata")->error(
                     "no label matching " + input_tag.label() + 
                     " for simb::MCParticle!"
                 );

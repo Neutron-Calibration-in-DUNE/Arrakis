@@ -70,8 +70,6 @@ namespace arrakis
             static MCData * sInstance;
             static std::mutex sMutex;
 
-            Logger* mLogger = Logger::GetInstance("mcdata");
-
             // handles
             art::Handle<std::vector<simb::MCTruth>>         sMCTruthHandle;
             art::Handle<std::vector<simb::MCParticle>>      sMCParticleHandle;
