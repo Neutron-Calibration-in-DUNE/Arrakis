@@ -301,7 +301,7 @@ namespace arrakis
             std::to_string(event_id)
         );
 
-
+        mMCData->ProcessEvent(mParameters, event);
         /**
          * @details  For each event, we will look through the various
          * available data products and send event info to the 
