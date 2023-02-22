@@ -67,13 +67,6 @@ namespace arrakis
             art::Handle<std::vector<sim::SimChannel>>       mMCSimChannelHandle;
             art::Handle<std::vector<raw::RawDigit>>         mMCRawDigitHandle;
 
-            // valid handles
-            art::ValidHandle<std::vector<simb::MCTruth>>         mMCTruthValidHandle;
-            art::ValidHandle<std::vector<simb::MCParticle>>      mMCParticleValidHandle;
-            art::ValidHandle<std::vector<sim::SimEnergyDeposit>> mMCSimEnergyDepositValidHandle;
-            art::ValidHandle<std::vector<sim::SimChannel>>       mMCSimChannelValidHandle;
-            art::ValidHandle<std::vector<raw::RawDigit>>         mMCRawDigitValidHandle;
-
         };
     }
 }
