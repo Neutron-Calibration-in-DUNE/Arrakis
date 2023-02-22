@@ -37,8 +37,6 @@
 
 #include "Generators.h"
 #include "Logger.h"
-#include "Node.h"
-#include "Primary.h"
 #include "ParticleMaps.h"
 
 namespace arrakis
@@ -61,7 +59,6 @@ namespace arrakis
 
 
         private:
-            std::vector<Node*> mPrimaries;
         };
     }
 }
