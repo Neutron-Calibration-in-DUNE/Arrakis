@@ -51,14 +51,14 @@ namespace arrakis
             void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
 
         protected:
-            MCData() { mLogger = Logger::GetInstance("mcdata"); }
+            MCData();
             ~MCData() {}
 
         private:
             static MCData * sInstance;
             static std::mutex sMutex;
 
-            Logger* mLogger;
+            Logger* mLogger = Logger::GetInstance("mcdata");
 
             // handles
             art::Handle<std::vector<simb::MCTruth>>         mMCTruthHandle;
