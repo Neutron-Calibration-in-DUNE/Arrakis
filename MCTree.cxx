@@ -27,7 +27,7 @@ namespace arrakis
             // mPrimaries.clear();
         }
 
-        void ProcessEvent(const Parameters& config, art::Event const& event)
+        void MCTree::ProcessEvent(const Parameters& config, art::Event const& event)
         {
             // if (!mcParticles.isValid()) {
             //     Logger::GetInstance("mc_tree")->error("MCParticles handle is not valid!");
