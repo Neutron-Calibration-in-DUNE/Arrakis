@@ -50,10 +50,7 @@ namespace arrakis
 
             void ResetEvent();
 
-            void ProcessEventMC(
-                const art::ValidHandle<std::vector<simb::MCParticle>>& mcParticles,
-                const art::ValidHandle<std::vector<sim::SimEnergyDeposit>>& mcEnergyDeposits
-            );
+            void ProcessEvent(const Parameters& config, art::Event const& event);
 
 
         private:

@@ -59,6 +59,14 @@ namespace arrakis
                     sMCTruthHandles.emplace_back(event.getHandle<std::vector<simb::MCTruth>>(
                         tag
                     ));
+                    if(!sMCTruthHandles.back().isValid()) 
+                    {
+                        Logger::GetInstance("mcdata")->error(
+                            "data product " + input_tag.label() + 
+                            " for simb::MCTruth is invalid!"
+                        );
+                        exit(0);
+                    }
                     // if(sGeneratePointCloudData)
                     // {
                     //     mAr39Label = mParameters().Ar39Label();
@@ -96,6 +104,14 @@ namespace arrakis
                 sMCParticleHandle = event.getHandle<std::vector<simb::MCParticle>>(
                     input_tag
                 );
+                if(!sMCParticleHandle.isValid()) 
+                {
+                    Logger::GetInstance("mcdata")->error(
+                        "data product " + input_tag.label() + 
+                        " for simb::MCParticle is invalid!"
+                    );
+                    exit(0);
+                }
             }
             for (auto particle : *sMCParticleHandle)
             {
@@ -191,6 +207,14 @@ namespace arrakis
                 sMCSimEnergyDepositHandle = event.getHandle<std::vector<sim::SimEnergyDeposit>>(
                     input_tag
                 );
+                if(!sMCSimEnergyDepositHandle.isValid()) 
+                {
+                    Logger::GetInstance("mcdata")->error(
+                        "data product " + input_tag.label() + 
+                        " for simb::SimEnergyDeposit is invalid!"
+                    );
+                    exit(0);
+                }
             }
         }
     }

@@ -169,7 +169,7 @@ namespace arrakis
         );
 
         mMCData->ProcessEvent(mParameters, event);
-
+        mMCTree->ProcessEvent(mParameters, event);
         
         // detinfo::DetectorClocksData const clock_data(
         //     art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
