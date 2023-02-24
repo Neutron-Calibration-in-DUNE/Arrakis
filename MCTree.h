@@ -53,8 +53,8 @@ namespace arrakis
 
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
-
         private:
+            std::vector<Node*> mPrimaries;
         };
     }
 }
