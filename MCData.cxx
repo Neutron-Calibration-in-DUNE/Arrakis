@@ -29,7 +29,7 @@ namespace arrakis
         )
         {
             std::map<std::string, art::InputTag> generator_tags;
-            fhicl::ParameterSet const& generator_labels = config().labels().get_PSet();
+            fhicl::ParameterSet const& generator_labels = config().labels.get_PSet();
             for(std::string const& name : generator_labels.get_names()) {
                 generator_tags[name] = generator_labels.get<art::InputTag>(name);
             }
