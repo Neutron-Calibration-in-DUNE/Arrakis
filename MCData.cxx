@@ -29,7 +29,7 @@ namespace arrakis
         )
         {
             std::map<std::string, art::InputTag> input_tags;
-            auto const mapForm = config().GeneratorLabels();
+            auto const mapForm = config().labels();
             for(std::string const& name : mapForm.get_names()) {
                 input_tags[name] = mapForm.get<art::InputTag>(name);
             }

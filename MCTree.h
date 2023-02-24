@@ -35,6 +35,7 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "Configuration.h"
 #include "Core.h"
 #include "Logger.h"
 #include "Node.h"
