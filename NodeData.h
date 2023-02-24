@@ -24,6 +24,12 @@ namespace arrakis
         };
         using NodeTypeInt = std::underlying_type<NodeType>::type;
 
+        /**
+         * Class for containing data for various types of nodes.
+         * Each node has a type dictated by the enum "NodeType".
+         * Other functions must be overriden by the specific 
+         * child class.
+        */
         class NodeData
         {
         public:
@@ -37,7 +43,7 @@ namespace arrakis
             NodeType mNodeType;
         };
 
-        class Empty : public NodeData
+        class EmptyData : public NodeData
         {
         public:
             const NodeType& Type()  { return mNodeType; }
@@ -47,7 +53,7 @@ namespace arrakis
             const NodeType mType = NodeType::Empty;
         };
 
-        class Primary : public NodeData
+        class PrimaryData : public NodeData
         {
         public:
             Primary(simb::MCParticle& particle)
@@ -64,7 +70,7 @@ namespace arrakis
             const NodeType mType = NodeType::Primary;
         };
 
-        class TrajectoryPoint : public NodeData
+        class TrajectoryPointData : public NodeData
         {
         public:
             TrajectoryPoint(simb::MCParticle& particle, Int_t point)
