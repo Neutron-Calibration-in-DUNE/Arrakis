@@ -28,16 +28,20 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            fhicl::Table<art::InputTag> input_tags = config().GeneratorLabels();
+            std::map<std::string, art::InputTag> input_tags;
+            auto const mapForm = config().GeneratorLabels();
+            for(std::string const& name : mapForm.get_names()) {
+                input_tags[name] = mapForm.get<art::InputTag>(name);
+            }
             ProcessMCTruth(event, input_tags);
             ProcessMCParticle(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }
         void MCData::ProcessMCTruth(
-            art::Event const& event, fhicl::Table<art::InputTag> input_tags
+            art::Event const& event, std::map<std::string, art::InputTag> input_tags
         )
         {
-            for(auto tag : input_tags)
+            for(auto const& [key, tag] : input_tags)
             {
                 Logger::GetInstance("mcdata")->trace(
                     "collecting simb::MCTruth from input_tag <" + 

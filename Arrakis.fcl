@@ -19,12 +19,7 @@ Arrakis:
     # generator labels
     # if GenerateSoloPointCloudData is set to false,
     # then these labels are ignored.
-    GeneratorLabels: 
-    {
-        Ar39Label:          "Ar39"
-        SingleNeutronLabel: "SingleNeutron"
-        PNSLabel:           "PNS"
-    }
+    GeneratorLabels: ["Ar39", "SingleNeutron", "PNS"]
 
     # module labels
     LArGeantProducerLabel:          "largeant"
