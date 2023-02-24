@@ -103,7 +103,7 @@ namespace arrakis
         };
 
         /////////////////////////// Generator Labels ////////////////////////////////////
-        fhicl::Table<art::InputTag> GeneratorLabels
+        fhicl::ParameterSet GeneratorLabels
         {
             fhicl::Name("GeneratorLabels"),
             fhicl::Comment("Input Tags for various generator labels.")
