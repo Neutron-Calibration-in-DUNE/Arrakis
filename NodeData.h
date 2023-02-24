@@ -39,6 +39,6 @@ namespace arrakis
             const NodeType& Type()  { return mNodeType; }
         private:
             const NodeType mType = NodeType::Empty;
-        }
+        };
     }
 }
