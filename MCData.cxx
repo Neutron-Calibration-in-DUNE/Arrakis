@@ -28,12 +28,12 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            std::map<std::string, art::InputTag> input_tags;
-            auto const mapForm = config().labels();
-            for(std::string const& name : mapForm.get_names()) {
-                input_tags[name] = mapForm.get<art::InputTag>(name);
+            std::map<std::string, art::InputTag> generator_tags;
+            fhicl::ParameterSet const& generator_labels = config().labels().get_PSet();
+            for(std::string const& name : generator_labels.get_names()) {
+                generator_tags[name] = generator_labels.get<art::InputTag>(name);
             }
-            ProcessMCTruth(event, input_tags);
+            ProcessMCTruth(event, generator_tags);
             ProcessMCParticle(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
         }

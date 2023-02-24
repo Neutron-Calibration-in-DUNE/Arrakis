@@ -124,7 +124,7 @@ namespace arrakis
         fhicl::Table<GeneratorLabels> labels
         {
             fhicl::Name("GeneratorLabels"),
-            fhicl::Comment("Input Tags for various generator labels.")
+            fhicl::Comment("Input Tag Table for accessing GeneratorLabels for various generator labels.")
         };
         
 
