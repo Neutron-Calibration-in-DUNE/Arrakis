@@ -103,26 +103,30 @@ namespace arrakis
         };
 
         /////////////////////////// Generator Labels ////////////////////////////////////
-        fhicl::ParameterSet GeneratorLabels
+        struct GeneratorLabels
+        {
+            fhicl::Atom<art::InputTag> Ar39Label
+            {
+                fhicl::Name("Ar39Label"),
+                fhicl::Comment("Tag of the input data product for the Ar39Label.")
+            };
+            fhicl::Atom<art::InputTag> SingleNeutronLabel
+            {
+                fhicl::Name("SingleNeutronLabel"),
+                fhicl::Comment("Tag of the input data product for the SingleNeutronLabel.")
+            };
+            fhicl::Atom<art::InputTag> PNSLabel
+            {
+                fhicl::Name("PNSLabel"),
+                fhicl::Comment("Tag of the input data product for the PNSLabel.")
+            };
+        }
+        fhicl::Table<GeneratorLabels> labels
         {
             fhicl::Name("GeneratorLabels"),
             fhicl::Comment("Input Tags for various generator labels.")
         };
-        // fhicl::Atom<art::InputTag> Ar39Label
-        // {
-        //     fhicl::Name("Ar39Label"),
-        //     fhicl::Comment("Tag of the input data product for the Ar39Label.")
-        // };
-        // fhicl::Atom<art::InputTag> SingleNeutronLabel
-        // {
-        //     fhicl::Name("SingleNeutronLabel"),
-        //     fhicl::Comment("Tag of the input data product for the SingleNeutronLabel.")
-        // };
-        // fhicl::Atom<art::InputTag> PNSLabel
-        // {
-        //     fhicl::Name("PNSLabel"),
-        //     fhicl::Comment("Tag of the input data product for the PNSLabel.")
-        // };
+        
 
         fhicl::Atom<double> ADCThreshold
         {
