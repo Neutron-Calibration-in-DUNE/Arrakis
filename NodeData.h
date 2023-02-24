@@ -56,7 +56,7 @@ namespace arrakis
         class PrimaryData : public NodeData
         {
         public:
-            Primary(simb::MCParticle& particle)
+            PrimaryData(simb::MCParticle& particle)
             : mParticle(particle)
             {
             }
@@ -73,7 +73,7 @@ namespace arrakis
         class TrajectoryPointData : public NodeData
         {
         public:
-            TrajectoryPoint(simb::MCParticle& particle, Int_t point)
+            TrajectoryPointData(simb::MCParticle& particle, Int_t point)
             : mParticle(particle), mPoint(point)
             {
             }
