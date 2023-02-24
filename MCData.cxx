@@ -62,7 +62,7 @@ namespace arrakis
                     if(!sMCTruthHandles.back().isValid()) 
                     {
                         Logger::GetInstance("mcdata")->error(
-                            "data product " + input_tag.label() + 
+                            "data product " + tag.label() + 
                             " for simb::MCTruth is invalid!"
                         );
                         exit(0);

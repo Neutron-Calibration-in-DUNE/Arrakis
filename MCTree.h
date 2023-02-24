@@ -37,6 +37,7 @@
 
 #include "Core.h"
 #include "Logger.h"
+#include "Node.h"
 
 namespace arrakis
 {
