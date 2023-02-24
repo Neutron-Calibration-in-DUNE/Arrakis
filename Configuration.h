@@ -120,7 +120,7 @@ namespace arrakis
                 fhicl::Name("PNSLabel"),
                 fhicl::Comment("Tag of the input data product for the PNSLabel.")
             };
-        }
+        };
         fhicl::Table<GeneratorLabels> labels
         {
             fhicl::Name("GeneratorLabels"),
