@@ -39,7 +39,9 @@
 #include "Configuration.h"
 #include "Core.h"
 #include "Logger.h"
+#include "MCData.h"
 #include "Node.h"
+#include "NodeData.h"
 
 namespace arrakis
 {
