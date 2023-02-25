@@ -13,26 +13,23 @@ Arrakis:
     SavePrimaryDataEdeps:      true
     SavePrimaryDataRawTPC:     true
 
-    # which products to generate
     # solo point clouds
     GeneratePointCloudData: true
-    # generator labels
-    # if GenerateSoloPointCloudData is set to false,
-    # then these labels are ignored.
-    GeneratorLabels: 
-    {
-        Ar39Label: "Ar39" 
-        SingleNeutronLabel: "SingleNeutron"
-        PNSLabel: "PNS"
-    }
 
     # module labels
-    LArGeantProducerLabel:          "largeant"
-    IonAndScintProducerLabel:       "IonAndScint"
-    SimChannelProducerLabel:        "tpcrawdecoder"
-    SimChannelInstanceProducerLabel:"simpleSC"
-    TPCInputLabel:                  "tpcrawdecoder"
-    TPCInstanceLabel:               "daq"
+    LArGeantProducerLabel:      "largeant"
+    IonAndScintProducerLabel:   "IonAndScint"
+    SimChannelProducerLabel:    "tpcrawdecoder"
+    SimChannelInstanceLabel:    "simpleSC"
+    RawDigitProducerLabel:      "tpcrawdecoder"
+    RawDigitInstanceLabel:      "daq"
+
+    GeneratorLabels: 
+    {
+        Ar39Label:          "Ar39" 
+        SingleNeutronLabel: "SingleNeutron"
+        PNSLabel:           "PNS"
+    }
 
     # array parameters
     ADCThreshold:   20.0

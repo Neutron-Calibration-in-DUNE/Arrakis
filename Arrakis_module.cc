@@ -74,24 +74,8 @@ namespace arrakis
         void beginJob() override;
         void endJob() override;
 
-        void ProcessMCTruth(
-            const art::Event& event, art::InputTag input_tag, GeneratorLabel label
-        );
-
     private:
         Parameters mParameters;
-        // Set of configuration parameters
-        bool    mSaveMeta;
-        bool    mSaveGeometry;
-
-        bool    mSaveParticleMaps;
-        bool    mSavePrimaryData;
-        bool    mSavePrimaryDataEdeps;
-        bool    mSavePrimaryDataRawTPC;
-
-        bool    mGeneratePointCloudData;
-
-        Double_t mADCThreshold;
 
         std::map<art::InputTag, GeneratorLabel> mGeneratorMap;
         art::InputTag mAr39Label;
@@ -147,12 +131,6 @@ namespace arrakis
         if(mSaveGeometry) {
             mGeometry->FillTTree();
         }
-    }
-    void Arrakis::ProcessMCTruth(
-        const art::Event& event, art::InputTag input_tag, GeneratorLabel label
-    )
-    {
-        
     }
 
     // analyze function

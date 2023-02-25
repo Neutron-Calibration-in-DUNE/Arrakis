@@ -28,20 +28,25 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            ProcessMCTruth(event, config().labels.get_PSet());
+            ProcessMCParticle(event, config().LArGeantProducerLabel());
+            ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
+            ProcessSimChannel(event, 
+                config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
+            );
+            ProcessRawDigit(event,
+                config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
+            );
+        }
+        void MCData::ProcessMCTruth(
+            art::Event const& event, fhicl::ParameterSet const& generator_labels
+        )
+        {
             std::map<std::string, art::InputTag> generator_tags;
-            fhicl::ParameterSet const& generator_labels = config().labels.get_PSet();
             for(std::string const& name : generator_labels.get_names()) {
                 generator_tags[name] = generator_labels.get<art::InputTag>(name);
             }
-            ProcessMCTruth(event, generator_tags);
-            ProcessMCParticle(event, config().LArGeantProducerLabel());
-            ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
-        }
-        void MCData::ProcessMCTruth(
-            art::Event const& event, std::map<std::string, art::InputTag> input_tags
-        )
-        {
-            for(auto const& [key, tag] : input_tags)
+            for(auto const& [key, tag] : generator_tags)
             {
                 Logger::GetInstance("mcdata")->trace(
                     "collecting simb::MCTruth from input_tag <" + 
@@ -67,19 +72,6 @@ namespace arrakis
                         );
                         exit(0);
                     }
-                    // if(sGeneratePointCloudData)
-                    // {
-                    //     mAr39Label = mParameters().Ar39Label();
-                    //     Logger::GetInstance("arrakis_module")->trace("setting Ar39Label = " + mAr39Label.label());
-                    //     mSingleNeutronLabel = mParameters().SingleNeutronLabel();
-                    //     Logger::GetInstance("arrakis_module")->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
-                    //     mPNSLabel = mParameters().PNSLabel();
-                    //     Logger::GetInstance("arrakis_module")->trace("setting PNSLabel = " + mPNSLabel.label());
-                    //     sGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
-                    //     sGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
-                    //     sGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
-                    // }
-
                 }
             }
         }
@@ -190,13 +182,13 @@ namespace arrakis
             art::Event const& event, art::InputTag input_tag
         )
         {
-            Logger::GetInstance("mc_data")->trace(
+            Logger::GetInstance("mcdata")->trace(
                 "collecting sim::SimEnergyDeposit from label <" + 
                 input_tag.label() + ">"
             );
             if(!event.getByLabel(input_tag, sMCSimEnergyDepositHandle))
             {
-                Logger::GetInstance("mc_data")->error(
+                Logger::GetInstance("mcdata")->error(
                     "no label matching " + input_tag.label() + 
                     " for sim::SimEnergyDeposit!"
                 );
@@ -212,6 +204,78 @@ namespace arrakis
                     Logger::GetInstance("mcdata")->error(
                         "data product " + input_tag.label() + 
                         " for simb::SimEnergyDeposit is invalid!"
+                    );
+                    exit(0);
+                }
+            }
+        }
+        void MCData::ProcessSimChannel(art::Event const& event,
+            art::InputTag producer_label, art::InputTag instance_label
+        )
+        {
+            Logger::GetInstance("mcdata")->trace(
+                "collecting sim::SimChannel from label <" + 
+                producer_label.label() + ":" + instance_label.label() + ">"
+            );
+            if(!event.getByLabel(
+                art::InputTag(producer_label.label(),instance_label.label()),
+                sMCParticleHandle
+            ))
+            {
+                Logger::GetInstance("mcdata")->error(
+                    "no label matching " + producer_label.label() + ":" + 
+                    instance_label.label() + " for sim::SimChannel!"
+                );
+                exit(0);
+            }
+            else 
+            {
+                sMCSimChannelHandle = event.getHandle<std::vector<sim::SimChannel>>(
+                    art::InputTag(
+                        producer_label.label(), instance_label.label()
+                    )
+                );
+                if(!sMCSimChannelHandle.isValid()) 
+                {
+                    Logger::GetInstance("mcdata")->error(
+                        "data product " + producer_label.label() + ":" + 
+                        instance_label.label() + " for sim::SimChannel is invalid!"
+                    );
+                    exit(0);
+                }
+            }
+        }
+        void MCData::ProcessRawDigit(art::Event const& event,
+            art::InputTag producer_label, art::InputTag instance_label
+        )
+        {
+            Logger::GetInstance("mcdata")->trace(
+                "collecting raw::RawDigit from label <" + 
+                producer_label.label() + ":" + instance_label.label() + ">"
+            );
+            if(!event.getByLabel(
+                art::InputTag(producer_label.label(),instance_label.label()),
+                sMCParticleHandle
+            ))
+            {
+                Logger::GetInstance("mcdata")->error(
+                    "no label matching " + producer_label.label() + ":" + 
+                    instance_label.label() + " for raw::RawDigit!"
+                );
+                exit(0);
+            }
+            else 
+            {
+                sMCRawDigitHandle = event.getHandle<std::vector<raw::RawDigit>>(
+                    art::InputTag(
+                        producer_label.label(), instance_label.label()
+                    )
+                );
+                if(!sMCRawDigitHandle.isValid()) 
+                {
+                    Logger::GetInstance("mcdata")->error(
+                        "data product " + producer_label.label() + ":" + 
+                        instance_label.label() + " for raw::RawDigit is invalid!"
                     );
                     exit(0);
                 }

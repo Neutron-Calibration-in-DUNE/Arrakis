@@ -47,17 +47,26 @@ namespace arrakis
 
             // methods for processing event data
             void ProcessEvent(const Parameters& config, art::Event const& event);
-            void ProcessMCTruth(art::Event const& event, std::map<std::string, art::InputTag> input_tags);
+            void ProcessMCTruth(art::Event const& event, fhicl::ParameterSet const& generator_labels);
             void ProcessMCParticle(art::Event const& event, art::InputTag input_tag);
             void ProcessSimEnergyDeposit(art::Event const& event, art::InputTag input_tag);
+            void ProcessSimChannel(art::Event const& event,
+                art::InputTag producer_label, art::InputTag instance_label
+            );
+            void ProcessRawDigit(art::Event const& event,
+                art::InputTag producer_label, art::InputTag instance_label
+            );
 
-            art::Handle<std::vector<simb::MCTruth>> GetMCTruth() { return sMCTruthHandle; }
-            art::Handle<std::vector<simb::MCParticle>> GetMCParticle() { return sMCParticleHandle; }
+            art::Handle<std::vector<simb::MCTruth>> GetMCTruth()        { return sMCTruthHandle; }
+            art::Handle<std::vector<simb::MCParticle>> GetMCParticle()  { return sMCParticleHandle; }
             art::Handle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposit() { return sMCSimEnergyDepositHandle; }
-            art::Handle<std::vector<sim::SimChannel>> GetSimChannel() { return sMCSimChannelHandle; }
+            art::Handle<std::vector<sim::SimChannel>> GetSimChannel()   { return sMCSimChannelHandle; }
+            art::Handle<std::vector<raw::RawDigit>> GetRawDigit()       { return sMCRawDigitHandle; }
 
-            const simb::MCParticle& GetMCParticle(Int_t index) { return (*sMCParticleHandle)[index]; }
+            const simb::MCParticle& GetMCParticle(Int_t index)  { return (*sMCParticleHandle)[index]; }
             const sim::SimEnergyDeposit& GetMCSimEnergyDeposit(Int_t index) { return (*sMCSimEnergyDepositHandle)[index]; }
+            const sim::SimChannel& GetMCSimChannel(Int_t index) { return (*sMCSimChannelHandle)[index]; }
+            const raw::RawDigit& GetMCRawDigit(Int_t index)     { return (*sMCRawDigitHandle)[index]; }
 
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return sGeneratorLabelMap[trackID]; }

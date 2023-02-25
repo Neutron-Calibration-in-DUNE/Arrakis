@@ -65,8 +65,10 @@ namespace arrakis
             fhicl::Comment("Whether to save point cloud data from different sources.")
         };
 
-        /////////////////////////// Labels /////////////////////////////////////////////
-
+        /**
+         * @brief Producer and Instance labels.
+         * 
+         */
         fhicl::Atom<art::InputTag> LArGeantProducerLabel
         {
             fhicl::Name("LArGeantProducerLabel"),
@@ -84,25 +86,28 @@ namespace arrakis
             fhicl::Comment("Tag of the input data product for the SimChannelProducerLabel.")
         };
 
-        fhicl::Atom<art::InputTag> SimChannelInstanceProducerLabel
+        fhicl::Atom<art::InputTag> SimChannelInstanceLabel
         {
-            fhicl::Name("SimChannelInstanceProducerLabel"),
-            fhicl::Comment("Tag of the input data product for the SimChannelInstanceProducerLabel.")
+            fhicl::Name("SimChannelInstanceLabel"),
+            fhicl::Comment("Tag of the input data product for the SimChannelInstanceLabel.")
         };
 
-        fhicl::Atom<art::InputTag> TPCInputLabel
+        fhicl::Atom<art::InputTag> RawDigitProducerLabel
         {
-            fhicl::Name("TPCInputLabel"),
-            fhicl::Comment("Tag of the input data product for the TPCInputLabel.")
+            fhicl::Name("RawDigitProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the RawDigitProducerLabel.")
         };
 
-        fhicl::Atom<art::InputTag> TPCInstanceLabel
+        fhicl::Atom<art::InputTag> RawDigitInstanceLabel
         {
-            fhicl::Name("TPCInstanceLabel"),
-            fhicl::Comment("Tag of the input data product for the TPCInstanceLabel.")
+            fhicl::Name("RawDigitInstanceLabel"),
+            fhicl::Comment("Tag of the input data product for the RawDigitInstanceLabel.")
         };
 
-        /////////////////////////// Generator Labels ////////////////////////////////////
+        /**
+         * @brief Generator labels for various 
+         * particle generators used in the simulation.
+         */
         struct GeneratorLabels
         {
             fhicl::Atom<art::InputTag> Ar39Label
