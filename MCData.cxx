@@ -29,12 +29,12 @@ namespace arrakis
         )
         {
             ProcessMCTruth(event, config().labels.get_PSet());
-            ProcessMCParticle(event, config().LArGeantProducerLabel());
-            ProcessSimEnergyDeposit(event, config().IonAndScintProducerLabel());
-            ProcessSimChannel(event, 
+            ProcessMCParticles(event, config().LArGeantProducerLabel());
+            ProcessSimEnergyDeposits(event, config().IonAndScintProducerLabel());
+            ProcessSimChannels(event, 
                 config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
             );
-            ProcessRawDigit(event,
+            ProcessRawDigits(event,
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
             );
         }
@@ -75,7 +75,7 @@ namespace arrakis
                 }
             }
         }
-        void MCData::ProcessMCParticle(
+        void MCData::ProcessMCParticles(
             art::Event const& event, art::InputTag input_tag
         )
         {
@@ -178,7 +178,7 @@ namespace arrakis
                 }
             }
         }
-        void MCData::ProcessSimEnergyDeposit(
+        void MCData::ProcessSimEnergyDeposits(
             art::Event const& event, art::InputTag input_tag
         )
         {
@@ -209,7 +209,7 @@ namespace arrakis
                 }
             }
         }
-        void MCData::ProcessSimChannel(art::Event const& event,
+        void MCData::ProcessSimChannels(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
         )
         {
@@ -245,7 +245,7 @@ namespace arrakis
                 }
             }
         }
-        void MCData::ProcessRawDigit(art::Event const& event,
+        void MCData::ProcessRawDigits(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
         )
         {

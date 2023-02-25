@@ -63,6 +63,7 @@ namespace arrakis
              * @param event 
              */
             void ProcessEvent(const Parameters& config, art::Event const& event);
+            void ProcessMCParticles(const Parameters& config, art::Event const& event);
 
         private:
             std::vector<std::shared_ptr<Node>> mPrimaries;

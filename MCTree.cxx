@@ -29,6 +29,7 @@ namespace arrakis
 
         void MCTree::ProcessEvent(const Parameters& config, art::Event const& event)
         {
+            ProcessMCParticle(config, event);
             // if (!mcParticles.isValid()) {
             //     Logger::GetInstance("mc_tree")->error("MCParticles handle is not valid!");
             //     return;
@@ -75,6 +76,21 @@ namespace arrakis
             //         // );
             //     }
             // }
+        }
+        void MCTree::ProcessMCParticles(const Parameters& config, art::Event const& event)
+        {
+            Logger::GetInstance("mctree")->trace(
+                "Creating primary nodes..."
+            );
+            auto mc_data = MCData::GetInstance();
+            for (auto particle : *mc_data->GetMCParticles())
+            {
+                // If the particle is a primary, make
+                // a new entry in mPrimaries.
+                if(particle.Mother() == 0) 
+                {
+                }
+            }
         }
     }
 }
