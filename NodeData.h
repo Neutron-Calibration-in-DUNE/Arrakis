@@ -38,7 +38,7 @@ namespace arrakis
             const NodeType& Type()  { return mNodeType; }
             Int_t TypeInt()         { return static_cast<NodeTypeInt>(Type()); }
 
-            virtual const Double_t T() = 0;
+            virtual const Double_t T();
 
             NodeType mNodeType;
         };
