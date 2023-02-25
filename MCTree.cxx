@@ -92,7 +92,8 @@ namespace arrakis
                 // a new entry in mPrimaries.
                 if(mc_particles[ii].Mother() == 0) 
                 {
-                    sPrimaries[mc_particles[ii].TrackId()] = CreatePrimary(mc_particles[ii], ii);
+                    std::shared_ptr<Node> primary = CreatePrimary(mc_particles[ii], ii);
+                    sPrimaries[mc_particles[ii].TrackId()] = primary;
                 }
             }
         }
