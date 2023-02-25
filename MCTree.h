@@ -7,6 +7,7 @@
  */
 #pragma once
 #include <vector>
+#include <memory>
 #include <string>
 #include <algorithm>
 #include <map>
@@ -55,7 +56,7 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
         private:
-            std::vector<Node*> mPrimaries;
+            std::vector<std::shared_ptr<Node>> mPrimaries;
         };
     }
 }
