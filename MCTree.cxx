@@ -83,14 +83,22 @@ namespace arrakis
                 "Creating primary nodes..."
             );
             auto mc_data = mcdata::MCData::GetInstance();
-            for (auto particle : *mc_data->GetMCParticles())
+            auto mc_particles = *mc_data->GetMCParticles();
+            for(size_t ii = 0; ii < mc_particles.size(); ii++)
             {
                 // If the particle is a primary, make
                 // a new entry in mPrimaries.
-                if(particle.Mother() == 0) 
+                if(mc_particles[ii].Mother() == 0) 
                 {
+                    sPrimaries[mc_particles[ii].TrackId()] = CreatePrimary(mc_particles[ii], ii);
                 }
             }
+        }
+        std::shared_ptr<Node> MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index)
+        {
+            std::shared_ptr<Node> primary = std::make_shared<Node>(PrimaryData(index));
+
+            return primary;
         }
     }
 }

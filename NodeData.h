@@ -56,17 +56,19 @@ namespace arrakis
         class PrimaryData : public NodeData
         {
         public:
-            PrimaryData(simb::MCParticle& particle)
-            : mParticle(particle)
+            PrimaryData(Int_t index)
+            : mParticle(index)
             {
             }
 
             const NodeType& Type()  { return mNodeType; }
 
-            const Double_t T()  { return mParticle.T(); }
+            const Double_t T()  { 
+                return mcdata::MCData::GetInstance()->GetMCParticle(mParticle).T(); 
+            }
 
         private:
-            const simb::MCParticle& mParticle;
+            const Int_t mParticle;
             const NodeType mType = NodeType::Primary;
         };
 
