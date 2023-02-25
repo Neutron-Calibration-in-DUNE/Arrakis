@@ -218,8 +218,8 @@ namespace arrakis
                 producer_label.label() + ":" + instance_label.label() + ">"
             );
             if(!event.getByLabel(
-                art::InputTag(producer_label.label(),instance_label.label()),
-                sMCParticleHandle
+                art::InputTag(producer_label.label(), instance_label.label()),
+                sMCSimChannelHandle
             ))
             {
                 Logger::GetInstance("mcdata")->error(
@@ -255,7 +255,7 @@ namespace arrakis
             );
             if(!event.getByLabel(
                 art::InputTag(producer_label.label(),instance_label.label()),
-                sMCParticleHandle
+                sMCRawDigitHandle
             ))
             {
                 Logger::GetInstance("mcdata")->error(
