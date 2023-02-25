@@ -53,6 +53,15 @@ namespace arrakis
 
             void ResetEvent();
 
+            /**
+             * @brief Main function for processing event data.
+             * The individual primary trees are built first,
+             * with all the trajectory points and daughter
+             * trees.
+             * 
+             * @param config 
+             * @param event 
+             */
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
         private:

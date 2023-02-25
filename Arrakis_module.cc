@@ -128,9 +128,6 @@ namespace arrakis
     // begin job
     void Arrakis::beginJob()
     {
-        if(mSaveGeometry) {
-            mGeometry->FillTTree();
-        }
     }
 
     // analyze function
@@ -153,64 +150,8 @@ namespace arrakis
         //     art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         // );
 
-        // // prepare generator labels, mc particles and sim energy deposits
-        // auto mc_particles = GetMCParticles(event);
-        // auto mc_energy_deposits = GetSimEnergyDeposits(event);
 
-        // // Add the particle maps and primary data
-        // // for MCParticle and SimEnergyDeposit.
-        // mParticleMaps->ProcessEvent(
-        //     mc_particles
-        // );
-        // // Add MCTruth labels to particle maps.
-        // for(auto const& [key, val] : mGeneratorMap)
-        // {
-        //     ProcessMCTruth(event, key, val);
-        // }
-        // /**
-        //  * This section processes MCTruth, mc_particles, SimEnergyDeposits,
-        //  * SimChannel, and RawDigit into PrimaryData objects to be used later.
-        // */
-        // // mPrimaryData->ProcessEventMC(
-        // //     mParticleMaps, 
-        // //     mc_particles, 
-        // //     mc_energy_deposits
-        // // );
-        // mMCTree->ProcessEventMC(
-        //     mParticleMaps,
-        //     mc_particles,
-        //     mc_energy_deposits
-        // );
         // Logger::GetInstance("arrakis_module")->trace("processed MCParticle, SimEnergyDeposit and MCTruth products");
-
-        // // Check if SimChannel and RawDigit are available,
-        // // and then process those into primary data.
-        // if(
-        //     event.getByLabel(
-        //         art::InputTag(
-        //             mSimChannelProducerLabel.label(), 
-        //             mSimChannelInstanceProducerLabel.label()
-        //         ), 
-        //         mMCSimChannelHandle
-        //     ) &&
-        //     event.getByLabel(
-        //         art::InputTag(mTPCInputLabel.label(), mTPCInstanceLabel.label()), 
-        //         mMCRawDigitHandle
-        //     )
-        // )
-        // {
-        //     auto mc_sim_channels = 
-        //         event.getValidHandle<std::vector<sim::SimChannel>>(art::InputTag(
-        //             mSimChannelProducerLabel.label(), 
-        //             mSimChannelInstanceProducerLabel.label()
-        //         )
-        //     );
-        //     auto mc_raw_digits = 
-        //         event.getValidHandle<std::vector<raw::RawDigit>>(art::InputTag(
-        //             mTPCInputLabel.label(), 
-        //             mTPCInstanceLabel.label()
-        //         )
-        //     );
         //     // mPrimaryData->ProcessEventDetectorSimulation(
         //     //     mParticleMaps, 
         //     //     clock_data,
