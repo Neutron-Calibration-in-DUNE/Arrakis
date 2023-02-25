@@ -38,19 +38,9 @@ namespace arrakis
             const NodeType& Type()  { return mNodeType; }
             Int_t TypeInt()         { return static_cast<NodeTypeInt>(Type()); }
 
-            virtual const Double_t T();
+            virtual const Double_t T() { return 0.0; }
 
-            NodeType mNodeType;
-        };
-
-        class EmptyData : public NodeData
-        {
-        public:
-            const NodeType& Type()  { return mNodeType; }
-
-            const Double_t T()  { return 0.0; }
-        private:
-            const NodeType mType = NodeType::Empty;
+            NodeType mNodeType = NodeType::Empty;
         };
 
         class PrimaryData : public NodeData
