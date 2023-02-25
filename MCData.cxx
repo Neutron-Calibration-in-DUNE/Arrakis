@@ -23,11 +23,26 @@ namespace arrakis
             }
             return sInstance;
         }
+        void MCData::ResetEvent()
+        {
+            sMCTruthHandles.clear();
+            sGeneratorLabelMap.clear();
+            sGeneratorMap.clear();
+            sPDGMap.clear();
+            sParentPDGMap.clear();
+            sParentTrackIDMap.clear();
+            sParticleEnergyMap.clear();
+            sAncestorPDGMap.clear();
+            sAncestorTrackIDMap.clear();
+            sAncestorLevelMap.clear();
+            sAncestorEnergyMap.clear();
+        }
 
         void MCData::ProcessEvent(
             const Parameters& config, art::Event const& event
         )
         {
+            ResetEvent();
             ProcessMCTruth(event, config().labels.get_PSet());
             ProcessMCParticles(event, config().LArGeantProducerLabel());
             ProcessSimEnergyDeposits(event, config().IonAndScintProducerLabel());

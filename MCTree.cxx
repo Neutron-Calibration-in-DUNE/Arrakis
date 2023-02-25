@@ -84,8 +84,10 @@ namespace arrakis
             );
             auto mc_data = mcdata::MCData::GetInstance();
             auto mc_particles = *mc_data->GetMCParticles();
+            std::cout << mc_particles.size() << std::endl;
             for(size_t ii = 0; ii < mc_particles.size(); ii++)
             {
+                std::cout << mc_particles[ii].TrackId() << std::endl;
                 // If the particle is a primary, make
                 // a new entry in mPrimaries.
                 if(mc_particles[ii].Mother() == 0) 

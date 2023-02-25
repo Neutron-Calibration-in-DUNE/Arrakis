@@ -46,6 +46,7 @@ namespace arrakis
             static MCData* GetInstance();
 
             // methods for processing event data
+            void ResetEvent();
             void ProcessEvent(const Parameters& config, art::Event const& event);
             void ProcessMCTruth(art::Event const& event, fhicl::ParameterSet const& generator_labels);
             void ProcessMCParticles(art::Event const& event, art::InputTag input_tag);
