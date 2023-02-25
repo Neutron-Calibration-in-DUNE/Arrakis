@@ -67,8 +67,8 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
             void ProcessMCParticles(const Parameters& config, art::Event const& event);
 
-            std::shared_ptr<Node> MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index);
-
+            std::shared_ptr<Node> CreatePrimary(const simb::MCParticle& particle, Int_t index)
+        
         private:
             std::map<Int_t, std::shared_ptr<Node>> sPrimaries;
             std::map<Int_t, std::shared_ptr<Node>> sDaughters;
