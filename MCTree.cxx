@@ -93,7 +93,7 @@ namespace arrakis
                 if(mc_particles[ii].Mother() == 0) 
                 {
                     std::shared_ptr<Node> primary = CreatePrimary(mc_particles[ii], ii);
-                    std::cout << primary->GetNodeData().TypeInt() << std::endl;
+                    //std::cout << primary->GetNodeData().TypeInt() << std::endl;
                     std::cout << "HERE" << std::endl;
                     sPrimaries.emplace_back(primary);
                 }
