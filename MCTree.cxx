@@ -94,7 +94,7 @@ namespace arrakis
                 {
                     std::shared_ptr<Node> primary = CreatePrimary(mc_particles[ii], ii);
                     std::cout << "HERE" << std::endl;
-                    sPrimaries.insert(std::pair<Int_t, std::shared_ptr<Node>>(mc_particles[ii].TrackId,primary));
+                    sPrimaries.insert(std::pair<Int_t, std::shared_ptr<Node>>(mc_particles[ii].TrackId(),primary));
                 }
             }
         }
