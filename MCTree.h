@@ -70,8 +70,8 @@ namespace arrakis
             std::shared_ptr<Node> CreatePrimary(const simb::MCParticle& particle, Int_t index);
         
         private:
-            std::map<Int_t, std::shared_ptr<Node>> sPrimaries;
-            std::map<Int_t, std::shared_ptr<Node>> sDaughters;
+            std::vector<std::shared_ptr<Node>> sPrimaries;
+            std::vector<std::shared_ptr<Node>> sDaughters;
             std::vector<std::shared_ptr<Node>> mPrimaries;
         };
     }
