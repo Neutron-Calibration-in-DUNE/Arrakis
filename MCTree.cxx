@@ -93,14 +93,16 @@ namespace arrakis
                 if(mc_particles[ii].Mother() == 0) 
                 {
                     std::shared_ptr<Node> primary = CreatePrimary(mc_particles[ii], ii);
+                    std::cout << "HERE" << std::endl;
                     sPrimaries[mc_particles[ii].TrackId()] = primary;
                 }
             }
         }
         std::shared_ptr<Node> MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index)
         {
+            std::cout << "making primary" << std::endl;
             std::shared_ptr<Node> primary = std::make_shared<Node>(PrimaryData(index));
-
+            std::cout << "made primary" << std::endl;
             return primary;
         }
     }
