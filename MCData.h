@@ -106,7 +106,10 @@ namespace arrakis
 
             std::map<Int_t, GeneratorLabel> sGeneratorLabelMap;
             std::map<art::InputTag, GeneratorLabel> sGeneratorMap;
-            
+
+            // List of primary track IDs
+            std::vector<Int_t> sPrimaries;
+
             // MCParticle TrackID maps
             std::map<Int_t, Int_t>      sPDGMap;
             std::map<Int_t, Int_t>      sParentPDGMap;

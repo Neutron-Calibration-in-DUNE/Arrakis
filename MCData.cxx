@@ -26,6 +26,8 @@ namespace arrakis
         void MCData::ResetEvent()
         {
             sMCTruthHandles.clear();
+            sPrimaries.clear();
+
             sGeneratorLabelMap.clear();
             sGeneratorMap.clear();
             sPDGMap.clear();
@@ -158,6 +160,7 @@ namespace arrakis
                 sAncestryMap[particle.TrackId()] = ancestry;
 
                 if (level == 0) {
+                    sPrimaries.emplace_back(particle.TrackId());
                     sParentPDGMap[particle.TrackId()] = 0;
                     sAncestorPDGMap[particle.TrackId()] = 0;
                     sAncestorTrackIDMap[particle.TrackId()] = 0;
@@ -171,6 +174,10 @@ namespace arrakis
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
                     sProgenyMap[track_id].emplace_back(particle.TrackId());
                 }
+
+                // initialize edep maps
+                sParticleEdepMap[particle.TrackId()] = {};
+                sParticleEdepProcesseMap[particle.Track()] = {};
             }
             for(auto const& [key, val] : sGeneratorMap)
             {
@@ -247,7 +254,7 @@ namespace arrakis
             }
             for(auto edep : *sMCSimEnergyDepositHandle)
             {
-                
+
             }
         }
         void MCData::ProcessSimChannels(art::Event const& event,
