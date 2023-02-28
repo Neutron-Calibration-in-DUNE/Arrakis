@@ -21,14 +21,13 @@ namespace arrakis
 
         void MCTree::ResetEvent()
         {
-            // if(mPrimaries.size() == 0) { 
-            //     return;
-            // }
-            // mPrimaries.clear();
+            sPrimaries.clear();
+            sDaughters.clear();
         }
 
         void MCTree::ProcessEvent(const Parameters& config, art::Event const& event)
         {
+            ResetEvent();
             ProcessMCParticles(config, event);
             // if (!mcParticles.isValid()) {
             //     Logger::GetInstance("mc_tree")->error("MCParticles handle is not valid!");
@@ -89,12 +88,12 @@ namespace arrakis
                 // If the particle is a primary, make
                 // a new entry in sPrimaries.
                 if(mc_particles[ii].Mother() == 0) {
-                    sPrimaries.emplace_back(CreatePrimary(mc_particles[ii], ii));
-                    std::cout << sPrimaries.back().track_id << std::endl;
+                    sPrimaries[ii] = CreatePrimary(mc_particles[ii]);
+                    std::cout << sPrimaries[ii].track_id << std::endl;
                 }
             }
         }
-        Particle MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index)
+        Particle MCTree::CreatePrimary(const simb::MCParticle& particle)
         {
             Particle primary;
             primary.track_id = particle.TrackId();
