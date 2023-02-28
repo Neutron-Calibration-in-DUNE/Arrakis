@@ -71,7 +71,7 @@ namespace arrakis
         return static_cast<ProcessTypeInt>(process);
     }
 
-    std::map<ProcessType, std::string> ProcessTypeToString;
-    std::map<std::string, ProcessType> StringToProcessType;
-    std::map<std::string, ProcessType> TrajectoryStringToProcessType;
+    // std::map<ProcessType, std::string> ProcessTypeToString;
+    // std::map<std::string, ProcessType> StringToProcessType;
+    // std::map<std::string, ProcessType> TrajectoryStringToProcessType;
 }
