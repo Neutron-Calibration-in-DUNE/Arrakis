@@ -79,6 +79,11 @@ namespace arrakis
             inline Int_t GetAncestorTrackID(Int_t trackID)  { return sAncestorTrackIDMap[trackID]; }
             inline Int_t GetAncestorLevel(Int_t trackID)    { return sAncestorLevelMap[trackID]; }
             inline Int_t GetAncestorEnergy(Int_t trackID)   { return sAncestorEnergyMap[trackID]; }
+            inline std::vector<Int_t> GetDaughters(Int_t trackID)   { return sDaughterMap[trackID]; }
+            inline std::vector<Int_t> GetProgeny(Int_t trackID)     { return sProgenyMap[trackID]; }
+            inline std::vector<Int_t> GetAncestry(Int_t trackID)    { return sAncestryMap[trackID]; }
+            inline std::vector<Int_t> GetEdepMap(Int_t trackID)     { return sEdepMap[trackID]; }
+            inline std::vector<Int_t> GetEdepProcessMap(Int_t trackID)  { return sEdepProcessMap[trackID]; }
 
         protected:
             MCData() {}
@@ -98,6 +103,7 @@ namespace arrakis
 
             std::map<Int_t, GeneratorLabel> sGeneratorLabelMap;
             std::map<art::InputTag, GeneratorLabel> sGeneratorMap;
+            // MCParticle TrackID maps
             std::map<Int_t, Int_t>      sPDGMap;
             std::map<Int_t, Int_t>      sParentPDGMap;
             std::map<Int_t, Int_t>      sParentTrackIDMap;
@@ -109,6 +115,8 @@ namespace arrakis
             std::map<Int_t, std::vector<Int_t>> sDaughterMap;
             std::map<Int_t, std::vector<Int_t>> sProgenyMap;
             std::map<Int_t, std::vector<Int_t>> sAncestryMap;
+            std::map<Int_t, std::vector<Int_t>> sEdepMap;
+            std::map<Int_t, std::vector<Int_t>> sEdepProcessMap;
         };
     }
 }

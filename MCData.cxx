@@ -39,6 +39,8 @@ namespace arrakis
             sDaughterMap.clear();
             sProgenyMap.clear();
             sAncestryMap.clear();
+            sEdepMap.clear();
+            sEdepProcessMap.clear();
         }
 
         void MCData::ProcessEvent(
@@ -131,7 +133,7 @@ namespace arrakis
                 sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
                 // Construct daughter map
                 std::vector<Int_t> daughters = {};
-                for(size_t ii = 0; ii < particle.NumberDaughters(); ii++) {
+                for(auto ii = 0; ii < particle.NumberDaughters(); ii++) {
                     daughters.emplace_back(particle.Daughter(ii));
                 }
                 sDaughterMap[particle.TrackId()] = daughters;
@@ -152,7 +154,7 @@ namespace arrakis
                 }
                 sAncestorLevelMap[particle.TrackId()] = level;
                 sAncestryMap[particle.TrackId()] = ancestry;
-                
+
                 if (level == 0) {
                     sParentPDGMap[particle.TrackId()] = 0;
                     sAncestorPDGMap[particle.TrackId()] = 0;
