@@ -77,7 +77,7 @@ namespace arrakis
             MCTree() {}
             ~MCTree(){}
         private:
-            static MCData * sInstance;
+            static MCTree * sInstance;
             static std::mutex sMutex;
             
             std::map<Int_t, Particle> sPrimaries = {};
