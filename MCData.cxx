@@ -399,6 +399,7 @@ namespace arrakis
                 )
                 for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
                 {
+                    std::cout << trajectory_processes[jj].first << "," << trajectory_processes[jj].second << std::endl;
                     if(trajectory_processes[jj].first == ii) {
                         std::cout << trajectory_processes[jj].second << std::endl;
                         process = trajectory_processes[jj].second;
