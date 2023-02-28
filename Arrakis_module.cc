@@ -95,7 +95,7 @@ namespace arrakis
         mcdata::MCData* mMCData;
 
         // MCTree
-        mctree::MCTree* mMCTree;
+        mcdata::MCTree* mMCTree;
 
     };
 

@@ -9,7 +9,7 @@
 
 namespace arrakis
 {
-    namespace mctree
+    namespace mcdata
     {
         MCTree::MCTree()
         {

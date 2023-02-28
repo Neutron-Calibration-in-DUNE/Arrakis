@@ -44,7 +44,7 @@
 
 namespace arrakis
 {
-    namespace mctree
+    namespace mcdata
     {
         class MCTree
         {
