@@ -12,6 +12,12 @@ namespace arrakis
 {
     namespace mcdata
     {
+        enum class ParticleType
+        {
+            None = -1,
+            Primary = 0,
+            Daughter = 1,
+        };
         struct Particle
         {
             Int_t track_id = {0};

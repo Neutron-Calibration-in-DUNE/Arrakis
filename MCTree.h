@@ -66,7 +66,7 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
             void ProcessMCParticles(const Parameters& config, art::Event const& event);
 
-            Particle MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index);
+            Particle CreatePrimary(const simb::MCParticle& particle, Int_t index);
         
         private:
             std::vector<Particle> sPrimaries;
