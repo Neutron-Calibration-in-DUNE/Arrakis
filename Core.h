@@ -48,4 +48,23 @@ namespace arrakis
         kNeutronCaptureGamma4_75 = 4,
         kNeutronCaptureGamma1_18 = 5,
     };
+
+    enum class TrajectoryPointType
+    {
+        NotDefined = -1,
+        Unknown = 0,
+
+    };
+
+    const std::map<TrajectoryPointType, std::string> TrajectoryPointTypeToString
+    {
+        {TrajectoryPointType::NotDefined, "not_defined"},
+        {TrajectoryPointType::Unknown, "Unknown"},
+    };
+    const std::map<std::string, TrajectoryPointType> StringToTrajectoryPointType
+    {
+        {"not_defined", TrajectoryPointType::NotDefined},
+        {"Unknown", TrajectoryPointType::Unknown},
+    };
+
 }

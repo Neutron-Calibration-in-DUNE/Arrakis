@@ -52,7 +52,6 @@
 #include "Core.h"
 #include "Logger.h"
 #include "MCData.h"
-#include "MCTree.h"
 
 namespace arrakis
 {
@@ -94,9 +93,6 @@ namespace arrakis
         geometry::DetectorGeometry* mGeometry;
         mcdata::MCData* mMCData;
 
-        // MCTree
-        mcdata::MCTree* mMCTree;
-
     };
 
     // constructor
@@ -107,7 +103,6 @@ namespace arrakis
 
         mGeometry = geometry::DetectorGeometry::GetInstance();
         mMCData = mcdata::MCData::GetInstance();
-        mMCTree = mcdata::MCTree::GetInstance();
 
         Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");
 
@@ -145,7 +140,6 @@ namespace arrakis
         );
 
         mMCData->ProcessEvent(mParameters, event);
-        mMCTree->ProcessEvent(mParameters, event);
         
         // detinfo::DetectorClocksData const clock_data(
         //     art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)

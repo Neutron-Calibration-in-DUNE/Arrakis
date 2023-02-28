@@ -39,7 +39,9 @@ namespace arrakis
             sDaughterMap.clear();
             sProgenyMap.clear();
             sAncestryMap.clear();
-            sEdepMap.clear();
+            sParticleEdepMap.clear();
+            sParticleEdepProcessMap.clear();
+
             sEdepProcessMap.clear();
         }
 
