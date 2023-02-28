@@ -49,22 +49,56 @@ namespace arrakis
         kNeutronCaptureGamma1_18 = 5,
     };
 
-    enum class TrajectoryPointType
+    enum class ProcessType
     {
         NotDefined = -1,
         Unknown = 0,
-
+        HadronElastic = 1,
+        PiMinusInelastic = 2,
+        PiPlusInelastic = 3,
+        KaonMinusInelastic = 4,
+        KaonPlusInelastic = 5,
+        ProtonInelastic = 6,
+        NeutronInelastic = 7,
+        CoulombScatter = 8,
+        NeutronCapture = 9,
+        Transportation = 10,
     };
+    using ProcessTypeInt = std::underlying_type<ProcessType>::type;
+    inline Int_t Process(ProcessType process) 
+    { 
+        return static_cast<ProcessTypeInt>(process);
+    }
 
-    const std::map<TrajectoryPointType, std::string> TrajectoryPointTypeToString
+    const std::map<ProcessType, std::string> ProcessTypeToString
     {
-        {TrajectoryPointType::NotDefined, "not_defined"},
-        {TrajectoryPointType::Unknown, "Unknown"},
+        {ProcessType::NotDefined, "NotDefined"},
+        {ProcessType::Unknown, "Unknown"},
+        {ProcessType::HadronElastic, "HadronElastic"},
+        {ProcessType::PiMinusInelastic, "PiMinusInelastic"},
+        {ProcessType::PiPlusInelastic, "PiPlusInelastic"},
+        {ProcessType::KaonMinusInelastic, "KaonMinusInelastic"},
+        {ProcessType::KaonPlusInelastic, "KaonPlusInelastic"},
+        {ProcessType::ProtonInelastic, "ProtonInelastic"},
+        {ProcessType::NeutronInelastic, "NeutronInelastic"},
+        {ProcessType::CoulombScatter, "CoulombScatter"},
+        {ProcessType::NeutronCapture, "NeutronCapture"},
+        {ProcessType::Transportation, "Transportation"},
     };
-    const std::map<std::string, TrajectoryPointType> StringToTrajectoryPointType
+    const std::map<std::string, ProcessType> StringToProcessType
     {
-        {"not_defined", TrajectoryPointType::NotDefined},
-        {"Unknown", TrajectoryPointType::Unknown},
+        {"NotDefined", ProcessType::NotDefined},
+        {"Unknown", ProcessType::Unknown},
+        {"HadronElastic", ProcessType::HadronElastic},
+        {"PiMinusInelastic", ProcessType::PiMinusInelastic},
+        {"PiPlusInelastic", ProcessType::PiPlusInelastic},
+        {"KaonMinusInelastic", ProcessType::KaonMinusInelastic},
+        {"KaonPlusInelastic", ProcessType::KaonPlusInelastic},
+        {"ProtonInelastic", ProcessType::ProtonInelastic},
+        {"NeutronInelastic", ProcessType::NeutronInelastic},
+        {"CoulombScatter", ProcessType::CoulombScatter},
+        {"NeutronCapture", ProcessType::NeutronCapture},
+        {"Transportation", ProcessType::Transportation},
     };
 
 }

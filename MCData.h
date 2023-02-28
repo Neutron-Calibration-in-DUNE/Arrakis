@@ -83,10 +83,10 @@ namespace arrakis
             inline std::vector<Int_t> GetProgeny(Int_t trackID)     { return sProgenyMap[trackID]; }
             inline std::vector<Int_t> GetAncestry(Int_t trackID)    { return sAncestryMap[trackID]; }
             inline std::vector<Int_t> GetParticleEdep(Int_t trackID){ return sParticleEdepMap[trackID]; }
-            inline std::vector<Int_t> GetParticleEdepProcess(Int_t trackID)  { return sParticleEdepProcessMap[trackID]; }
+            inline std::vector<ProcessType> GetParticleEdepProcess(Int_t trackID)  { return sParticleEdepProcessMap[trackID]; }
 
             // maps from edep to process
-            inline Int_t GetEdepProcess(Int_t edepID)   { return sEdepProcessMap[edepID]; }
+            inline ProcessType GetEdepProcess(Int_t edepID)   { return sEdepProcessMap[edepID]; }
 
         protected:
             MCData() {}
@@ -119,11 +119,10 @@ namespace arrakis
             std::map<Int_t, std::vector<Int_t>> sProgenyMap;
             std::map<Int_t, std::vector<Int_t>> sAncestryMap;
             std::map<Int_t, std::vector<Int_t>> sParticleEdepMap;
-            std::map<Int_t, std::vector<Int_t>> sParticleEdepProcessMap;
+            std::map<Int_t, std::vector<ProcessType>> sParticleEdepProcessMap;
 
             // maps from edepID
-            std::map<Int_t, Int_t> sEdepProcessMap;
-
+            std::map<Int_t, ProcessType> sEdepProcessMap;
         };
     }
 }
