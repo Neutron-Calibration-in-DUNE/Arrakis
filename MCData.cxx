@@ -177,7 +177,7 @@ namespace arrakis
 
                 // initialize edep maps
                 sParticleEdepMap[particle.TrackId()] = {};
-                sParticleEdepProcesseMap[particle.Track()] = {};
+                sParticleEdepProcessMap[particle.TrackId()] = {};
             }
             for(auto const& [key, val] : sGeneratorMap)
             {
