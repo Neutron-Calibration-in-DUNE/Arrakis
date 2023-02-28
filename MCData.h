@@ -90,7 +90,7 @@ namespace arrakis
             // maps from edep to process
             inline ProcessType GetEdepProcess(Int_t edepID)   { return sEdepProcessMap[edepID]; }
 
-            ProcessType DetermineEdepProcess(sim::SimEnergyDeposit& edep);
+            ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
 
         protected:
             MCData() {}
