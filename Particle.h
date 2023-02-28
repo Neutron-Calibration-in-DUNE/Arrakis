@@ -8,8 +8,6 @@
 #pragma once
 #include <memory>
 
-#include "NodeData.h"
-
 namespace arrakis
 {
     namespace mcdata
@@ -17,7 +15,7 @@ namespace arrakis
         struct Particle
         {
             Int_t track_id = {0};
-            
+
         };
     }
 }
