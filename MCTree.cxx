@@ -102,7 +102,8 @@ namespace arrakis
         std::shared_ptr<Node> MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index)
         {
             std::cout << "making primary" << std::endl;
-            std::shared_ptr<Node> primary = std::make_shared<Node>(PrimaryData(index));
+            std::shared_ptr<NodeData> primary_data = std::make_shared<PrimaryData>(index);
+            std::shared_ptr<Node> primary = std::make_shared<Node>(primary_data);
             std::cout << "made primary" << std::endl;
             return primary;
         }
