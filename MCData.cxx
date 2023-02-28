@@ -391,6 +391,7 @@ namespace arrakis
             auto mc_particle = GetMCParticleTrackID(edep.TrackID());
             simb::MCTrajectory trajectory = mc_particle.Trajectory();
             auto trajectory_processes = trajectory.TrajectoryProcesses();
+            std::cout << trajectory_processes.size() << std::endl;
             for(size_t ii = 0; ii < mc_particle.NumberTrajectoryPoints(); ii++)
             {
                 if(
