@@ -90,6 +90,7 @@ namespace arrakis
                 // a new entry in sPrimaries.
                 if(mc_particles[ii].Mother() == 0) {
                     sPrimaries.emplace_back(CreatePrimary(mc_particles[ii], ii));
+                    std::cout << sPrimaries.back().track_id << std::endl;
                 }
             }
         }
