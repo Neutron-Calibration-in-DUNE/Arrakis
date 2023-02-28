@@ -114,6 +114,5 @@ namespace arrakis
         {"CoulombScatter",  ProcessType::CoulombScatter},
         {"nCapture",        ProcessType::NeutronCapture},
         {"Transportation",  ProcessType::Transportation},
-    }
-
+    };
 }

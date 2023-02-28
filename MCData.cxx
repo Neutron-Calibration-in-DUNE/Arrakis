@@ -245,6 +245,10 @@ namespace arrakis
                     exit(0);
                 }
             }
+            for(auto edep : *sMCSimEnergyDepositHandle)
+            {
+                
+            }
         }
         void MCData::ProcessSimChannels(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
