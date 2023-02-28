@@ -11,12 +11,17 @@ namespace arrakis
 {
     namespace mcdata
     {
-        MCTree::MCTree()
-        {
-        }
+        MCTree* MCTree::sInstance{nullptr};
+        std::mutex MCTree::sMutex;
 
-        MCTree::~MCTree()
+        MCTree *MCTree::GetInstance()
         {
+            std::lock_guard<std::mutex> lock(sMutex);
+            if (sInstance == nullptr)
+            {
+                sInstance = new MCTree();
+            }
+            return sInstance;
         }
 
         void MCTree::ResetEvent()

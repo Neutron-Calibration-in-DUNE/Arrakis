@@ -49,8 +49,14 @@ namespace arrakis
         class MCTree
         {
         public:
-            MCTree();
-            ~MCTree();
+            // this singleton cannot be cloned
+            MCTree(MCTree &other) = delete;
+            // singleton should also not be assignable
+            void operator=(const MCTree &) = delete;
+
+            // static method that controls access to 
+            // the singleton instance
+            static MCTree* GetInstance();
 
             void ResetEvent();
 
@@ -67,8 +73,13 @@ namespace arrakis
             void ProcessMCParticles(const Parameters& config, art::Event const& event);
 
             Particle CreatePrimary(const simb::MCParticle& particle);
-        
+        protected:
+            MCTree() {}
+            ~MCTree(){}
         private:
+            static MCData * sInstance;
+            static std::mutex sMutex;
+            
             std::map<Int_t, Particle> sPrimaries = {};
             std::map<Int_t, Particle> sDaughters = {};
         };
