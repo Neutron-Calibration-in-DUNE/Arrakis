@@ -106,6 +106,9 @@ namespace arrakis
             std::map<Int_t, Int_t>      sAncestorTrackIDMap;
             std::map<Int_t, Int_t>      sAncestorLevelMap;
             std::map<Int_t, Double_t>   sAncestorEnergyMap;
+            std::map<Int_t, std::vector<Int_t>> sDaughterMap;
+            std::map<Int_t, std::vector<Int_t>> sProgenyMap;
+            std::map<Int_t, std::vector<Int_t>> sAncestryMap;
         };
     }
 }

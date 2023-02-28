@@ -36,6 +36,9 @@ namespace arrakis
             sAncestorTrackIDMap.clear();
             sAncestorLevelMap.clear();
             sAncestorEnergyMap.clear();
+            sDaughterMap.clear();
+            sProgenyMap.clear();
+            sAncestryMap.clear();
         }
 
         void MCData::ProcessEvent(
@@ -126,7 +129,17 @@ namespace arrakis
                 sPDGMap[particle.TrackId()] = particle.PdgCode();
                 sParentTrackIDMap[particle.TrackId()] = particle.Mother();
                 sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
+                // Construct daughter map
+                std::vector<Int_t> daughters = {};
+                for(size_t ii = 0; ii < particle.NumberDaughters(); ii++) {
+                    daughters.emplace_back(particle.Daughter(ii));
+                }
+                sDaughterMap[particle.TrackId()] = daughters;
+                // construct progeny map
+                sProgenyMap[particle.TrackId()] = daughters;
 
+                // construct ancestry map
+                std::vector<Int_t> ancestry = {};
                 Int_t mother = particle.Mother();
                 Int_t track_id = particle.TrackId();
                 Int_t level = 0;
@@ -134,20 +147,25 @@ namespace arrakis
                 {
                     level += 1;
                     track_id = mother;
+                    ancestry.emplace_back(mother);
                     mother = sParentTrackIDMap[track_id];
                 }
                 sAncestorLevelMap[particle.TrackId()] = level;
+                sAncestryMap[particle.TrackId()] = ancestry;
+                
                 if (level == 0) {
                     sParentPDGMap[particle.TrackId()] = 0;
                     sAncestorPDGMap[particle.TrackId()] = 0;
                     sAncestorTrackIDMap[particle.TrackId()] = 0;
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
+
                 }
                 else {
                     sParentPDGMap[particle.TrackId()] = sPDGMap[particle.Mother()];
                     sAncestorPDGMap[particle.TrackId()] = sPDGMap[track_id];
                     sAncestorTrackIDMap[particle.TrackId()] = track_id;
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
+                    sProgenyMap[track_id].emplace_back(particle.TrackId());
                 }
             }
             for(auto const& [key, val] : sGeneratorMap)
