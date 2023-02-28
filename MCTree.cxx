@@ -84,31 +84,19 @@ namespace arrakis
             );
             auto mc_data = mcdata::MCData::GetInstance();
             auto mc_particles = *mc_data->GetMCParticles();
-            std::cout << mc_particles.size() << std::endl;
             for(size_t ii = 0; ii < mc_particles.size(); ii++)
             {
-                std::cout << mc_particles[ii].TrackId() << std::endl;
                 // If the particle is a primary, make
-                // a new entry in mPrimaries.
-                if(mc_particles[ii].Mother() == 0) 
-                {
-                    //std::shared_ptr<Node> primary = CreatePrimary(mc_particles[ii], ii);
-                    //std::cout << primary->GetNodeData().TypeInt() << std::endl;
-                    std::cout << "making primary" << std::endl;
-                    std::shared_ptr<NodeData> primary_data = std::make_shared<PrimaryData>(ii);
-                    std::shared_ptr<Node> primary = std::make_shared<Node>(primary_data);
-                    std::cout << "made primary" << std::endl;
-                    std::cout << "HERE" << std::endl;
-                    sPrimaries.emplace_back(primary);
+                // a new entry in sPrimaries.
+                if(mc_particles[ii].Mother() == 0) {
+                    sPrimaries.emplace_back(CreatePrimary(mc_particles[ii], ii));
                 }
             }
         }
-        std::shared_ptr<Node> MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index)
+        Particle MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index)
         {
-            std::cout << "making primary" << std::endl;
-            std::shared_ptr<NodeData> primary_data = std::make_shared<PrimaryData>(index);
-            std::shared_ptr<Node> primary = std::make_shared<Node>(primary_data);
-            std::cout << "made primary" << std::endl;
+            Particle primary;
+            primary.track_id = particle.TrackId();
             return primary;
         }
     }

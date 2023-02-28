@@ -40,8 +40,7 @@
 #include "Core.h"
 #include "Logger.h"
 #include "MCData.h"
-#include "Node.h"
-#include "NodeData.h"
+#include "Particle.h"
 
 namespace arrakis
 {
@@ -67,12 +66,10 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
             void ProcessMCParticles(const Parameters& config, art::Event const& event);
 
-            std::shared_ptr<Node> CreatePrimary(const simb::MCParticle& particle, Int_t index);
+            Particle MCTree::CreatePrimary(const simb::MCParticle& particle, Int_t index);
         
         private:
-            std::vector<std::shared_ptr<Node>> sPrimaries;
-            std::vector<std::shared_ptr<Node>> sDaughters;
-            std::vector<std::shared_ptr<Node>> mPrimaries;
+            std::vector<Particle> sPrimaries;
         };
     }
 }
