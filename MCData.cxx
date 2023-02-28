@@ -252,9 +252,12 @@ namespace arrakis
                     exit(0);
                 }
             }
+            Int_t edep_index = 0;
             for(auto edep : *sMCSimEnergyDepositHandle)
             {
-
+                sParticleEdepMap[edep.TrackID()].emplace_back(edep_index);
+                
+                edep_index += 1;
             }
         }
         void MCData::ProcessSimChannels(art::Event const& event,
