@@ -51,18 +51,18 @@ namespace arrakis
 
     enum class ProcessType
     {
-        NotDefined = -1,
-        Unknown = 0,
-        HadronElastic = 1,
-        PiMinusInelastic = 2,
-        PiPlusInelastic = 3,
-        KaonMinusInelastic = 4,
-        KaonPlusInelastic = 5,
-        ProtonInelastic = 6,
-        NeutronInelastic = 7,
-        CoulombScatter = 8,
-        NeutronCapture = 9,
-        Transportation = 10,
+        NotDefined =           -1,
+        Unknown =               0,
+        HadronElastic =         1,
+        PiMinusInelastic =      2,
+        PiPlusInelastic =       3,
+        KaonMinusInelastic =    4,
+        KaonPlusInelastic =     5,
+        ProtonInelastic =       6,
+        NeutronInelastic =      7,
+        CoulombScatter =        8,
+        NeutronCapture =        9,
+        Transportation =        10,
     };
     using ProcessTypeInt = std::underlying_type<ProcessType>::type;
     inline Int_t Process(ProcessType process) 
@@ -72,33 +72,48 @@ namespace arrakis
 
     const std::map<ProcessType, std::string> ProcessTypeToString
     {
-        {ProcessType::NotDefined, "NotDefined"},
-        {ProcessType::Unknown, "Unknown"},
-        {ProcessType::HadronElastic, "HadronElastic"},
-        {ProcessType::PiMinusInelastic, "PiMinusInelastic"},
-        {ProcessType::PiPlusInelastic, "PiPlusInelastic"},
-        {ProcessType::KaonMinusInelastic, "KaonMinusInelastic"},
-        {ProcessType::KaonPlusInelastic, "KaonPlusInelastic"},
-        {ProcessType::ProtonInelastic, "ProtonInelastic"},
-        {ProcessType::NeutronInelastic, "NeutronInelastic"},
-        {ProcessType::CoulombScatter, "CoulombScatter"},
-        {ProcessType::NeutronCapture, "NeutronCapture"},
-        {ProcessType::Transportation, "Transportation"},
+        {ProcessType::NotDefined,           "NotDefined"},
+        {ProcessType::Unknown,              "Unknown"},
+        {ProcessType::HadronElastic,        "HadronElastic"},
+        {ProcessType::PiMinusInelastic,     "PiMinusInelastic"},
+        {ProcessType::PiPlusInelastic,      "PiPlusInelastic"},
+        {ProcessType::KaonMinusInelastic,   "KaonMinusInelastic"},
+        {ProcessType::KaonPlusInelastic,    "KaonPlusInelastic"},
+        {ProcessType::ProtonInelastic,      "ProtonInelastic"},
+        {ProcessType::NeutronInelastic,     "NeutronInelastic"},
+        {ProcessType::CoulombScatter,       "CoulombScatter"},
+        {ProcessType::NeutronCapture,       "NeutronCapture"},
+        {ProcessType::Transportation,       "Transportation"},
     };
     const std::map<std::string, ProcessType> StringToProcessType
     {
-        {"NotDefined", ProcessType::NotDefined},
-        {"Unknown", ProcessType::Unknown},
-        {"HadronElastic", ProcessType::HadronElastic},
-        {"PiMinusInelastic", ProcessType::PiMinusInelastic},
-        {"PiPlusInelastic", ProcessType::PiPlusInelastic},
-        {"KaonMinusInelastic", ProcessType::KaonMinusInelastic},
-        {"KaonPlusInelastic", ProcessType::KaonPlusInelastic},
-        {"ProtonInelastic", ProcessType::ProtonInelastic},
-        {"NeutronInelastic", ProcessType::NeutronInelastic},
-        {"CoulombScatter", ProcessType::CoulombScatter},
-        {"NeutronCapture", ProcessType::NeutronCapture},
-        {"Transportation", ProcessType::Transportation},
+        {"NotDefined",          ProcessType::NotDefined},
+        {"Unknown",             ProcessType::Unknown},
+        {"HadronElastic",       ProcessType::HadronElastic},
+        {"PiMinusInelastic",    ProcessType::PiMinusInelastic},
+        {"PiPlusInelastic",     ProcessType::PiPlusInelastic},
+        {"KaonMinusInelastic",  ProcessType::KaonMinusInelastic},
+        {"KaonPlusInelastic",   ProcessType::KaonPlusInelastic},
+        {"ProtonInelastic",     ProcessType::ProtonInelastic},
+        {"NeutronInelastic",    ProcessType::NeutronInelastic},
+        {"CoulombScatter",      ProcessType::CoulombScatter},
+        {"NeutronCapture",      ProcessType::NeutronCapture},
+        {"Transportation",      ProcessType::Transportation},
     };
+    const std::map<std::string, ProcessType> TrajectoryStringToProcessType
+    {
+        {"NotDefined",      ProcessType::NotDefined},
+        {"Unknown",         ProcessType::Unknown},
+        {"hadElastic",      ProcessType::HadronElastic},
+        {"pi-Inelastic",    ProcessType::PiMinusInelastic},
+        {"pi+Inelastic",    ProcessType::PiPlusInelastic},
+        {"kaon-Inelastic",  ProcessType::KaonMinusInelastic},
+        {"kaon+Inelastic",  ProcessType::KaonPlusInelastic},
+        {"protonInelastic", ProcessType::ProtonInelastic},
+        {"neutronInelastic",ProcessType::NeutronInelastic},
+        {"CoulombScatter",  ProcessType::CoulombScatter},
+        {"nCapture",        ProcessType::NeutronCapture},
+        {"Transportation",  ProcessType::Transportation},
+    }
 
 }
