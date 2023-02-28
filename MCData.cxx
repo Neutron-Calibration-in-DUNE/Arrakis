@@ -129,8 +129,12 @@ namespace arrakis
                     exit(0);
                 }
             }
+            Int_t particle_index = 0;
             for (auto particle : *sMCParticleHandle)
             {
+                sParticleMap[particle.TrackId()] = particle_index;
+                particle_index += 1;
+
                 sGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::kNone;
                 sPDGMap[particle.TrackId()] = particle.PdgCode();
                 sParentTrackIDMap[particle.TrackId()] = particle.Mother();
@@ -256,7 +260,8 @@ namespace arrakis
             for(auto edep : *sMCSimEnergyDepositHandle)
             {
                 sParticleEdepMap[edep.TrackID()].emplace_back(edep_index);
-                
+                ProcessType process = DetermineEdepProcess(edep);
+                sParticleEdepProcessMap[edep.TrackID()].emplace_back(process);
                 edep_index += 1;
             }
         }
@@ -329,6 +334,27 @@ namespace arrakis
                         instance_label.label() + " for raw::RawDigit is invalid!"
                     );
                     exit(0);
+                }
+            }
+        }
+        ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)
+        {
+            ProcessType process = ProcessType::NotDefined;
+            auto mc_particle = GetMCParticleTrackID(edep.TrackID());
+            simb::MCTrajectory trajectory = mc_particle.Trajectory();
+            auto trajectory_processes = trajectory.TrajectoryProcesses();
+            for(size_t ii = 0; ii < mc_particle.NumberTrajectoryPoints(); ii++)
+            {
+                if(
+                    edep.StartT() <= trajectory.t[ii] &&
+                    edep.EndT() >= trajectory.t[ii]
+                )
+                for(size_t jj = 0; jj < trajectory_processes.size(); jj++)
+                {
+                    if(trajectory_processes[jj].first == ii) {
+                        std::cout << trajectory_processes[jj].second << std::endl;
+                        return TrajectoryStringToProcess[trajectory_processes[jj].second];
+                    }
                 }
             }
         }

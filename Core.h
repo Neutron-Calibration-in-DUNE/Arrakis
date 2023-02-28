@@ -53,16 +53,17 @@ namespace arrakis
     {
         NotDefined =           -1,
         Unknown =               0,
-        HadronElastic =         1,
-        PiMinusInelastic =      2,
-        PiPlusInelastic =       3,
-        KaonMinusInelastic =    4,
-        KaonPlusInelastic =     5,
-        ProtonInelastic =       6,
-        NeutronInelastic =      7,
-        CoulombScatter =        8,
-        NeutronCapture =        9,
-        Transportation =        10,
+        Primary =               1,
+        HadronElastic =         2,
+        PiMinusInelastic =      3,
+        PiPlusInelastic =       4,
+        KaonMinusInelastic =    5,
+        KaonPlusInelastic =     6,
+        ProtonInelastic =       7,
+        NeutronInelastic =      8,
+        CoulombScatter =        9,
+        NeutronCapture =        10,
+        Transportation =        11,
     };
     using ProcessTypeInt = std::underlying_type<ProcessType>::type;
     inline Int_t Process(ProcessType process) 
@@ -74,6 +75,7 @@ namespace arrakis
     {
         {ProcessType::NotDefined,           "NotDefined"},
         {ProcessType::Unknown,              "Unknown"},
+        {ProcessType::Primary,              "Primary"},
         {ProcessType::HadronElastic,        "HadronElastic"},
         {ProcessType::PiMinusInelastic,     "PiMinusInelastic"},
         {ProcessType::PiPlusInelastic,      "PiPlusInelastic"},
@@ -89,6 +91,7 @@ namespace arrakis
     {
         {"NotDefined",          ProcessType::NotDefined},
         {"Unknown",             ProcessType::Unknown},
+        {"Primary",             ProcessType::Primary},
         {"HadronElastic",       ProcessType::HadronElastic},
         {"PiMinusInelastic",    ProcessType::PiMinusInelastic},
         {"PiPlusInelastic",     ProcessType::PiPlusInelastic},
@@ -104,6 +107,7 @@ namespace arrakis
     {
         {"NotDefined",      ProcessType::NotDefined},
         {"Unknown",         ProcessType::Unknown},
+        {"primary",         ProcessType::Primary},
         {"hadElastic",      ProcessType::HadronElastic},
         {"pi-Inelastic",    ProcessType::PiMinusInelastic},
         {"pi+Inelastic",    ProcessType::PiPlusInelastic},

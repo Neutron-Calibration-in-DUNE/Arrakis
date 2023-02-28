@@ -69,6 +69,8 @@ namespace arrakis
             const sim::SimChannel& GetMCSimChannel(Int_t index) { return (*sMCSimChannelHandle)[index]; }
             const raw::RawDigit& GetMCRawDigit(Int_t index)     { return (*sMCRawDigitHandle)[index]; }
 
+            const simb::MCParticle& GetMCParticleTrackID(Int_t TrackID)  { return (*sMCParticleHandle)[sParticleMap[TrackID]]; }
+
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return sGeneratorLabelMap[trackID]; }
             inline Int_t GetPDGCode(Int_t trackID)          { return sPDGMap[trackID]; }
@@ -87,6 +89,8 @@ namespace arrakis
 
             // maps from edep to process
             inline ProcessType GetEdepProcess(Int_t edepID)   { return sEdepProcessMap[edepID]; }
+
+            ProcessType DetermineEdepProcess(sim::SimEnergyDeposit& edep);
 
         protected:
             MCData() {}
@@ -111,6 +115,7 @@ namespace arrakis
             std::vector<Int_t> sPrimaries;
 
             // MCParticle TrackID maps
+            std::map<Int_t, Int_t>      sParticleMap;
             std::map<Int_t, Int_t>      sPDGMap;
             std::map<Int_t, Int_t>      sParentPDGMap;
             std::map<Int_t, Int_t>      sParentTrackIDMap;
