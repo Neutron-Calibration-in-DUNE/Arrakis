@@ -102,16 +102,17 @@ namespace arrakis
         {
             Particle new_particle;
             new_particle.track_id = particle.TrackId();
+            
+            // Add trajectory point processes
             simb::MCTrajectory trajectory = particle.Trajectory();
             auto trajectory_processes = trajectory.TrajectoryProcesses();
-
             new_particle.trajectory_type.resize(particle.NumberTrajectoryPoints());
             for(size_t ii = 0; ii < particle.NumberTrajectoryPoints(); ii++)
             {
                 TrajectoryPointType trajectory_point_type = TrajectoryPointType::NotDefined;
                 for(size_t jj = 0; jj < trajectory_processes.size(); jj++) {
                     if(trajectory_processes[jj].first == ii) {
-                        trajectory_point_type = StringToTrajectoryPointType[trajectory_processes[jj].second];
+                        trajectory_point_type = StringToTrajectoryPointType[trajectory_processes[jj].second.c_str()];
                     }
                 }
             }
