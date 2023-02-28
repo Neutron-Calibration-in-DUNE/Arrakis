@@ -339,6 +339,7 @@ namespace arrakis
         }
         ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)
         {
+            std::string process = "NotDefined";
             auto mc_particle = GetMCParticleTrackID(edep.TrackID());
             simb::MCTrajectory trajectory = mc_particle.Trajectory();
             auto trajectory_processes = trajectory.TrajectoryProcesses();
@@ -352,11 +353,11 @@ namespace arrakis
                 {
                     if(trajectory_processes[jj].first == ii) {
                         std::cout << trajectory_processes[jj].second << std::endl;
-                        return TrajectoryStringToProcessType[std::to_string(trajectory_processes[jj].second)];
+                        process = trajectory_processes[jj].second;
                     }
                 }
             }
-            return ProcessType::NotDefined;
+            return TrajectoryStringToProcessType[process];
         }
     }
 }
