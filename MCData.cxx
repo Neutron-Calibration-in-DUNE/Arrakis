@@ -352,7 +352,7 @@ namespace arrakis
                 {
                     if(trajectory_processes[jj].first == ii) {
                         std::cout << trajectory_processes[jj].second << std::endl;
-                        return TrajectoryStringToProcessType[trajectory_processes[jj].second];
+                        return TrajectoryStringToProcessType[std::to_string(trajectory_processes[jj].second)];
                     }
                 }
             }
