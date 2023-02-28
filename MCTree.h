@@ -72,7 +72,7 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
             void ProcessMCParticles(const Parameters& config, art::Event const& event);
 
-            Particle CreatePrimary(const simb::MCParticle& particle);
+            Particle CreateParticle(const simb::MCParticle& particle);
         protected:
             MCTree() {}
             ~MCTree(){}

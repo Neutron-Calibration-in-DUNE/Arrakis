@@ -93,16 +93,29 @@ namespace arrakis
                 // If the particle is a primary, make
                 // a new entry in sPrimaries.
                 if(mc_particles[ii].Mother() == 0) {
-                    sPrimaries[ii] = CreatePrimary(mc_particles[ii]);
+                    sPrimaries[ii] = CreateParticle(mc_particles[ii]);
                     std::cout << sPrimaries[ii].track_id << std::endl;
                 }
             }
         }
-        Particle MCTree::CreatePrimary(const simb::MCParticle& particle)
+        Particle MCTree::CreateParticle(const simb::MCParticle& particle)
         {
-            Particle primary;
-            primary.track_id = particle.TrackId();
-            return primary;
+            Particle new_particle;
+            new_particle.track_id = particle.TrackId();
+            simb::MCTrajectory trajectory = particle.Trajectory();
+            auto trajectory_processes = trajectory.TrajectoryProcesses();
+
+            new_particle.trajectory_type.resize(particle.NumberTrajectoryPoints());
+            for(size_t ii = 0; ii < particle.NumberTrajectoryPoints(); ii++)
+            {
+                TrajectoryPointType trajectory_point_type = TrajectoryPointType::NotDefined;
+                for(size_t jj = 0; jj < trajectory_processes.size(); jj++) {
+                    if(trajectory_processes[jj].first == ii) {
+                        trajectory_point_type = StringToTrajectoryPointType[trajectory_processes[jj].second];
+                    }
+                }
+            }
+            return new_particle;
         }
     }
 }
