@@ -92,9 +92,10 @@ namespace arrakis
         )
         {
             auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(channel);
-            Double_t wire_multiple = geometry::DetectorGeometry::GetInstance()->GetWirePitch(view);
+            auto det_view = geometry::DetectorGeometry::GetInstance()->View(channel);
+            Double_t wire_multiple = geometry::DetectorGeometry::GetInstance()->GetWirePitch(det_view);
 
-            view = geometry::DetectorGeometry::GetInstance()->View(channel);   
+            view = det_view;
             channel = det_channel;
             wire = wires[view].Wire * wire_multiple;
             tick = det_tick;
