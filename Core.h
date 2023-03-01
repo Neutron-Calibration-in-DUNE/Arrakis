@@ -36,6 +36,8 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "DetectorGeometry.h"
+
 namespace arrakis
 {
     enum GeneratorLabel
@@ -78,6 +80,7 @@ namespace arrakis
         Int_t wire = {0};
         Int_t tick = {0};
         Int_t adc = {0};
+        Int_t tdc = {0};
 
         DetectorSimulation(){}
         DetectorSimulation(
@@ -98,5 +101,5 @@ namespace arrakis
             adc = det_adc;
             tdc = clock_data.TPCTick2TDC(tick);
         }
-    }
+    };
 }
