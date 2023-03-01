@@ -27,6 +27,7 @@
 
 #include "Configuration.h"
 #include "Core.h"
+#include "DetectorSimulation.h"
 #include "Logger.h"
 
 namespace arrakis
@@ -114,6 +115,10 @@ namespace arrakis
             // List of primary track IDs
             std::vector<Int_t> sPrimaries;
 
+            // List of detector simulation structs
+            std::vector<DetectorSimulation> sDetectorSimulation;
+            std::vector<Int_t> sDetectorSimulationNoise;
+
             // MCParticle TrackID maps
             std::map<Int_t, Int_t>      sParticleMap;
             std::map<Int_t, Int_t>      sPDGMap;
@@ -130,6 +135,7 @@ namespace arrakis
             std::map<Int_t, std::vector<Int_t>> sParticleEdepMap;
             std::map<Int_t, std::vector<ProcessType>> sParticleEdepProcessMap;
             std::map<Int_t, std::vector<Int_t>> sParticleDetectorSimulationMap;
+            std::map<Int_t, std::vector<Int_t>> sRandomDetectorSimulationMap;
 
             // maps from edepID
             std::map<Int_t, ProcessType> sEdepProcessMap;

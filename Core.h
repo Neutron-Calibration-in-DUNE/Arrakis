@@ -1,5 +1,5 @@
 /**
- * @file Generators.h
+ * @file Core.h
  * @author Nicholas Carrara [nmcarrara@ucdavis.edu]
  * @brief 
  * @version 0.1
@@ -72,35 +72,4 @@ namespace arrakis
     { 
         return static_cast<ProcessTypeInt>(process);
     }
-
-    struct DetectorSimulation
-    {
-        Int_t view = {0};
-        Int_t channel = {0};
-        Int_t wire = {0};
-        Int_t tick = {0};
-        Int_t adc = {0};
-        Int_t tdc = {0};
-
-        DetectorSimulation(){}
-        DetectorSimulation(
-            detinfo::DetectorClocksData const clock_data,
-            sim::IDE det_ide,
-            Int_t det_tick,
-            Int_t det_channel,
-            Int_t det_adc
-        )
-        {
-            auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(channel);
-            auto det_view = geometry::DetectorGeometry::GetInstance()->View(channel);
-            Double_t wire_multiple = geometry::DetectorGeometry::GetInstance()->GetWirePitch(det_view);
-
-            view = det_view;
-            channel = det_channel;
-            wire = wires[view].Wire * wire_multiple;
-            tick = det_tick;
-            adc = det_adc;
-            tdc = clock_data.TPCTick2TDC(tick);
-        }
-    };
 }

@@ -75,6 +75,7 @@ namespace arrakis
         {
             sMCTruthHandles.clear();
             sPrimaries.clear();
+            sDetectorSimulation.clear();
 
             sGeneratorLabelMap.clear();
             sGeneratorMap.clear();
@@ -91,6 +92,8 @@ namespace arrakis
             sAncestryMap.clear();
             sParticleEdepMap.clear();
             sParticleEdepProcessMap.clear();
+            sParticleDetectorSimulationMap.clear();
+            sRandomDetectorSimulationMap.clear();
 
             sEdepProcessMap.clear();
         }
@@ -230,6 +233,7 @@ namespace arrakis
                 // initialize edep maps
                 sParticleEdepMap[particle.TrackId()] = {};
                 sParticleEdepProcessMap[particle.TrackId()] = {};
+                sParticleDetectorSimulationMap[particle.TrackId()] = {};
             }
             for(auto const& [key, val] : sGeneratorMap)
             {
@@ -387,6 +391,62 @@ namespace arrakis
             detinfo::DetectorClocksData const clock_data(
                 art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
             ); 
+            Int_t digit_index = 0;
+            for(auto digit : *sMCRawDigitHandle)
+            {
+                // Get the channel number for this digit, number of samples,
+                // and the pedestal value so that we can uncompress and
+                // remove the pedestal.
+                raw::ChannelID_t channel = digit.Channel();
+                int num_samples = digit.Samples();
+                int pedestal = (int)digit.GetPedestal();
+                
+                // uncompress the digits and remove the pedestal
+                std::vector<short> uncompressed(num_samples);
+                raw::Uncompress(
+                    digit.ADCs(), uncompressed, 
+                    pedestal, digit.Compression()
+                );
+                for (auto uncomp : uncompressed) {
+                    uncomp -= pedestal;
+                }
+                sim::SimChannel truth_channel = (*sMCSimChannelHandle)[channel]; 
+
+                // iterate over each tdc value
+                for(int l=0; l < num_samples; l++) 
+                {
+                    auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
+                    /**
+                     * This step distinguishes noise from true MC particles.
+                     * If the input is noise, pass the detector output to a
+                     * noise variable, otherwise, attach the output to the
+                     * associated primary.
+                     */
+                    sDetectorSimulation.emplace_back(
+                        DetectorSimulation(
+                            clock_data,
+                            trackIDsAndEnergy,
+                            l,
+                            channel,
+                            (Int_t) (std::abs(uncompressed[l]))
+                        )
+                    );
+                    if(trackIDsAndEnergy.size() == 0) 
+                    {
+                        sDetectorSimulationNoise.emplace_back(digit_index);
+                    }
+                    for(auto track : trackIDsAndEnergy)
+                    {
+                        if() {
+                            sParticleDetectorSimulationMap[track.trackID].emplace_back(digit_index);
+                        }
+                        else {
+                            sRandomDetectorSimulationMap[track.trackID] = {digit_index};
+                        }
+                    }
+                }
+                digit_index += 1;
+            }
         }
         ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)
         {
