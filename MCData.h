@@ -129,9 +129,11 @@ namespace arrakis
             std::map<Int_t, std::vector<Int_t>> sAncestryMap;
             std::map<Int_t, std::vector<Int_t>> sParticleEdepMap;
             std::map<Int_t, std::vector<ProcessType>> sParticleEdepProcessMap;
+            std::map<Int_t, std::vector<Int_t>> sParticleDetectorSimulationMap;
 
             // maps from edepID
             std::map<Int_t, ProcessType> sEdepProcessMap;
+
         };
     }
 }

@@ -71,7 +71,32 @@ namespace arrakis
         return static_cast<ProcessTypeInt>(process);
     }
 
-    // std::map<ProcessType, std::string> ProcessTypeToString;
-    // std::map<std::string, ProcessType> StringToProcessType;
-    // std::map<std::string, ProcessType> TrajectoryStringToProcessType;
+    struct DetectorSimulation
+    {
+        Int_t view = {0};
+        Int_t channel = {0};
+        Int_t wire = {0};
+        Int_t tick = {0};
+        Int_t adc = {0};
+
+        DetectorSimulation(){}
+        DetectorSimulation(
+            detinfo::DetectorClocksData const clock_data,
+            sim::IDE det_ide,
+            Int_t det_tick,
+            Int_t det_channel,
+            Int_t det_adc
+        )
+        {
+            auto wires = DetectorGeometry::GetInstance()->ChannelToWire(channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance()->GetWirePitch(view);
+
+            view = DetectorGeometry::GetInstance()->View(channel);   
+            channel = det_channel;
+            wire = wires[view].Wire * wire_multiple;
+            tick = det_tick;
+            adc = det_adc;
+            tdc = clock_data.TPCTick2TDC(tick);
+        }
+    }
 }

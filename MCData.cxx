@@ -384,6 +384,9 @@ namespace arrakis
                     exit(0);
                 }
             }
+            detinfo::DetectorClocksData const clock_data(
+                art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
+            ); 
         }
         ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)
         {
