@@ -76,6 +76,7 @@ namespace arrakis
             sMCTruthHandles.clear();
             sPrimaries.clear();
             sDetectorSimulation.clear();
+            sDetectorSimulationNoise.clear();
 
             sGeneratorLabelMap.clear();
             sGeneratorMap.clear();
@@ -437,7 +438,7 @@ namespace arrakis
                     }
                     for(auto track : trackIDsAndEnergy)
                     {
-                        if() {
+                        if(track.trackID > 0) {
                             sParticleDetectorSimulationMap[track.trackID].emplace_back(digit_index);
                         }
                         else {
