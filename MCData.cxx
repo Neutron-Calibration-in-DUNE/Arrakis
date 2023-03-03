@@ -469,6 +469,11 @@ namespace arrakis
                      * noise variable, otherwise, attach the output to the
                      * associated primary.
                      */
+                    if(trackIDsAndEnergy.size() == 0) 
+                    {
+                        sDetectorSimulationNoise.emplace_back(digit_index);
+                        continue;
+                    }
                     sDetectorSimulation.emplace_back(
                         DetectorSimulation(
                             clock_data,
@@ -479,10 +484,6 @@ namespace arrakis
                         )
                     );
                     std::cout << "digit: " << channel << " - tdc: " << l  << " - adc: " << (Int_t)(std::abs(uncompressed[l])) << std::endl;
-                    if(trackIDsAndEnergy.size() == 0) 
-                    {
-                        sDetectorSimulationNoise.emplace_back(digit_index);
-                    }
                     // associate this detector simulation with a particle particle
                     for(auto track : trackIDsAndEnergy)
                     {
