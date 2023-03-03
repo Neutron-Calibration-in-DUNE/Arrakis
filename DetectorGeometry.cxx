@@ -77,29 +77,6 @@ namespace arrakis
             // set up the geometry interface
             sGeometryCore = lar::providerFrom<geo::Geometry>();
 
-            // initialize TTrees
-            sGeometryTree = sTFileService->make<TTree>("geometry", "geometry");
-            sGeometryTree->Branch("world_name", &sWorldName);
-            sGeometryTree->Branch("world_box_ranges", &(sWorldBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            sGeometryTree->Branch("detector_name", &sDetectorName);
-            sGeometryTree->Branch("detector_box_ranges", &(sDetectorBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            sGeometryTree->Branch("cryostat_name", &sCryostatName);
-            sGeometryTree->Branch("cryostat_box_ranges", &(sCryostatBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            sGeometryTree->Branch("number_of_tpcs", &sNumberOfTPCs);
-            sGeometryTree->Branch("tpc_names", &sTPCNames);
-            for (int i = 0; i < sNumberOfTPCs; i++) 
-            {
-                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_name").c_str(), &(sTPCNames[i]));
-                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_box_ranges").c_str(), &(sTPCBoxes[i]), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_mass").c_str(), &(sTPCMasses[i]));
-                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_drift_distance").c_str(), &(sTPCDriftDistances[i]));
-            }
-            sGeometryTree->Branch("tpc_masses", &sTPCMasses);
-            sGeometryTree->Branch("tpc_drift_distances", &sTPCDriftDistances);
-            sGeometryTree->Branch("total_tpc_box_ranges", &(sTotalTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            sGeometryTree->Branch("total_active_tpc_box_ranges", &(sTotalActiveTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            sGeometryTree->Branch("total_tpc_mass", &sTotalTPCMass);
-
             // get detector clock data
             auto const clock_data = 
                 art::ServiceHandle<detinfo::DetectorClocksService const>()->DataForJob();
@@ -183,6 +160,29 @@ namespace arrakis
             // find the total TPC and total Active TPC volumes
             FindTotalTPCBoxes();
             sTotalTPCMass = sGeometryCore->TotalMass();    
+            
+            // initialize TTrees
+            sGeometryTree = sTFileService->make<TTree>("geometry", "geometry");
+            sGeometryTree->Branch("world_name", &sWorldName);
+            sGeometryTree->Branch("world_box_ranges", &(sWorldBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("detector_name", &sDetectorName);
+            sGeometryTree->Branch("detector_box_ranges", &(sDetectorBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("cryostat_name", &sCryostatName);
+            sGeometryTree->Branch("cryostat_box_ranges", &(sCryostatBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("number_of_tpcs", &sNumberOfTPCs);
+            sGeometryTree->Branch("tpc_names", &sTPCNames);
+            for (int i = 0; i < sNumberOfTPCs; i++) 
+            {
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_name").c_str(), &(sTPCNames[i]));
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_box_ranges").c_str(), &(sTPCBoxes[i]), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_mass").c_str(), &(sTPCMasses[i]));
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_drift_distance").c_str(), &(sTPCDriftDistances[i]));
+            }
+            sGeometryTree->Branch("tpc_masses", &sTPCMasses);
+            sGeometryTree->Branch("tpc_drift_distances", &sTPCDriftDistances);
+            sGeometryTree->Branch("total_tpc_box_ranges", &(sTotalTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("total_active_tpc_box_ranges", &(sTotalActiveTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("total_tpc_mass", &sTotalTPCMass);
         }
 
         // get volume information for a point
