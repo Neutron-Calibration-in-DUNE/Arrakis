@@ -478,6 +478,7 @@ namespace arrakis
                             (Int_t) (std::abs(uncompressed[l]))
                         )
                     );
+                    std::cout << "digit: " << channel << " - tdc: " << l  << " - adc: " << (Int_t)(std::abs(uncompressed[l])) << std::endl;
                     if(trackIDsAndEnergy.size() == 0) 
                     {
                         sDetectorSimulationNoise.emplace_back(digit_index);
@@ -530,11 +531,13 @@ namespace arrakis
             std::vector<Int_t> edep_ids;
             for(auto track : det_ide)
             {
+                std::cout << "    track ID: " << track.trackID << " - (x,y,z): (" << track.x << "," << track.y << "," << track.z << ")" << std::endl;
                 if(track.trackID > 0)
                 {
                     std::vector<Int_t> candidate_edeps = sParticleEdepMap[track.trackID];
                     for(auto edep_id : candidate_edeps)
                     {
+                        std::cout << "        candidate: " << edep_id << " - (x,y,z): (" << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ")" << std::endl;
                         auto edep = GetMCSimEnergyDeposit(edep_id);
                         if(
                             edep.MidPointX() == track.x &&
