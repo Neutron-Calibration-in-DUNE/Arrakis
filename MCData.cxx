@@ -537,8 +537,8 @@ namespace arrakis
                     std::vector<Int_t> candidate_edeps = sParticleEdepMap[track.trackID];
                     for(auto edep_id : candidate_edeps)
                     {
-                        std::cout << "        candidate: " << edep_id << " - (x,y,z): (" << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ")" << std::endl;
                         auto edep = GetMCSimEnergyDeposit(edep_id);
+                        std::cout << "        candidate: " << edep_id << " - (x,y,z): (" << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ")" << std::endl;
                         if(
                             edep.MidPointX() == track.x &&
                             edep.MidPointY() == track.y &&
