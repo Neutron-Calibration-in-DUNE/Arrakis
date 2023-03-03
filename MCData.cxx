@@ -77,7 +77,26 @@ namespace arrakis
                 "setting up mcdata tree."
             );
             sMCDataTree = sTFileService->make<TTree>("mcdata", "mcdata");
+            sMCDataTree->Branch("generator_label_map", &sGeneratorLabelMap);
+            sMCDataTree->Branch("generator_map", &sGeneratorMap);
             sMCDataTree->Branch("pdg_map", &sPDGMap);
+            sMCDataTree->Branch("parent_pdg_map", &sParentPDGMap);
+            sMCDataTree->Branch("parent_track_id_map", &sParentTrackIDMap);
+            sMCDataTree->Branch("particle_energy_map", &sParticleEnergyMap);
+            sMCDataTree->Branch("ancestor_pdg_map", &sAncestorPDGMap);
+            sMCDataTree->Branch("ancestor_track_id_map", &sAncestorTrackIDMap);
+            sMCDataTree->Branch("ancestor_level_map", &sAncestorLevelMap);
+            sMCDataTree->Branch("ancestor_energy_map", &sAncestorEnergyMap);
+            sMCDataTree->Branch("daughter_map", &sDaughterMap);
+            sMCDataTree->Branch("progeny_map", &sProgenyMap);
+            sMCDataTree->Branch("ancestry_map", &sAncestryMap);
+            sMCDataTree->Branch("particle_edep_map", &sParticleEdepMap);
+            sMCDataTree->Branch("particle_edep_process_map", &sParticleEdepProcessMap);
+            sMCDataTree->Branch("particle_detsim_map", &sParticleDetectorSimulationMap);
+            sMCDataTree->Branch("random_detsim_map", &sRandomDetectorSimulationMap);
+            sMCDataTree->Branch("edep_process_map", &sEdepProcessMap);
+            sMCDataTree->Branch("edep_detsim_map", &sEdepDetectorSimulationMap);
+            sMCDataTree->Branch("detsim_edep_map", &sDetectorSimulationEdepMap);
         }
         void MCData::ResetEvent()
         {
