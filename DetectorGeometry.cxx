@@ -76,7 +76,7 @@ namespace arrakis
             );
             // set up the geometry interface
             sGeometryCore = lar::providerFrom<geo::Geometry>();
-            
+
             // initialize TTrees
             sGeometryTree = sTFileService->make<TTree>("geometry", "geometry");
             sGeometryTree->Branch("world_name", &sWorldName);
@@ -201,9 +201,9 @@ namespace arrakis
             VolumeType volumeType = sVolumeTypeMap[volumeName];
 
             // get the current material information
-            mMaterial = mGeometryService->Material(sMaterialPOI);
-            double material = mMaterial->GetZ();
-            std::string materialName = mMaterial->GetName();
+            sMaterial = sGeometryService->Material(sMaterialPOI);
+            double material = sMaterial->GetZ();
+            std::string materialName = sMaterial->GetName();
 
             // return the constructed volume 
             return DetectorVolume(volumeType, volumeName, materialName, material);
