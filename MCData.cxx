@@ -541,8 +541,8 @@ namespace arrakis
                         auto edep = GetMCSimEnergyDeposit(edep_id);
                         std::cout << "        candidate: " << edep_id << " - (x,y,z): (" << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ")" << std::endl;
                         if(
-                            edep.StartX() <= track.x && edep.EndX() >= track.x
-                            edep.StartY() <= track.y && edep.EndY() >= track.y
+                            edep.StartX() <= track.x && edep.EndX() >= track.x &&
+                            edep.StartY() <= track.y && edep.EndY() >= track.y &&
                             edep.StartZ() <= track.z && edep.EndZ() >= track.z
                         ) {
                             std::cout << "edep_id " << edep_id << std::endl;
