@@ -53,6 +53,9 @@ namespace arrakis
 
             std::vector<Int_t> track_ids = {};
             std::vector<Double_t> energies = {};
+            std::vector<Double_t> x = {};
+            std::vector<Double_t> y = {};
+            std::vector<Double_t> z = {};
 
             DetectorSimulation(){}
             DetectorSimulation(
@@ -77,6 +80,9 @@ namespace arrakis
                 for(auto ide : det_ide) {
                     track_ids.emplace_back(ide.trackID);
                     energies.emplace_back(ide.energy);
+                    x.emplace_back(ide.x);
+                    y.emplace_back(ide.y);
+                    z.emplace_back(ide.z);
                 }
             }
         };
