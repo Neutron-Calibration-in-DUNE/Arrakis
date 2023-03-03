@@ -504,7 +504,7 @@ namespace arrakis
             return TrajectoryStringToProcessType[process];
         }
         std::vector<Int_t> MCData::DetermineDetectorSimulationEdeps(
-            std::vector<sim::IDE> det_ide,
+            const std::vector<sim::IDE>& det_ide,
             Int_t detsim_id
         )
         {

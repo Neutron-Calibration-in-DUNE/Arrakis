@@ -96,7 +96,7 @@ namespace arrakis
 
             // helper functions for organizing data
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
-            std::vector<Int_t> DetermineDetectorSimulationEdeps(std::vector<sim::IDE>& det_ide, Int_t detsim_id);
+            std::vector<Int_t> DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, Int_t detsim_id);
 
             // fill TTree
             void FillTTree();
