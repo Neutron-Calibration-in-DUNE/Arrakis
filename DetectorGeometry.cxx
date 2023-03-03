@@ -25,134 +25,164 @@ namespace arrakis
 
         std::string DetectorGeometry::GetTPCName(const size_t i) 
         {
-            if (i < mTPCNames.size()) { 
-                return mTPCNames[i]; 
+            if (i < sTPCNames.size()) { 
+                return sTPCNames[i]; 
             }
             else { 
-                return mTPCNames[0]; 
+                return sTPCNames[0]; 
             }
         }
         BoundingBox DetectorGeometry::GetTPCBox(const size_t i) 
         {
-            if (i < mTPCBoxes.size()) { 
-                return mTPCBoxes[i]; 
+            if (i < sTPCBoxes.size()) { 
+                return sTPCBoxes[i]; 
             }
             else { 
-                return mTPCBoxes[0]; 
+                return sTPCBoxes[0]; 
             }
         }
         BoundingBox DetectorGeometry::GetActiveTPCBox(const size_t i) 
         {
-            if (i < mActiveTPCBoxes.size()) { 
-                return mActiveTPCBoxes[i]; 
+            if (i < sActiveTPCBoxes.size()) { 
+                return sActiveTPCBoxes[i]; 
             }
             else { 
-                return mActiveTPCBoxes[0]; 
+                return sActiveTPCBoxes[0]; 
             }
         }
         double DetectorGeometry::GetTPCMass(const size_t i) 
         {
-            if (i < mTPCMasses.size()) { 
-                return mTPCMasses[i]; 
+            if (i < sTPCMasses.size()) { 
+                return sTPCMasses[i]; 
             }
             else { 
-                return mTPCMasses[0]; 
+                return sTPCMasses[0]; 
             }
         }
         double DetectorGeometry::GetTPCDriftDistance(const size_t i) 
         {
-            if (i < mTPCDriftDistances.size()) { 
-                return mTPCDriftDistances[i]; 
+            if (i < sTPCDriftDistances.size()) { 
+                return sTPCDriftDistances[i]; 
             }
             else { 
-                return mTPCDriftDistances[0]; 
+                return sTPCDriftDistances[0]; 
             }
         }
 
         DetectorGeometry::DetectorGeometry()
         {
+            Logger::GetInstance("geometry")->trace(
+                "setting up detector geometry info."
+            );
             // set up the geometry interface
-            mGeometryCore = lar::providerFrom<geo::Geometry>();
+            sGeometryCore = lar::providerFrom<geo::Geometry>();
+            
             // initialize TTrees
-            mGeometryTree = mTFileService->make<TTree>("geometry", "geometry");
+            sGeometryTree = sTFileService->make<TTree>("geometry", "geometry");
+            sGeometryTree->Branch("world_name", &sWorldName);
+            sGeometryTree->Branch("world_box_ranges", &(sWorldBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("detector_name", &sDetectorName);
+            sGeometryTree->Branch("detector_box_ranges", &(sDetectorBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("cryostat_name", &sCryostatName);
+            sGeometryTree->Branch("cryostat_box_ranges", &(sCryostatBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("number_of_tpcs", &sNumberOfTPCs);
+            sGeometryTree->Branch("tpc_names", &sTPCNames);
+            for (int i = 0; i < sNumberOfTPCs; i++) 
+            {
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_name").c_str(), &(sTPCNames[i]));
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_box_ranges").c_str(), &(sTPCBoxes[i]), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_mass").c_str(), &(sTPCMasses[i]));
+                sGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_drift_distance").c_str(), &(sTPCDriftDistances[i]));
+            }
+            sGeometryTree->Branch("tpc_masses", &sTPCMasses);
+            sGeometryTree->Branch("tpc_drift_distances", &sTPCDriftDistances);
+            sGeometryTree->Branch("total_tpc_box_ranges", &(sTotalTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("total_active_tpc_box_ranges", &(sTotalActiveTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
+            sGeometryTree->Branch("total_tpc_mass", &sTotalTPCMass);
+
             // get detector clock data
             auto const clock_data = 
                 art::ServiceHandle<detinfo::DetectorClocksService const>()->DataForJob();
-            mTriggerOffset = trigger_offset(clock_data);
+            sTriggerOffset = trigger_offset(clock_data);
 
-            std::set<geo::View_t> const views = mGeometryCore->Views();
+            std::set<geo::View_t> const views = sGeometryCore->Views();
             for(auto view : views) {
-                mWirePitchMap[view] = mGeometryCore->WirePitch(view);
+                sWirePitchMap[view] = sGeometryCore->WirePitch(view);
             }
 
             // Accquiring geometry data
-            mNumberOfAPAs=mGeometryCore->NTPC()*mGeometryCore->Ncryostats()/2; //No. of APAs
-            mNumberOfChannelsPerAPA = mGeometryCore->Nchannels()/mNumberOfAPAs; //No. of channels per APA
+            sNumberOfAPAs=sGeometryCore->NTPC()*sGeometryCore->Ncryostats()/2; //No. of APAs
+            sNumberOfChannelsPerAPA = sGeometryCore->Nchannels()/sNumberOfAPAs; //No. of channels per APA
 
             // taken from dune35t module a way to organise the channel mapping:
             // loop through channels in the first APA to find the channel boundaries for each view
             // will adjust for desired APA after
-            mUChannelMin = 0;
-            mZChannelMax = mNumberOfChannelsPerAPA - 1;
-            for (unsigned int c = mUChannelMin + 1; c < mZChannelMax; c++ ){
-                if ( mGeometryCore->View(c) == geo::kV && mGeometryCore->View(c-1) == geo::kU ){
-                    mVChannelMin = c;
-                    mUChannelMax = c - 1;
+            sUChannelMin = 0;
+            sZChannelMax = sNumberOfChannelsPerAPA - 1;
+            for (unsigned int c = sUChannelMin + 1; c < sZChannelMax; c++ ){
+                if ( sGeometryCore->View(c) == geo::kV && sGeometryCore->View(c-1) == geo::kU ){
+                    sVChannelMin = c;
+                    sUChannelMax = c - 1;
                 }
-                if ( mGeometryCore->View(c) == geo::kZ && mGeometryCore->View(c-1) == geo::kV ){
-                    mZChannelMin = c;
-                    mVChannelMax = c-1;
+                if ( sGeometryCore->View(c) == geo::kZ && sGeometryCore->View(c-1) == geo::kV ){
+                    sZChannelMin = c;
+                    sVChannelMax = c-1;
                 }
             }
 
             //Number of channels in each view
-            mNumberOfUChannels = mUChannelMax - mUChannelMin+1; //U
-            mNumberOfVChannels = mVChannelMax - mVChannelMin+1; //V
-            mNumberOfZChannels = mZChannelMax - mZChannelMin+1; //Z (collection plane)
+            sNumberOfUChannels = sUChannelMax - sUChannelMin+1; //U
+            sNumberOfVChannels = sVChannelMax - sVChannelMin+1; //V
+            sNumberOfZChannels = sZChannelMax - sZChannelMin+1; //Z (collection plane)
 
-            for(auto channel : mGeometryCore->ChannelsInTPCs())
+            for(auto channel : sGeometryCore->ChannelsInTPCs())
             {
-                mChannelToWireIDMap[channel] = mGeometryCore->ChannelToWire(channel);
+                sChannelToWireIDMap[channel] = sGeometryCore->ChannelToWire(channel);
             }
 
             // collect world info
-            mWorldName = mGeometryCore->GetWorldVolumeName();
-            mWorldBox.setBox(mGeometryCore->WorldBox());
-            // create name-volumetype map mor world
-            mMaterialPOI.SetCoordinates(mWorldBox.x_min,mWorldBox.y_min,mWorldBox.z_min);
-            std::string volumeName = mGeometryCore->VolumeName(mMaterialPOI);
-            mVolumeTypeMap[volumeName] = VolumeType::World;
-            // collect detector inmo
-            mDetectorName = mGeometryCore->DetectorName();
-            mDetectorBox.setBox(
-                -mGeometryCore->DetHalfWidth(), mGeometryCore->DetHalfWidth(),
-                -mGeometryCore->DetHalfHeight(), mGeometryCore->DetHalfHeight(),
-                0, mGeometryCore->DetLength()
+            sWorldName = sGeometryCore->GetWorldVolumeName();
+            sWorldBox.setBox(sGeometryCore->WorldBox());
+
+            // create name-volumetype map for world
+            sMaterialPOI.SetCoordinates(sWorldBox.x_min,sWorldBox.y_min,sWorldBox.z_min);
+            std::string volumeName = sGeometryCore->VolumeName(sMaterialPOI);
+            sVolumeTypeMap[volumeName] = VolumeType::World;
+
+            // collect detector info
+            sDetectorName = sGeometryCore->DetectorName();
+            sDetectorBox.setBox(
+                -sGeometryCore->DetHalfWidth(), sGeometryCore->DetHalfWidth(),
+                -sGeometryCore->DetHalfHeight(), sGeometryCore->DetHalfHeight(),
+                0, sGeometryCore->DetLength()
             );
+
             // collect cryostat info
             // for now, assuming analysis is done over a single cryostat
-            geo::CryostatGeo const& Cryo = mGeometryCore->Cryostat();
-            mCryostatName = std::string(Cryo.ID());
-            mCryostatBox.setBox(Cryo.Boundaries());
+            geo::CryostatGeo const& Cryo = sGeometryCore->Cryostat();
+            sCryostatName = std::string(Cryo.ID());
+            sCryostatBox.setBox(Cryo.Boundaries());
+
             // create name-volumetype map for cryostat
-            mMaterialPOI.SetCoordinates(mCryostatBox.x_min, mCryostatBox.y_min, mCryostatBox.z_min);
-            volumeName = mGeometryCore->VolumeName(mMaterialPOI);
-            mVolumeTypeMap[volumeName] = VolumeType::Cryostat;
+            sMaterialPOI.SetCoordinates(sCryostatBox.x_min, sCryostatBox.y_min, sCryostatBox.z_min);
+            volumeName = sGeometryCore->VolumeName(sMaterialPOI);
+            sVolumeTypeMap[volumeName] = VolumeType::Cryostat;
+
             // iterate over all TPCs
-            mNumberOfTPCs  = mGeometryCore->TotalNTPC();
-            for (geo::TPCGeo const& TPC : mGeometryCore->IterateTPCs())
+            sNumberOfTPCs  = sGeometryCore->TotalNTPC();
+            for (geo::TPCGeo const& TPC : sGeometryCore->IterateTPCs())
             {
-                mTPCNames.emplace_back(TPC.ID());
-                mTPCBoxes.emplace_back(BoundingBox(TPC.BoundingBox()));
-                mActiveTPCBoxes.emplace_back(BoundingBox(TPC.ActiveBoundingBox()));
-                mTPCMasses.emplace_back(TPC.ActiveMass());
-                mTPCDriftDistances.emplace_back(TPC.DriftDistance());
+                sTPCNames.emplace_back(TPC.ID());
+                sTPCBoxes.emplace_back(BoundingBox(TPC.BoundingBox()));
+                sActiveTPCBoxes.emplace_back(BoundingBox(TPC.ActiveBoundingBox()));
+                sTPCMasses.emplace_back(TPC.ActiveMass());
+                sTPCDriftDistances.emplace_back(TPC.DriftDistance());
                 // create name-volumetype map for this tpc
-                mVolumeTypeMap[mGeometryCore->VolumeName(TPC.GetCenter())] = VolumeType::TPC;
+                sVolumeTypeMap[sGeometryCore->VolumeName(TPC.GetCenter())] = VolumeType::TPC;
             }
             // find the total TPC and total Active TPC volumes
             FindTotalTPCBoxes();
-            mTotalTPCMass = mGeometryCore->TotalMass();    
+            sTotalTPCMass = sGeometryCore->TotalMass();    
         }
 
         // get volume information for a point
@@ -160,17 +190,18 @@ namespace arrakis
         {
             return GetVolume(position[0], position[1], position[2]);
         }
+
         // get volume information for a point
         DetectorVolume DetectorGeometry::GetVolume(double x, double y, double z)
         {
-            mMaterialPOI.SetCoordinates(x,y,z);
+            sMaterialPOI.SetCoordinates(x,y,z);
 
             // get the volume information
-            std::string volumeName = mGeometryCore->VolumeName(mMaterialPOI);
-            VolumeType volumeType = mVolumeTypeMap[volumeName];
+            std::string volumeName = sGeometryCore->VolumeName(sMaterialPOI);
+            VolumeType volumeType = sVolumeTypeMap[volumeName];
 
             // get the current material information
-            mMaterial = mGeometryService->Material(mMaterialPOI);
+            mMaterial = mGeometryService->Material(sMaterialPOI);
             double material = mMaterial->GetZ();
             std::string materialName = mMaterial->GetName();
 
@@ -184,54 +215,37 @@ namespace arrakis
             double x_min = 0; double x_max = 0;
             double y_min = 0; double y_max = 0;
             double z_min = 0; double z_max = 0;
-            for (size_t i = 0; i < mTPCBoxes.size(); i++) 
+            for (size_t i = 0; i < sTPCBoxes.size(); i++) 
             {
-                if (mTPCBoxes[i].x_min < x_min) x_min = mTPCBoxes[i].x_min;
-                if (mTPCBoxes[i].x_max > x_max) x_max = mTPCBoxes[i].x_max;
-                if (mTPCBoxes[i].y_min < y_min) y_min = mTPCBoxes[i].y_min;
-                if (mTPCBoxes[i].y_max > y_max) y_max = mTPCBoxes[i].y_max;
-                if (mTPCBoxes[i].z_min < z_min) z_min = mTPCBoxes[i].z_min;
-                if (mTPCBoxes[i].z_max > z_max) z_max = mTPCBoxes[i].z_max;
+                if (sTPCBoxes[i].x_min < x_min) x_min = sTPCBoxes[i].x_min;
+                if (sTPCBoxes[i].x_max > x_max) x_max = sTPCBoxes[i].x_max;
+                if (sTPCBoxes[i].y_min < y_min) y_min = sTPCBoxes[i].y_min;
+                if (sTPCBoxes[i].y_max > y_max) y_max = sTPCBoxes[i].y_max;
+                if (sTPCBoxes[i].z_min < z_min) z_min = sTPCBoxes[i].z_min;
+                if (sTPCBoxes[i].z_max > z_max) z_max = sTPCBoxes[i].z_max;
             }
-            mTotalTPCBox.setBox(x_min, x_max, y_min, y_max, z_min, z_max);
+            sTotalTPCBox.setBox(x_min, x_max, y_min, y_max, z_min, z_max);
             x_min = 0; x_max = 0;
             y_min = 0; y_max = 0;
             z_min = 0; z_max = 0;
-            for (size_t i = 0; i < mActiveTPCBoxes.size(); i++) 
+            for (size_t i = 0; i < sActiveTPCBoxes.size(); i++) 
             {
-                if (mActiveTPCBoxes[i].x_min < x_min) x_min = mActiveTPCBoxes[i].x_min;
-                if (mActiveTPCBoxes[i].x_max > x_max) x_max = mActiveTPCBoxes[i].x_max;
-                if (mActiveTPCBoxes[i].y_min < y_min) y_min = mActiveTPCBoxes[i].y_min;
-                if (mActiveTPCBoxes[i].y_max > y_max) y_max = mActiveTPCBoxes[i].y_max;
-                if (mActiveTPCBoxes[i].z_min < z_min) z_min = mActiveTPCBoxes[i].z_min;
-                if (mActiveTPCBoxes[i].z_max > z_max) z_max = mActiveTPCBoxes[i].z_max;
+                if (sActiveTPCBoxes[i].x_min < x_min) x_min = sActiveTPCBoxes[i].x_min;
+                if (sActiveTPCBoxes[i].x_max > x_max) x_max = sActiveTPCBoxes[i].x_max;
+                if (sActiveTPCBoxes[i].y_min < y_min) y_min = sActiveTPCBoxes[i].y_min;
+                if (sActiveTPCBoxes[i].y_max > y_max) y_max = sActiveTPCBoxes[i].y_max;
+                if (sActiveTPCBoxes[i].z_min < z_min) z_min = sActiveTPCBoxes[i].z_min;
+                if (sActiveTPCBoxes[i].z_max > z_max) z_max = sActiveTPCBoxes[i].z_max;
             }
-            mTotalActiveTPCBox.setBox(x_min, x_max, y_min, y_max, z_min, z_max);
+            sTotalActiveTPCBox.setBox(x_min, x_max, y_min, y_max, z_min, z_max);
         }
         void DetectorGeometry::FillTTree()
         {
+            Logger::GetInstance("geometry")->trace(
+                "saving geometry info to root file."
+            );
             // add geometry info
-            mGeometryTree->Branch("world_name", &mWorldName);
-            mGeometryTree->Branch("world_box_ranges", &(mWorldBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            mGeometryTree->Branch("detector_name", &mDetectorName);
-            mGeometryTree->Branch("detector_box_ranges", &(mDetectorBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            mGeometryTree->Branch("cryostat_name", &mCryostatName);
-            mGeometryTree->Branch("cryostat_box_ranges", &(mCryostatBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            mGeometryTree->Branch("number_of_tpcs", &mNumberOfTPCs);
-            mGeometryTree->Branch("tpc_names", &mTPCNames);
-            for (int i = 0; i < mNumberOfTPCs; i++) 
-            {
-                mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_name").c_str(), &(mTPCNames[i]));
-                mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_box_ranges").c_str(), &(mTPCBoxes[i]), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-                mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_mass").c_str(), &(mTPCMasses[i]));
-                mGeometryTree->Branch(std::string("tpc_"+std::to_string(i)+"_drift_distance").c_str(), &(mTPCDriftDistances[i]));
-            }
-            mGeometryTree->Branch("tpc_masses", &mTPCMasses);
-            mGeometryTree->Branch("tpc_drift_distances", &mTPCDriftDistances);
-            mGeometryTree->Branch("total_tpc_box_ranges", &(mTotalTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            mGeometryTree->Branch("total_active_tpc_box_ranges", &(mTotalActiveTPCBox), "x_min/D:x_max/D:y_min/D:y_max/D:z_min/D:z_max/D");
-            mGeometryTree->Branch("total_tpc_mass", &mTotalTPCMass);
-            mGeometryTree->Fill();
+            sGeometryTree->Fill();
         }
     }
 }

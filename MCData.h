@@ -74,6 +74,7 @@ namespace arrakis
 
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(Int_t trackID) { return sGeneratorLabelMap[trackID]; }
+            inline Int_t GetParticleIndex(Int_t trackID)    { return sParticleMap[trackID]; }
             inline Int_t GetPDGCode(Int_t trackID)          { return sPDGMap[trackID]; }
             inline Int_t GetParentPDG(Int_t trackID)        { return sParentPDGMap[trackID]; }
             inline Int_t GetParentTrackID(Int_t trackID)    { return sParentTrackIDMap[trackID]; }
@@ -87,19 +88,30 @@ namespace arrakis
             inline std::vector<Int_t> GetAncestry(Int_t trackID)    { return sAncestryMap[trackID]; }
             inline std::vector<Int_t> GetParticleEdep(Int_t trackID){ return sParticleEdepMap[trackID]; }
             inline std::vector<ProcessType> GetParticleEdepProcess(Int_t trackID)  { return sParticleEdepProcessMap[trackID]; }
+            inline std::vector<Int_t> GetParticleDetectorSimulation(Int_t trackID) { return sParticleDetectorSimulationMap[trackID]; }
+            inline std::vector<Int_t> GetRandomDetectorSimulation(Int_t trackID)   { return sRandomDetectorSimulationMap[trackID]; }
 
             // maps from edep to process
             inline ProcessType GetEdepProcess(Int_t edepID)   { return sEdepProcessMap[edepID]; }
 
+            // helper functions for organizing data
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
+            std::vector<Int_t> DetermineDetectorSimulationEdeps(std::vector<sim::IDE>& det_ide);
+
+            // fill TTree
+            void FillTTree();
 
         protected:
-            MCData() {}
+            MCData();
             ~MCData() {}
 
         private:
             static MCData * sInstance;
             static std::mutex sMutex;
+
+            // Output TTree
+            art::ServiceHandle<art::TFileService> sTFileService;
+            TTree *sMCDataTree;
 
             // handles
             std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
@@ -139,7 +151,11 @@ namespace arrakis
 
             // maps from edepID
             std::map<Int_t, ProcessType> sEdepProcessMap;
+            std::map<Int_t, std::vector<Int_t>> sEdepDetectorSimulationMap;
 
+            // maps from detsimID
+            std::map<Int_t, std::vector<Int_t>> sDetectorSimulationEdepMap;
+            
         };
     }
 }

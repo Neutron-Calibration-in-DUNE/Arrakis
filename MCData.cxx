@@ -71,6 +71,14 @@ namespace arrakis
             }
             return sInstance;
         }
+        MCData::MCData()
+        {
+            Logger::GetInstance("mcdata")->trace(
+                "setting up mcdata tree."
+            );
+            sMCDataTree = sTFileService->make<TTree>("mcdata", "mcdata");
+            sMCDataTree->Branch("pdg_map", &sPDGMap);
+        }
         void MCData::ResetEvent()
         {
             sMCTruthHandles.clear();
@@ -97,6 +105,9 @@ namespace arrakis
             sRandomDetectorSimulationMap.clear();
 
             sEdepProcessMap.clear();
+            sEdepDetectorSimulationMap.clear();
+
+            sDetectorSimulationEdepMap.clear();
         }
 
         void MCData::ProcessEvent(
@@ -182,6 +193,11 @@ namespace arrakis
                 }
             }
             Int_t particle_index = 0;
+            Logger::GetInstance("mcdata")->trace(
+                "creating particle track ID maps for " +
+                std::to_string((*sMCParticleHandle).size()) + 
+                " <simb::MCParticle>s."
+            );
             for (auto particle : *sMCParticleHandle)
             {
                 sParticleMap[particle.TrackId()] = particle_index;
@@ -310,11 +326,17 @@ namespace arrakis
                 }
             }
             Int_t edep_index = 0;
+            Logger::GetInstance("mcdata")->trace(
+                "creating particle edep ID maps for " +
+                std::to_string((*sMCSimEnergyDepositHandle).size()) + 
+                " <sim::SimEnergyDeposit>s."
+            );
             for(auto edep : *sMCSimEnergyDepositHandle)
             {
                 sParticleEdepMap[edep.TrackID()].emplace_back(edep_index);
                 ProcessType process = DetermineEdepProcess(edep);
                 sParticleEdepProcessMap[edep.TrackID()].emplace_back(process);
+                sEdepDetectorSimulationMap[edep_index] = {};
                 edep_index += 1;
             }
         }
@@ -393,6 +415,11 @@ namespace arrakis
                 art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
             ); 
             Int_t digit_index = 0;
+            Logger::GetInstance("mcdata")->trace(
+                "creating detector simulation and particle ID maps for " +
+                std::to_string((*sMCRawDigitHandle).size()) + 
+                " <raw::RawDigit>s."
+            );
             for(auto digit : *sMCRawDigitHandle)
             {
                 // Get the channel number for this digit, number of samples,
@@ -436,6 +463,7 @@ namespace arrakis
                     {
                         sDetectorSimulationNoise.emplace_back(digit_index);
                     }
+                    // associate this detector simulation with a particle particle
                     for(auto track : trackIDsAndEnergy)
                     {
                         if(track.trackID > 0) {
@@ -445,8 +473,13 @@ namespace arrakis
                             sRandomDetectorSimulationMap[track.trackID] = {digit_index};
                         }
                     }
+                    // determine the edeps associated with this detector simulation
+                    sDetectorSimulationEdepMap[digit_index] = DetermineDetectorSimulationEdeps(
+                        trackIDsAndEnergy,
+                        digit_index
+                    );
+                    digit_index += 1;
                 }
-                digit_index += 1;
             }
         }
         ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)
@@ -470,5 +503,40 @@ namespace arrakis
             }
             return TrajectoryStringToProcessType[process];
         }
+        std::vector<Int_t> MCData::DetermineDetectorSimulationEdeps(
+            std::vector<sim::IDE> det_ide,
+            Int_t detsim_id
+        )
+        {
+            std::vector<Int_t> edep_ids;
+            for(auto track : det_ide)
+            {
+                if(track.trackID > 0)
+                {
+                    std::vector<Int_t> candidate_edeps = sParticleEdepMap[track.trackID];
+                    for(auto edep_id : candidate_edeps)
+                    {
+                        auto edep = GetMCSimEnergyDeposit(edep_id);
+                        if(
+                            edep.MidPointX() == track.x &&
+                            edep.MidPointY() == track.y &&
+                            edep.MidPointZ() == track.z
+                        ) {
+                            edep_ids.emplace_back(edep_id);
+                            sEdepDetectorSimulationMap[edep_id].emplace_back(detsim_id);
+                        }
+                    }
+                }
+            }
+            return edep_ids;
+        }
+        void MCData::FillTTree()
+        {
+            Logger::GetInstance("mcdata")->trace(
+                "saving mcdata info to root file."
+            );
+            // add mcdata info
+            sMCDataTree->Fill();
+        }               
     }
 }

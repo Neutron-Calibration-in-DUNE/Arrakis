@@ -167,12 +167,13 @@ namespace arrakis
         // // }
         // mParticleMaps->FillTTree();
         //mPrimaryData->FillTTree();
-        
+        mMCData->FillTTree();
     }
     
     // end job
     void Arrakis::endJob()
     {
+        geometry::DetectorGeometry::GetInstance()->FillTTree();
         // if(mSaveMeta) {
         //     mMetaTree->Fill();
         // }

@@ -164,42 +164,42 @@ namespace arrakis
             // the singleton instance
             static DetectorGeometry* GetInstance();
 
-            unsigned int NumberOfUChannels() { return mNumberOfUChannels; }
-            unsigned int NumberOfVChannels() { return mNumberOfVChannels; }
-            unsigned int NumberOfZChannels() { return mNumberOfZChannels; }
+            unsigned int NumberOfUChannels() { return sNumberOfUChannels; }
+            unsigned int NumberOfVChannels() { return sNumberOfVChannels; }
+            unsigned int NumberOfZChannels() { return sNumberOfZChannels; }
 
             // find channel boundaries for each view
-            unsigned int UChannelMin() { return mUChannelMin; }
-            unsigned int UChannelMax() { return mUChannelMax; }
-            unsigned int VChannelMin() { return mVChannelMin; }
-            unsigned int VChannelMax() { return mVChannelMax; }
-            unsigned int ZChannelMin() { return mZChannelMin; }
-            unsigned int ZChannelMax() { return mZChannelMax; }
+            unsigned int UChannelMin() { return sUChannelMin; }
+            unsigned int UChannelMax() { return sUChannelMax; }
+            unsigned int VChannelMin() { return sVChannelMin; }
+            unsigned int VChannelMax() { return sVChannelMax; }
+            unsigned int ZChannelMin() { return sZChannelMin; }
+            unsigned int ZChannelMax() { return sZChannelMax; }
 
-            unsigned int NumberOfAPAs() { return mNumberOfAPAs; }
-            unsigned int NumberOfChannelsPerAPA() { return mNumberOfChannelsPerAPA; }
+            unsigned int NumberOfAPAs() { return sNumberOfAPAs; }
+            unsigned int NumberOfChannelsPerAPA() { return sNumberOfChannelsPerAPA; }
 
-            geo::View_t View(raw::ChannelID_t const channel) { return mGeometryCore->View(channel); }
-            std::vector<geo::WireID> ChannelToWire(raw::ChannelID_t const channel) { return mChannelToWireIDMap[channel]; }
-            Double_t GetWirePitch(geo::View_t view) { return mWirePitchMap[view]; }
+            geo::View_t View(raw::ChannelID_t const channel) { return sGeometryCore->View(channel); }
+            std::vector<geo::WireID> ChannelToWire(raw::ChannelID_t const channel) { return sChannelToWireIDMap[channel]; }
+            Double_t GetWirePitch(geo::View_t view) { return sWirePitchMap[view]; }
 
             // getters
-            std::string GetWorldName()      { return mWorldName; }
-            BoundingBox GetWorldBox()       { return mWorldBox; }
+            std::string GetWorldName()      { return sWorldName; }
+            BoundingBox GetWorldBox()       { return sWorldBox; }
 
-            std::string GetDetectorName()   { return mDetectorName; }
-            BoundingBox GetDetectorBox()    { return mDetectorBox; }
+            std::string GetDetectorName()   { return sDetectorName; }
+            BoundingBox GetDetectorBox()    { return sDetectorBox; }
 
-            std::string GetCryostatName()   { return mCryostatName; }
-            BoundingBox GetCryostatBox()    { return mCryostatBox; }
+            std::string GetCryostatName()   { return sCryostatName; }
+            BoundingBox GetCryostatBox()    { return sCryostatBox; }
 
-            int GetNumberOfTPCs()                   { return mNumberOfTPCs; }
-            std::vector<std::string> GetTPCNames()  { return mTPCNames; }
-            BoundingBox GetTotalTPCBox()            { return mTotalTPCBox; }
-            BoundingBox GetTotalActiveTPCBox()      { return mTotalActiveTPCBox; }
-            double GetTotalTPCMass()                { return mTotalTPCMass; }
-            std::vector<double> GetTPCMasses()      { return mTPCMasses; }
-            std::vector<double> GetTPCDriftDistances()  { return mTPCDriftDistances; }
+            int GetNumberOfTPCs()                   { return sNumberOfTPCs; }
+            std::vector<std::string> GetTPCNames()  { return sTPCNames; }
+            BoundingBox GetTotalTPCBox()            { return sTotalTPCBox; }
+            BoundingBox GetTotalActiveTPCBox()      { return sTotalActiveTPCBox; }
+            double GetTotalTPCMass()                { return sTotalTPCMass; }
+            std::vector<double> GetTPCMasses()      { return sTPCMasses; }
+            std::vector<double> GetTPCDriftDistances()  { return sTPCDriftDistances; }
 
             std::string GetTPCName(const size_t i);
             BoundingBox GetTPCBox(const size_t i);
@@ -224,58 +224,56 @@ namespace arrakis
             static DetectorGeometry * sInstance;
             static std::mutex sMutex;
 
-            Logger* mLogger = Logger::GetInstance("geometry");
-
-            art::ServiceHandle<geo::Geometry> mGeometryService;
-            geo::GeometryCore const* mGeometryCore;
-            art::ServiceHandle<art::TFileService> mTFileService;
+            art::ServiceHandle<geo::Geometry> sGeometryService;
+            geo::GeometryCore const* sGeometryCore;
+            art::ServiceHandle<art::TFileService> sTFileService;
 
             // TPC // Number of channels in each planes
-            unsigned int mNumberOfUChannels;
-            unsigned int mNumberOfVChannels;
-            unsigned int mNumberOfZChannels;
+            unsigned int sNumberOfUChannels;
+            unsigned int sNumberOfVChannels;
+            unsigned int sNumberOfZChannels;
 
             // find channel boundaries for each view
-            unsigned int mUChannelMin;
-            unsigned int mUChannelMax;
-            unsigned int mVChannelMin;
-            unsigned int mVChannelMax;
-            unsigned int mZChannelMin;
-            unsigned int mZChannelMax;
+            unsigned int sUChannelMin;
+            unsigned int sUChannelMax;
+            unsigned int sVChannelMin;
+            unsigned int sVChannelMax;
+            unsigned int sZChannelMin;
+            unsigned int sZChannelMax;
 
-            unsigned int mNumberOfAPAs; //Number of APAs
-            unsigned int mNumberOfChannelsPerAPA; //Number of channels in each APA
+            unsigned int sNumberOfAPAs; //Number of APAs
+            unsigned int sNumberOfChannelsPerAPA; //Number of channels in each APA
 
-            std::map<raw::ChannelID_t, std::vector<geo::WireID>> mChannelToWireIDMap;
-            std::map<geo::View_t, geo::Length_t> mWirePitchMap;
+            std::map<raw::ChannelID_t, std::vector<geo::WireID>> sChannelToWireIDMap;
+            std::map<geo::View_t, geo::Length_t> sWirePitchMap;
 
-            TTree *mGeometryTree;
-            size_t mTriggerOffset;
+            TTree *sGeometryTree;
+            size_t sTriggerOffset;
             
-            std::map<std::string,VolumeType> mVolumeTypeMap;
+            std::map<std::string,VolumeType> sVolumeTypeMap;
 
             // world volume
-            std::string mWorldName;
-            BoundingBox mWorldBox;
+            std::string sWorldName;
+            BoundingBox sWorldBox;
             // detector volume
-            std::string mDetectorName;
-            BoundingBox mDetectorBox;
+            std::string sDetectorName;
+            BoundingBox sDetectorBox;
             // cryostat volume
-            std::string mCryostatName;
-            BoundingBox mCryostatBox;
+            std::string sCryostatName;
+            BoundingBox sCryostatBox;
 
             // tpc volumes
-            int mNumberOfTPCs;
-            std::vector<std::string> mTPCNames;
-            std::vector<BoundingBox> mTPCBoxes;
-            std::vector<BoundingBox> mActiveTPCBoxes;
-            std::vector<double> mTPCMasses;
-            std::vector<double> mTPCDriftDistances;
+            int sNumberOfTPCs;
+            std::vector<std::string> sTPCNames;
+            std::vector<BoundingBox> sTPCBoxes;
+            std::vector<BoundingBox> sActiveTPCBoxes;
+            std::vector<double> sTPCMasses;
+            std::vector<double> sTPCDriftDistances;
 
             // full tpc volume
-            BoundingBox mTotalTPCBox;
-            BoundingBox mTotalActiveTPCBox;
-            double mTotalTPCMass;
+            BoundingBox sTotalTPCBox;
+            BoundingBox sTotalActiveTPCBox;
+            double sTotalTPCMass;
 
             ////////////////////////////////////////////////
             // detector material variables
@@ -285,8 +283,8 @@ namespace arrakis
             // at each point of interest.  This requires holding 
             // this information in a
             // TGeoMaterial object, which is part of ROOT.
-            const TGeoMaterial *mMaterial;
-            geo::Point_t mMaterialPOI;
+            const TGeoMaterial *sMaterial;
+            geo::Point_t sMaterialPOI;
         };
     }
 }
