@@ -66,16 +66,16 @@ namespace arrakis
                 Int_t det_adc
             )
             {
-                auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(channel);
-                auto det_view = geometry::DetectorGeometry::GetInstance()->View(channel);
+                auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
+                auto det_view = geometry::DetectorGeometry::GetInstance()->View(det_channel);
                 Double_t wire_multiple = geometry::DetectorGeometry::GetInstance()->GetWirePitch(det_view);
 
                 view = det_view;
                 channel = det_channel;
-                wire = wires[view].Wire * wire_multiple;
+                wire = wires[det_view].Wire * wire_multiple;
                 tick = det_tick;
                 adc = det_adc;
-                tdc = clock_data.TPCTick2TDC(tick);
+                tdc = clock_data.TPCTick2TDC(det_tick);
 
                 for(auto ide : det_ide) {
                     track_ids.emplace_back(ide.trackID);
@@ -104,16 +104,16 @@ namespace arrakis
                 Int_t det_adc
             )
             {
-                auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(channel);
+                auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
                 auto det_view = geometry::DetectorGeometry::GetInstance()->View(channel);
                 Double_t wire_multiple = geometry::DetectorGeometry::GetInstance()->GetWirePitch(det_view);
 
                 view.emplace_back(det_view);
                 channel.emplace_back(det_channel);
-                wire.emplace_back(wires[view].Wire * wire_multiple);
+                wire.emplace_back(wires[det_view].Wire * wire_multiple);
                 tick.emplace_back(det_tick);
                 adc.emplace_back(det_adc);
-                tdc.emplace_back(clock_data.TPCTick2TDC(tick));
+                tdc.emplace_back(clock_data.TPCTick2TDC(det_tick));
             }
 
             void clear()
