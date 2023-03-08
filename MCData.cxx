@@ -57,6 +57,23 @@ namespace arrakis
         {"nCapture",        ProcessType::NeutronCapture},
         {"Transportation",  ProcessType::Transportation},
     };
+    std::map<ProcessType, std::string> TrajectoryProcessTypeToString
+    {
+        {ProcessType::NotDefined,           "NotDefined"},
+        {ProcessType::Unknown,              "Unknown"},
+        {ProcessType::Primary,              "primary"},
+        {ProcessType::HadronElastic,        "hadElastic"},
+        {ProcessType::PiMinusInelastic,     "pi-Inelastic"},
+        {ProcessType::PiPlusInelastic,      "pi+Inelastic"},
+        {ProcessType::KaonMinusInelastic,   "kaon-Inelastic"},
+        {ProcessType::KaonPlusInelastic,    "kaon+Inelastic"},
+        {ProcessType::ProtonInelastic,      "protonInelastic"},
+        {ProcessType::NeutronInelastic,     "neutronInelastic"},
+        {ProcessType::CoulombScatter,       "CoulombScatter"},
+        {ProcessType::NeutronCapture,       "nCapture"},
+        {ProcessType::Transportation,       "Transportation"},
+    };
+
     namespace mcdata
     {
         MCData* MCData::sInstance{nullptr};
@@ -488,7 +505,6 @@ namespace arrakis
                             (Int_t) (std::abs(uncompressed[l]))
                         )
                     );
-                    std::cout << "digit: " << channel << " - tdc: " << l  << " - adc: " << (Int_t)(std::abs(uncompressed[l])) << std::endl;
                     // associate this detector simulation with a particle particle
                     for(auto track : trackIDsAndEnergy)
                     {
@@ -537,20 +553,17 @@ namespace arrakis
             std::vector<Int_t> edep_ids;
             for(auto track : det_ide)
             {
-                std::cout << "    track ID: " << track.trackID << " - (x,y,z): (" << track.x << "," << track.y << "," << track.z << ") energy: " << track.energy << std::endl;
                 if(track.trackID > 0)
                 {
                     std::vector<Int_t> candidate_edeps = sParticleEdepMap[track.trackID];
                     for(auto edep_id : candidate_edeps)
                     {
                         auto edep = GetMCSimEnergyDeposit(edep_id);
-                        std::cout << "        candidate: " << edep_id << " - (x,y,z): (" << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ") energy: "  << edep.Energy() << std::endl;
                         if(
                             edep.MidPointX() == track.x && 
                             edep.MidPointY() == track.y &&
                             edep.MidPointZ() == track.z
                         ) {
-                            std::cout << "edep_id " << edep_id << std::endl;
                             edep_ids.emplace_back(edep_id);
                             sEdepDetectorSimulationMap[edep_id].emplace_back(detsim_id);
                         }
@@ -567,5 +580,39 @@ namespace arrakis
             // add mcdata info
             sMCDataTree->Fill();
         }               
+    }
+
+    std::vector<Int_t> MCData::GetPrimariesByPDG(Int_t pdg)
+    {
+        std::vector<Int_t> primaries;
+        for(auto primary : sPrimaries)
+        {
+            if (sPDGMap[primary] == pdg) {
+                primaries.emplace_back(primary);
+            }
+        }
+        return primaries;
+    }
+    std::vector<Int_t> MCData::GetDaughtersByPDG(Int_t track_id, Int_t pdg)
+    {
+        std::vector<Int_t> daughters;
+        for(auto daughter : sDaughterMap[track_id])
+        {
+            if(sPDGMap[daughter] == pdg) {
+                daughters.emplace_back(daughter);
+            }
+        }
+        return daughters;
+    }
+    std::vector<Int_t> MCData::FilterParticlesByProcess(std::vector<Int_t> track_ids, ProcessType process_type)
+    {
+        std::vector<Int_t> particles;
+        for(auto track_id : track_ids)
+        {
+            if((*sMCParticleHandle)[sParticleMap[track_id]].Process() == TrajectoryProcessTypeToString[process_type]) {
+                particles.emplace_back(track_id);
+            }
+        }
+        return particles;
     }
 }

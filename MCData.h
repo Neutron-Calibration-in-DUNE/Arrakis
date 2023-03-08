@@ -98,6 +98,12 @@ namespace arrakis
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
             std::vector<Int_t> DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, Int_t detsim_id);
 
+            // functions for collecting track ids
+            //std::vector<Int_t> GetPrimariesByProcess(ProcessType process_type);
+            std::vector<Int_t> GetPrimariesByPDG(Int_t pdg);
+            std::vector<Int_t> GetDaughtersByPDG(Int_t track_id, Int_t pdg);
+
+            std::vector<Int_t> FilterParticlesByProcess(std::vector<Int_t> track_ids, ProcessType process_type);
 
 
             // fill TTree
