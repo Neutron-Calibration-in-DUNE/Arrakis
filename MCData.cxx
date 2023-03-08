@@ -579,40 +579,39 @@ namespace arrakis
             );
             // add mcdata info
             sMCDataTree->Fill();
-        }               
-    }
-
-    std::vector<Int_t> MCData::GetPrimariesByPDG(Int_t pdg)
-    {
-        std::vector<Int_t> primaries;
-        for(auto primary : sPrimaries)
+        }    
+        std::vector<Int_t> MCData::GetPrimariesByPDG(Int_t pdg)
         {
-            if (sPDGMap[primary] == pdg) {
-                primaries.emplace_back(primary);
+            std::vector<Int_t> primaries;
+            for(auto primary : sPrimaries)
+            {
+                if (sPDGMap[primary] == pdg) {
+                    primaries.emplace_back(primary);
+                }
             }
+            return primaries;
         }
-        return primaries;
-    }
-    std::vector<Int_t> MCData::GetDaughtersByPDG(Int_t track_id, Int_t pdg)
-    {
-        std::vector<Int_t> daughters;
-        for(auto daughter : sDaughterMap[track_id])
+        std::vector<Int_t> MCData::GetDaughtersByPDG(Int_t track_id, Int_t pdg)
         {
-            if(sPDGMap[daughter] == pdg) {
-                daughters.emplace_back(daughter);
+            std::vector<Int_t> daughters;
+            for(auto daughter : sDaughterMap[track_id])
+            {
+                if(sPDGMap[daughter] == pdg) {
+                    daughters.emplace_back(daughter);
+                }
             }
+            return daughters;
         }
-        return daughters;
-    }
-    std::vector<Int_t> MCData::FilterParticlesByProcess(std::vector<Int_t> track_ids, ProcessType process_type)
-    {
-        std::vector<Int_t> particles;
-        for(auto track_id : track_ids)
+        std::vector<Int_t> MCData::FilterParticlesByProcess(std::vector<Int_t> track_ids, ProcessType process_type)
         {
-            if((*sMCParticleHandle)[sParticleMap[track_id]].Process() == TrajectoryProcessTypeToString[process_type]) {
-                particles.emplace_back(track_id);
+            std::vector<Int_t> particles;
+            for(auto track_id : track_ids)
+            {
+                if((*sMCParticleHandle)[sParticleMap[track_id]].Process() == TrajectoryProcessTypeToString[process_type]) {
+                    particles.emplace_back(track_id);
+                }
             }
-        }
-        return particles;
+            return particles;
+        }           
     }
 }
