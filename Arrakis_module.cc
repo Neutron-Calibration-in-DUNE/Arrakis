@@ -49,6 +49,7 @@
 #include "Core.h"
 #include "Logger.h"
 #include "MCData.h"
+#include "Melange.h"
 
 namespace arrakis
 {
@@ -89,6 +90,7 @@ namespace arrakis
         // Detector Geometry Instance
         geometry::DetectorGeometry* mGeometry;
         mcdata::MCData* mMCData;
+        melange::Melange* mMelange;
 
     };
 
@@ -101,21 +103,7 @@ namespace arrakis
         mGeometry = geometry::DetectorGeometry::GetInstance();
         mMCData = mcdata::MCData::GetInstance();
 
-        Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");
-
-        // // generator labels
-        // if(mGeneratePointCloudData)
-        // {
-        //     mAr39Label = mParameters().Ar39Label();
-        //     Logger::GetInstance("arrakis_module")->trace("setting Ar39Label = " + mAr39Label.label());
-        //     mSingleNeutronLabel = mParameters().SingleNeutronLabel();
-        //     Logger::GetInstance("arrakis_module")->trace("setting SingleNeutronLabel = " + mSingleNeutronLabel.label());
-        //     mPNSLabel = mParameters().PNSLabel();
-        //     Logger::GetInstance("arrakis_module")->trace("setting PNSLabel = " + mPNSLabel.label());
-        //     mGeneratorMap[mAr39Label] = GeneratorLabel::kAr39;
-        //     mGeneratorMap[mSingleNeutronLabel] = GeneratorLabel::kSingleNeutron;
-        //     mGeneratorMap[mPNSLabel] = GeneratorLabel::kPNS;
-        // }
+        Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");      
     }
 
     // begin job
@@ -138,35 +126,8 @@ namespace arrakis
 
         mMCData->ProcessEvent(mParameters, event);
         
-        // detinfo::DetectorClocksData const clock_data(
-        //     art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
-        // );
-
-
-        // Logger::GetInstance("arrakis_module")->trace("processed MCParticle, SimEnergyDeposit and MCTruth products");
-        //     // mPrimaryData->ProcessEventDetectorSimulation(
-        //     //     mParticleMaps, 
-        //     //     clock_data,
-        //     //     mc_sim_channels,
-        //     //     mc_raw_digits
-        //     // );
-        //     Logger::GetInstance("arrakis_module")->trace("processed SimChannel and RawDigit products");
-        // }
         
 
-        // /**
-        //  * @brief Now that everything is collected, we pass the data to 
-        //  * the various classes which construct training data.
-        //  */
-        // // if(mGeneratePointCloudData) 
-        // // {
-        // //     mPointCloudGenerator->ProcessEvent(
-        // //         mParticleMaps,
-        // //         mPrimaryData
-        // //     );
-        // // }
-        // mParticleMaps->FillTTree();
-        //mPrimaryData->FillTTree();
         mMCData->FillTTree();
     }
     

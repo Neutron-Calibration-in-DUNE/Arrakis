@@ -629,5 +629,16 @@ namespace arrakis
             }
             return edeps;
         }
+        std::vector<EdepID_t> MCData::FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg)
+        {
+            std::vector<EdepID_t> edeps;
+            for(auto edep_id : edep_ids)
+            {
+                if(sPDGMap[sMCSimEnergyDepositHandle->at(edep_id).TrackID()] == pdg) {
+                    edeps.emplace_back(edep_id);
+                }
+            }
+            return edeps;
+        }
     }
 }

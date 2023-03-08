@@ -34,6 +34,13 @@ namespace arrakis
 {
     namespace mcdata
     {
+        /**
+         * To reduce confusion throughout MCData code, we will use different names
+         * for integers that mean different things.  TrackID_t refers to the actual 
+         * track id of a particle, while ParticleID_t refers to the index of a particle
+         * in the simb::MCParticle vector.  EdepID_t and DetSimID_t are also the indices
+         * of the sim::SimEnergyDeposit and arrakis::DetectorSimulation vectors respectively.
+         */
         using TrackID_t = Int_t;
         using EdepID_t = Int_t;
         using ParticleID_t = Int_t;
@@ -111,6 +118,8 @@ namespace arrakis
             std::vector<TrackID_t> FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type);
 
             std::vector<EdepID_t> FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type);
+            std::vector<EdepID_t> FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg);
+            
 
             // fill TTree
             void FillTTree();
