@@ -20,7 +20,7 @@ Arrakis:
     LArGeantProducerLabel:      "largeant"
     IonAndScintProducerLabel:   "IonAndScint"
     SimChannelProducerLabel:    "tpcrawdecoder"
-    SimChannelInstanceLabel:    "priorSCE"
+    SimChannelInstanceLabel:    "simpleSC"
     RawDigitProducerLabel:      "tpcrawdecoder"
     RawDigitInstanceLabel:      "daq"
 
