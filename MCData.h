@@ -70,12 +70,12 @@ namespace arrakis
             art::Handle<std::vector<sim::SimChannel>> GetSimChannels()  { return sMCSimChannelHandle; }
             art::Handle<std::vector<raw::RawDigit>> GetRawDigits()      { return sMCRawDigitHandle; }
 
-            const simb::MCParticle& GetMCParticle(ParticleID_t index)  { return (*sMCParticleHandle)[index]; }
-            const sim::SimEnergyDeposit& GetMCSimEnergyDeposit(EdepID_t index) { return (*sMCSimEnergyDepositHandle)[index]; }
-            const sim::SimChannel& GetMCSimChannel(Int_t index) { return (*sMCSimChannelHandle)[index]; }
-            const raw::RawDigit& GetMCRawDigit(Int_t index)     { return (*sMCRawDigitHandle)[index]; }
+            const simb::MCParticle& GetMCParticle(ParticleID_t index)  { return sMCParticleHandle->at(index); }
+            const sim::SimEnergyDeposit& GetMCSimEnergyDeposit(EdepID_t index) { return sMCSimEnergyDepositHandle->at(index); }
+            const sim::SimChannel& GetMCSimChannel(Int_t index) { return sMCSimChannelHandle->at(index); }
+            const raw::RawDigit& GetMCRawDigit(Int_t index)     { return sMCRawDigitHandle->at(index); }
 
-            const simb::MCParticle& GetMCParticleTrackID(TrackID_t TrackID)  { return (*sMCParticleHandle)[sParticleMap[TrackID]]; }
+            const simb::MCParticle& GetMCParticleTrackID(TrackID_t TrackID)  { return sMCParticleHandle->at(sParticleMap[TrackID]); }
 
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(TrackID_t trackID) { return sGeneratorLabelMap[trackID]; }

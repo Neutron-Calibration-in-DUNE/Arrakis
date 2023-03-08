@@ -607,7 +607,7 @@ namespace arrakis
             std::vector<TrackID_t> particles;
             for(auto track_id : track_ids)
             {
-                if((*sMCParticleHandle)[sParticleMap[track_id]].Process() == TrajectoryProcessTypeToString[process_type]) {
+                if(sMCParticleHandle->at(sParticleMap[track_id]).Process() == TrajectoryProcessTypeToString[process_type]) {
                     particles.emplace_back(track_id);
                 }
             }
@@ -618,7 +618,14 @@ namespace arrakis
             std::vector<EdepID_t> edeps;
             for(auto edep_id : edep_ids)
             {
-                
+                DetectorVolume volume = geometry::DetectorGeometry::GetInstance()->GetVolume(
+                    sMCSimEnergyDepositHandle->at(edep_id).MidPointX(),
+                    sMCSimEnergyDepositHandle->at(edep_id).MidPointX(),
+                    sMCSimEnergyDepositHandle->at(edep_id).MidPointX()
+                );
+                if(volume.volume_type == volume_type) {
+                    edeps.emplace_back(edep_id);
+                }
             }
             return edeps;
         }
