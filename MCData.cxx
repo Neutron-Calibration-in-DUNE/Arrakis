@@ -580,9 +580,9 @@ namespace arrakis
             // add mcdata info
             sMCDataTree->Fill();
         }    
-        std::vector<Int_t> MCData::GetPrimariesByPDG(Int_t pdg)
+        std::vector<TrackID_t> MCData::GetPrimariesByPDG(Int_t pdg)
         {
-            std::vector<Int_t> primaries;
+            std::vector<TrackID_t> primaries;
             for(auto primary : sPrimaries)
             {
                 if (sPDGMap[primary] == pdg) {
@@ -591,9 +591,9 @@ namespace arrakis
             }
             return primaries;
         }
-        std::vector<Int_t> MCData::GetDaughtersByPDG(Int_t track_id, Int_t pdg)
+        std::vector<TrackID_t> MCData::GetDaughtersByPDG(TrackID_t track_id, Int_t pdg)
         {
-            std::vector<Int_t> daughters;
+            std::vector<TrackID_t> daughters;
             for(auto daughter : sDaughterMap[track_id])
             {
                 if(sPDGMap[daughter] == pdg) {
@@ -602,9 +602,9 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<Int_t> MCData::FilterParticlesByProcess(std::vector<Int_t> track_ids, ProcessType process_type)
+        std::vector<TrackID_t> MCData::FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type)
         {
-            std::vector<Int_t> particles;
+            std::vector<TrackID_t> particles;
             for(auto track_id : track_ids)
             {
                 if((*sMCParticleHandle)[sParticleMap[track_id]].Process() == TrajectoryProcessTypeToString[process_type]) {
@@ -613,5 +613,14 @@ namespace arrakis
             }
             return particles;
         }           
+        std::vector<EdepID_t> MCData::FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type)
+        {
+            std::vector<EdepID_t> edeps;
+            for(auto edep_id : edep_ids)
+            {
+                
+            }
+            return edeps;
+        }
     }
 }
