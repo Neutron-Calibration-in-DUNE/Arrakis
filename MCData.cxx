@@ -471,7 +471,12 @@ namespace arrakis
                      */
                     if(trackIDsAndEnergy.size() == 0) 
                     {
-                        sDetectorSimulationNoise.emplace_back(digit_index);
+                        sDetectorSimulationNoise.AddNoise(
+                            clock_data,
+                            l,
+                            channel,
+                            (Int_t) (std::abs(uncompressed[l]))
+                        );
                         continue;
                     }
                     sDetectorSimulation.emplace_back(

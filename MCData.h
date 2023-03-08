@@ -98,6 +98,8 @@ namespace arrakis
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
             std::vector<Int_t> DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, Int_t detsim_id);
 
+
+
             // fill TTree
             void FillTTree();
 
@@ -129,7 +131,7 @@ namespace arrakis
 
             // List of detector simulation structs
             std::vector<DetectorSimulation> sDetectorSimulation;
-            std::vector<Int_t> sDetectorSimulationNoise;
+            DetectorSimulationNoise sDetectorSimulationNoise;
 
             // MCParticle TrackID maps
             std::map<Int_t, Int_t>      sParticleMap;
