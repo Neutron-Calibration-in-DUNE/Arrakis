@@ -618,7 +618,7 @@ namespace arrakis
             std::vector<EdepID_t> edeps;
             for(auto edep_id : edep_ids)
             {
-                DetectorVolume volume = geometry::DetectorGeometry::GetInstance()->GetVolume(
+                geometry::DetectorVolume volume = geometry::DetectorGeometry::GetInstance()->GetVolume(
                     sMCSimEnergyDepositHandle->at(edep_id).MidPointX(),
                     sMCSimEnergyDepositHandle->at(edep_id).MidPointX(),
                     sMCSimEnergyDepositHandle->at(edep_id).MidPointX()
