@@ -37,34 +37,6 @@ namespace arrakis
             fhicl::Comment("Whether to save geometry arrays.")
         };
 
-        fhicl::Atom<bool> SaveParticleMaps
-        {
-            fhicl::Name("SaveParticleMaps"),
-            fhicl::Comment("Whether to save particle maps arrays.")
-        };
-        
-        fhicl::Atom<bool> SavePrimaryData
-        {
-            fhicl::Name("SavePrimaryData"),
-            fhicl::Comment("Whether to save primary data arrays.")
-        };
-        fhicl::Atom<bool> SavePrimaryDataEdeps
-        {
-            fhicl::Name("SavePrimaryDataEdeps"),
-            fhicl::Comment("Whether to save primary data arrays.")
-        };
-        fhicl::Atom<bool> SavePrimaryDataRawTPC
-        {
-            fhicl::Name("SavePrimaryDataRawTPC"),
-            fhicl::Comment("Whether to save primary data arrays.")
-        };
-
-        fhicl::Atom<bool> GeneratePointCloudData
-        {
-            fhicl::Name("GeneratePointCloudData"),
-            fhicl::Comment("Whether to save point cloud data from different sources.")
-        };
-
         /**
          * @brief Producer and Instance labels.
          * 
