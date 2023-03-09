@@ -125,7 +125,7 @@ namespace arrakis
         );
 
         mMCData->ProcessEvent(mParameters, event);
-        mMelange->ProcessEvent(mParameters, event);
+        mMelange.ProcessEvent(mParameters, event);
         
 
         mMCData->FillTTree();
