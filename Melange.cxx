@@ -67,6 +67,7 @@ namespace arrakis
             PrepareInitialPointClouds(config, event);
             ProcessNeutronCaptures(config, event);
             CleanUpPointClouds(config, event);
+            SeparatePointClouds(config, event);
             FillTTree();
         }
         
@@ -82,14 +83,14 @@ namespace arrakis
                 mDetectorPointCloud.channel.emplace_back(det_sim[ii].channel);
                 mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
                 mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
-                mDetectorPointCloud.label.emplace_back(DetectorLabel::Undefined);
+                mDetectorPointCloud.label.emplace_back(Label(DetectorLabel::Undefined));
             }
             for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
             {
                 mDetectorPointCloud.channel.emplace_back(det_sim_noise.channel[ii]);
                 mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
                 mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
-                mDetectorPointCloud.label.emplace_back(DetectorLabel::Noise);
+                mDetectorPointCloud.label.emplace_back(Label(DetectorLabel::Noise));
             }
         }
 
@@ -97,6 +98,36 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+        }
+
+        void Melange::SeparatePointClouds(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
+            {
+                if(mDetectorPointCloud.view[ii] == 0) 
+                {
+                    mDetectorView0PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
+                    mDetectorView0PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
+                    mDetectorView0PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
+                    mDetectorView0PointCloud.label.emplace_back(mDetectorPointCloud.label[ii]);
+                }
+                else if(mDetectorPointCloud.view[ii] == 1) 
+                {
+                    mDetectorView1PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
+                    mDetectorView1PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
+                    mDetectorView1PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
+                    mDetectorView1PointCloud.label.emplace_back(mDetectorPointCloud.label[ii]);
+                }
+                else
+                {
+                    mDetectorView2PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
+                    mDetectorView2PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
+                    mDetectorView2PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
+                    mDetectorView2PointCloud.label.emplace_back(mDetectorPointCloud.label[ii]);
+                }
+            }
         }
         
         void Melange::ProcessNeutronCaptures(
@@ -115,7 +146,7 @@ namespace arrakis
                     auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
                     auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
                     for(auto detsim : tpc_gamma_det_sim) {
-                        mDetectorPointCloud.label[detsim] = DetectorLabel::NeutronCapture;
+                        mDetectorPointCloud.label[detsim] = Label(DetectorLabel::NeutronCapture);
                     }
                 }
             }

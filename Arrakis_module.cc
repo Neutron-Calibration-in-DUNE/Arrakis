@@ -102,6 +102,7 @@ namespace arrakis
 
         mGeometry = geometry::DetectorGeometry::GetInstance();
         mMCData = mcdata::MCData::GetInstance();
+        mMCData->SetADCThreshold(config().ADCThreshold());
 
         Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");      
     }

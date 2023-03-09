@@ -115,6 +115,13 @@ namespace arrakis
             sMCDataTree->Branch("edep_detsim_map", &sEdepDetectorSimulationMap);
             sMCDataTree->Branch("detsim_edep_map", &sDetectorSimulationEdepMap);
         }
+        void MCData::SetADCThreshold(Double_t ADCThreshold)
+        {
+            Logger::GetInstance("mcdata")->trace(
+                "setting ADC threshold to " + std::to_string(ADCThreshold)
+            );
+            sADCThreshold = ADCThreshold;
+        }
         void MCData::ResetEvent()
         {
             sMCTruthHandles.clear();
@@ -479,6 +486,10 @@ namespace arrakis
                 // iterate over each tdc value
                 for(int l=0; l < num_samples; l++) 
                 {
+                    // check if threshold has been met
+                    if(std::abs(uncompressed[l]) < sADCThreshold) {
+                        continue;
+                    }
                     auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
                     /**
                      * This step distinguishes noise from true MC particles.

@@ -71,6 +71,9 @@ namespace arrakis
                 art::InputTag producer_label, art::InputTag instance_label
             );
 
+            void SetADCThreshold(Double_t ADCThreshold);
+            Double_t GetADCThreshold()  { return sADCThreshold; }
+
             art::Handle<std::vector<simb::MCTruth>> GetMCTruth()        { return sMCTruthHandle; }
             art::Handle<std::vector<simb::MCParticle>> GetMCParticles() { return sMCParticleHandle; }
             art::Handle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposits() { return sMCSimEnergyDepositHandle; }
@@ -138,6 +141,9 @@ namespace arrakis
         private:
             static MCData * sInstance;
             static std::mutex sMutex;
+
+            // ADC threshold
+            Double_t sADCThreshold = {0.0};
 
             // Output TTree
             art::ServiceHandle<art::TFileService> sTFileService;

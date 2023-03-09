@@ -49,6 +49,7 @@ namespace arrakis
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
             void CleanUpPointClouds(const Parameters& config, art::Event const& event);
+            void SeparatePointClouds(const Parameters& config, art::Event const& event);
 
             void FillTTree();
 

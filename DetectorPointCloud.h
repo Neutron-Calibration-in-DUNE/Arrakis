@@ -58,13 +58,19 @@ namespace arrakis
         KaonPlus = 12,
         KaonMinus = 13,
     };
+    using DetectorLabelInt = std::underlying_type<DetectorLabel>::type;
+    inline Int_t Label(DetectorLabel label) 
+    { 
+        return static_cast<DetectorLabelInt>(label);
+    }
 
     struct DetectorPointCloud
     {
         std::vector<Double_t> channel = {};
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
-        std::vector<DetectorLabel> label = {};
+        std::vector<Int_t> view = {};
+        std::vector<DetectorLabelInt> label = {};
         std::vector<Int_t> unique_label = {};
 
         void clear()
@@ -72,6 +78,7 @@ namespace arrakis
             channel.clear();
             tdc.clear();
             adc.clear();
+            view.clear();
             label.clear();
             unique_label.clear();
         }
