@@ -90,7 +90,7 @@ namespace arrakis
         // Detector Geometry Instance
         geometry::DetectorGeometry* mGeometry;
         mcdata::MCData* mMCData;
-        melange::Melange* mMelange;
+        melange::Melange mMelange;
 
     };
 
@@ -125,7 +125,7 @@ namespace arrakis
         );
 
         mMCData->ProcessEvent(mParameters, event);
-        
+        mMelange->ProcessEvent(mParameters, event);
         
 
         mMCData->FillTTree();
