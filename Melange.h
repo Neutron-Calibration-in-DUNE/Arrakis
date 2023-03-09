@@ -27,6 +27,7 @@
 
 #include "Configuration.h"
 #include "Core.h"
+#include "DetectorPointCloud.h"
 #include "DetectorSimulation.h"
 #include "Logger.h"
 
@@ -44,10 +45,24 @@ namespace arrakis
             void ResetEvent();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
+
         private:
             // Output TTree
-            art::ServiceHandle<art::TFileService> sTFileService;
-            TTree *sMCDataTree;
+            art::ServiceHandle<art::TFileService> mTFileService;
+            TTree *mDetectorPointCloudTree;
+            TTree *mDetectorView0PointCloudTree;
+            TTree *mDetectorView1PointCloudTree;
+            TTree *mDetectorView2PointCloudTree;
+
+            TTree *mDetectorView0VoxelTree;
+            TTree *mDetectorView1VoxelTree;
+            TTree *mDetectorView2VoxelTree;
+
+            // data products
+            DetectorPointCloud mDetectorPointCloud;
+            DetectorPointCloud mDetectorView0PointCloud;
+            DetectorPointCloud mDetectorView1PointCloud;
+            DetectorPointCloud mDetectorView2PointCloud;
         };
     }
 }
