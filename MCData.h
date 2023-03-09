@@ -84,6 +84,9 @@ namespace arrakis
 
             const simb::MCParticle& GetMCParticleTrackID(TrackID_t TrackID)  { return sMCParticleHandle->at(sParticleMap[TrackID]); }
 
+            std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
+            DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
+
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(TrackID_t trackID) { return sGeneratorLabelMap[trackID]; }
             inline ParticleID_t GetParticleIndex(TrackID_t trackID)    { return sParticleMap[trackID]; }
@@ -113,13 +116,17 @@ namespace arrakis
             // functions for collecting track ids
             //std::vector<Int_t> GetPrimariesByProcess(ProcessType process_type);
             std::vector<TrackID_t> GetPrimariesByPDG(Int_t pdg);
+            std::vector<TrackID_t> GetParticlesByPDG(Int_t pdg);
             std::vector<TrackID_t> GetDaughtersByPDG(TrackID_t track_id, Int_t pdg);
+            std::vector<TrackID_t> GetProgenyByPDG(TrackID_t track_id, Int_t pdg);
 
             std::vector<TrackID_t> FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type);
 
+            std::vector<EdepID_t> GetEdepsByParticles(std::vector<TrackID_t> track_ids);
             std::vector<EdepID_t> FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type);
             std::vector<EdepID_t> FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg);
             
+            std::vector<DetSimID_t> GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids);
 
             // fill TTree
             void FillTTree();

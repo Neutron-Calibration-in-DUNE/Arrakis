@@ -46,12 +46,79 @@ namespace arrakis
 
         void Melange::ResetEvent()
         {
+            mDetectorPointCloud.clear();
+            mDetectorView0PointCloud.clear();
+            mDetectorView1PointCloud.clear();
+            mDetectorView2PointCloud.clear();
+        }
+
+        void Melange::FillTTree()
+        {
+            mDetectorView0PointCloudTree->Fill();
+            mDetectorView1PointCloudTree->Fill();
+            mDetectorView2PointCloudTree->Fill();
         }
 
         void Melange::ProcessEvent(
             const Parameters& config, art::Event const& event
         )
         {
+            ResetEvent();
+            PrepareInitialPointClouds(config, event);
+            ProcessNeutronCaptures(config, event);
+            CleanUpPointClouds(config, event);
+            FillTTree();
+        }
+        
+        void Melange::PrepareInitialPointClouds(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto det_sim = mc_data->GetDetectorSimulation();
+            auto det_sim_noise = mc_data->GetDetectorSimulationNoise();
+            for(auto ii = 0; ii < det_sim.size(); ii++)
+            {
+                mDetectorPointCloud.channel.emplace_back(det_sim[ii].channel);
+                mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
+                mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
+                mDetectorPointCloud.label.emplace_back(DetectorLabel::Undefined);
+            }
+            for(auto ii = 0; ii < det_sim_noise.channel.size(); ii++)
+            {
+                mDetectorPointCloud.channel.emplace_back(det_sim_noise.channel[ii]);
+                mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
+                mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
+                mDetectorPointCloud.label.emplace_back(DetectorLabel::Noise);
+            }
+        }
+
+        void Melange::PrepareInitialPointClouds(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
+        
+        void Melange::ProcessNeutronCaptures(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto neutrons = mc_data->GetParticlesByPDG(2112);
+            for(auto neutron : neutrons)
+            {
+                auto gammas = mc_data->GetProgenyByPDG(neutron, 22);
+                auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
+                for(auto gamma : capture_gammas)
+                {
+                    auto gamma_edeps = mc_data->GetParticleEdep(gamma);
+                    auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
+                    auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
+                    for(auto detsim : tpc_gamma_det_sim) {
+                        mDetectorPointCloud.label[detsim] = DetectorLabel::NeutronCapture;
+                    }
+                }
+            }
         }
 
     }

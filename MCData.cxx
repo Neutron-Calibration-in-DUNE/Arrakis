@@ -591,6 +591,17 @@ namespace arrakis
             }
             return primaries;
         }
+        std::vector<TrackID_t> MCData::GetParticlesByPDG(Int_t pdg)
+        {
+            std::vector<TrackID_t> particles;
+            for(auto& [key, value]: sPDGMap)
+            {
+                if (value == pdg) {
+                    particles.emplace_back(key);
+                }
+            }
+            return particles;
+        }
         std::vector<TrackID_t> MCData::GetDaughtersByPDG(TrackID_t track_id, Int_t pdg)
         {
             std::vector<TrackID_t> daughters;
@@ -601,6 +612,17 @@ namespace arrakis
                 }
             }
             return daughters;
+        }
+        std::vector<TrackID_t> MCData::GetProgenyByPDG(TrackID_t track_id, Int_t pdg)
+        {
+            std::vector<TrackID_t> progeny;
+            for(auto daughter : sProgenyMap[track_id])
+            {
+                if(sPDGMap[daughter] == pdg) {
+                    progeny.emplace_back(daughter);
+                }
+            }
+            return progeny;
         }
         std::vector<TrackID_t> MCData::FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type)
         {
@@ -613,6 +635,16 @@ namespace arrakis
             }
             return particles;
         }           
+        std::vector<EdepID_t> MCData::GetEdepsByParticles(std::vector<TrackID_t> track_ids)
+        {
+            std::vector<EdepID_t> edeps;
+            for(auto track_id : track_ids)
+            {
+                auto edep_ids = sParticleEdepMap[track_id];
+                edeps.insert(edeps.end(), edep_ids.begin(), edep_ids.end());
+            }
+            return edeps;
+        }
         std::vector<EdepID_t> MCData::FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type)
         {
             std::vector<EdepID_t> edeps;
@@ -639,6 +671,16 @@ namespace arrakis
                 }
             }
             return edeps;
+        }
+        std::vector<EdepID_t> MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
+        {
+            std::vector<DetSimID_t> detsim;
+            for(auto edep_id : edep_ids)
+            {
+                auto detsim_ids = sEdepDetectorSimulationMap[edep_id];
+                detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
+            }
+            return detsim;
         }
     }
 }

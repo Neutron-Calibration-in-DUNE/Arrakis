@@ -65,5 +65,6 @@ namespace arrakis
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
         std::vector<DetectorLabel> label = {};
+        std::vector<Int_t> unique_label = {};
     };
 }

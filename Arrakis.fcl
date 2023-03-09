@@ -8,14 +8,6 @@ Arrakis:
     SaveMeta:       true
     SaveGeometry:   true
 
-    SaveParticleMaps:          true
-    SavePrimaryData:           true
-    SavePrimaryDataEdeps:      true
-    SavePrimaryDataRawTPC:     true
-
-    # solo point clouds
-    GeneratePointCloudData: true
-
     # module labels
     LArGeantProducerLabel:      "largeant"
     IonAndScintProducerLabel:   "IonAndScint"

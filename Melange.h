@@ -30,6 +30,7 @@
 #include "DetectorPointCloud.h"
 #include "DetectorSimulation.h"
 #include "Logger.h"
+#include "MCData.h"
 
 namespace arrakis
 {
@@ -45,6 +46,11 @@ namespace arrakis
             void ResetEvent();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
+            void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
+            void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
+            void CleanUpPointClouds(const Parameters& config, art::Event const& event);
+
+            void FillTTree();
 
         private:
             // Output TTree
