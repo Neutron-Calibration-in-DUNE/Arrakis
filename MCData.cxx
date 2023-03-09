@@ -478,7 +478,7 @@ namespace arrakis
                     digit.ADCs(), uncompressed, 
                     pedestal, digit.Compression()
                 );
-                for (size_t ii = 0; ii < num_samples; ii++) {
+                for (int ii = 0; ii < num_samples; ii++) {
                     uncompressed[ii] -= pedestal;
                 }
                 sim::SimChannel truth_channel = (*sMCSimChannelHandle)[channel]; 
