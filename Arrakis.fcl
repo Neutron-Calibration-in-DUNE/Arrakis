@@ -24,7 +24,7 @@ Arrakis:
     }
 
     # array parameters
-    ADCThreshold:   5.0
+    ADCThreshold:   10.0
 }
 
 END_PROLOG
