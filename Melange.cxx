@@ -83,6 +83,7 @@ namespace arrakis
                 mDetectorPointCloud.channel.emplace_back(det_sim[ii].channel);
                 mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
                 mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
+                mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
                 mDetectorPointCloud.label.emplace_back(Label(DetectorLabel::Undefined));
             }
             for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
@@ -90,6 +91,7 @@ namespace arrakis
                 mDetectorPointCloud.channel.emplace_back(det_sim_noise.channel[ii]);
                 mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
                 mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
+                mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
                 mDetectorPointCloud.label.emplace_back(Label(DetectorLabel::Noise));
             }
         }
