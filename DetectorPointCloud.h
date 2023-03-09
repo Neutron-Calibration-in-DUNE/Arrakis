@@ -66,5 +66,14 @@ namespace arrakis
         std::vector<Double_t> adc = {};
         std::vector<DetectorLabel> label = {};
         std::vector<Int_t> unique_label = {};
+
+        void clear()
+        {
+            channel.clear();
+            tdc.clear();
+            adc.clear();
+            label.clear();
+            unique_label.clear();
+        }
     };
 }

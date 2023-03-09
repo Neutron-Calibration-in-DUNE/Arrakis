@@ -77,14 +77,14 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             auto det_sim = mc_data->GetDetectorSimulation();
             auto det_sim_noise = mc_data->GetDetectorSimulationNoise();
-            for(auto ii = 0; ii < det_sim.size(); ii++)
+            for(size_t ii = 0; ii < det_sim.size(); ii++)
             {
                 mDetectorPointCloud.channel.emplace_back(det_sim[ii].channel);
                 mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
                 mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
                 mDetectorPointCloud.label.emplace_back(DetectorLabel::Undefined);
             }
-            for(auto ii = 0; ii < det_sim_noise.channel.size(); ii++)
+            for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
             {
                 mDetectorPointCloud.channel.emplace_back(det_sim_noise.channel[ii]);
                 mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
@@ -93,7 +93,7 @@ namespace arrakis
             }
         }
 
-        void Melange::PrepareInitialPointClouds(
+        void Melange::CleanUpPointClouds(
             const Parameters& config, art::Event const& event
         )
         {
