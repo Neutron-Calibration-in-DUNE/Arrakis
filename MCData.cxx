@@ -257,7 +257,7 @@ namespace arrakis
                 }
                 sDaughterMap[particle.TrackId()] = daughters;
                 // construct progeny map
-                sProgenyMap[particle.TrackId()] = daughters;
+                sProgenyMap[particle.TrackId()] = {};
 
                 // construct ancestry map
                 std::vector<Int_t> ancestry = {};
