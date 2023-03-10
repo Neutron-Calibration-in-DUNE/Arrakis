@@ -138,10 +138,13 @@ namespace arrakis
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetParticlesByPDG(2112);
+            PrintIndices("neutrons",neutrons);
             for(auto neutron : neutrons)
             {
                 auto gammas = mc_data->GetProgenyByPDG(neutron, 22);
+                PrintIndices("gammas",gammas);
                 auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
+                PrintIndices("capture gammas",capture_gammas);
                 for(auto gamma : capture_gammas)
                 {
                     auto gamma_edeps = mc_data->GetParticleEdep(gamma);

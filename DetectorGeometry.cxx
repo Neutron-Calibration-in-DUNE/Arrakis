@@ -88,20 +88,23 @@ namespace arrakis
             }
 
             // Accquiring geometry data
-            sNumberOfAPAs=sGeometryCore->NTPC()*sGeometryCore->Ncryostats()/2; //No. of APAs
-            sNumberOfChannelsPerAPA = sGeometryCore->Nchannels()/sNumberOfAPAs; //No. of channels per APA
+            sNumberOfAPAs = sGeometryCore->NTPC() * sGeometryCore->Ncryostats() / 2; //No. of APAs
+            sNumberOfChannelsPerAPA = sGeometryCore->Nchannels() / sNumberOfAPAs;    //No. of channels per APA
 
             // taken from dune35t module a way to organise the channel mapping:
             // loop through channels in the first APA to find the channel boundaries for each view
             // will adjust for desired APA after
             sUChannelMin = 0;
             sZChannelMax = sNumberOfChannelsPerAPA - 1;
-            for (unsigned int c = sUChannelMin + 1; c < sZChannelMax; c++ ){
-                if ( sGeometryCore->View(c) == geo::kV && sGeometryCore->View(c-1) == geo::kU ){
+            for(unsigned int c = sUChannelMin + 1; c < sZChannelMax; c++ )
+            {
+                if ( sGeometryCore->View(c) == geo::kV && sGeometryCore->View(c-1) == geo::kU )
+                {
                     sVChannelMin = c;
                     sUChannelMax = c - 1;
                 }
-                if ( sGeometryCore->View(c) == geo::kZ && sGeometryCore->View(c-1) == geo::kV ){
+                if ( sGeometryCore->View(c) == geo::kZ && sGeometryCore->View(c-1) == geo::kV )
+                {
                     sZChannelMin = c;
                     sVChannelMax = c-1;
                 }

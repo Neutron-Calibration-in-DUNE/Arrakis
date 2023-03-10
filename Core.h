@@ -72,4 +72,14 @@ namespace arrakis
     { 
         return static_cast<ProcessTypeInt>(process);
     }
+
+    inline PrintIndices(std::string label, std::vector<Int_t> indices)
+    {
+        std::cout << label << ": [";
+        for(auto index : indices)
+        {
+            std::cout << index << ",";
+        }
+        std::cout << "]" << std::endl;
+    }
 }
