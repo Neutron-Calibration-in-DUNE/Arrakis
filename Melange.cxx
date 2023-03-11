@@ -185,8 +185,8 @@ namespace arrakis
                     auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
                     auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
                     for(auto detsim : tpc_gamma_det_sim) {
-                        mDetectorPointCloud.shape_label[detsim] = LabelCast(DetectorLabel::Blip);
-                        mDetectorPointCloud.particle_label[detsim] = LabelCast(DetectorLabel::NeutronCapture);
+                        mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
+                        mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::NeutronCapture);
                     }
                 }
             }
