@@ -75,10 +75,10 @@ namespace arrakis
 
     inline void PrintIndices(std::string label, std::vector<Int_t> indices)
     {
-        std::cout << label << ": [";
+        std::cout << label << ": [ ";
         for(auto index : indices)
         {
-            std::cout << index << ",";
+            std::cout << index << " ";
         }
         std::cout << "]" << std::endl;
     }
