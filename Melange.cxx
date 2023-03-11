@@ -181,12 +181,20 @@ namespace arrakis
                 auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
                 for(auto gamma : capture_gammas)
                 {
-                    auto gamma_edeps = mc_data->GetParticleEdep(gamma);
+                    auto gamma_edeps = mc_data->GetParticleAndProgenyEdep(gamma);
                     auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
                     auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
+                    ParticleLabel particle_label = ParticleLabel::NeutronCaptureGammaOther;
+                    Double_t gamma_energy = mc_data->RoundParticleEnergy(gamma, 1);
+                    if(gamma_energy == 4.7) {
+                        particle_label = ParticleLabel::NeutronCaptureGamma475;
+                    }
+                    else if(gamma_energy == 1.8) {
+                        particle_label = ParticleLabel::NeutronCaptureGamma181;
+                    }
                     for(auto detsim : tpc_gamma_det_sim) {
-                        mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
-                        mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::NeutronCapture);
+                        mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::NeutronCapture);
+                        mDetectorPointCloud.particle_label[detsim] = LabelCast(particle_label);
                     }
                 }
             }

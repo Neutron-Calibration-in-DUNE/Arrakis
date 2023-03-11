@@ -47,6 +47,7 @@ namespace arrakis
         Blip = 1,
         Track = 2,
         Shower = 3,
+        NeutronCapture = 4,
     };
     using ShapeLabelInt = std::underlying_type<ShapeLabel>::type;
     inline Int_t LabelCast(ShapeLabel label) 
@@ -67,9 +68,9 @@ namespace arrakis
         DeltaElectron = 8,
         MichelElectron = 9,
         ElectronShower = 10,
-        NeutronCapture = 11,
-        NeutronCaptureGamma475 = 12,
-        NeutronCaptureGamma181 = 13,
+        NeutronCaptureGamma475 = 11,
+        NeutronCaptureGamma181 = 12,
+        NeutronCaptureGammaOther = 13,
         Ar39 = 14,
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;

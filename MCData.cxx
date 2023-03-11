@@ -645,7 +645,18 @@ namespace arrakis
                 }
             }
             return particles;
-        }           
+        }    
+        std::vector<EdepID_t> MCData::GetParticleAndProgenyEdeps(TrackID_t track_id)
+        {
+            std::vector<EdepID_t> edeps = GetParticleEdep(track_id);
+            auto track_ids = GetProgeny(track_id);
+            for(auto track_id : track_ids)
+            {
+                auto edep_ids = sParticleEdepMap[track_id];
+                edeps.insert(edeps.end(), edep_ids.begin(), edep_ids.end());
+            }
+            return edeps;
+        }       
         std::vector<EdepID_t> MCData::GetEdepsByParticles(std::vector<TrackID_t> track_ids)
         {
             std::vector<EdepID_t> edeps;

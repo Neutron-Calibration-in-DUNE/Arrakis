@@ -90,17 +90,24 @@ namespace arrakis
             std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
             DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
 
+            inline Double_t RoundParticleEnergy(TrackID_t track_id, Int_t precision)
+            {
+                Double_t factor = pow(10, precision);
+                Double_t particle_energy = round(GetParticleEnergy(track_id)*factor)/factor;
+                return particle_energy;
+            }
+
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(TrackID_t trackID) { return sGeneratorLabelMap[trackID]; }
             inline ParticleID_t GetParticleIndex(TrackID_t trackID)    { return sParticleMap[trackID]; }
             inline Int_t GetPDGCode(TrackID_t trackID)          { return sPDGMap[trackID]; }
             inline Int_t GetParentPDG(TrackID_t trackID)        { return sParentPDGMap[trackID]; }
             inline Int_t GetParentTrackID(TrackID_t trackID)    { return sParentTrackIDMap[trackID]; }
-            inline Int_t GetParticleEnergy(TrackID_t trackID)   { return sParticleEnergyMap[trackID];}
+            inline Double_t GetParticleEnergy(TrackID_t trackID)   { return sParticleEnergyMap[trackID];}
             inline Int_t GetAncestorPDG(TrackID_t trackID)      { return sAncestorPDGMap[trackID]; }
             inline Int_t GetAncestorTrackID(TrackID_t trackID)  { return sAncestorTrackIDMap[trackID]; }
             inline Int_t GetAncestorLevel(TrackID_t trackID)    { return sAncestorLevelMap[trackID]; }
-            inline Int_t GetAncestorEnergy(TrackID_t trackID)   { return sAncestorEnergyMap[trackID]; }
+            inline Double_t GetAncestorEnergy(TrackID_t trackID)   { return sAncestorEnergyMap[trackID]; }
             inline std::vector<TrackID_t> GetDaughters(TrackID_t trackID)   { return sDaughterMap[trackID]; }
             inline std::vector<TrackID_t> GetProgeny(TrackID_t trackID)     { return sProgenyMap[trackID]; }
             inline std::vector<TrackID_t> GetAncestry(TrackID_t trackID)    { return sAncestryMap[trackID]; }
@@ -125,6 +132,7 @@ namespace arrakis
 
             std::vector<TrackID_t> FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type);
 
+            std::vector<EdepID_t> GetParticleAndProgenyEdeps(TrackID_t track_id);
             std::vector<EdepID_t> GetEdepsByParticles(std::vector<TrackID_t> track_ids);
             std::vector<EdepID_t> FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type);
             std::vector<EdepID_t> FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg);
