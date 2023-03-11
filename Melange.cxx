@@ -74,6 +74,7 @@ namespace arrakis
             ProcessPionPlus(config, event);
             ProcessPionMinus(config, event);
             ProcessNeutronCaptures(config, event);
+            ProcessAr39(config, event);
             CleanUpPointClouds(config, event);
             SeparatePointClouds(config, event);
             FillTTree();
@@ -181,7 +182,7 @@ namespace arrakis
                 auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
                 for(auto gamma : capture_gammas)
                 {
-                    auto gamma_edeps = mc_data->GetParticleAndProgenyEdep(gamma);
+                    auto gamma_edeps = mc_data->GetParticleAndProgenyEdeps(gamma);
                     auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
                     auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
                     ParticleLabel particle_label = ParticleLabel::NeutronCaptureGammaOther;
@@ -192,13 +193,31 @@ namespace arrakis
                     else if(gamma_energy == 1.8) {
                         particle_label = ParticleLabel::NeutronCaptureGamma181;
                     }
-                    for(auto detsim : tpc_gamma_det_sim) {
+                    for(auto detsim : tpc_gamma_det_sim) 
+                    {
                         mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::NeutronCapture);
                         mDetectorPointCloud.particle_label[detsim] = LabelCast(particle_label);
                     }
                 }
             }
         }
-
+        void Melange::ProcessAr39(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto ar39 = mc_data->GetPrimariesByPDG(11);
+            for(auto elec : ar39)
+            {
+                auto ar39_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
+                auto tpc_ar39_edeps = mc_data->FilterEdepsByVolume(ar39_edeps, geometry::VolumeType::TPC);
+                auto tpc_ar39_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_ar39_edeps);
+                for(auto detsim : tpc_ar39_detsim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Ar39);
+                }
+            }
+        }
     }
 }
