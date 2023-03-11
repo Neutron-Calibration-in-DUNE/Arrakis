@@ -257,7 +257,7 @@ namespace arrakis
                 }
                 sDaughterMap[particle.TrackId()] = daughters;
                 // construct progeny map
-                sProgenyMap[particle.TrackId()] = {};
+                sProgenyMap[particle.TrackId()] = daughters;
 
                 // construct ancestry map
                 std::vector<Int_t> ancestry = {};
@@ -270,6 +270,9 @@ namespace arrakis
                     track_id = mother;
                     ancestry.emplace_back(mother);
                     mother = sParentTrackIDMap[track_id];
+                    if(level > 1) {
+                        sProgenyMap[mother].emplace_back(particle.TrackId());
+                    }
                 }
                 sAncestorLevelMap[particle.TrackId()] = level;
                 sAncestryMap[particle.TrackId()] = ancestry;
@@ -280,14 +283,12 @@ namespace arrakis
                     sAncestorPDGMap[particle.TrackId()] = 0;
                     sAncestorTrackIDMap[particle.TrackId()] = 0;
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
-
                 }
                 else {
                     sParentPDGMap[particle.TrackId()] = sPDGMap[particle.Mother()];
                     sAncestorPDGMap[particle.TrackId()] = sPDGMap[track_id];
                     sAncestorTrackIDMap[particle.TrackId()] = track_id;
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
-                    sProgenyMap[track_id].emplace_back(particle.TrackId());
                 }
 
                 // initialize edep maps
