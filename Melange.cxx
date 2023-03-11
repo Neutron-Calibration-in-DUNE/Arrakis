@@ -206,7 +206,7 @@ namespace arrakis
         )
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            auto ar39 = mc_data->GetPrimariesByPDG(11);
+            auto ar39 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::kAr39);
             for(auto elec : ar39)
             {
                 auto ar39_edeps = mc_data->GetParticleAndProgenyEdeps(elec);

@@ -125,6 +125,7 @@ namespace arrakis
 
             // functions for collecting track ids
             //std::vector<Int_t> GetPrimariesByProcess(ProcessType process_type);
+            std::vector<TrackID_t> GetPrimariesByGeneratorLabel(GeneratorLabel label);
             std::vector<TrackID_t> GetPrimariesByPDG(Int_t pdg);
             std::vector<TrackID_t> GetParticlesByPDG(Int_t pdg);
             std::vector<TrackID_t> GetDaughtersByPDG(TrackID_t track_id, Int_t pdg);

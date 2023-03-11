@@ -591,6 +591,17 @@ namespace arrakis
             // add mcdata info
             sMCDataTree->Fill();
         }    
+        std::vector<TrackID_t> MCData::GetPrimariesByGeneratorLabel(GeneratorLabel label)
+        {
+            std::vector<TrackID_t> primaries;
+            for(auto primary : sPrimaries)
+            {
+                if(sGeneratorLabelMap[primary] == label) {
+                    primaries.emplace_back(primary);
+                }
+            }
+            return primaries;
+        }
         std::vector<TrackID_t> MCData::GetPrimariesByPDG(Int_t pdg)
         {
             std::vector<TrackID_t> primaries;
