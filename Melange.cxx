@@ -22,19 +22,22 @@ namespace arrakis
             mDetectorView0PointCloudTree->Branch("channel", &mDetectorView0PointCloud.channel);
             mDetectorView0PointCloudTree->Branch("tdc",     &mDetectorView0PointCloud.tdc);
             mDetectorView0PointCloudTree->Branch("adc",     &mDetectorView0PointCloud.adc);
-            mDetectorView0PointCloudTree->Branch("label",   &mDetectorView0PointCloud.label);
+            mDetectorView0PointCloudTree->Branch("shape_label",     &mDetectorView0PointCloud.shape_label);
+            mDetectorView0PointCloudTree->Branch("particle_label",  &mDetectorView0PointCloud.particle_label);
 
             mDetectorView1PointCloudTree = mTFileService->make<TTree>("det_view1_point_cloud", "det_view1_point_cloud");
             mDetectorView1PointCloudTree->Branch("channel", &mDetectorView1PointCloud.channel);
             mDetectorView1PointCloudTree->Branch("tdc",     &mDetectorView1PointCloud.tdc);
             mDetectorView1PointCloudTree->Branch("adc",     &mDetectorView1PointCloud.adc);
-            mDetectorView1PointCloudTree->Branch("label",   &mDetectorView1PointCloud.label);
+            mDetectorView1PointCloudTree->Branch("shape_label",     &mDetectorView1PointCloud.shape_label);
+            mDetectorView1PointCloudTree->Branch("particle_label",  &mDetectorView1PointCloud.particle_label);
 
             mDetectorView2PointCloudTree = mTFileService->make<TTree>("det_view2_point_cloud", "det_view2_point_cloud");
             mDetectorView2PointCloudTree->Branch("channel", &mDetectorView2PointCloud.channel);
             mDetectorView2PointCloudTree->Branch("tdc",     &mDetectorView2PointCloud.tdc);
             mDetectorView2PointCloudTree->Branch("adc",     &mDetectorView2PointCloud.adc);
-            mDetectorView2PointCloudTree->Branch("label",   &mDetectorView2PointCloud.label);
+            mDetectorView2PointCloudTree->Branch("shape_label",     &mDetectorView2PointCloud.shape_label);
+            mDetectorView2PointCloudTree->Branch("particle_label",  &mDetectorView2PointCloud.particle_label);
 
             mDetectorView0VoxelTree = mTFileService->make<TTree>("det_view0_voxel", "det_view0_voxel");
             mDetectorView1VoxelTree = mTFileService->make<TTree>("det_view1_voxel", "det_view1_voxel");
@@ -65,6 +68,11 @@ namespace arrakis
         {
             ResetEvent();
             PrepareInitialPointClouds(config, event);
+            ProcessMuons(config, event);
+            ProcessAntiMuons(config, event);
+            ProcessPion0s(config, event);
+            ProcessPionPlus(config, event);
+            ProcessPionMinus(config, event);
             ProcessNeutronCaptures(config, event);
             CleanUpPointClouds(config, event);
             SeparatePointClouds(config, event);
@@ -84,7 +92,8 @@ namespace arrakis
                 mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
                 mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
                 mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
-                mDetectorPointCloud.label.emplace_back(Label(DetectorLabel::Undefined));
+                mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
+                mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
             }
             for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
             {
@@ -92,7 +101,8 @@ namespace arrakis
                 mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
                 mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
                 mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
-                mDetectorPointCloud.label.emplace_back(Label(DetectorLabel::Noise));
+                mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
+                mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
             }
         }
 
@@ -113,45 +123,70 @@ namespace arrakis
                     mDetectorView0PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
                     mDetectorView0PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
                     mDetectorView0PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
-                    mDetectorView0PointCloud.label.emplace_back(mDetectorPointCloud.label[ii]);
+                    mDetectorView0PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
+                    mDetectorView0PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
                 }
                 else if(mDetectorPointCloud.view[ii] == 1) 
                 {
                     mDetectorView1PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
                     mDetectorView1PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
                     mDetectorView1PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
-                    mDetectorView1PointCloud.label.emplace_back(mDetectorPointCloud.label[ii]);
+                    mDetectorView1PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
+                    mDetectorView1PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
                 }
                 else
                 {
                     mDetectorView2PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
                     mDetectorView2PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
                     mDetectorView2PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
-                    mDetectorView2PointCloud.label.emplace_back(mDetectorPointCloud.label[ii]);
+                    mDetectorView2PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
+                    mDetectorView2PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
                 }
             }
         }
-        
+        void Melange::ProcessMuons(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
+        void Melange::ProcessAntiMuons(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
+        void Melange::ProcessPion0s(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
+        void Melange::ProcessPionPlus(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
+        void Melange::ProcessPionMinus(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
         void Melange::ProcessNeutronCaptures(
             const Parameters& config, art::Event const& event
         )
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetParticlesByPDG(2112);
-            PrintIndices("neutrons",neutrons);
             for(auto neutron : neutrons)
             {
                 auto gammas = mc_data->GetProgenyByPDG(neutron, 22);
-                PrintIndices("gammas",gammas);
                 auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
-                PrintIndices("capture gammas",capture_gammas);
                 for(auto gamma : capture_gammas)
                 {
                     auto gamma_edeps = mc_data->GetParticleEdep(gamma);
                     auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
                     auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
                     for(auto detsim : tpc_gamma_det_sim) {
-                        mDetectorPointCloud.label[detsim] = Label(DetectorLabel::NeutronCapture);
+                        mDetectorPointCloud.shape_label[detsim] = LabelCast(DetectorLabel::Blip);
+                        mDetectorPointCloud.particle_label[detsim] = LabelCast(DetectorLabel::NeutronCapture);
                     }
                 }
             }

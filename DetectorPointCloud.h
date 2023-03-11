@@ -40,28 +40,42 @@
 
 namespace arrakis
 {
-    enum class DetectorLabel
+    enum class ShapeLabel
+    {
+        Undefined = -1,
+        Noise = 0,
+        Blip = 1,
+        Track = 2,
+        Shower = 3,
+    };
+    using ShapeLabelInt = std::underlying_type<ShapeLabel>::type;
+    inline Int_t LabelCast(ShapeLabel label) 
+    { 
+        return static_cast<ShapeLabelInt>(label);
+    }
+    enum class ParticleLabel
     {
         Undefined = -1,
         Noise = 0,
         Muon = 1,
-        NeutronCapture = 2,
-        NeutronCaptureGamma475 = 3,
-        NeutronCaptureGamma181 = 4,
-        Ar39 = 5,
-        LowEnergyScatter = 6,
-        MichelElectron = 7,
+        AntiMuon = 2,
+        Pion0 = 3,
+        PionPlus = 4,
+        PionMinus = 5,
+        KaonPlus = 6,
+        KaonMinus = 7,
         DeltaElectron = 8,
-        ElectronShower = 9,
-        PionPlus = 10,
-        PionMinus = 11,
-        KaonPlus = 12,
-        KaonMinus = 13,
+        MichelElectron = 9,
+        ElectronShower = 10,
+        NeutronCapture = 11,
+        NeutronCaptureGamma475 = 12,
+        NeutronCaptureGamma181 = 13,
+        Ar39 = 14,
     };
-    using DetectorLabelInt = std::underlying_type<DetectorLabel>::type;
-    inline Int_t Label(DetectorLabel label) 
+    using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
+    inline Int_t LabelCast(ParticleLabel label) 
     { 
-        return static_cast<DetectorLabelInt>(label);
+        return static_cast<ParticleLabelInt>(label);
     }
 
     struct DetectorPointCloud
@@ -70,7 +84,8 @@ namespace arrakis
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
         std::vector<Int_t> view = {};
-        std::vector<DetectorLabelInt> label = {};
+        std::vector<ShapeLabelInt> shape_label = {};
+        std::vector<ParticleLabelInt> particle_label = {};
         std::vector<Int_t> unique_label = {};
 
         void clear()
@@ -79,7 +94,8 @@ namespace arrakis
             tdc.clear();
             adc.clear();
             view.clear();
-            label.clear();
+            shape_label.clear();
+            particle_label.clear();
             unique_label.clear();
         }
     };
