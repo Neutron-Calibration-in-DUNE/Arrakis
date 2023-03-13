@@ -304,9 +304,9 @@ namespace arrakis
                 sParticleEdepProcessMap[particle.TrackId()] = {};
                 sParticleDetectorSimulationMap[particle.TrackId()] = {};
             }
-            for(size_t ii = 0; ii < sMCTruthHandles.size(); ii++)
+            for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
             {
-                for(auto truth : *sMCTruthHandles[ii])
+                for(auto truth : *sMCTruthHandles[jj])
                 {
                     /**
                      * MCTruth stores MCParticles starting with trackID = 0,
@@ -314,7 +314,7 @@ namespace arrakis
                     */
                     Logger::GetInstance("mcdata")->trace(
                         "adding labels of type " + 
-                        sMCTruthHandleLabels[ii] + 
+                        sMCTruthHandleLabels[jj] + 
                         " for " + std::to_string(truth.NParticles()) + 
                         " particles starting with track ID = " + 
                         std::to_string(truth.GetParticle(0).TrackId()+1)
@@ -336,9 +336,9 @@ namespace arrakis
                                     particle.PdgCode() == pdg_code
                                 )
                                 {
-                                    std::cout << sMCTruthHandleLabels[ii] << std::endl;
-                                    std::cout << Generator(sGeneratorMap[sMCTruthHandleLabels[ii]]) << std::endl;
-                                    sGeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[ii]];
+                                    std::cout << sMCTruthHandleLabels[jj] << std::endl;
+                                    std::cout << Generator(sGeneratorMap[sMCTruthHandleLabels[jj]]) << std::endl;
+                                    sGeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[jj]];
                                 }
                             }
                         }
