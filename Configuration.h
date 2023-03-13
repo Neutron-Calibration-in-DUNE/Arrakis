@@ -52,6 +52,11 @@ namespace arrakis
             fhicl::Name("IonAndScintProducerLabel"),
             fhicl::Comment("Tag of the input data product for the IonAndScint side of the simulation.")
         };
+        fhicl::Atom<art::InputTag> IonAndScintInstanceLabel
+        {
+            fhicl::Name("IonAndScintInstanceLabel"),
+            fhicl::Comment("Tag of the input data product for the IonAndScint side of the simulation.")
+        };
         fhicl::Atom<art::InputTag> SimChannelProducerLabel
         {
             fhicl::Name("SimChannelProducerLabel"),

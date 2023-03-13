@@ -11,8 +11,9 @@ Arrakis:
     # module labels
     LArGeantProducerLabel:      "largeant"
     IonAndScintProducerLabel:   "IonAndScint"
+    IonAndScintInstanceLabel:   "priorSCE"
     SimChannelProducerLabel:    "tpcrawdecoder"
-    SimChannelInstanceLabel:    "priorSCE"
+    SimChannelInstanceLabel:    "simpleSC"
     RawDigitProducerLabel:      "tpcrawdecoder"
     RawDigitInstanceLabel:      "daq"
 

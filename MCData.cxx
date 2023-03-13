@@ -167,7 +167,9 @@ namespace arrakis
             ResetEvent();
             ProcessMCTruth(event, config().labels.get_PSet());
             ProcessMCParticles(event, config().LArGeantProducerLabel());
-            ProcessSimEnergyDeposits(event, config().IonAndScintProducerLabel());
+            ProcessSimEnergyDeposits(event, 
+                config().IonAndScintProducerLabel(), config().IonAndScintInstanceLabel()
+            );
             ProcessSimChannels(event, 
                 config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
             );
@@ -344,32 +346,37 @@ namespace arrakis
                 }
             }
         }
-        void MCData::ProcessSimEnergyDeposits(
-            art::Event const& event, art::InputTag input_tag
+        void MCData::ProcessSimEnergyDeposits(art::Event const& event, 
+            art::InputTag producer_label, art::InputTag instance_label
         )
         {
             Logger::GetInstance("mcdata")->trace(
                 "collecting sim::SimEnergyDeposit from label <" + 
-                input_tag.label() + ">"
+                producer_label.label() + ":" + instance_label.label() + ">"
             );
-            if(!event.getByLabel(input_tag, sMCSimEnergyDepositHandle))
+            if(!event.getByLabel(
+                art::InputTag(producer_label.label(), instance_label.label()), 
+                sMCSimEnergyDepositHandle
+            ))
             {
                 Logger::GetInstance("mcdata")->error(
-                    "no label matching " + input_tag.label() + 
-                    " for sim::SimEnergyDeposit!"
+                    "no label matching " + producer_label.label() + ":" + 
+                    instance_label.label() + " for sim::SimEnergyDeposit!"
                 );
                 exit(0);
             }
             else 
             {
                 sMCSimEnergyDepositHandle = event.getHandle<std::vector<sim::SimEnergyDeposit>>(
-                    input_tag
+                    art::InputTag(
+                        producer_label.label(), instance_label.label()
+                    )
                 );
                 if(!sMCSimEnergyDepositHandle.isValid()) 
                 {
                     Logger::GetInstance("mcdata")->error(
-                        "data product " + input_tag.label() + 
-                        " for simb::SimEnergyDeposit is invalid!"
+                        "data product " + producer_label.label() + ":" + 
+                        instance_label.label() + " for simb::SimEnergyDeposit is invalid!"
                     );
                     exit(0);
                 }

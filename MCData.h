@@ -63,7 +63,9 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
             void ProcessMCTruth(art::Event const& event, fhicl::ParameterSet const& generator_labels);
             void ProcessMCParticles(art::Event const& event, art::InputTag input_tag);
-            void ProcessSimEnergyDeposits(art::Event const& event, art::InputTag input_tag);
+            void ProcessSimEnergyDeposits(art::Event const& event, 
+                art::InputTag producer_label, art::InputTag instance_label
+            );
             void ProcessSimChannels(art::Event const& event,
                 art::InputTag producer_label, art::InputTag instance_label
             );
