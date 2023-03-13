@@ -201,6 +201,7 @@ namespace arrakis
                     sMCTruthHandles.emplace_back(event.getHandle<std::vector<simb::MCTruth>>(
                         tag
                     ));
+                    std::cout << "HERE: " << key << std::endl;
                     sMCTruthHandleLabels.emplace_back(key);
                     if(!sMCTruthHandles.back().isValid()) 
                     {
