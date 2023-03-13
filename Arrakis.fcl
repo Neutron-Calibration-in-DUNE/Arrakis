@@ -19,6 +19,10 @@ Arrakis:
     GeneratorLabels: 
     {
         Ar39Label:          "Ar39" 
+        Ar42Label:          "Ar42"
+        Kr85Label:          "Kr85"
+        Rn222Label:         "Rn222"
+        CosmicsLabel:       "Cosmics"
         SingleNeutronLabel: "SingleNeutron"
         PNSLabel:           "PNS"
     }
