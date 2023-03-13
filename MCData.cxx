@@ -201,7 +201,6 @@ namespace arrakis
                     sMCTruthHandles.emplace_back(event.getHandle<std::vector<simb::MCTruth>>(
                         tag
                     ));
-                    std::cout << "HERE: " << key << std::endl;
                     sMCTruthHandleLabels.emplace_back(key);
                     if(!sMCTruthHandles.back().isValid()) 
                     {
@@ -337,6 +336,8 @@ namespace arrakis
                                     particle.PdgCode() == pdg_code
                                 )
                                 {
+                                    std::cout << sMCTruthHandleLabels[ii] << std::endl;
+                                    std::cout << Generator(sGeneratorMap[sMCTruthHandleLabels[ii]]) << std::endl;
                                     sGeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[ii]];
                                 }
                             }

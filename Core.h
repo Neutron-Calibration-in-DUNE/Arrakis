@@ -52,7 +52,12 @@ namespace arrakis
         SingleNeutron = 6,
         PNS = 7,
     };
-
+    using GeneratorLabelInt = std::underlying_type<GeneratorLabel>::type;
+    inline Int_t Generator(GeneratorLabel generator_label)
+    {
+        return static_cast<GeneratorLabelInt>(generator_label);
+    }
+    
     enum class ProcessType
     {
         NotDefined =           -1,
