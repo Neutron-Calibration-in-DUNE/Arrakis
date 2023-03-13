@@ -183,10 +183,8 @@ namespace arrakis
                 for(auto gamma : capture_gammas)
                 {
                     auto gamma_edeps = mc_data->GetParticleAndProgenyEdeps(gamma);
-                    PrintIndices("gamma_edeps", gamma_edeps);
                     auto tpc_gamma_edeps = mc_data->FilterEdepsByVolume(gamma_edeps, geometry::VolumeType::TPC);
                     auto tpc_gamma_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_gamma_edeps);
-                    PrintIndices("tpc_gamma_det_sim", tpc_gamma_det_sim);
                     ParticleLabel particle_label = ParticleLabel::NeutronCaptureGammaOther;
                     Double_t gamma_energy = mc_data->RoundParticleEnergy(gamma, 1);
                     if(gamma_energy == 4.7) {
@@ -208,7 +206,7 @@ namespace arrakis
         )
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            auto ar39 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::kAr39);
+            auto ar39 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar39);
             for(auto elec : ar39)
             {
                 auto ar39_edeps = mc_data->GetParticleAndProgenyEdeps(elec);

@@ -87,6 +87,7 @@ namespace arrakis
             , material(material)
             {}
         };
+        
         // struct for bounding boxes
         struct BoundingBox
         {

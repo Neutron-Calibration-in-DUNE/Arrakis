@@ -87,6 +87,26 @@ namespace arrakis
                 fhicl::Name("Ar39Label"),
                 fhicl::Comment("Tag of the input data product for the Ar39Label.")
             };
+            fhicl::Atom<art::InputTag> Ar42Label
+            {
+                fhicl::Name("Ar42Label"),
+                fhicl::Comment("Tag of the input data product for the Ar42Label.")
+            };
+            fhicl::Atom<art::InputTag> Kr85Label
+            {
+                fhicl::Name("Kr85Label"),
+                fhicl::Comment("Tag of the input data product for the Kr85Label.")
+            };
+            fhicl::Atom<art::InputTag> Rn222Label
+            {
+                fhicl::Name("Rn222Label"),
+                fhicl::Comment("Tag of the input data product for the Rn222Label.")
+            };
+            fhicl::Atom<art::InputTag> CosmicsLabel
+            {
+                fhicl::Name("CosmicsLabel"),
+                fhicl::Comment("Tag of the input data product for the CosmicsLabel.")
+            };
             fhicl::Atom<art::InputTag> SingleNeutronLabel
             {
                 fhicl::Name("SingleNeutronLabel"),

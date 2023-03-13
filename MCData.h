@@ -160,6 +160,7 @@ namespace arrakis
 
             // handles
             std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
+            std::vector<std::string>                        sMCTruthHandleLabels;
             art::Handle<std::vector<simb::MCTruth>>         sMCTruthHandle;
             art::Handle<std::vector<simb::MCParticle>>      sMCParticleHandle;
             art::Handle<std::vector<sim::SimEnergyDeposit>> sMCSimEnergyDepositHandle;
@@ -167,7 +168,7 @@ namespace arrakis
             art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
 
             std::map<TrackID_t, GeneratorLabel> sGeneratorLabelMap;
-            std::map<art::InputTag, GeneratorLabel> sGeneratorMap;
+            std::map<std::string, GeneratorLabel> sGeneratorMap;
 
             // List of primary track IDs
             std::vector<TrackID_t> sPrimaries;

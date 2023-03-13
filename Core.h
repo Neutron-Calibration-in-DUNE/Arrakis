@@ -42,13 +42,15 @@ namespace arrakis
 {
     enum GeneratorLabel
     {
-        kJunk = -1,
-        kNone = 0,
-        kAr39 = 1,
-        kSingleNeutron = 2,
-        kPNS = 3,
-        kNeutronCaptureGamma4_75 = 4,
-        kNeutronCaptureGamma1_18 = 5,
+        Junk = -1,
+        None = 0,
+        Ar39 = 1,
+        Ar42 = 2,
+        Kr85 = 3,
+        Rn222 = 4,
+        Cosmics = 5,
+        SingleNeutron = 6,
+        PNS = 7,
     };
 
     enum class ProcessType

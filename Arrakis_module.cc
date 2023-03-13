@@ -73,12 +73,6 @@ namespace arrakis
 
     private:
         Parameters mParameters;
-
-        std::map<art::InputTag, GeneratorLabel> mGeneratorMap;
-        art::InputTag mAr39Label;
-        art::InputTag mSingleNeutronLabel;
-        art::InputTag mPNSLabel;
-
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
          *  by the directories for each type.

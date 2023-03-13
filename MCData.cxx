@@ -114,6 +114,16 @@ namespace arrakis
             sMCDataTree->Branch("edep_process_map", &sEdepProcessMap);
             sMCDataTree->Branch("edep_detsim_map", &sEdepDetectorSimulationMap);
             sMCDataTree->Branch("detsim_edep_map", &sDetectorSimulationEdepMap);
+
+            sGeneratorMap = {
+                {"Ar39Label", GeneratorLabels::Ar39},
+                {"Ar42Label", GeneratorLabels::Ar42},
+                {"Kr85Label", GeneratorLabels::Kr85},
+                {"Rn222Label", GeneratorLabels::Rn222},
+                {"CosmicsLabel", GeneratorLabels::Cosmics},
+                {"SingleNeutronLabel", GeneratorLabels::SingleNeutron},
+                {"PNSLabel", GeneratorLabels::PNS},
+            };
         }
         void MCData::SetADCThreshold(Double_t ADCThreshold)
         {
@@ -130,7 +140,6 @@ namespace arrakis
             sDetectorSimulationNoise.clear();
 
             sGeneratorLabelMap.clear();
-            sGeneratorMap.clear();
             sPDGMap.clear();
             sParentPDGMap.clear();
             sParentTrackIDMap.clear();
@@ -194,6 +203,7 @@ namespace arrakis
                     sMCTruthHandles.emplace_back(event.getHandle<std::vector<simb::MCTruth>>(
                         tag
                     ));
+                    sMCTruthHandleLabels.emplace_back(key);
                     if(!sMCTruthHandles.back().isValid()) 
                     {
                         Logger::GetInstance("mcdata")->error(
@@ -246,7 +256,7 @@ namespace arrakis
                 sParticleMap[particle.TrackId()] = particle_index;
                 particle_index += 1;
 
-                sGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::kNone;
+                sGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::None;
                 sPDGMap[particle.TrackId()] = particle.PdgCode();
                 sParentTrackIDMap[particle.TrackId()] = particle.Mother();
                 sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
@@ -296,42 +306,39 @@ namespace arrakis
                 sParticleEdepProcessMap[particle.TrackId()] = {};
                 sParticleDetectorSimulationMap[particle.TrackId()] = {};
             }
-            for(auto const& [key, val] : sGeneratorMap)
+            for(size_t ii = 0; ii < sMCTruthHandles.size(); ii++)
             {
-                for(auto mcTruth : sMCTruthHandles)
+                for(auto truth : *sMCTruthHandles[ii])
                 {
-                    for(auto truth : *mcTruth)
+                    /**
+                     * MCTruth stores MCParticles starting with trackID = 0,
+                     * rather than Geant4 which starts with trackID = 1.
+                    */
+                    Logger::GetInstance("mcdata")->trace(
+                        "adding labels of type " + 
+                        sMCTruthHandleLabels[ii] + 
+                        " for " + std::to_string(truth.NParticles()) + 
+                        " particles starting with track ID = " + 
+                        std::to_string(truth.GetParticle(0).TrackId()+1)
+                    );
+                    for(Int_t ii = 0; ii < truth.NParticles(); ii++)
                     {
-                        /**
-                         * MCTruth stores MCParticles starting with trackID = 0,
-                         * rather than Geant4 which starts with trackID = 1.
-                        */
-                        Logger::GetInstance("mcdata")->trace(
-                            "adding labels of type " + 
-                            std::to_string(val) + 
-                            " for " + std::to_string(truth.NParticles()) + 
-                            " particles starting with track ID = " + 
-                            std::to_string(truth.GetParticle(0).TrackId()+1)
-                        );
-                        for(Int_t ii = 0; ii < truth.NParticles(); ii++)
+                        if(truth.GetParticle(ii).Process() == "primary")
                         {
-                            if(truth.GetParticle(ii).Process() == "primary")
+                            Double_t init_x = truth.GetParticle(ii).Vx();
+                            Double_t init_y = truth.GetParticle(ii).Vy();
+                            Double_t init_z = truth.GetParticle(ii).Vz();
+                            Int_t pdg_code = truth.GetParticle(ii).PdgCode();
+                            for(auto particle : *sMCParticleHandle)
                             {
-                                Double_t init_x = truth.GetParticle(ii).Vx();
-                                Double_t init_y = truth.GetParticle(ii).Vy();
-                                Double_t init_z = truth.GetParticle(ii).Vz();
-                                Int_t pdg_code = truth.GetParticle(ii).PdgCode();
-                                for(auto particle : *sMCParticleHandle)
+                                if(
+                                    particle.Vx() == init_x &&
+                                    particle.Vy() == init_y &&
+                                    particle.Vz() == init_z &&
+                                    particle.PdgCode() == pdg_code
+                                )
                                 {
-                                    if(
-                                        particle.Vx() == init_x &&
-                                        particle.Vy() == init_y &&
-                                        particle.Vz() == init_z &&
-                                        particle.PdgCode() == pdg_code
-                                    )
-                                    {
-                                        sGeneratorLabelMap[particle.TrackId()] = val;
-                                    }
+                                    sGeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[ii]];
                                 }
                             }
                         }
