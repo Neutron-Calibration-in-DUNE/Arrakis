@@ -114,16 +114,14 @@ namespace arrakis
             sMCDataTree->Branch("edep_process_map", &sEdepProcessMap);
             sMCDataTree->Branch("edep_detsim_map", &sEdepDetectorSimulationMap);
             sMCDataTree->Branch("detsim_edep_map", &sDetectorSimulationEdepMap);
-
-            sGeneratorMap = {
-                {"Ar39Label", GeneratorLabels::Ar39},
-                {"Ar42Label", GeneratorLabels::Ar42},
-                {"Kr85Label", GeneratorLabels::Kr85},
-                {"Rn222Label", GeneratorLabels::Rn222},
-                {"CosmicsLabel", GeneratorLabels::Cosmics},
-                {"SingleNeutronLabel", GeneratorLabels::SingleNeutron},
-                {"PNSLabel", GeneratorLabels::PNS},
-            };
+  
+            sGeneratorMap["Ar39Label"] = GeneratorLabel::Ar39;
+            sGeneratorMap["Ar42Label"] = GeneratorLabel::Ar42;
+            sGeneratorMap["Kr85Label"] = GeneratorLabel::Kr85;
+            sGeneratorMap["Rn222Label"] = GeneratorLabel::Rn222;
+            sGeneratorMap["CosmicsLabel"] = GeneratorLabel::Cosmics;
+            sGeneratorMap["SingleNeutronLabel"] = GeneratorLabel::SingleNeutron;
+            sGeneratorMap["PNSLabel"] = GeneratorLabel::PNS;
         }
         void MCData::SetADCThreshold(Double_t ADCThreshold)
         {
