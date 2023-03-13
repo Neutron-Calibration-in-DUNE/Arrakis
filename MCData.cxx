@@ -580,7 +580,7 @@ namespace arrakis
             {
                 if(track.trackID > 0)
                 {
-                    std::cout << "track_id: " << track.trackID " - (x,y,z) (";
+                    std::cout << "track_id: " << track.trackID << " - (x,y,z) (";
                     std::cout << track.x << "," << track.y << "," << track.z << ")" << std::endl;
                     std::vector<Int_t> candidate_edeps = sParticleEdepMap[track.trackID];
                     for(auto edep_id : candidate_edeps)
