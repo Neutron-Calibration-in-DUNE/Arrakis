@@ -336,8 +336,6 @@ namespace arrakis
                                     particle.PdgCode() == pdg_code
                                 )
                                 {
-                                    std::cout << sMCTruthHandleLabels[jj] << std::endl;
-                                    std::cout << Generator(sGeneratorMap[sMCTruthHandleLabels[jj]]) << std::endl;
                                     sGeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[jj]];
                                 }
                             }
