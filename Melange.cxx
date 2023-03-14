@@ -258,11 +258,39 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto kr85 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Kr85);
+            for(auto elec : kr85)
+            {
+                std::cout << "Kr85: " << mc_data->GetPDGCode(elec) << std::endl;
+                auto kr85_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
+                auto tpc_kr85_edeps = mc_data->FilterEdepsByVolume(kr85_edeps, geometry::VolumeType::TPC);
+                auto tpc_kr85_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_kr85_edeps);
+                for(auto detsim : tpc_kr85_detsim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Kr85);
+                }
+            }
         }
         void Melange::ProcessRn222(
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto rn222 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Rn222);
+            for(auto elec : rn222)
+            {
+                std::cout << "Rn222: " << mc_data->GetPDGCode(elec) << std::endl;
+                auto rn222_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
+                auto tpc_rn222_edeps = mc_data->FilterEdepsByVolume(rn222_edeps, geometry::VolumeType::TPC);
+                auto tpc_rn222_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_rn222_edeps);
+                for(auto detsim : tpc_rn222_detsim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Rn222);
+                }
+            }
         }
     }
 }
