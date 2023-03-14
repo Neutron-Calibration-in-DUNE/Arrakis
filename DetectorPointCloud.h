@@ -72,6 +72,9 @@ namespace arrakis
         NeutronCaptureGamma181 = 12,
         NeutronCaptureGammaOther = 13,
         Ar39 = 14,
+        Ar42 = 15,
+        Kr85 = 16,
+        Rn222 = 17,
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
