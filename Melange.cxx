@@ -75,6 +75,9 @@ namespace arrakis
             ProcessPionMinus(config, event);
             ProcessNeutronCaptures(config, event);
             ProcessAr39(config, event);
+            ProcessAr42(config, event);
+            ProcessKr85(config, event);
+            ProcessRn222(config, event);
             CleanUpPointClouds(config, event);
             SeparatePointClouds(config, event);
             FillTTree();
@@ -218,6 +221,35 @@ namespace arrakis
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Ar39);
                 }
             }
+        }
+        void Melange::ProcessAr42(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto ar42 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar42);
+            for(auto elec : ar42)
+            {
+                std::cout << "Ar42: " << mc_data->GetParticlePDG(elec) << std::endl;
+                auto ar42_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
+                auto tpc_ar42_edeps = mc_data->FilterEdepsByVolume(ar42_edeps, geometry::VolumeType::TPC);
+                auto tpc_ar42_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_ar42_edeps);
+                for(auto detsim : tpc_ar42_detsim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Ar42);
+                }
+            }
+        }
+        void Melange::ProcessKr85(
+            const Parameters& config, art::Event const& event
+        )
+        {
+        }
+        void Melange::ProcessRn222(
+            const Parameters& config, art::Event const& event
+        )
+        {
         }
     }
 }

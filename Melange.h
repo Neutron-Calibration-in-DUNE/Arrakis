@@ -54,6 +54,9 @@ namespace arrakis
             void ProcessPionMinus(const Parameters& config, art::Event const& event);
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
             void ProcessAr39(const Parameters& config, art::Event const& event);
+            void ProcessAr42(const Parameters& config, art::Event const& event);
+            void ProcessKr85(const Parameters& config, art::Event const& event);
+            void ProcessRn222(const Parameters& config, art::Event const& event);
             void CleanUpPointClouds(const Parameters& config, art::Event const& event);
             void SeparatePointClouds(const Parameters& config, art::Event const& event);
 
