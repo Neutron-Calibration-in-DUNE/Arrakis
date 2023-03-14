@@ -230,7 +230,7 @@ namespace arrakis
             auto ar42 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar42);
             for(auto elec : ar42)
             {
-                std::cout << "Ar42: " << mc_data->GetParticlePDG(elec) << std::endl;
+                std::cout << "Ar42: " << mc_data->GetPDGCode(elec) << std::endl;
                 auto ar42_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
                 auto tpc_ar42_edeps = mc_data->FilterEdepsByVolume(ar42_edeps, geometry::VolumeType::TPC);
                 auto tpc_ar42_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_ar42_edeps);
