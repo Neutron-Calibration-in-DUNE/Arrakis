@@ -44,6 +44,7 @@ namespace arrakis
 
             // methods for processing event data
             void ResetEvent();
+            Int_t IterateClusterLabel();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
@@ -79,6 +80,8 @@ namespace arrakis
             DetectorPointCloud mDetectorView0PointCloud;
             DetectorPointCloud mDetectorView1PointCloud;
             DetectorPointCloud mDetectorView2PointCloud;
+
+            Int_t mClusterLabel;
         };
     }
 }

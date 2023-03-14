@@ -314,6 +314,14 @@ namespace arrakis
                      * MCTruth stores MCParticles starting with trackID = 0,
                      * rather than Geant4 which starts with trackID = 1.
                     */
+                    if(truth.NParticles() == 0)
+                    {
+                        Logger::GetInstance("mcdata")->trace(
+                            "MCTruth for " + sMCTruthHandleLabels[jj] + 
+                            " contains no simulated particles."
+                        );
+                        continue;
+                    }
                     Logger::GetInstance("mcdata")->trace(
                         "adding labels of type " + 
                         sMCTruthHandleLabels[jj] + 

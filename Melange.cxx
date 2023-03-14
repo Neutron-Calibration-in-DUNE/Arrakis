@@ -24,6 +24,7 @@ namespace arrakis
             mDetectorView0PointCloudTree->Branch("adc",     &mDetectorView0PointCloud.adc);
             mDetectorView0PointCloudTree->Branch("shape_label",     &mDetectorView0PointCloud.shape_label);
             mDetectorView0PointCloudTree->Branch("particle_label",  &mDetectorView0PointCloud.particle_label);
+            mDetectorView0PointCloudTree->Branch("unique_label",  &mDetectorView0PointCloud.unique_label);
 
             mDetectorView1PointCloudTree = mTFileService->make<TTree>("det_view1_point_cloud", "det_view1_point_cloud");
             mDetectorView1PointCloudTree->Branch("channel", &mDetectorView1PointCloud.channel);
@@ -31,6 +32,7 @@ namespace arrakis
             mDetectorView1PointCloudTree->Branch("adc",     &mDetectorView1PointCloud.adc);
             mDetectorView1PointCloudTree->Branch("shape_label",     &mDetectorView1PointCloud.shape_label);
             mDetectorView1PointCloudTree->Branch("particle_label",  &mDetectorView1PointCloud.particle_label);
+            mDetectorView1PointCloudTree->Branch("unique_label",  &mDetectorView1PointCloud.unique_label);
 
             mDetectorView2PointCloudTree = mTFileService->make<TTree>("det_view2_point_cloud", "det_view2_point_cloud");
             mDetectorView2PointCloudTree->Branch("channel", &mDetectorView2PointCloud.channel);
@@ -38,6 +40,7 @@ namespace arrakis
             mDetectorView2PointCloudTree->Branch("adc",     &mDetectorView2PointCloud.adc);
             mDetectorView2PointCloudTree->Branch("shape_label",     &mDetectorView2PointCloud.shape_label);
             mDetectorView2PointCloudTree->Branch("particle_label",  &mDetectorView2PointCloud.particle_label);
+            mDetectorView2PointCloudTree->Branch("unique_label",  &mDetectorView2PointCloud.unique_label);
 
             mDetectorView0VoxelTree = mTFileService->make<TTree>("det_view0_voxel", "det_view0_voxel");
             mDetectorView1VoxelTree = mTFileService->make<TTree>("det_view1_voxel", "det_view1_voxel");
@@ -53,8 +56,13 @@ namespace arrakis
             mDetectorView0PointCloud.clear();
             mDetectorView1PointCloud.clear();
             mDetectorView2PointCloud.clear();
+            mClusterLabel = 0;
         }
-
+        Int_t Melange::IterateClusterLabel()
+        {
+            mClusterLabel += 1;
+            return mClusterLabel;
+        }
         void Melange::FillTTree()
         {
             mDetectorView0PointCloudTree->Fill();
@@ -98,6 +106,7 @@ namespace arrakis
                 mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
                 mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
                 mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
+                mDetectorPointCloud.unique_label.emplace_back(-1);
             }
             for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
             {
@@ -107,6 +116,7 @@ namespace arrakis
                 mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
                 mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
                 mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
+                mDetectorPointCloud.unique_label.emplace_back(-1);
             }
         }
 
@@ -129,6 +139,7 @@ namespace arrakis
                     mDetectorView0PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
                     mDetectorView0PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
                     mDetectorView0PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
+                    mDetectorView0PointCloud.unique_label.emplace_back(mDetectorPointCloud.unique_label[ii]);
                 }
                 else if(mDetectorPointCloud.view[ii] == 1) 
                 {
@@ -137,6 +148,7 @@ namespace arrakis
                     mDetectorView1PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
                     mDetectorView1PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
                     mDetectorView1PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
+                    mDetectorView1PointCloud.unique_label.emplace_back(mDetectorPointCloud.unique_label[ii]);
                 }
                 else
                 {
@@ -145,6 +157,7 @@ namespace arrakis
                     mDetectorView2PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
                     mDetectorView2PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
                     mDetectorView2PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
+                    mDetectorView2PointCloud.unique_label.emplace_back(mDetectorPointCloud.unique_label[ii]);
                 }
             }
         }
