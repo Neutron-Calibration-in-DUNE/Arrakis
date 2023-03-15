@@ -159,7 +159,33 @@ namespace arrakis
 
             sDetectorSimulationEdepMap.clear();
         }
+        void MCData::PrintParticleData(TrackID_t trackID)
+        {
+            auto particle = (*sMCParticleHandle)[sParticleMap[trackID]];
+            std::cout << "## MCParticle #################################\n";
+            std::cout << "## TrackID:               " << trackID << "\n";
+            std::cout << "## PDG:                   " << particle.PdgCode() << "\n";
+            std::cout << "## Parent [trackID, PDG]:  [" << particle.Mother() << ", " << sParentPDGMap[trackID] << "]\n";
+            std::cout << "## Ancestor [trackID, PDG]:[" << sAncestorTrackIDMap[trackID] << ", " << sAncestorPDGMap[trackID] << "]\n";
+            std::cout << "## Progeny [level, trackID, PDG]\n";
+            auto progeny = sProgenyMap[trackID];
+            auto particle_level = sAncestorLevelMap[trackID];
+            for(auto progeny_track_id : progeny)
+            {
+                std::cout << "##         [" << sAncestorLevelMap[progeny_track_id] - particle_level << ", ";
+                std::cout << progeny_track_id << ", " << sPDGMap[progeny_track_id] << "]\n";
+            }
+            std::cout << "###############################################" << std::endl;
 
+        }
+        void MCData::PrintEdepData(EdepID_t edepID)
+        {
+
+        }
+        void MCData::PrintDetSimData(DetSimID_t detsimID)
+        {
+
+        }
         void MCData::ProcessEvent(
             const Parameters& config, art::Event const& event
         )

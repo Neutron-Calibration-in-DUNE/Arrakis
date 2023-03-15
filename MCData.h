@@ -118,6 +118,10 @@ namespace arrakis
             inline std::vector<DetSimID_t> GetParticleDetectorSimulation(TrackID_t trackID) { return sParticleDetectorSimulationMap[trackID]; }
             inline std::vector<DetSimID_t> GetRandomDetectorSimulation(TrackID_t trackID)   { return sRandomDetectorSimulationMap[trackID]; }
 
+            void PrintParticleData(TrackID_t trackID);
+            void PrintEdepData(EdepID_t edepID);
+            void PrintDetSimData(DetSimID_t detsimID);
+
             // maps from edep to process
             inline ProcessType GetEdepProcess(EdepID_t edepID)   { return sEdepProcessMap[edepID]; }
 

@@ -86,6 +86,7 @@ namespace arrakis
             ProcessAr42(config, event);
             ProcessKr85(config, event);
             ProcessRn222(config, event);
+            ProcessCosmics(config, event);
             CleanUpPointClouds(config, event);
             SeparatePointClouds(config, event);
             FillTTree();
@@ -190,6 +191,11 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            /**
+             * Neutron captures produce a standard candle of 6.1 MeV
+             * gammas, which are generated according to a cascade: 
+             * 
+             */
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetParticlesByPDG(2112);
             for(auto neutron : neutrons)
@@ -221,6 +227,10 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            /**
+             * Argon-39 decays via beta decay into Potassium-39,
+             * with a Q-value of 565 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180039.
+             */
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar39 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar39);
             for(auto elec : ar39)
@@ -239,11 +249,14 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            /**
+             * Argon-42 decays via beta decay into Potassium-42,
+             * with a Q-value of 599 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180042.
+             */
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar42 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar42);
             for(auto elec : ar42)
             {
-                std::cout << "Ar42: " << mc_data->GetPDGCode(elec) << std::endl;
                 auto ar42_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
                 auto tpc_ar42_edeps = mc_data->FilterEdepsByVolume(ar42_edeps, geometry::VolumeType::TPC);
                 auto tpc_ar42_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_ar42_edeps);
@@ -258,11 +271,15 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            /**
+             * Krypton-85 decays via beta decay into Rubidium 85
+             * with two prominent betas with energies of 687 keV (99.56 %) and
+             * 173 keV (.43 %): http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=360085. 
+             */
             auto mc_data = mcdata::MCData::GetInstance();
             auto kr85 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Kr85);
             for(auto elec : kr85)
             {
-                std::cout << "Kr85: " << mc_data->GetPDGCode(elec) << std::endl;
                 auto kr85_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
                 auto tpc_kr85_edeps = mc_data->FilterEdepsByVolume(kr85_edeps, geometry::VolumeType::TPC);
                 auto tpc_kr85_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_kr85_edeps);
@@ -277,12 +294,19 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            /**
+             * Radon-222 decays via alpha decay through a chain that ends in lead
+             * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+             * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+             * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in 
+             * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the 
+             * scattering length is (~0.005 cm) or (~50 um).
+             */
             auto mc_data = mcdata::MCData::GetInstance();
             auto rn222 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Rn222);
-            for(auto elec : rn222)
+            for(auto alpha : rn222)
             {
-                std::cout << "Rn222: " << mc_data->GetPDGCode(elec) << std::endl;
-                auto rn222_edeps = mc_data->GetParticleAndProgenyEdeps(elec);
+                auto rn222_edeps = mc_data->GetParticleAndProgenyEdeps(alpha);
                 auto tpc_rn222_edeps = mc_data->FilterEdepsByVolume(rn222_edeps, geometry::VolumeType::TPC);
                 auto tpc_rn222_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_rn222_edeps);
                 for(auto detsim : tpc_rn222_detsim)
@@ -290,6 +314,17 @@ namespace arrakis
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Blip);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Rn222);
                 }
+            }
+        }
+        void Melange::ProcessCosmics(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto cosmics = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Cosmics);
+            for(auto cosmic : cosmics)
+            {
+                mc_data->PrintParticleData(cosmic);
             }
         }
     }
