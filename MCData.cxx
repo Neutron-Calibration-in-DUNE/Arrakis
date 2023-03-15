@@ -162,23 +162,24 @@ namespace arrakis
         void MCData::PrintParticleData(TrackID_t trackID)
         {
             auto particle = (*sMCParticleHandle)[sParticleMap[trackID]];
-            std::cout << "## MCParticle #################################\n";
-            std::cout << "## TrackID:                 [" << std::setw(10) << std::setfill('.') << trackID << "]\n";
-            std::cout << "## PDG:                     [" << std::setw(10) << std::setfill('.') << particle.PdgCode() << "]\n";
-            std::cout << "## Energy [MeV]:            [" << std::setw(10) << std::setfill('.') << particle.E() << "]\n";
-            std::cout << "## Process:                 [" << std::setw(10) << std::setfill('.') << particle.Process() << "]\n";
-            std::cout << "## Parent TrackID:          [" << std::setw(10) << std::setfill('.') << particle.Mother() << "]\n";
-            std::cout << "## Parent PDG:              [" << std::setw(10) << std::setfill('.') << sParentPDGMap[trackID] << "]\n";
-            std::cout << "## Ancestor TrackID:        [" << std::setw(10) << std::setfill('.') << sAncestorTrackIDMap[trackID] << "]\n";
-            std::cout << "## Ancestor PDG:            [" << std::setw(10) << std::setfill('.') << sAncestorPDGMap[trackID] << "]\n";
-            std::cout << "## Ancestor level:          [" << std::setw(10) << std::setfill('.') << sAncestorLevelMap[trackID] << "]\n";
-            std::cout << "## Progeny  [level, trackID, PDG]\n";
+            std::cout << "## MCParticle #######################################\n";
+            std::cout << "## TrackID:           [" << std::setw(25) << std::setfill('.') << trackID << "] ##\n";
+            std::cout << "## PDG:               [" << std::setw(25) << std::setfill('.') << particle.PdgCode() << "] ##\n";
+            std::cout << "## Energy [MeV]:      [" << std::setw(25) << std::setfill('.') << particle.E() << "] ##\n";
+            std::cout << "## Process:           [" << std::setw(25) << std::setfill('.') << particle.Process() << "] ##\n";
+            std::cout << "## Parent TrackID:    [" << std::setw(25) << std::setfill('.') << particle.Mother() << "] ##\n";
+            std::cout << "## Parent PDG:        [" << std::setw(25) << std::setfill('.') << sParentPDGMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor TrackID:  [" << std::setw(25) << std::setfill('.') << sAncestorTrackIDMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor PDG:      [" << std::setw(25) << std::setfill('.') << sAncestorPDGMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor level:    [" << std::setw(25) << std::setfill('.') << sAncestorLevelMap[trackID] << "] ##\n";
+            std::cout << "## Progeny  [.....level] [...TrackID] [.......PDG]\n";
             auto progeny = sProgenyMap[trackID];
             auto particle_level = sAncestorLevelMap[trackID];
             for(auto progeny_track_id : progeny)
             {
-                std::cout << "##         [" << sAncestorLevelMap[progeny_track_id] - particle_level << ", ";
-                std::cout << progeny_track_id << ", " << sPDGMap[progeny_track_id] << "]\n";
+                std::cout << "##         [" std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
+                std::cout << std::setw(10) << std::setfill('.') << progeny_track_id << "] [";
+                std::cout << std::setw(10) << std::setfill('.') << sPDGMap[progeny_track_id] << "]\n";
             }
             std::cout << "###############################################" << std::endl;
         }
