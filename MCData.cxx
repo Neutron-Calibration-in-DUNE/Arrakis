@@ -163,35 +163,37 @@ namespace arrakis
         {
             auto particle = (*sMCParticleHandle)[sParticleMap[trackID]];
             std::cout << "## MCParticle #######################################\n";
-            std::cout << "## TrackID:           [" << std::setw(25) << std::setfill('.') << trackID << "] ##\n";
-            std::cout << "## PDG:               [" << std::setw(25) << std::setfill('.') << particle.PdgCode() << "] ##\n";
-            std::cout << "## Energy [MeV]:      [" << std::setw(25) << std::setfill('.') << particle.E() << "] ##\n";
-            std::cout << "## Process:           [" << std::setw(25) << std::setfill('.') << particle.Process() << "] ##\n";
-            std::cout << "## Parent TrackID:    [" << std::setw(25) << std::setfill('.') << particle.Mother() << "] ##\n";
-            std::cout << "## Parent PDG:        [" << std::setw(25) << std::setfill('.') << sParentPDGMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor TrackID:  [" << std::setw(25) << std::setfill('.') << sAncestorTrackIDMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor PDG:      [" << std::setw(25) << std::setfill('.') << sAncestorPDGMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor level:    [" << std::setw(25) << std::setfill('.') << sAncestorLevelMap[trackID] << "] ##\n";
-            std::cout << "## Progeny  [.....level] [...TrackID] [.......PDG]\n";
+            std::cout << "## TrackID:            [" << std::setw(25) << std::setfill('.') << trackID << "] ##\n";
+            std::cout << "## PDG:                [" << std::setw(25) << std::setfill('.') << particle.PdgCode() << "] ##\n";
+            std::cout << "## Energy [MeV]:       [" << std::setw(25) << std::setfill('.') << particle.E() << "] ##\n";
+            std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << particle.Process() << "] ##\n";
+            std::cout << "## Parent TrackID:     [" << std::setw(25) << std::setfill('.') << particle.Mother() << "] ##\n";
+            std::cout << "## Parent PDG:         [" << std::setw(25) << std::setfill('.') << sParentPDGMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor TrackID:   [" << std::setw(25) << std::setfill('.') << sAncestorTrackIDMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor PDG:       [" << std::setw(25) << std::setfill('.') << sAncestorPDGMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor level:     [" << std::setw(25) << std::setfill('.') << sAncestorLevelMap[trackID] << "] ##\n";
+            std::cout << "## Progeny  [.....level] [...TrackID] [.......PDG] ##\n";
             auto progeny = sProgenyMap[trackID];
             auto particle_level = sAncestorLevelMap[trackID];
             for(auto progeny_track_id : progeny)
             {
                 std::cout << "##         [" << std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << progeny_track_id << "] [";
-                std::cout << std::setw(10) << std::setfill('.') << sPDGMap[progeny_track_id] << "]\n";
+                std::cout << std::setw(10) << std::setfill('.') << sPDGMap[progeny_track_id] << "] ##\n";
             }
             std::cout << "#####################################################" << std::endl;
         }
         void MCData::PrintEdepData(EdepID_t edepID)
         {
             auto edep = (*sMCSimEnergyDepositHandle)[edepID];
-            std::cout << "## MCSimEnergyDeposit #########################\n";
-            std::cout << "## TrackID:                " << edep.TrackID() << "\n";
-            std::cout << "## PDG:                    " << sPDGMap[edep.TrackID()] << "\n";
-            std::cout << "## Energy:                 " << edep.Energy() << "\n";
-            std::cout << "## MidPoint [x, y, z]:     [" << edep.MidPointX() << ", " << edep.MidPointY() << ", " << edep.MidPointZ() << "]\n"; 
-            std::cout << "###############################################" << std::endl;
+            std::cout << "## MCSimEnergyDeposit ###############################\n";
+            std::cout << "## TrackID:           [" << std::setw(25) << std::setfill('.') << edep.TrackID() << "] ##\n";
+            std::cout << "## PDG:               [" << std::setw(25) << std::setfill('.') << sPDGMap[edep.TrackID()] << "] ##\n";
+            std::cout << "## Energy [MeV]:      [" << std::setw(25) << std::setfill('.') << edep.Energy() << "] ##\n";
+            std::cout << "## MidPoint [x,y,z]:  [" << std::setw(7) << std::setfill('.') << edep.MidPointX() << ", ";
+            std::cout << std::setw(7) << std::setfill('.') << edep.MidPointY() << ", ";
+            std::cout << std::setw(7) << std::setfill('.') << edep.MidPointZ() << "] ##\n"; 
+            std::cout << "#####################################################" << std::endl;
         }
         void MCData::PrintDetSimData(DetSimID_t detsimID)
         {
