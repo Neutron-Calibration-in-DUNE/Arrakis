@@ -130,7 +130,7 @@ namespace arrakis
         };
         struct MelangeParameters
         {
-            fhicl::Atom<art::InputTag> NeutronCaptureGammaDetail
+            fhicl::Atom<std::string> NeutronCaptureGammaDetail
             {
                 fhicl::Name("NeutronCaptureGammaDetail"),
                 fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")

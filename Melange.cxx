@@ -65,9 +65,9 @@ namespace arrakis
                 "setting up configuration parameters."
             );
             fhicl::ParameterSet const& melange_params = config().melange_parameters.get_PSet();
-            std::map<std::string, art::InputTag> melange_tags;
+            std::map<std::string, std::string> melange_tags;
             for(std::string const& name : melange_params.get_names()) {
-                melange_tags[name] = melange_params.get<art::InputTag>(name);
+                melange_tags[name] = melange_params.get<std::string>(name);
             }
             sNeutronCaptureGammaDetail = melange_tags["NeutronCaptureGammaDetail"];
             Logger::GetInstance("melange")->trace(
