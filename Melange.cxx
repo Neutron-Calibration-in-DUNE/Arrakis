@@ -190,23 +190,23 @@ namespace arrakis
         void Melange::ProcessShowers(Int_t trackID)
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            auto particle_edeps = mc_data->GetParticleEdeps(trackID);
+            auto particle_edeps = mc_data->GetParticleEdep(trackID);
             auto tpc_particle_edeps = mc_data->FilterEdepsByVolume(particle_edeps);
             auto tpc_particle_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_particle_edeps);
             for(auto detsim : tpc_particle_det_sim)
             {
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
-                if(sPDGMap[particle] == 11) {
+                if(mc_data->GetPDGCode(particle) == 11) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
                 }
-                else if(sPDGMap[particle] == 22) {
+                else if(mc_data->GetPDGCode(particle) == 22) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
                 }
             }
             auto progeny = mc_data->GetProgeny(trackID);
             for(auto particle : progeny)
             {
-                if(sPDGMap[particle] == 11 || sPDGMap[particle] == 22) {
+                if(mc_data->GetPDGCode(particle) == 11 || mc_data->GetPDGCode(particle) == 22) {
                     ProcessShowers(particle);
                 }
             }
@@ -219,7 +219,7 @@ namespace arrakis
             auto muons = mc_data->GetParticlesByPDG(13);
             for(auto muon : muons)
             {
-                auto muon_edeps = mc_data->GetParticleEdeps(muon);
+                auto muon_edeps = mc_data->GetParticleEdep(muon);
                 auto tpc_muon_edeps = mc_data->FilterEdepsByVolume(muon_edeps, geometry::VolumeType::TPC);
                 auto tpc_muon_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_muon_edeps);
                 for(auto detsim : tpc_muon_det_sim)
@@ -238,10 +238,10 @@ namespace arrakis
                  */
                 for(auto particle : muon_progeny)
                 {
-                    auto particle_edeps = mc_data->GetParticleEdeps(particle);
+                    auto particle_edeps = mc_data->GetParticleEdep(particle);
                     auto tpc_particle_edeps = mc_data->FilterEdepsByVolume(particle_edeps, geometry::VolumeType::TPC);
                     auto tpc_particle_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_particle_edeps);
-                    if(sPDGMap[particle] == 11 && sParentTrackIDMap[particle] == muon)
+                    if(mc_data->GetPDGCode(particle) == 11 && mc_data->GetParentTrackID(particle) == muon)
                     {
                         for(auto detsim : tpc_particle_det_sim)
                         {
@@ -254,7 +254,7 @@ namespace arrakis
                             }
                         }
                     }
-                    else if(sParentTrackIDMap[particle] != muon && (sPDGMap[particle] == 11 || sPDGMap[particle] == 22))
+                    else if(mc_data->GetParentTrackID(particle) != muon && (mc_data->GetPDGCode(particle) == 11 || mc_data->GetPDGCode(particle) == 22))
                     {
                         ProcessShowers(particle);
                     }
