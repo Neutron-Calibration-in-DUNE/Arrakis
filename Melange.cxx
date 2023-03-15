@@ -187,10 +187,82 @@ namespace arrakis
                 }
             }
         }
+        void Melange::ProcessShowers(TrackID_t trackID)
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto particle_edeps = mc_data->GetParticleEdeps(trackID);
+            auto tpc_particle_edeps = mc_data->FilterEdepsByVolume(particle_edeps);
+            auto tpc_particle_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_particle_edeps);
+            for(auto detsim : tpc_particle_det_sim)
+            {
+                mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
+                if(sPDGMap[particle] == 11) {
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
+                }
+                else if(sPDGMap[particle] == 22) {
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
+                }
+            }
+            auto progeny = mc_data->GetProgeny(trackID);
+            for(auto particle : progeny)
+            {
+                if(sPDGMap[particle] == 11 || sPDGMap[particle] == 22) {
+                    ProcessShowers(particle);
+                }
+            }
+        }
         void Melange::ProcessMuons(
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto muons = mc_data->GetParticlesByPDG(13);
+            for(auto muon : muons)
+            {
+                auto muon_edeps = mc_data->GetParticleEdeps(muon);
+                auto tpc_muon_edeps = mc_data->FilterEdepsByVolume(muon_edeps, geometry::VolumeType::TPC);
+                auto tpc_muon_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_muon_edeps);
+                for(auto detsim : tpc_muon_det_sim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Muon);
+                }
+                auto muon_progeny = mc_data->GetProgeny(muon);
+                /**
+                 * Now go through and grab all electrons which are direct descendants of
+                 * muons.  These can be classified into several types, depending on how
+                 * they were generated.  Electrons which are direct descendants (daughters)
+                 * of muons are technically delta-rays, and should be labelled as tracks.
+                 * Unless of course the electron comes from a particular decay, then
+                 * it is a special electron called a Michel electron.
+                 */
+                for(auto particle : muon_progeny)
+                {
+                    auto particle_edeps = mc_data->GetParticleEdeps(particle);
+                    auto tpc_particle_edeps = mc_data->FilterEdepsByVolume(particle_edeps, geometry::VolumeType::TPC);
+                    auto tpc_particle_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_particle_edeps);
+                    if(sPDGMap[particle] == 11 && sParentTrackIDMap[particle] == muon)
+                    {
+                        for(auto detsim : tpc_particle_det_sim)
+                        {
+                            mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                            if(sProcessMap[particle] == ProcessType::Decay) {
+                                mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
+                            }
+                            else {
+                                mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::DeltaElectron);    
+                            }
+                        }
+                    }
+                    else if(sParentTrackIDMap[particle] != muon && (sPDGMap[particle] == 11 || sPDGMap[particle] == 22))
+                    {
+                        ProcessShowers(particle);
+                    }
+                    else
+                    {
+                    }
+                }
+            }
         }
         void Melange::ProcessAntiMuons(
             const Parameters& config, art::Event const& event
@@ -225,7 +297,6 @@ namespace arrakis
             auto neutrons = mc_data->GetParticlesByPDG(2112);
             for(auto neutron : neutrons)
             {
-                mc_data->PrintParticleData(neutron);
                 auto gammas = mc_data->GetProgenyByPDG(neutron, 22);
                 auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
                 for(auto gamma : capture_gammas)

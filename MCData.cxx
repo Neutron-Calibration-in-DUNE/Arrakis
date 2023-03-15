@@ -24,6 +24,7 @@ namespace arrakis
         {ProcessType::CoulombScatter,       "CoulombScatter"},
         {ProcessType::NeutronCapture,       "NeutronCapture"},
         {ProcessType::Transportation,       "Transportation"},
+        {ProcessType::Decay,                "Decay"},
     };
     std::map<std::string, ProcessType> StringToProcessType
     {
@@ -40,6 +41,7 @@ namespace arrakis
         {"CoulombScatter",      ProcessType::CoulombScatter},
         {"NeutronCapture",      ProcessType::NeutronCapture},
         {"Transportation",      ProcessType::Transportation},
+        {"Decay",               ProcessType::Decay},
     };
     std::map<std::string, ProcessType> TrajectoryStringToProcessType
     {
@@ -56,6 +58,7 @@ namespace arrakis
         {"CoulombScatter",  ProcessType::CoulombScatter},
         {"nCapture",        ProcessType::NeutronCapture},
         {"Transportation",  ProcessType::Transportation},
+        {"Decay",           ProcessType::Decay},
     };
     std::map<ProcessType, std::string> TrajectoryProcessTypeToString
     {
@@ -72,6 +75,7 @@ namespace arrakis
         {ProcessType::CoulombScatter,       "CoulombScatter"},
         {ProcessType::NeutronCapture,       "nCapture"},
         {ProcessType::Transportation,       "Transportation"},
+        {ProcessType::Decay,                "Decay"},
     };
 
     namespace mcdata
@@ -177,7 +181,7 @@ namespace arrakis
             auto particle_level = sAncestorLevelMap[trackID];
             for(auto progeny_track_id : progeny)
             {
-                std::cout << "##         [" << std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
+                std::cout << "##          [" << std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << progeny_track_id << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << sPDGMap[progeny_track_id] << "] ##\n";
             }

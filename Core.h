@@ -73,6 +73,7 @@ namespace arrakis
         CoulombScatter =        9,
         NeutronCapture =        10,
         Transportation =        11,
+        Decay =                 12,
     };
     using ProcessTypeInt = std::underlying_type<ProcessType>::type;
     inline Int_t Process(ProcessType process) 

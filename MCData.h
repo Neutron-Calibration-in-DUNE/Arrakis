@@ -105,6 +105,7 @@ namespace arrakis
             inline GeneratorLabel GetGeneratorLabel(TrackID_t trackID) { return sGeneratorLabelMap[trackID]; }
             inline ParticleID_t GetParticleIndex(TrackID_t trackID)    { return sParticleMap[trackID]; }
             inline Int_t GetPDGCode(TrackID_t trackID)          { return sPDGMap[trackID]; }
+            inline ProcessType GetProcess(TrackID_t trackID)    { return sProcessMap[trackID]; }
             inline Int_t GetParentPDG(TrackID_t trackID)        { return sParentPDGMap[trackID]; }
             inline Int_t GetParentTrackID(TrackID_t trackID)    { return sParentTrackIDMap[trackID]; }
             inline Double_t GetParticleEnergy(TrackID_t trackID)   { return sParticleEnergyMap[trackID];}
@@ -188,6 +189,7 @@ namespace arrakis
             // MCParticle TrackID maps
             std::map<TrackID_t, ParticleID_t> sParticleMap;
             std::map<TrackID_t, Int_t>      sPDGMap;
+            std::map<TrackID_t, ProcessType> sProcessMap;
             std::map<TrackID_t, Int_t>      sParentPDGMap;
             std::map<TrackID_t, TrackID_t>  sParentTrackIDMap;
             std::map<TrackID_t, Double_t>   sParticleEnergyMap;
@@ -199,7 +201,7 @@ namespace arrakis
             std::map<TrackID_t, std::vector<TrackID_t>> sProgenyMap;
             std::map<TrackID_t, std::vector<TrackID_t>> sAncestryMap;
             std::map<TrackID_t, std::vector<EdepID_t>>  sParticleEdepMap;
-            std::map<EdepID_t, std::vector<ProcessType>> sParticleEdepProcessMap;
+            std::map<EdepID_t,  std::vector<ProcessType>> sParticleEdepProcessMap;
             std::map<TrackID_t, std::vector<DetSimID_t>> sParticleDetectorSimulationMap;
             std::map<TrackID_t, std::vector<DetSimID_t>> sRandomDetectorSimulationMap;
 
