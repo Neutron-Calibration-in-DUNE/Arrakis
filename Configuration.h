@@ -136,7 +136,7 @@ namespace arrakis
                 fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
             };
         }
-        fhicl::Table<MelangeParameters> melange
+        fhicl::Table<MelangeParameters> melange_parameters
         {
             fhicl::Name("MelangeParameters"),
             fhicl::Comment("Parameters for the melange algorithms.")

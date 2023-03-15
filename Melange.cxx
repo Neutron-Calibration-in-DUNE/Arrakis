@@ -66,7 +66,7 @@ namespace arrakis
             );
             std::map<std::string, art::InputTag> melange_tags;
             for(std::string const& name : config().melange_parameters.get_PSet().get_names()) {
-                melange_tags[name] = melange_labels.get<art::InputTag>(name);
+                melange_tags[name] = melange_parameters.get<art::InputTag>(name);
             }
             sNeutronCaptureGammaDetail = melange_tags["NeutronCaptureGammaDetail"];
             Logger::GetInstance("melange")->trace(
