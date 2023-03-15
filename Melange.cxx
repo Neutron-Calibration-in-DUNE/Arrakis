@@ -16,7 +16,7 @@ namespace arrakis
 
         Melange *Melange::GetInstance()
         {
-            std::lock_gaurd<std::mutex> lock(sMutex);
+            std::lock_guard<std::mutex> lock(sMutex);
             if (sInstance == nullptr)
             {
                 sInstance = new Melange();
