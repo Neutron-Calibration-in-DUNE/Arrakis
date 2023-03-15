@@ -84,7 +84,7 @@ namespace arrakis
         // Detector Geometry Instance
         geometry::DetectorGeometry* mGeometry;
         mcdata::MCData* mMCData;
-        melange::Melange mMelange;
+        melange::Melange* mMelange;
 
     };
 
@@ -97,6 +97,9 @@ namespace arrakis
         mGeometry = geometry::DetectorGeometry::GetInstance();
         mMCData = mcdata::MCData::GetInstance();
         mMCData->SetADCThreshold(config().ADCThreshold());
+
+        mMelange = melange::Melange::GetInstance();
+        mMelange->SetConfigurationParameters(config);
 
         Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");      
     }
@@ -120,7 +123,7 @@ namespace arrakis
         );
 
         mMCData->ProcessEvent(mParameters, event);
-        mMelange.ProcessEvent(mParameters, event);
+        mMelange->ProcessEvent(mParameters, event);
         
 
         mMCData->FillTTree();

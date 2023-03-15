@@ -11,6 +11,18 @@ namespace arrakis
 {
     namespace melange
     {
+        Melange* Melange::sInstance{nullptr};
+        std::mutex Melange::sMutex;
+
+        Melange *Melange::GetInstance()
+        {
+            std::lock_gaurd<std::mutex> lock(sMutex);
+            if (sInstance == nullptr)
+            {
+                sInstance = new Melange();
+            }
+            return sInstance;
+        }
         Melange::Melange()
         {
             Logger::GetInstance("melange")->trace(
@@ -46,8 +58,20 @@ namespace arrakis
             mDetectorView1VoxelTree = mTFileService->make<TTree>("det_view1_voxel", "det_view1_voxel");
             mDetectorView2VoxelTree = mTFileService->make<TTree>("det_view2_voxel", "det_view2_voxel");
         }
-        Melange::~Melange()
+
+        void Melange::SetConfigurationParameters(const Parameters& config)
         {
+            Logger::GetInstance("melange")->trace(
+                "setting up configuration parameters."
+            );
+            std::map<std::string, art::InputTag> melange_tags;
+            for(std::string const& name : config().melange_parameters.get_PSet().get_names()) {
+                melange_tags[name] = melange_labels.get<art::InputTag>(name);
+            }
+            sNeutronCaptureGammaDetail = melange_tags["NeutronCaptureGammaDetail"];
+            Logger::GetInstance("melange")->trace(
+                "setting neutron capture gamma detail to: " + sNeutronCaptureGammaDetail
+            );
         }
 
         void Melange::ResetEvent()

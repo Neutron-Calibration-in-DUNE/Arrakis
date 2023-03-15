@@ -39,8 +39,17 @@ namespace arrakis
         class Melange
         {
         public:
+            Melange(Melange &other) = delete;
+            void operator=(const Melange &) = delete;
+
+            static Melange* GetInstance();
+
+        protected:
             Melange();
-            ~Melange();
+            ~Melange() {}
+
+        public:
+            void SetConfigurationParameters(const Parameters& config);
 
             // methods for processing event data
             void ResetEvent();
@@ -65,6 +74,12 @@ namespace arrakis
             void FillTTree();
 
         private:
+            static Melange* sInstance;
+            static std::mutex sMutex;
+
+            // Configuration Parameters
+            std::string sNeutronCaptureGammaDetail;
+
             // Output TTree
             art::ServiceHandle<art::TFileService> mTFileService;
             TTree *mDetectorPointCloudTree;

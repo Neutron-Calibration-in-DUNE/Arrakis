@@ -128,7 +128,19 @@ namespace arrakis
             fhicl::Name("GeneratorLabels"),
             fhicl::Comment("Input Tag Table for accessing GeneratorLabels for various generator labels.")
         };
-        
+        struct MelangeParameters
+        {
+            fhicl::Atom<art::InputTag> NeutronCaptureGammaDetail
+            {
+                fhicl::Name("NeutronCaptureGammaDetail"),
+                fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
+            };
+        }
+        fhicl::Table<MelangeParameters> melange
+        {
+            fhicl::Name("MelangeParameters"),
+            fhicl::Comment("Parameters for the melange algorithms.")
+        };
 
         fhicl::Atom<double> ADCThreshold
         {
