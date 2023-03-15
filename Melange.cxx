@@ -187,7 +187,7 @@ namespace arrakis
                 }
             }
         }
-        void Melange::ProcessShowers(TrackID_t trackID)
+        void Melange::ProcessShowers(Int_t trackID)
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto particle_edeps = mc_data->GetParticleEdeps(trackID);
@@ -246,7 +246,7 @@ namespace arrakis
                         for(auto detsim : tpc_particle_det_sim)
                         {
                             mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
-                            if(sProcessMap[particle] == ProcessType::Decay) {
+                            if(mc_data->GetProcess(particle) == ProcessType::Decay) {
                                 mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
                             }
                             else {

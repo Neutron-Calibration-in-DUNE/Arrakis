@@ -57,6 +57,7 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
+            void ProcessShowers(Int_t trackID);
             void ProcessMuons(const Parameters& config, art::Event const& event);
             void ProcessAntiMuons(const Parameters& config, art::Event const& event);
             void ProcessPion0s(const Parameters& config, art::Event const& event);
