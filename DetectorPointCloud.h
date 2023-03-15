@@ -68,13 +68,14 @@ namespace arrakis
         DeltaElectron = 8,
         MichelElectron = 9,
         ElectronShower = 10,
-        NeutronCaptureGamma475 = 11,
-        NeutronCaptureGamma181 = 12,
-        NeutronCaptureGammaOther = 13,
-        Ar39 = 14,
-        Ar42 = 15,
-        Kr85 = 16,
-        Rn222 = 17,
+        NeutronCaptureGamma = 11,
+        NeutronCaptureGamma475 = 12,
+        NeutronCaptureGamma181 = 13,
+        NeutronCaptureGammaOther = 14,
+        Ar39 = 15,
+        Ar42 = 16,
+        Kr85 = 17,
+        Rn222 = 18,
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 

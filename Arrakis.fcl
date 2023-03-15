@@ -28,6 +28,11 @@ Arrakis:
         PNSLabel:           "PNS"
     }
 
+    MelangeParameters:
+    {
+        NeutronCaptureGammaDetail:  "simple"    # ["simple", "medium", "full"]
+    }
+
     # array parameters
     ADCThreshold:   10.0
 }
