@@ -7,6 +7,8 @@
  */
 #pragma once
 #include <mutex>
+#include <iostream>
+#include <iomanip>
 
 #include "art/Framework/Principal/Event.h"
 #include "art/Framework/Principal/Handle.h"
