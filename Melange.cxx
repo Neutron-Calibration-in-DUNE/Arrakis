@@ -331,6 +331,7 @@ namespace arrakis
             auto rn222 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Rn222);
             for(auto alpha : rn222)
             {
+                mc_data->PrintParticleData(alpha);
                 auto rn222_edeps = mc_data->GetParticleAndProgenyEdeps(alpha);
                 auto tpc_rn222_edeps = mc_data->FilterEdepsByVolume(rn222_edeps, geometry::VolumeType::TPC);
                 auto tpc_rn222_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_rn222_edeps);

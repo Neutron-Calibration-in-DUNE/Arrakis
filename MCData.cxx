@@ -163,11 +163,14 @@ namespace arrakis
         {
             auto particle = (*sMCParticleHandle)[sParticleMap[trackID]];
             std::cout << "## MCParticle #################################\n";
-            std::cout << "## TrackID:               " << trackID << "\n";
-            std::cout << "## PDG:                   " << particle.PdgCode() << "\n";
-            std::cout << "## Parent [trackID, PDG]:  [" << particle.Mother() << ", " << sParentPDGMap[trackID] << "]\n";
+            std::cout << "## TrackID:                " << trackID << "\n";
+            std::cout << "## PDG:                    " << particle.PdgCode() << "\n";
+            std::cout << "## Energy:                 " << particle.E() << "\n";
+            std::cout << "## Process:                " << particle.Process() << "\n";
+            std::cout << "## Parent   [trackID, PDG]:[" << particle.Mother() << ", " << sParentPDGMap[trackID] << "]\n";
             std::cout << "## Ancestor [trackID, PDG]:[" << sAncestorTrackIDMap[trackID] << ", " << sAncestorPDGMap[trackID] << "]\n";
-            std::cout << "## Progeny [level, trackID, PDG]\n";
+            std::cout << "## Ancestor level:         " << sAncestorLevelMap[trackID] << "\n";
+            std::cout << "## Progeny  [level, trackID, PDG]\n";
             auto progeny = sProgenyMap[trackID];
             auto particle_level = sAncestorLevelMap[trackID];
             for(auto progeny_track_id : progeny)
@@ -176,11 +179,16 @@ namespace arrakis
                 std::cout << progeny_track_id << ", " << sPDGMap[progeny_track_id] << "]\n";
             }
             std::cout << "###############################################" << std::endl;
-
         }
         void MCData::PrintEdepData(EdepID_t edepID)
         {
-
+            auto edep = (*sMCSimEnergyDepositHandle)[edepID];
+            std::cout << "## MCSimEnergyDeposit #########################\n";
+            std::cout << "## TrackID:                " << edep.TrackID() << "\n";
+            std::cout << "## PDG:                    " << sPDGMap[edep.TrackID()] << "\n";
+            std::cout << "## Energy:                 " << edep.Energy() << "\n";
+            std::cout << "## MidPoint [x, y, z]:     [" << edep.MidPointX() << ", " << edep.MidPointY() << ", " << edep.MidPointZ() << "]\n"; 
+            std::cout << "###############################################" << std::endl;
         }
         void MCData::PrintDetSimData(DetSimID_t detsimID)
         {
