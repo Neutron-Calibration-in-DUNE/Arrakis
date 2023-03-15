@@ -177,11 +177,11 @@ namespace arrakis
             auto particle_level = sAncestorLevelMap[trackID];
             for(auto progeny_track_id : progeny)
             {
-                std::cout << "##         [" std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
+                std::cout << "##         [" << std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << progeny_track_id << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << sPDGMap[progeny_track_id] << "]\n";
             }
-            std::cout << "###############################################" << std::endl;
+            std::cout << "#####################################################" << std::endl;
         }
         void MCData::PrintEdepData(EdepID_t edepID)
         {
