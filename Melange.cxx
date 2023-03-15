@@ -191,15 +191,15 @@ namespace arrakis
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto particle_edeps = mc_data->GetParticleEdep(trackID);
-            auto tpc_particle_edeps = mc_data->FilterEdepsByVolume(particle_edeps);
+            auto tpc_particle_edeps = mc_data->FilterEdepsByVolume(particle_edeps, geometry::VolumeType::TPC);
             auto tpc_particle_det_sim = mc_data->GetDetectorSimulationByEdeps(tpc_particle_edeps);
             for(auto detsim : tpc_particle_det_sim)
             {
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
-                if(mc_data->GetPDGCode(particle) == 11) {
+                if(mc_data->GetPDGCode(trackID) == 11) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
                 }
-                else if(mc_data->GetPDGCode(particle) == 22) {
+                else if(mc_data->GetPDGCode(trackID) == 22) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
                 }
             }
