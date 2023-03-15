@@ -191,7 +191,7 @@ namespace arrakis
             std::cout << "## TrackID:            [" << std::setw(25) << std::setfill('.') << edep.TrackID() << "] ##\n";
             std::cout << "## PDG:                [" << std::setw(25) << std::setfill('.') << sPDGMap[edep.TrackID()] << "] ##\n";
             std::cout << "## Energy [MeV]:       [" << std::setw(25) << std::setfill('.') << edep.Energy() << "] ##\n";
-            std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << ProcessTypeToString[sParticleEdepProcessMap[edepID]] << "] ##\n";
+            std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << ProcessTypeToString[sEdepProcessMap[edepID]] << "] ##\n";
             std::cout << "## MidPoint [x,y,z]:   [" << std::setw(7) << std::setfill('.') << edep.MidPointX() << ", ";
             std::cout << std::setw(7) << std::setfill('.') << edep.MidPointY() << ", ";
             std::cout << std::setw(7) << std::setfill('.') << edep.MidPointZ() << "] ##\n"; 
