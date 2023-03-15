@@ -225,6 +225,7 @@ namespace arrakis
             auto neutrons = mc_data->GetParticlesByPDG(2112);
             for(auto neutron : neutrons)
             {
+                mc_data->PrintParticleData(neutron);
                 auto gammas = mc_data->GetProgenyByPDG(neutron, 22);
                 auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
                 for(auto gamma : capture_gammas)
@@ -331,11 +332,7 @@ namespace arrakis
             auto rn222 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Rn222);
             for(auto alpha : rn222)
             {
-                mc_data->PrintParticleData(alpha);
                 auto rn222_edeps = mc_data->GetParticleAndProgenyEdeps(alpha);
-                for(auto edep: rn222_edeps) {
-                    mc_data->PrintEdepData(edep);
-                }
                 auto tpc_rn222_edeps = mc_data->FilterEdepsByVolume(rn222_edeps, geometry::VolumeType::TPC);
                 auto tpc_rn222_detsim = mc_data->GetDetectorSimulationByEdeps(tpc_rn222_edeps);
                 for(auto detsim : tpc_rn222_detsim)
