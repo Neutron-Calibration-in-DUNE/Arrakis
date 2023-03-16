@@ -160,7 +160,7 @@ namespace arrakis
             sGeneratorMap["Kr85Label"] = GeneratorLabel::Kr85;
             sGeneratorMap["Rn222Label"] = GeneratorLabel::Rn222;
             sGeneratorMap["CosmicsLabel"] = GeneratorLabel::Cosmics;
-            sGeneratorMap["SingleNeutronLabel"] = GeneratorLabel::SingleNeutron;
+            sGeneratorMap["HEPevtLabel"] = GeneratorLabel::HEPevt;
             sGeneratorMap["PNSLabel"] = GeneratorLabel::PNS;
         }
         void MCData::SetADCThreshold(Double_t ADCThreshold)
