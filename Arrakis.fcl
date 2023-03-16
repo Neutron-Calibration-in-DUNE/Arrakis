@@ -24,7 +24,7 @@ Arrakis:
         Kr85Label:          "Kr85"
         Rn222Label:         "Rn222"
         CosmicsLabel:       "Cosmics"
-        SingleNeutronLabel: "SingleNeutron"
+        HEPevtLabel:        "HEPevt"
         PNSLabel:           "PNS"
     }
 

@@ -112,10 +112,10 @@ namespace arrakis
                 fhicl::Name("CosmicsLabel"),
                 fhicl::Comment("Tag of the input data product for the CosmicsLabel.")
             };
-            fhicl::Atom<art::InputTag> SingleNeutronLabel
+            fhicl::Atom<art::InputTag> HEPevt
             {
-                fhicl::Name("SingleNeutronLabel"),
-                fhicl::Comment("Tag of the input data product for the SingleNeutronLabel.")
+                fhicl::Name("HEPevt"),
+                fhicl::Comment("Tag of the input data product for the HEPevt.")
             };
             fhicl::Atom<art::InputTag> PNSLabel
             {

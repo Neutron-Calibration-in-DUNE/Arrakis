@@ -25,6 +25,15 @@ namespace arrakis
         {ProcessType::NeutronCapture,       "NeutronCapture"},
         {ProcessType::Transportation,       "Transportation"},
         {ProcessType::Decay,                "Decay"},
+        {ProcessType::ComptonScatter,       "ComptonScatter"},
+        {ProcessType::PhotoelectricEffect,  "PhotoelectricEffect"},
+        {ProcessType::ElectronBremsstrahlung, "ElectronBremsstrahlung"},
+        {ProcessType::ElectronIonization,   "ElectronIonization"},
+        {ProcessType::PositronAnnihilation, "PositronAnnihilation"},
+        {ProcessType::MuonIonization,       "MuonIonization"},
+        {ProcessType::GammaConversion,      "GammaConversion"},
+        {ProcessType::IonIonization,        "IonIonization"},
+        {ProcessType::MuonCaptureAtRest,    "MuonCaptureAtRest"},
     };
     std::map<std::string, ProcessType> StringToProcessType
     {
@@ -42,6 +51,15 @@ namespace arrakis
         {"NeutronCapture",      ProcessType::NeutronCapture},
         {"Transportation",      ProcessType::Transportation},
         {"Decay",               ProcessType::Decay},
+        {"ComptonScatter",      ProcessType::ComptonScatter},
+        {"PhotoelectricEffect", ProcessType::PhotoelectricEffect},
+        {"ElectronBremsstrahlung", ProcessType::ElectronBremsstrahlung},
+        {"ElectronIonization",  ProcessType::ElectronIonization},
+        {"PositronAnnihilation",ProcessType::PositronAnnihilation},
+        {"MuonIonization",      ProcessType::MuonIonization},
+        {"GammaConversion",     ProcessType::GammaConversion},
+        {"IonIonization",       ProcessType::IonIonization},
+        {"MuonCaptureAtRest",   ProcessType::MuonCaptureAtRest},
     };
     std::map<std::string, ProcessType> TrajectoryStringToProcessType
     {
@@ -59,6 +77,15 @@ namespace arrakis
         {"nCapture",        ProcessType::NeutronCapture},
         {"Transportation",  ProcessType::Transportation},
         {"Decay",           ProcessType::Decay},
+        {"compt",           ProcessType::ComptonScatter},
+        {"phot",            ProcessType::PhotoelectricEffect},
+        {"eBrem",           ProcessType::ElectronBremsstrahlung},
+        {"eIoni",           ProcessType::ElectronIonization},
+        {"annihil",         ProcessType::PositronAnnihilation},
+        {"muIoni",          ProcessType::MuonIonization},
+        {"conv",            ProcessType::GammaConversion},
+        {"ionIoni",         ProcessType::IonIonization},
+        {"muMinusCaptureAtRest",    ProcessType::MuonCaptureAtRest},
     };
     std::map<ProcessType, std::string> TrajectoryProcessTypeToString
     {
@@ -76,6 +103,15 @@ namespace arrakis
         {ProcessType::NeutronCapture,       "nCapture"},
         {ProcessType::Transportation,       "Transportation"},
         {ProcessType::Decay,                "Decay"},
+        {ProcessType::ComptonScatter,       "compt"},
+        {ProcessType::PhotoelectricEffect,  "phot"},
+        {ProcessType::ElectronBremsstrahlung, "eBrem"},
+        {ProcessType::ElectronIonization,   "eIoni"},
+        {ProcessType::PositronAnnihilation, "annihil"},
+        {ProcessType::MuonIonization,       "muIoni"},
+        {ProcessType::GammaConversion,      "conv"},
+        {ProcessType::IonIonization,        "ionIoni"},
+        {ProcessType::MuonCaptureAtRest,    "muMinusCaptureAtRest"},
     };
 
     namespace mcdata
@@ -303,6 +339,7 @@ namespace arrakis
 
                 sGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::None;
                 sPDGMap[particle.TrackId()] = particle.PdgCode();
+                sProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.Process()];
                 sParentTrackIDMap[particle.TrackId()] = particle.Mother();
                 sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
                 // Construct daughter map

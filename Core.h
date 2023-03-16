@@ -74,6 +74,15 @@ namespace arrakis
         NeutronCapture =        10,
         Transportation =        11,
         Decay =                 12,
+        ComptonScatter =        13,
+        PhotoelectricEffect =   14,
+        ElectronBremsstrahlung = 15,
+        ElectronIonization =    16,
+        PositronAnnihilation =  17,
+        MuonIonization =        18,
+        GammaConversion =       19,
+        IonIonization =         20,
+        MuonCaptureAtRest =     21,
     };
     using ProcessTypeInt = std::underlying_type<ProcessType>::type;
     inline Int_t Process(ProcessType process) 
