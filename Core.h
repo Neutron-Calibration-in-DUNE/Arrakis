@@ -49,7 +49,7 @@ namespace arrakis
         Kr85 = 3,
         Rn222 = 4,
         Cosmics = 5,
-        HEPEvt = 6,
+        HEPevt = 6,
         PNS = 7,
     };
     using GeneratorLabelInt = std::underlying_type<GeneratorLabel>::type;
