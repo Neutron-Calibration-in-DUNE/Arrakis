@@ -215,6 +215,7 @@ namespace arrakis
             }
             for(auto detsim : particle_det_sim)
             {
+                std::cout << "shower: " << detsim << std::endl;
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
                 if(mc_data->GetPDGCode(trackID) == 11) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
@@ -240,6 +241,7 @@ namespace arrakis
             std::vector<Int_t> particle_det_sim;
             for(auto muon : muons)
             {
+                std::cout << "muon: " << muon << std::endl;
                 if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(muon, geometry::VolumeType::TPC);
                 }
@@ -248,6 +250,7 @@ namespace arrakis
                 }
                 for(auto detsim : particle_det_sim)
                 {
+                    std::cout << "detsim: " << detsim << std::endl;
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Muon);
                 }
