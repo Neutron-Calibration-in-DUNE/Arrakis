@@ -814,7 +814,17 @@ namespace arrakis
             }
             return edeps;
         }
-        std::vector<EdepID_t> MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
+        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticles(std::vector<TrackID_t> track_ids)
+        {
+            std::vector<DetSimID_t> detsim;
+            for(auto track_id : track_ids)
+            {
+                auto detsim_ids = sParticleDetectorSimulationMap[track_id];
+                detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
+            }
+            return detsim;
+        }
+        std::vector<DetSimID_t> MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
         {
             std::vector<DetSimID_t> detsim;
             for(auto edep_id : edep_ids)
@@ -823,6 +833,24 @@ namespace arrakis
                 detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
             }
             return detsim;
+        }
+        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type)
+        {
+            auto particle_edeps = GetParticleEdep(trackID);
+            auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
+            return GetSimulationByEdeps(volume_particle_edeps);
+        }
+        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
+        {
+            auto particle_edeps = GetEdepsByParticles(GetProgeny(trackID));
+            auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
+            return GetSimulationByEdeps(volume_particle_edeps);
+        }
+        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
+        {
+            auto particle_edeps = GetParticleAndProgenyEdeps(trackID);
+            auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
+            return GetSimulationByEdeps(volume_particle_edeps);
         }
     }
 }

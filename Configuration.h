@@ -130,6 +130,11 @@ namespace arrakis
         };
         struct MelangeParameters
         {
+            fhicl::Atom<std::string> FilterDetectorSimulation
+            {
+                fhicl::Name("FilterDetectorSimulation"),
+                fhicl::Comment("Whether to grab detector simulation by Edep, or by track id, can be either 'TrackID' or 'EdepID'.")
+            };
             fhicl::Atom<std::string> NeutronCaptureGammaDetail
             {
                 fhicl::Name("NeutronCaptureGammaDetail"),

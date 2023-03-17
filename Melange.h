@@ -36,6 +36,17 @@ namespace arrakis
 {
     namespace melange
     {
+        enum class FilterDetectorSimulation
+        {
+            TrackID = 0,
+            EdepID = 1,
+        };
+        enum class NeutronCaptureGammaDetail
+        {
+            Simple = 0,
+            Medium = 1,
+            Full = 2,
+        };
         class Melange
         {
         public:
@@ -79,7 +90,8 @@ namespace arrakis
             static std::mutex sMutex;
 
             // Configuration Parameters
-            std::string sNeutronCaptureGammaDetail;
+            FilterDetectorSimulation sFilterDetectorSimulation;
+            NeutronCaptureGammaDetail sNeutronCaptureGammaDetail;
 
             // Output TTree
             art::ServiceHandle<art::TFileService> mTFileService;

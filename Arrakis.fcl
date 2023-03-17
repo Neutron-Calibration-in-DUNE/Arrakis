@@ -30,7 +30,15 @@ Arrakis:
 
     MelangeParameters:
     {
-        NeutronCaptureGammaDetail:  "simple"    # ["simple", "medium", "full"]
+        # whether to collect detector simulation by edep or
+        # by particle track id.
+        FilterDetectorSimulation:   "TrackID"   # ["TrackID", "EdepID"]
+
+        # labeling scheme for neutron captures,
+        # simple labels all gammas as "other", while medium labels
+        # 4.75 and 1.81 MeV gammas separately from others, and full
+        # labels all energies as different types.
+        NeutronCaptureGammaDetail:  "Simple"    # ["Simple", "Medium", "Full"]
     }
 
     # array parameters
