@@ -847,21 +847,21 @@ namespace arrakis
         }
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
-            auto particle_edeps = GetParticleEdep(trackID);
+            auto particle_edeps = GetParticleEdep(track_id);
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
-            return GetSimulationByEdeps(volume_particle_edeps);
+            return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
-            auto particle_edeps = GetEdepsByParticles(GetProgeny(trackID));
+            auto particle_edeps = GetEdepsByParticles(GetProgeny(track_id));
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
-            return GetSimulationByEdeps(volume_particle_edeps);
+            return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
-            auto particle_edeps = GetParticleAndProgenyEdeps(trackID);
+            auto particle_edeps = GetParticleAndProgenyEdeps(track_id);
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
-            return GetSimulationByEdeps(volume_particle_edeps);
+            return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }
     }
 }
