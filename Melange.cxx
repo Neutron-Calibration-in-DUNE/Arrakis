@@ -215,14 +215,11 @@ namespace arrakis
             }
             for(auto detsim : particle_det_sim)
             {
-                std::cout << "detsim shower: " << trackID << "," << mc_data->GetPDGCode(trackID) << std::endl;
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
                 if(std::abs(mc_data->GetPDGCode(trackID)) == 11) {
-                    std::cout << "electron shower: " << detsim << std::endl;
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
                 }
                 else if(std::abs(mc_data->GetPDGCode(trackID)) == 22) {
-                    std::cout << "photon shower: " << detsim << std::endl;
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
                 }
             }
