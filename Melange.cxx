@@ -367,11 +367,63 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto pipluses = mc_data->GetParticlesByPDG(211);
+            std::vector<Int_t> particle_det_sim;
+            for(auto piplus : pipluses)
+            {
+                if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
+                    particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(piplus, geometry::VolumeType::TPC);
+                }
+                else {
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(piplus);
+                }
+                for(auto detsim : particle_det_sim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PionPlus);
+                }
+                auto piplus_progeny = mc_data->GetProgeny(piplus);
+                /**
+                 * Now go through and grab all electrons which are direct descendants of
+                 * pipluses.
+                 */
+                for(auto particle : piplus_progeny)
+                {
+                    ProcessShowers(particle);
+                }
+            }
         }
         void Melange::ProcessPionMinus(
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto piminuses = mc_data->GetParticlesByPDG(-211);
+            std::vector<Int_t> particle_det_sim;
+            for(auto piminus : piminuses)
+            {
+                if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
+                    particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(piminus, geometry::VolumeType::TPC);
+                }
+                else {
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(piminus);
+                }
+                for(auto detsim : particle_det_sim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PionMinus);
+                }
+                auto piminus_progeny = mc_data->GetProgeny(piminus);
+                /**
+                 * Now go through and grab all electrons which are direct descendants of
+                 * piminuses.
+                 */
+                for(auto particle : piminus_progeny)
+                {
+                    ProcessShowers(particle);
+                }
+            }
         }
         void Melange::ProcessNeutronCaptures(
             const Parameters& config, art::Event const& event
