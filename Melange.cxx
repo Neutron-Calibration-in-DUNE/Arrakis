@@ -211,7 +211,7 @@ namespace arrakis
                 particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(trackID, geometry::VolumeType::TPC);
             }
             else {
-                particle_det_sim = mc_data->GetDetectorSimulationByParticle(trackID);
+                particle_det_sim = mc_data->GetParticleDetectorSimulation(trackID);
             }
             for(auto detsim : particle_det_sim)
             {
@@ -244,7 +244,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(muon, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetDetectorSimulationByParticle(muon);
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(muon);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -266,7 +266,7 @@ namespace arrakis
                         particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
                     }
                     else {
-                        particle_det_sim = mc_data->GetDetectorSimulationByParticle(particle);
+                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
                     if(mc_data->GetPDGCode(particle) == 11 && mc_data->GetParentTrackID(particle) == muon)
                     {
@@ -368,7 +368,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(elec, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetDetectorSimulationByParticle(elec);
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(elec);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -394,7 +394,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(elec, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetDetectorSimulationByParticle(elec);
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(elec);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -421,7 +421,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(elec, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetDetectorSimulationByParticle(elec);
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(elec);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -451,7 +451,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(alpha, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetDetectorSimulationByParticle(alpha);
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(alpha);
                 }
                 for(auto detsim : particle_det_sim)
                 {
