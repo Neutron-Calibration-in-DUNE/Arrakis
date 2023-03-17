@@ -824,6 +824,17 @@ namespace arrakis
             }
             return detsim;
         }
+        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id)
+        {
+            std::vector<DetSimID_t> detsim = GetParticleDetectorSimulation(track_id);
+            auto track_ids = GetProgeny(track_id);
+            for(auto particle : track_ids)
+            {
+                auto detsim_ids = sParticleDetectorSimulationMap[particle];
+                detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
+            }
+            return detsim;
+        }
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
         {
             std::vector<DetSimID_t> detsim;

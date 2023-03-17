@@ -148,7 +148,12 @@ namespace arrakis
             std::vector<EdepID_t> FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg);
             
             std::vector<DetSimID_t> GetDetectorSimulationByParticles(std::vector<TrackID_t> track_ids);
+            std::vector<DetSimID_t> GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id);
             std::vector<DetSimID_t> GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids);
+            std::vector<DetSimID_t> GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type);
+            std::vector<DetSimID_t> GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
+            std::vector<DetSimID_t> GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
+
 
             // fill TTree
             void FillTTree();
