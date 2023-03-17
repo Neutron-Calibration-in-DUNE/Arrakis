@@ -392,7 +392,23 @@ namespace arrakis
                  */
                 for(auto particle : piplus_progeny)
                 {
-                    ProcessShowers(particle);
+                    if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
+                        particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
+                    }
+                    else {
+                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                    }
+                    if(std::abs(mc_data->GetPDGCode(particle)) == 11 && mc_data->GetParentTrackID(particle) == piplus)
+                    {
+                        for(auto detsim : particle_det_sim)
+                        {
+                            mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                            mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PionPlus);    
+                        }
+                    }
+                    else {
+                        ProcessShowers(particle);
+                    }
                 }
             }
         }
@@ -423,7 +439,23 @@ namespace arrakis
                  */
                 for(auto particle : piminus_progeny)
                 {
-                    ProcessShowers(particle);
+                    if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
+                        particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
+                    }
+                    else {
+                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                    }
+                    if(std::abs(mc_data->GetPDGCode(particle)) == 11 && mc_data->GetParentTrackID(particle) == piminus)
+                    {
+                        for(auto detsim : particle_det_sim)
+                        {
+                            mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                            mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PionMinus);    
+                        }
+                    }
+                    else {
+                        ProcessShowers(particle);
+                    }
                 }
             }
         }
