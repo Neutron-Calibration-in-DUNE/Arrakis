@@ -215,12 +215,12 @@ namespace arrakis
             }
             for(auto detsim : particle_det_sim)
             {
-                std::cout << "shower: " << detsim << std::endl;
+                std::cout << "detsim shower: " << trackID << "," << mc_data->GetPDGCode(trackID) << std::endl;
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
-                if(mc_data->GetPDGCode(trackID) == 11) {
+                if(std::abs(mc_data->GetPDGCode(trackID)) == 11) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
                 }
-                else if(mc_data->GetPDGCode(trackID) == 22) {
+                else if(std::abs(mc_data->GetPDGCode(trackID)) == 22) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
                 }
             }
@@ -241,7 +241,6 @@ namespace arrakis
             std::vector<Int_t> particle_det_sim;
             for(auto muon : muons)
             {
-                std::cout << "muon: " << muon << std::endl;
                 if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(muon, geometry::VolumeType::TPC);
                 }
@@ -250,7 +249,6 @@ namespace arrakis
                 }
                 for(auto detsim : particle_det_sim)
                 {
-                    std::cout << "detsim: " << detsim << std::endl;
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Muon);
                 }
@@ -271,7 +269,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(mc_data->GetPDGCode(particle) == 11 && mc_data->GetParentTrackID(particle) == muon)
+                    if(std::abs(mc_data->GetPDGCode(particle)) == 11 && mc_data->GetParentTrackID(particle) == muon)
                     {
                         for(auto detsim : particle_det_sim)
                         {
@@ -284,7 +282,10 @@ namespace arrakis
                             }
                         }
                     }
-                    else if(mc_data->GetParentTrackID(particle) != muon && (mc_data->GetPDGCode(particle) == 11 || mc_data->GetPDGCode(particle) == 22))
+                    else if(
+                        mc_data->GetParentTrackID(particle) != muon && 
+                        (std::abs(mc_data->GetPDGCode(particle)) == 11 || std::abs(mc_data->GetPDGCode(particle)) == 22)
+                    )
                     {
                         ProcessShowers(particle);
                     }
@@ -298,6 +299,64 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto muons = mc_data->GetParticlesByPDG(-13);
+            std::vector<Int_t> particle_det_sim;
+            for(auto muon : muons)
+            {
+                if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
+                    particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(muon, geometry::VolumeType::TPC);
+                }
+                else {
+                    particle_det_sim = mc_data->GetParticleDetectorSimulation(muon);
+                }
+                for(auto detsim : particle_det_sim)
+                {
+                    mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::AntiMuon);
+                }
+                auto muon_progeny = mc_data->GetProgeny(muon);
+                /**
+                 * Now go through and grab all electrons which are direct descendants of
+                 * muons.  These can be classified into several types, depending on how
+                 * they were generated.  Electrons which are direct descendants (daughters)
+                 * of muons are technically delta-rays, and should be labelled as tracks.
+                 * Unless of course the electron comes from a particular decay, then
+                 * it is a special electron called a Michel electron.
+                 */
+                for(auto particle : muon_progeny)
+                {
+                    if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
+                        particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
+                    }
+                    else {
+                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                    }
+                    if(std::abs(mc_data->GetPDGCode(particle)) == 11 && mc_data->GetParentTrackID(particle) == muon)
+                    {
+                        for(auto detsim : particle_det_sim)
+                        {
+                            mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
+                            if(mc_data->GetProcess(particle) == ProcessType::Decay) {
+                                mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
+                            }
+                            else {
+                                mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::DeltaElectron);    
+                            }
+                        }
+                    }
+                    else if(
+                        mc_data->GetParentTrackID(particle) != muon && 
+                        (std::abs(mc_data->GetPDGCode(particle)) == 11 || std::abs(mc_data->GetPDGCode(particle)) == 22)
+                    )
+                    {
+                        ProcessShowers(particle);
+                    }
+                    else
+                    {
+                    }
+                }
+            }
         }
         void Melange::ProcessPion0s(
             const Parameters& config, art::Event const& event
