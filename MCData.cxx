@@ -781,7 +781,7 @@ namespace arrakis
         std::vector<EdepID_t> MCData::GetParticleAndProgenyEdeps(TrackID_t track_id)
         {
             std::vector<EdepID_t> edeps = GetParticleEdep(track_id);
-            auto track_ids = sTrackIDProgenyTrackIDMap[track_id];
+            auto track_ids = sTrackID_ProgenyTrackIDMap[track_id];
             for(auto track_id : track_ids)
             {
                 auto edep_ids = sParticleEdepMap[track_id];
@@ -839,7 +839,7 @@ namespace arrakis
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id)
         {
             std::vector<DetSimID_t> detsim = GetParticleDetectorSimulation(track_id);
-            auto track_ids = sTrackIDProgenyTrackIDMap[track_id];
+            auto track_ids = sTrackID_ProgenyTrackIDMap[track_id];
             for(auto particle : track_ids)
             {
                 auto detsim_ids = sParticleDetectorSimulationMap[particle];
@@ -865,7 +865,7 @@ namespace arrakis
         }
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
-            auto particle_edeps = GetEdepsByParticles(sTrackIDProgenyTrackIDMap[track_id]);
+            auto particle_edeps = GetEdepsByParticles(sTrackID_ProgenyTrackIDMap[track_id]);
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
             return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }

@@ -223,7 +223,7 @@ namespace arrakis
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
                 }
             }
-            auto progeny = mc_data->GetProgeny(trackID);
+            auto progeny = mc_data->GetProgenyTrackID_TrackID(trackID);
             for(auto particle : progeny)
             {
                 if(mc_data->GetPDGCode_TrackID(particle) == 11 || mc_data->GetPDGCode_TrackID(particle) == 22) {
@@ -251,7 +251,7 @@ namespace arrakis
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::Muon);
                 }
-                auto muon_progeny = mc_data->GetProgeny(muon);
+                auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muon);
                 /**
                  * Now go through and grab all electrons which are direct descendants of
                  * muons.  These can be classified into several types, depending on how
@@ -273,7 +273,7 @@ namespace arrakis
                         for(auto detsim : particle_det_sim)
                         {
                             mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
-                            if(mc_data->GetProcessTrackID(particle) == ProcessType::Decay) {
+                            if(mc_data->GetProcess_TrackID(particle) == ProcessType::Decay) {
                                 mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
                             }
                             else {
@@ -314,7 +314,7 @@ namespace arrakis
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::AntiMuon);
                 }
-                auto muon_progeny = mc_data->GetProgeny(muon);
+                auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muon);
                 /**
                  * Now go through and grab all electrons which are direct descendants of
                  * muons.  These can be classified into several types, depending on how
@@ -336,7 +336,7 @@ namespace arrakis
                         for(auto detsim : particle_det_sim)
                         {
                             mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
-                            if(mc_data->GetProcessTrackID(particle) == ProcessType::Decay) {
+                            if(mc_data->GetProcess_TrackID(particle) == ProcessType::Decay) {
                                 mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
                             }
                             else {
@@ -382,7 +382,7 @@ namespace arrakis
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PionPlus);
                 }
-                auto piplus_progeny = mc_data->GetProgeny(piplus);
+                auto piplus_progeny = mc_data->GetProgenyTrackID_TrackID(piplus);
                 /**
                  * Now go through and grab all electrons which are direct descendants of
                  * pipluses.
@@ -429,7 +429,7 @@ namespace arrakis
                     mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PionMinus);
                 }
-                auto piminus_progeny = mc_data->GetProgeny(piminus);
+                auto piminus_progeny = mc_data->GetProgenyTrackID_TrackID(piminus);
                 /**
                  * Now go through and grab all electrons which are direct descendants of
                  * piminuses.
