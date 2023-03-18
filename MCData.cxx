@@ -152,7 +152,8 @@ namespace arrakis
             sMCDataTree->Branch("progeny_track_id_map",     &sTrackID_ProgenyTrackIDMap);
             sMCDataTree->Branch("ancestry_track_id_map",    &sTrackID_AncestryTrackIDMap);
 
-            sMCDataTree->Branch("particle_edep_map", &sParticleEdepMap);
+            sMCDataTree->Branch("edep_id_map",          &sTrackID_EdepIDMap);
+            
             sMCDataTree->Branch("particle_edep_process_map", &sParticleEdepProcessMap);
             sMCDataTree->Branch("particle_detsim_map", &sParticleDetectorSimulationMap);
             sMCDataTree->Branch("random_detsim_map", &sRandomDetectorSimulationMap);
@@ -188,6 +189,10 @@ namespace arrakis
             sTrackID_ProcessMap.clear();
             sTrackID_EndProcessMap.clear();
             sTrackID_EnergyMap.clear();
+            sTrackID_DaughterTrackIDMap.clear();
+            sTrackID_ProgenyTrackIDMap.clear();
+            sTrackID_AncestryTrackIDMap.clear();
+            sTrackID_EdepIDMap.clear();
 
             sTrackID_ParentTrackIDMap.clear();
             sTrackID_ParentPDGCodeMap.clear();
@@ -196,10 +201,8 @@ namespace arrakis
             sTrackID_AncestorLevelMap.clear();
             sTrackID_AncestorPDGCodeMap.clear();
 
-            sTrackID_DaughterTrackIDMap.clear();
-            sTrackID_ProgenyTrackIDMap.clear();
-            sTrackID_AncestryTrackIDMap.clear();
-            sParticleEdepMap.clear();
+            
+            
             sParticleEdepProcessMap.clear();
             sParticleDetectorSimulationMap.clear();
             sRandomDetectorSimulationMap.clear();
@@ -354,15 +357,11 @@ namespace arrakis
                 sTrackID_EnergyMap[particle.TrackId()] = particle.E();
 
                 sTrackID_ParentTrackIDMap[particle.TrackId()] = particle.Mother();
-                
-
-                // Construct daughter map
                 std::vector<Int_t> daughters = {};
                 for(auto ii = 0; ii < particle.NumberDaughters(); ii++) {
                     daughters.emplace_back(particle.Daughter(ii));
                 }
                 sTrackID_DaughterTrackIDMap[particle.TrackId()] = daughters;
-                // construct progeny map
                 sTrackID_ProgenyTrackIDMap[particle.TrackId()] = daughters;
 
                 // construct ancestry map
@@ -396,7 +395,7 @@ namespace arrakis
                 }
 
                 // initialize edep maps
-                sParticleEdepMap[particle.TrackId()] = {};
+                sTrackID_EdepIDMap[particle.TrackId()] = {};
                 sParticleEdepProcessMap[particle.TrackId()] = {};
                 sParticleDetectorSimulationMap[particle.TrackId()] = {};
             }
@@ -491,7 +490,7 @@ namespace arrakis
             );
             for(auto edep : *sMCSimEnergyDepositHandle)
             {
-                sParticleEdepMap[edep.TrackID()].emplace_back(edep_index);
+                sTrackID_EdepIDMap[edep.TrackID()].emplace_back(edep_index);
                 ProcessType process = DetermineEdepProcess(edep);
                 sParticleEdepProcessMap[edep.TrackID()].emplace_back(process);
                 sEdepDetectorSimulationMap[edep_index] = {};
@@ -684,7 +683,7 @@ namespace arrakis
                 {
                     //std::cout << "track_id: " << track.trackID << " - (x,y,z) (";
                     //std::cout << track.x << "," << track.y << "," << track.z << ")" << std::endl;
-                    std::vector<Int_t> candidate_edeps = sParticleEdepMap[track.trackID];
+                    std::vector<Int_t> candidate_edeps = sTrackID_EdepIDMap[track.trackID];
                     for(auto edep_id : candidate_edeps)
                     {
                         //std::cout << "\tedep_id: " << edep_id << " - (x,y,z) (";
@@ -784,7 +783,7 @@ namespace arrakis
             auto track_ids = sTrackID_ProgenyTrackIDMap[track_id];
             for(auto track_id : track_ids)
             {
-                auto edep_ids = sParticleEdepMap[track_id];
+                auto edep_ids = sTrackID_EdepIDMap[track_id];
                 edeps.insert(edeps.end(), edep_ids.begin(), edep_ids.end());
             }
             return edeps;
@@ -794,7 +793,7 @@ namespace arrakis
             std::vector<EdepID_t> edeps;
             for(auto track_id : track_ids)
             {
-                auto edep_ids = sParticleEdepMap[track_id];
+                auto edep_ids = sTrackID_EdepIDMap[track_id];
                 edeps.insert(edeps.end(), edep_ids.begin(), edep_ids.end());
             }
             return edeps;
