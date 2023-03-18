@@ -103,38 +103,41 @@ namespace arrakis
 
             /**
              * Various accessors from TrackID.  The convention for the function names are
-             * "Get<Value><Key>", so for example "GetPDGCodeTrackID" will return the PDGCode
+             * "Get<Value>_<Key>", so for example "GetPDGCode_TrackID" will return the PDGCode
              * for a given TrackID.
              */
-            inline GeneratorLabel   GetGeneratorLabelTrackID(TrackID_t trackID) { return sTrackIDGeneratorLabelMap[trackID]; }
-            inline ParticleID_t     GetParticleIDTrackID(TrackID_t trackID)     { return sTrackIDParticleIDMap[trackID]; }
-            inline Int_t            GetPDGCodeTrackID(TrackID_t trackID)        { return sTrackIDPDGCodeMap[trackID]; }
-            inline Int_t            GetAbsPDGCodeTrackID(TrackID_t trackID)     { return std::abs(sTrackIDPDGCodeMap[trackID]); }
-            inline ProcessType      GetProcessTrackID(TrackID_t trackID)        { return sTrackIDProcessMap[trackID]; }
-            inline ProcessType      GetEndProcessTrackID(TrackID_t trackID)     { return sTrackIDEndProcessMap[trackID]; }
-            inline Double_t         GetEnergyTrackID(TrackID_t trackID)         { return sTrackIDEnergyMap[trackID];}
+            inline ParticleID_t     GetParticleID_TrackID(TrackID_t trackID)     { return sTrackID_ParticleIDMap[trackID]; }
+            inline GeneratorLabel   GetGeneratorLabel_TrackID(TrackID_t trackID) { return sTrackID_GeneratorLabelMap[trackID]; }
+            inline Int_t            GetPDGCode_TrackID(TrackID_t trackID)        { return sTrackID_PDGCodeMap[trackID]; }
+            inline Int_t            GetAbsPDGCode_TrackID(TrackID_t trackID)     { return std::abs(sTrackID_PDGCodeMap[trackID]); }
+            inline ProcessType      GetProcess_TrackID(TrackID_t trackID)        { return sTrackID_ProcessMap[trackID]; }
+            inline ProcessType      GetEndProcess_TrackID(TrackID_t trackID)     { return sTrackID_EndProcessMap[trackID]; }
+            inline Double_t         GetEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[trackID];}
+            inline std::vector<TrackID_t> GetDaughterTrackID_TrackID(TrackID_t trackID)  { return sTrackID_DaughterTrackIDMap[trackID]; }
+            inline std::vector<TrackID_t> GetProgenyTrackID_TrackID(TrackID_t trackID)   { return sTrackID_ProgenyTrackIDMap[trackID]; }
+            inline std::vector<TrackID_t> GetAncestryTrackID_TrackID(TrackID_t trackID)  { return sTrackID_AncestryTrackIDMap[trackID]; }
 
-            inline TrackID_t        GetParentTrackIDTrackID(TrackID_t trackID)      { return sTrackIDParentTrackIDMap[trackID]; }
-            inline GeneratorLabel   GetParentGeneratorLabelTrackID(TrackID_t trackID) { return sTrackIDGeneratorLabelMap[sTrackIDParentTrackIDMap[trackID]]; }
-            inline Int_t            GetParentPDGCodeTrackID(TrackID_t trackID)      { return sTrackIDParentPDGCodeMap[trackID]; }
-            inline Int_t            GetParentAbsPDGCodeTrackID(TrackID_t trackID)   { return std::abs(sTrackIDParentPDGCodeMap[trackID]); }
-            inline ProcessType      GetParentProcessTrackID(TrackID_t trackID)      { return sTrackIDProcessMap[sTrackIDParentTrackIDMap[trackID]]; }
-            inline ProcessType      GetParentEndProcessTrackID(TrackID_t trackID)   { return sTrackIDEndProcessMap[sTrackIDParentTrackIDMap[trackID]]; }
-            inline Double_t         GetParentEnergyTrackID(TrackID_t trackID)       { return sTrackIDEnergyMap[sTrackIDParentTrackIDMap[trackID]]; }
+            inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)          { return sTrackID_ParentTrackIDMap[trackID]; }
+            inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)       { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline GeneratorLabel   GetParentGeneratorLabel_TrackID(TrackID_t trackID)   { return sTrackID_GeneratorLabelMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline Int_t            GetParentPDGCode_TrackID(TrackID_t trackID)          { return sTrackID_ParentPDGCodeMap[trackID]; }
+            inline Int_t            GetParentAbsPDGCode_TrackID(TrackID_t trackID)       { return std::abs(sTrackID_ParentPDGCodeMap[trackID]); }
+            inline ProcessType      GetParentProcess_TrackID(TrackID_t trackID)          { return sTrackID_ProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline ProcessType      GetParentEndProcess_TrackID(TrackID_t trackID)       { return sTrackID_EndProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID)           { return sTrackID_EnergyMap[sTrackID_ParentTrackIDMap[trackID]]; }
 
-            inline TrackID_t        GetAncestorTrackIDTrackID(TrackID_t trackID)        { return sTrackIDAncestorTrackIDMap[trackID]; }
-            inline Int_t            GetAncestorLevelTrackID(TrackID_t trackID)          { return sTrackIDAncestorLevelMap[trackID]; }
-            inline GeneratorLabel   GetAncestorGeneratorLabelTrackID(TrackID_t trackID) { return sTrackIDGeneratorLabelMap[sTrackIDAncestorTrackIDMap[trackID]]; }
-            inline Int_t            GetAncestorPDGCodeTrackID(TrackID_t trackID)        { return sTrackIDAncestorPDGCodeMap[trackID]; }
-            inline Int_t            GetAncestorAbsPDGCodeTrackID(TrackID_t trackID)     { return std::abs(sTrackIDAncestorPDGCodeMap[trackID]); }
-            inline ProcessType      GetAncestorProcessTrackID(TrackID_t trackID)        { return sTrackIDProcessMap[sTrackIDAncestorTrackIDMap[trackID]]; }
-            inline ProcessType      GetAncestorEndProcessTrackID(TrackID_t trackID)     { return sTrackIDEndProcessMap[sTrackIDAncestorTrackIDMap[trackID]]; }
-            inline Double_t         GetAncestorEnergyTrackID(TrackID_t trackID)         { return sTrackIDEnergyMap[sTrackIDAncestorTrackIDMap[trackID]]; }
+            inline TrackID_t        GetAncestorTrackID_TrackID(TrackID_t trackID)        { return sTrackID_AncestorTrackIDMap[trackID]; }
+            inline Int_t            GetAncestorLevel_TrackID(TrackID_t trackID)          { return sTrackID_AncestorLevelMap[trackID]; }
+            inline ParticleID_t     GetAncestorParticleID_TrackID(TrackID_t trackID)     { return sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline GeneratorLabel   GetAncestorGeneratorLabel_TrackID(TrackID_t trackID) { return sTrackID_GeneratorLabelMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline Int_t            GetAncestorPDGCode_TrackID(TrackID_t trackID)        { return sTrackID_AncestorPDGCodeMap[trackID]; }
+            inline Int_t            GetAncestorAbsPDGCode_TrackID(TrackID_t trackID)     { return std::abs(sTrackID_AncestorPDGCodeMap[trackID]); }
+            inline ProcessType      GetAncestorProcess_TrackID(TrackID_t trackID)        { return sTrackID_ProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline ProcessType      GetAncestorEndProcess_TrackID(TrackID_t trackID)     { return sTrackID_EndProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[sTrackID_AncestorTrackIDMap[trackID]]; }
                         
 
-            inline std::vector<TrackID_t> GetDaughters(TrackID_t trackID)   { return sDaughterMap[trackID]; }
-            inline std::vector<TrackID_t> GetProgeny(TrackID_t trackID)     { return sProgenyMap[trackID]; }
-            inline std::vector<TrackID_t> GetAncestry(TrackID_t trackID)    { return sAncestryMap[trackID]; }
+            
             inline std::vector<EdepID_t> GetParticleEdep(TrackID_t trackID){ return sParticleEdepMap[trackID]; }
             inline std::vector<ProcessType> GetParticleEdepProcess(TrackID_t trackID)  { return sParticleEdepProcessMap[trackID]; }
             inline std::vector<DetSimID_t> GetParticleDetectorSimulation(TrackID_t trackID) { return sParticleDetectorSimulationMap[trackID]; }
@@ -211,24 +214,26 @@ namespace arrakis
             DetectorSimulationNoise sDetectorSimulationNoise;
 
             // MCParticle TrackID maps
-            std::map<TrackID_t, ParticleID_t>   sTrackIDParticleIDMap;
-            std::map<TrackID_t, GeneratorLabel> sTrackIDGeneratorLabelMap;
-            std::map<TrackID_t, Int_t>          sTrackIDPDGCodeMap;
-            std::map<TrackID_t, ProcessType>    sTrackIDProcessMap;
-            std::map<TrackID_t, ProcessType>    sTrackIDEndProcessMap;
-            std::map<TrackID_t, Double_t>       sTrackIDEnergyMap;
+            std::map<TrackID_t, ParticleID_t>   sTrackID_ParticleIDMap;
+            std::map<TrackID_t, GeneratorLabel> sTrackID_GeneratorLabelMap;
+            std::map<TrackID_t, Int_t>          sTrackID_PDGCodeMap;
+            std::map<TrackID_t, ProcessType>    sTrackID_ProcessMap;
+            std::map<TrackID_t, ProcessType>    sTrackID_EndProcessMap;
+            std::map<TrackID_t, Double_t>       sTrackID_EnergyMap;
+            std::map<TrackID_t, std::vector<TrackID_t>> sTrackID_DaughterTrackIDMap;
+            std::map<TrackID_t, std::vector<TrackID_t>> sTrackID_ProgenyTrackIDMap;
+            std::map<TrackID_t, std::vector<TrackID_t>> sTrackID_AncestryTrackIDMap;
 
-            std::map<TrackID_t, TrackID_t>      sTrackIDParentTrackIDMap;
-            std::map<TrackID_t, Int_t>          sTrackIDParentPDGCodeMap;
+            std::map<TrackID_t, TrackID_t>      sTrackID_ParentTrackIDMap;
+            std::map<TrackID_t, Int_t>          sTrackID_ParentPDGCodeMap;
 
-            std::map<TrackID_t, TrackID_t>      sTrackIDAncestorTrackIDMap;
-            std::map<TrackID_t, Int_t>          sTrackIDAncestorLevelMap;
-            std::map<TrackID_t, Int_t>          sTrackIDAncestorPDGCodeMap;
+            std::map<TrackID_t, TrackID_t>      sTrackID_AncestorTrackIDMap;
+            std::map<TrackID_t, Int_t>          sTrackID_AncestorLevelMap;
+            std::map<TrackID_t, Int_t>          sTrackID_AncestorPDGCodeMap;
 
 
-            std::map<TrackID_t, std::vector<TrackID_t>> sDaughterMap;
-            std::map<TrackID_t, std::vector<TrackID_t>> sProgenyMap;
-            std::map<TrackID_t, std::vector<TrackID_t>> sAncestryMap;
+            
+            
             std::map<TrackID_t, std::vector<EdepID_t>>  sParticleEdepMap;
             
             std::map<TrackID_t, std::vector<DetSimID_t>> sParticleDetectorSimulationMap;
