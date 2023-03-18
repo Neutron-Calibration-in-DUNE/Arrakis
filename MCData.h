@@ -102,9 +102,10 @@ namespace arrakis
             }
 
             // particle maps from track id
-            inline GeneratorLabel GetGeneratorLabel(TrackID_t trackID) { return sGeneratorLabelMap[trackID]; }
-            inline ParticleID_t GetParticleIndex(TrackID_t trackID)    { return sTrackIDParticleIDMap[trackID]; }
-            inline Int_t GetPDGCode(TrackID_t trackID)          { return sPDGMap[trackID]; }
+            inline GeneratorLabel GetGeneratorLabelTrackID(TrackID_t trackID) { return sTrackIDGeneratorLabelMap[trackID]; }
+            inline ParticleID_t GetParticleIDTrackID(TrackID_t trackID)       { return sTrackIDParticleIDMap[trackID]; }
+            inline Int_t GetPDGCodeTrackID(TrackID_t trackID)          { return sTrackIDPDGCodeMap[trackID]; }
+            inline Int_t GetAbsPDGCodeTrackID(TrackID_t trackID)       { return std::abs(sTrackIDPDGCodeMap[trackID]); }
             inline ProcessType GetProcess(TrackID_t trackID)    { return sProcessMap[trackID]; }
             inline Int_t GetParentPDG(TrackID_t trackID)        { return sParentPDGMap[trackID]; }
             inline Int_t GetParentTrackID(TrackID_t trackID)    { return sParentTrackIDMap[trackID]; }
@@ -182,7 +183,6 @@ namespace arrakis
             art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;
             art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
 
-            std::map<TrackID_t, GeneratorLabel> sGeneratorLabelMap;
             std::map<std::string, GeneratorLabel> sGeneratorMap;
 
             // List of primary track IDs
@@ -194,7 +194,8 @@ namespace arrakis
 
             // MCParticle TrackID maps
             std::map<TrackID_t, ParticleID_t>   sTrackIDParticleIDMap;
-            std::map<TrackID_t, Int_t>          sPDGMap;
+            std::map<TrackID_t, GeneratorLabel> sTrackIDGeneratorLabelMap;
+            std::map<TrackID_t, Int_t>          sTrackIDPDGCodeMap;
             std::map<TrackID_t, ProcessType>    sProcessMap;
             std::map<TrackID_t, Int_t>          sParentPDGMap;
             std::map<TrackID_t, TrackID_t>      sParentTrackIDMap;
