@@ -646,9 +646,9 @@ namespace arrakis
                 }
             }
         }
-        std::vector<TrackID_t> MCData::GetPrimaries_GeneratorLabel(GeneratorLabel label)
+        TrackID_List MCData::GetPrimaries_GeneratorLabel(GeneratorLabel label)
         {
-            std::vector<TrackID_t> primaries;
+            TrackID_List primaries;
             for(auto primary : sPrimaries)
             {
                 if(sTrackID_GeneratorLabelMap[primary] == label) {
@@ -657,9 +657,9 @@ namespace arrakis
             }
             return primaries;
         }
-        std::vector<TrackID_t> MCData::GetPrimaries_PDGCode(Int_t pdg)
+        TrackID_List MCData::GetPrimaries_PDGCode(Int_t pdg)
         {
-            std::vector<TrackID_t> primaries;
+            TrackID_List primaries;
             for(auto primary : sPrimaries)
             {
                 if (sTrackID_PDGCodeMap[primary] == pdg) {
@@ -668,9 +668,9 @@ namespace arrakis
             }
             return primaries;
         }
-        std::vector<TrackID_t> MCData::GetPrimaries_AbsPDGCode(Int_t pdg)
+        TrackID_List MCData::GetPrimaries_AbsPDGCode(Int_t pdg)
         {
-            std::vector<TrackID_t> primaries;
+            TrackID_List primaries;
             for(auto primary : sPrimaries)
             {
                 if (std::abs(sTrackID_PDGCodeMap[primary]) == std::abs(pdg)) {
@@ -679,9 +679,9 @@ namespace arrakis
             }
             return primaries;
         }
-        std::vector<TrackID_t> MCData::GetPrimaries_Process(ProcessType process)
+        TrackID_List MCData::GetPrimaries_Process(ProcessType process)
         {
-            std::vector<TrackID_t> primaries;
+            TrackID_List primaries;
             for(auto primary : sPrimaries)
             {
                 if (sTrackID_ProcessMap[primary] == process) {
@@ -690,9 +690,9 @@ namespace arrakis
             }
             return primaries;
         }
-        std::vector<TrackID_t> MCData::GetPrimaries_EndProcess(ProcessType process)
+        TrackID_List MCData::GetPrimaries_EndProcess(ProcessType process)
         {
-            std::vector<TrackID_t> primaries;
+            TrackID_List primaries;
             for(auto primary : sPrimaries)
             {
                 if (sTrackID_EndProcessMap[primary] == process) {
@@ -701,9 +701,9 @@ namespace arrakis
             }
             return primaries;
         }
-        std::vector<TrackID_t> MCData::GetTrackID_GeneratorLabel(GeneratorLabel label)
+        TrackID_List MCData::GetTrackID_GeneratorLabel(GeneratorLabel label)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto const& [key, value] : sTrackID_GeneratorLabelMap)
             {
                 if(value == label) {
@@ -712,9 +712,9 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::GetTrackID_PDGCode(Int_t pdg)
+        TrackID_List MCData::GetTrackID_PDGCode(Int_t pdg)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto const& [key, value] : sTrackID_PDGCodeMap)
             {
                 if(value == pdg) {
@@ -723,9 +723,9 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::GetTrackID_AbsPDGCode(Int_t pdg)
+        TrackID_List MCData::GetTrackID_AbsPDGCode(Int_t pdg)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto const& [key, value] : sTrackID_PDGCodeMap)
             {
                 if(std::abs(value) == std::abs(pdg)) {
@@ -734,9 +734,9 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::GetTrackID_Process(ProcessType process)
+        TrackID_List MCData::GetTrackID_Process(ProcessType process)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto const& [key, value] : sTrackID_ProcessMap)
             {
                 if(value == process) {
@@ -745,9 +745,9 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::GetTrackID_EndProcess(ProcessType process)
+        TrackID_List MCData::GetTrackID_EndProcess(ProcessType process)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto const& [key, value] : sTrackID_EndProcessMap)
             {
                 if(value == process) {
@@ -756,18 +756,27 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<std::vector<DetSimID_t>> MCData::GetDetSimID_TrackID(std::vector<TrackID_t> trackIDs)
+        DetSimID_Collection MCData::GetDetSimID_TrackID(TrackID_List trackIDs)
         {
-            std::vector<std::vector<DetSimID_t>> detsim;
+            DetSimID_Collection detsim;
             for(auto track_id : trackIDs)
             {
                 detsim.emplace_back(sTrackID_DetSimIDMap[track_id]);
             }
             return detsim;
         }
-        std::vector<TrackID_t> MCData::FilterTrackID_AbsPDGCode(std::vector<TrackID_t>& trackIDs, Int_t pdg)
+        std::vector<DetSimID_Collection> MCData::GetDetSimID_TrackID(TrackID_Collection trackIDs)
         {
-            std::vector<TrackID_t> particles;
+            std::vector<DetSimID_Collection> detsim;
+            for(auto track_id : trackIDs)
+            {
+                detsim.emplace_back(GetDetSimID_TrackID(track_id));
+            }
+            return detsim;
+        }
+        TrackID_List MCData::FilterTrackID_AbsPDGCode(TrackID_List& trackIDs, Int_t pdg)
+        {
+            TrackID_List particles;
             for(auto track_id : trackIDs)
             {
                 if(std::abs(sTrackID_PDGCodeMap[track_id]) == std::abs(pdg)) {
@@ -776,9 +785,9 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::FilterTrackID_Process(std::vector<TrackID_t>& trackIDs, ProcessType process)
+        TrackID_List MCData::FilterTrackID_Process(TrackID_List& trackIDs, ProcessType process)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto track_id : trackIDs)
             {
                 if(sTrackID_ProcessMap[track_id] == process) {
@@ -787,9 +796,9 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::FilterTrackID_NotProcess(std::vector<TrackID_t>& trackIDs, ProcessType process)
+        TrackID_List MCData::FilterTrackID_NotProcess(TrackID_List& trackIDs, ProcessType process)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto track_id : trackIDs)
             {
                 if(sTrackID_ProcessMap[track_id] != process) {
@@ -798,27 +807,27 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_AbsPDGCode(std::vector<std::vector<TrackID_t>>& trackIDs, Int_t pdg)
+        std::vector<TrackID_List> MCData::FilterTrackID_AbsPDGCode(std::vector<TrackID_List>& trackIDs, Int_t pdg)
         {
-            std::vector<std::vector<TrackID_t>> particles;
+            std::vector<TrackID_List> particles;
             for(auto track_ids : trackIDs)
             {
                 particles.emplace_back(FilterTrackID_AbsPDGCode(track_ids, pdg));
             }
             return particles;
         }
-        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_Process(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process)
+        std::vector<TrackID_List> MCData::FilterTrackID_Process(std::vector<TrackID_List>& trackIDs, ProcessType process)
         {
-            std::vector<std::vector<TrackID_t>> particles;
+            std::vector<TrackID_List> particles;
             for(auto track_ids : trackIDs)
             {
                 particles.emplace_back(FilterTrackID_Process(track_ids, process));
             }
             return particles;
         }
-        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_NotProcess(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process)
+        std::vector<TrackID_List> MCData::FilterTrackID_NotProcess(std::vector<TrackID_List>& trackIDs, ProcessType process)
         {
-            std::vector<std::vector<TrackID_t>> particles;
+            std::vector<TrackID_List> particles;
             for(auto track_ids : trackIDs)
             {
                 particles.emplace_back(FilterTrackID_NotProcess(track_ids, process));
@@ -826,9 +835,9 @@ namespace arrakis
             return particles;
         }
 
-        std::vector<std::vector<TrackID_t>> MCData::GetDaughterTrackID_GeneratorLabel(GeneratorLabel label)
+        std::vector<TrackID_List> MCData::GetDaughterTrackID_GeneratorLabel(GeneratorLabel label)
         {
-            std::vector<std::vector<TrackID_t>> daughters;
+            std::vector<TrackID_List> daughters;
             for(auto const& [key, value] : sTrackID_GeneratorLabelMap)
             {
                 if(value == label) {
@@ -837,9 +846,9 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetDaughterTrackID_PDGCode(Int_t pdg)
+        std::vector<TrackID_List> MCData::GetDaughterTrackID_PDGCode(Int_t pdg)
         {
-            std::vector<std::vector<TrackID_t>> daughters;
+            std::vector<TrackID_List> daughters;
             for(auto const& [key, value] : sTrackID_PDGCodeMap)
             {
                 if(value == pdg) {
@@ -848,9 +857,9 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetDaughterTrackID_AbsPDGCode(Int_t pdg)
+        std::vector<TrackID_List> MCData::GetDaughterTrackID_AbsPDGCode(Int_t pdg)
         {
-            std::vector<std::vector<TrackID_t>> daughters;
+            std::vector<TrackID_List> daughters;
             for(auto const& [key, value] : sTrackID_PDGCodeMap)
             {
                 if(std::abs(value) == std::abs(pdg)) {
@@ -859,9 +868,9 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetDaughterTrackID_Process(ProcessType process)
+        std::vector<TrackID_List> MCData::GetDaughterTrackID_Process(ProcessType process)
         {
-            std::vector<std::vector<TrackID_t>> daughters;
+            std::vector<TrackID_List> daughters;
             for(auto const& [key, value] : sTrackID_ProcessMap)
             {
                 if(value == process) {
@@ -870,9 +879,9 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetDaughterTrackID_EndProcess(ProcessType process)
+        std::vector<TrackID_List> MCData::GetDaughterTrackID_EndProcess(ProcessType process)
         {
-            std::vector<std::vector<TrackID_t>> daughters;
+            std::vector<TrackID_List> daughters;
             for(auto const& [key, value] : sTrackID_EndProcessMap)
             {
                 if(value == process) {
@@ -881,18 +890,18 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetDaughterTrackID_TrackID(std::vector<TrackID_t> trackIDs)
+        std::vector<TrackID_List> MCData::GetDaughterTrackID_TrackID(TrackID_List trackIDs)
         {
-            std::vector<std::vector<TrackID_t>> daughters;
+            std::vector<TrackID_List> daughters;
             for(auto track_id : trackIDs)
             {
                 daughters.emplace_back(sTrackID_DaughterTrackIDMap[track_id]);
             }
             return daughters;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetProgenyTrackID_GeneratorLabel(GeneratorLabel label)
+        std::vector<TrackID_List> MCData::GetProgenyTrackID_GeneratorLabel(GeneratorLabel label)
         {
-            std::vector<std::vector<TrackID_t>> progeny;
+            std::vector<TrackID_List> progeny;
             for(auto const& [key, value] : sTrackID_GeneratorLabelMap)
             {
                 if(value == label) {
@@ -901,9 +910,9 @@ namespace arrakis
             }
             return progeny;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetProgenyTrackID_PDGCode(Int_t pdg)
+        std::vector<TrackID_List> MCData::GetProgenyTrackID_PDGCode(Int_t pdg)
         {
-            std::vector<std::vector<TrackID_t>> progeny;
+            std::vector<TrackID_List> progeny;
             for(auto const& [key, value] : sTrackID_PDGCodeMap)
             {
                 if(value == pdg) {
@@ -912,9 +921,9 @@ namespace arrakis
             }
             return progeny;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetProgenyTrackID_AbsPDGCode(Int_t pdg)
+        std::vector<TrackID_List> MCData::GetProgenyTrackID_AbsPDGCode(Int_t pdg)
         {
-            std::vector<std::vector<TrackID_t>> progeny;
+            std::vector<TrackID_List> progeny;
             for(auto const& [key, value] : sTrackID_PDGCodeMap)
             {
                 if(std::abs(value) == std::abs(pdg)) {
@@ -923,9 +932,9 @@ namespace arrakis
             }
             return progeny;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetProgenyTrackID_Process(ProcessType process)
+        std::vector<TrackID_List> MCData::GetProgenyTrackID_Process(ProcessType process)
         {
-            std::vector<std::vector<TrackID_t>> progeny;
+            std::vector<TrackID_List> progeny;
             for(auto const& [key, value] : sTrackID_ProcessMap)
             {
                 if(value == process) {
@@ -934,9 +943,9 @@ namespace arrakis
             }
             return progeny;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetProgenyTrackID_EndProcess(ProcessType process)
+        std::vector<TrackID_List> MCData::GetProgenyTrackID_EndProcess(ProcessType process)
         {
-            std::vector<std::vector<TrackID_t>> progeny;
+            std::vector<TrackID_List> progeny;
             for(auto const& [key, value] : sTrackID_EndProcessMap)
             {
                 if(value == process) {
@@ -945,9 +954,9 @@ namespace arrakis
             }
             return progeny;
         }
-        std::vector<std::vector<TrackID_t>> MCData::GetProgenyTrackID_TrackID(std::vector<TrackID_t> trackIDs)
+        std::vector<TrackID_List> MCData::GetProgenyTrackID_TrackID(TrackID_List trackIDs)
         {
-            std::vector<std::vector<TrackID_t>> progeny;
+            std::vector<TrackID_List> progeny;
             for(auto track_id : trackIDs)
             {
                 progeny.emplace_back(sTrackID_ProgenyTrackIDMap[track_id]);
@@ -1014,9 +1023,9 @@ namespace arrakis
         }    
 
         
-        std::vector<TrackID_t> MCData::GetDaughtersByPDG(TrackID_t track_id, Int_t pdg)
+        TrackID_List MCData::GetDaughtersByPDG(TrackID_t track_id, Int_t pdg)
         {
-            std::vector<TrackID_t> daughters;
+            TrackID_List daughters;
             for(auto daughter : sTrackID_DaughterTrackIDMap[track_id])
             {
                 if(sTrackID_PDGCodeMap[daughter] == pdg) {
@@ -1025,9 +1034,9 @@ namespace arrakis
             }
             return daughters;
         }
-        std::vector<TrackID_t> MCData::GetProgenyByPDG(TrackID_t track_id, Int_t pdg)
+        TrackID_List MCData::GetProgenyByPDG(TrackID_t track_id, Int_t pdg)
         {
-            std::vector<TrackID_t> progeny;
+            TrackID_List progeny;
             for(auto daughter : sTrackID_ProgenyTrackIDMap[track_id])
             {
                 if(sTrackID_PDGCodeMap[daughter] == pdg) {
@@ -1036,9 +1045,9 @@ namespace arrakis
             }
             return progeny;
         }
-        std::vector<TrackID_t> MCData::FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type)
+        TrackID_List MCData::FilterParticlesByProcess(TrackID_List track_ids, ProcessType process_type)
         {
-            std::vector<TrackID_t> particles;
+            TrackID_List particles;
             for(auto track_id : track_ids)
             {
                 if(sMCParticleHandle->at(sTrackID_ParticleIDMap[track_id]).Process() == TrajectoryProcessTypeToString[process_type]) {
@@ -1058,7 +1067,7 @@ namespace arrakis
             }
             return edeps;
         }       
-        std::vector<EdepID_t> MCData::GetEdepsByParticles(std::vector<TrackID_t> track_ids)
+        std::vector<EdepID_t> MCData::GetEdepsByParticles(TrackID_List track_ids)
         {
             std::vector<EdepID_t> edeps;
             for(auto track_id : track_ids)
@@ -1095,9 +1104,9 @@ namespace arrakis
             }
             return edeps;
         }
-        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticles(std::vector<TrackID_t> track_ids)
+        DetSimID_List MCData::GetDetectorSimulationByParticles(TrackID_List track_ids)
         {
-            std::vector<DetSimID_t> detsim;
+            DetSimID_List detsim;
             for(auto track_id : track_ids)
             {
                 auto detsim_ids = sTrackID_DetSimIDMap[track_id];
@@ -1105,9 +1114,9 @@ namespace arrakis
             }
             return detsim;
         }
-        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id)
+        DetSimID_List MCData::GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id)
         {
-            std::vector<DetSimID_t> detsim = sTrackID_DetSimIDMap[track_id];
+            DetSimID_List detsim = sTrackID_DetSimIDMap[track_id];
             auto track_ids = sTrackID_ProgenyTrackIDMap[track_id];
             for(auto particle : track_ids)
             {
@@ -1116,9 +1125,9 @@ namespace arrakis
             }
             return detsim;
         }
-        std::vector<DetSimID_t> MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
+        DetSimID_List MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
         {
-            std::vector<DetSimID_t> detsim;
+            DetSimID_List detsim;
             for(auto edep_id : edep_ids)
             {
                 auto detsim_ids = sEdepID_DetSimIDMap[edep_id];
@@ -1126,19 +1135,19 @@ namespace arrakis
             }
             return detsim;
         }
-        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type)
+        DetSimID_List MCData::GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
             auto particle_edeps = sTrackID_EdepIDMap[track_id];
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
             return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }
-        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
+        DetSimID_List MCData::GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
             auto particle_edeps = GetEdepsByParticles(sTrackID_ProgenyTrackIDMap[track_id]);
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
             return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }
-        std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
+        DetSimID_List MCData::GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
             auto particle_edeps = GetParticleAndProgenyEdeps(track_id);
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);

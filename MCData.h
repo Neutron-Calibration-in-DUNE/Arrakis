@@ -92,13 +92,13 @@ namespace arrakis
             inline ProcessType      GetEndProcess_TrackID(TrackID_t trackID)     { return sTrackID_EndProcessMap[trackID]; }
             inline Double_t         GetEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[trackID];}
             inline Double_t         GetEnergy_TrackID(TrackID_t trackID, Int_t precision){ return round(sTrackID_EnergyMap[trackID] * pow(10, precision)) / pow(10, precision); }
-            inline std::vector<TrackID_t> GetDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[trackID]; }
-            inline std::vector<TrackID_t> GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
-            inline std::vector<TrackID_t> GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
-            inline std::vector<EdepID_t>  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
-            inline std::vector<ProcessType> GetEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[trackID]; }
-            inline std::vector<DetSimID_t>  GetDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[trackID]; }
-            inline std::vector<DetSimID_t>  GetRandomDetSimID_TrackID(TrackID_t trackID){ return sTrackID_RandomDetSimIDMap[trackID]; }
+            inline TrackID_List GetDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[trackID]; }
+            inline TrackID_List GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
+            inline TrackID_List GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
+            inline EdepID_List  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
+            inline ProcessTyper_List GetEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[trackID]; }
+            inline DetSimID_List  GetDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[trackID]; }
+            inline DetSimID_List  GetRandomDetSimID_TrackID(TrackID_t trackID){ return sTrackID_RandomDetSimIDMap[trackID]; }
             const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)     { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
 
             inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
@@ -110,12 +110,12 @@ namespace arrakis
             inline ProcessType      GetParentEndProcess_TrackID(TrackID_t trackID)      { return sTrackID_EndProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID)          { return sTrackID_EnergyMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID, Int_t precision) { return GetEnergy_TrackID(sTrackID_ParentTrackIDMap[trackID] , precision); }
-            inline std::vector<TrackID_t> GetParentDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline std::vector<TrackID_t> GetParentProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline std::vector<TrackID_t> GetParentAncestryTrackID_TrackID(TrackID_t trackID)   { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline std::vector<EdepID_t>  GetParentEdepID_TrackID(TrackID_t trackID)            { return sTrackID_EdepIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline std::vector<ProcessType> GetParentEdepProcess_TrackID(TrackID_t trackID)     { return sTrackID_EdepProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline std::vector<DetSimID_t>  GetParentDetSimID_TrackID(TrackID_t trackID){ return sTrackID_DetSimIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline TrackID_List GetParentDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline TrackID_List GetParentProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline TrackID_List GetParentAncestryTrackID_TrackID(TrackID_t trackID)   { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline EdepID_List  GetParentEdepID_TrackID(TrackID_t trackID)            { return sTrackID_EdepIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline ProcessTyper_List GetParentEdepProcess_TrackID(TrackID_t trackID)     { return sTrackID_EdepProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline DetSimID_List  GetParentDetSimID_TrackID(TrackID_t trackID){ return sTrackID_DetSimIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             const simb::MCParticle& GetParentMCParticle_TrackID(TrackID_t trackID)      { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]); }
 
             inline TrackID_t        GetAncestorTrackID_TrackID(TrackID_t trackID)       { return sTrackID_AncestorTrackIDMap[trackID]; }
@@ -128,74 +128,75 @@ namespace arrakis
             inline ProcessType      GetAncestorEndProcess_TrackID(TrackID_t trackID)    { return sTrackID_EndProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID)        { return sTrackID_EnergyMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID, Int_t precision) { return GetEnergy_TrackID(sTrackID_AncestorTrackIDMap[trackID] , precision); }
-            inline std::vector<TrackID_t> GetAncestorDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline std::vector<TrackID_t> GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline std::vector<TrackID_t> GetAncestorAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline std::vector<EdepID_t>  GetAncestorEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline std::vector<ProcessType> GetAncestorEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline std::vector<DetSimID_t>  GetAncestorDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline TrackID_List GetAncestorDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline TrackID_List GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline TrackID_List GetAncestorAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline EdepID_List  GetAncestorEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline ProcessTyper_List GetAncestorEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline DetSimID_List  GetAncestorDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
 
             /**
              * Various functions for collecting TrackIDs from primaries, etc.
              * The output is always a vector of TrackIDs, but the input can vary.
              */
-            std::vector<TrackID_t> GetPrimaries_GeneratorLabel(GeneratorLabel label);
-            std::vector<TrackID_t> GetPrimaries_PDGCode(Int_t pdg);
-            std::vector<TrackID_t> GetPrimaries_AbsPDGCode(Int_t pdg);
-            std::vector<TrackID_t> GetPrimaries_Process(ProcessType process);
-            std::vector<TrackID_t> GetPrimaries_EndProcess(ProcessType process);
+            TrackID_List GetPrimaries_GeneratorLabel(GeneratorLabel label);
+            TrackID_List GetPrimaries_PDGCode(Int_t pdg);
+            TrackID_List GetPrimaries_AbsPDGCode(Int_t pdg);
+            TrackID_List GetPrimaries_Process(ProcessType process);
+            TrackID_List GetPrimaries_EndProcess(ProcessType process);
 
-            std::vector<TrackID_t> GetTrackID_GeneratorLabel(GeneratorLabel label);
-            std::vector<TrackID_t> GetTrackID_PDGCode(Int_t pdg);
-            std::vector<TrackID_t> GetTrackID_AbsPDGCode(Int_t pdg);
-            std::vector<TrackID_t> GetTrackID_Process(ProcessType process);
-            std::vector<TrackID_t> GetTrackID_EndProcess(ProcessType process);
+            TrackID_List GetTrackID_GeneratorLabel(GeneratorLabel label);
+            TrackID_List GetTrackID_PDGCode(Int_t pdg);
+            TrackID_List GetTrackID_AbsPDGCode(Int_t pdg);
+            TrackID_List GetTrackID_Process(ProcessType process);
+            TrackID_List GetTrackID_EndProcess(ProcessType process);
 
-            std::vector<std::vector<DetSimID_t>> GetDetSimID_TrackID(std::vector<TrackID_t> trackIDs);
+            DetSimID_Collection GetDetSimID_TrackID(TrackID_List trackIDs);
+            std::vector<DetSimID_Collection> GetDetSimID_TrackID(TrackID_Collection trackIDs);
 
-            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_GeneratorLabel(GeneratorLabel label);
-            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_PDGCode(Int_t pdg);
-            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_AbsPDGCode(Int_t pdg);
-            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_Process(ProcessType process);
-            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_EndProcess(ProcessType process);
-            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_TrackID(std::vector<TrackID_t> trackIDs);
+            TrackID_Collection GetDaughterTrackID_GeneratorLabel(GeneratorLabel label);
+            TrackID_Collection GetDaughterTrackID_PDGCode(Int_t pdg);
+            TrackID_Collection GetDaughterTrackID_AbsPDGCode(Int_t pdg);
+            TrackID_Collection GetDaughterTrackID_Process(ProcessType process);
+            TrackID_Collection GetDaughterTrackID_EndProcess(ProcessType process);
+            TrackID_Collection GetDaughterTrackID_TrackID(TrackID_List trackIDs);
 
-            std::vector<TrackID_t> FilterTrackID_AbsPDGCode(std::vector<TrackID_t>& trackIDs, Int_t pdg);
-            std::vector<TrackID_t> FilterTrackID_Process(std::vector<TrackID_t>& trackIDs, ProcessType process);
-            std::vector<TrackID_t> FilterTrackID_NotProcess(std::vector<TrackID_t>& trackIDs, ProcessType process);
+            TrackID_List FilterTrackID_AbsPDGCode(TrackID_List& trackIDs, Int_t pdg);
+            TrackID_List FilterTrackID_Process(TrackID_List& trackIDs, ProcessType process);
+            TrackID_List FilterTrackID_NotProcess(TrackID_List& trackIDs, ProcessType process);
 
-            std::vector<std::vector<TrackID_t>> FilterTrackID_AbsPDGCode(std::vector<std::vector<TrackID_t>>& trackIDs, Int_t pdg);
-            std::vector<std::vector<TrackID_t>> FilterTrackID_Process(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
-            std::vector<std::vector<TrackID_t>> FilterTrackID_NotProcess(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
+            TrackID_Collection FilterTrackID_AbsPDGCode(TrackID_Collection& trackIDs, Int_t pdg);
+            TrackID_Collection FilterTrackID_Process(TrackID_Collection& trackIDs, ProcessType process);
+            TrackID_Collection FilterTrackID_NotProcess(TrackID_Collection& trackIDs, ProcessType process);
             
-            // std::vector<DetSimID_t> GetDaughterDetSimID_GeneratorLabel(GeneratorLabel label);
-            // std::vector<DetSimID_t> GetDaughterDetSimID_PDGCode(Int_t pdg);
-            // std::vector<DetSimID_t> GetDaughterDetSimID_AbsPDGCode(Int_t pdg);
-            // std::vector<DetSimID_t> GetDaughterDetSimID_Process(ProcessType process);
-            // std::vector<DetSimID_t> GetDaughterDetSimID_EndProcess(ProcessType process);
-            // std::vector<std::vector<DetSimID_t>> GetDaughterDetSimID_TrackID(TrackID_t trackID);
+            // DetSimID_List GetDaughterDetSimID_GeneratorLabel(GeneratorLabel label);
+            // DetSimID_List GetDaughterDetSimID_PDGCode(Int_t pdg);
+            // DetSimID_List GetDaughterDetSimID_AbsPDGCode(Int_t pdg);
+            // DetSimID_List GetDaughterDetSimID_Process(ProcessType process);
+            // DetSimID_List GetDaughterDetSimID_EndProcess(ProcessType process);
+            // DetSimID_Collection GetDaughterDetSimID_TrackID(TrackID_t trackID);
 
-            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_GeneratorLabel(GeneratorLabel label);
-            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_PDGCode(Int_t pdg);
-            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_AbsPDGCode(Int_t pdg);
-            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_Process(ProcessType process);
-            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_EndProcess(ProcessType process);
-            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_TrackID(std::vector<TrackID_t> trackIDs);
+            TrackID_Collection GetProgenyTrackID_GeneratorLabel(GeneratorLabel label);
+            TrackID_Collection GetProgenyTrackID_PDGCode(Int_t pdg);
+            TrackID_Collection GetProgenyTrackID_AbsPDGCode(Int_t pdg);
+            TrackID_Collection GetProgenyTrackID_Process(ProcessType process);
+            TrackID_Collection GetProgenyTrackID_EndProcess(ProcessType process);
+            TrackID_Collection GetProgenyTrackID_TrackID(TrackID_List trackIDs);
 
-            // std::vector<DetSimID_t> GetProgenyDetSimID_GeneratorLabel(GeneratorLabel label);
-            // std::vector<DetSimID_t> GetProgenyDetSimID_PDGCode(Int_t pdg);
-            // std::vector<DetSimID_t> GetProgenyDetSimID_AbsPDGCode(Int_t pdg);
-            // std::vector<DetSimID_t> GetProgenyDetSimID_Process(ProcessType process);
-            // std::vector<DetSimID_t> GetProgenyDetSimID_EndProcess(ProcessType process);
-            // std::vector<std::vector<DetSimID_t>> GetProgenyDetSimID_TrackID(TrackID_t trackID);
+            // DetSimID_List GetProgenyDetSimID_GeneratorLabel(GeneratorLabel label);
+            // DetSimID_List GetProgenyDetSimID_PDGCode(Int_t pdg);
+            // DetSimID_List GetProgenyDetSimID_AbsPDGCode(Int_t pdg);
+            // DetSimID_List GetProgenyDetSimID_Process(ProcessType process);
+            // DetSimID_List GetProgenyDetSimID_EndProcess(ProcessType process);
+            // DetSimID_Collection GetProgenyDetSimID_TrackID(TrackID_t trackID);
 
             /**
              * Various accessors for EdepID.  Convention is the same as TrackID accessors,
              * "Get<Value>_EdepID".
              */
             inline ProcessType GetProcess_EdepID(EdepID_t edepID)               { return sEdepID_ProcessMap[edepID]; }
-            inline std::vector<DetSimID_t> GetDetSimID_EdepID(EdepID_t edepID)  { return sEdepID_DetSimIDMap[edepID]; }
+            inline DetSimID_List GetDetSimID_EdepID(EdepID_t edepID)  { return sEdepID_DetSimIDMap[edepID]; }
             const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
 
 
@@ -205,28 +206,28 @@ namespace arrakis
 
             // helper functions for organizing data
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
-            std::vector<EdepID_t> DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
+            EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
 
             // functions for collecting track ids
             //std::vector<Int_t> GetPrimariesByProcess(ProcessType process_type);
             
-            std::vector<TrackID_t> GetParticlesByPDG(Int_t pdg);
-            std::vector<TrackID_t> GetDaughtersByPDG(TrackID_t track_id, Int_t pdg);
-            std::vector<TrackID_t> GetProgenyByPDG(TrackID_t track_id, Int_t pdg);
+            TrackID_List GetParticlesByPDG(Int_t pdg);
+            TrackID_List GetDaughtersByPDG(TrackID_t track_id, Int_t pdg);
+            TrackID_List GetProgenyByPDG(TrackID_t track_id, Int_t pdg);
 
-            std::vector<TrackID_t> FilterParticlesByProcess(std::vector<TrackID_t> track_ids, ProcessType process_type);
+            TrackID_List FilterParticlesByProcess(TrackID_List track_ids, ProcessType process_type);
 
-            std::vector<EdepID_t> GetParticleAndProgenyEdeps(TrackID_t track_id);
-            std::vector<EdepID_t> GetEdepsByParticles(std::vector<TrackID_t> track_ids);
-            std::vector<EdepID_t> FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type);
-            std::vector<EdepID_t> FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg);
+            EdepID_List GetParticleAndProgenyEdeps(TrackID_t track_id);
+            EdepID_List GetEdepsByParticles(TrackID_List track_ids);
+            EdepID_List FilterEdepsByVolume(EdepID_List edep_ids, geometry::VolumeType volume_type);
+            EdepID_List FilterEdepsByPDG(EdepID_List edep_ids, Int_t pdg);
             
-            std::vector<DetSimID_t> GetDetectorSimulationByParticles(std::vector<TrackID_t> track_ids);
-            std::vector<DetSimID_t> GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id);
-            std::vector<DetSimID_t> GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids);
-            std::vector<DetSimID_t> GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type);
-            std::vector<DetSimID_t> GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
-            std::vector<DetSimID_t> GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
+            DetSimID_List GetDetectorSimulationByParticles(TrackID_List track_ids);
+            DetSimID_List GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id);
+            DetSimID_List GetDetectorSimulationByEdeps(EdepID_List edep_ids);
+            DetSimID_List GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type);
+            DetSimID_List GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
+            DetSimID_List GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
 
 
             // fill TTree
@@ -259,7 +260,7 @@ namespace arrakis
             std::map<std::string, GeneratorLabel> sGeneratorMap;
 
             // List of primary track IDs
-            std::vector<TrackID_t> sPrimaries;
+            TrackID_List sPrimaries;
 
             // List of detector simulation structs
             std::vector<DetectorSimulation> sDetectorSimulation;
@@ -272,13 +273,13 @@ namespace arrakis
             std::map<TrackID_t, ProcessType>    sTrackID_ProcessMap;
             std::map<TrackID_t, ProcessType>    sTrackID_EndProcessMap;
             std::map<TrackID_t, Double_t>       sTrackID_EnergyMap;
-            std::map<TrackID_t, std::vector<TrackID_t>>   sTrackID_DaughterTrackIDMap;
-            std::map<TrackID_t, std::vector<TrackID_t>>   sTrackID_ProgenyTrackIDMap;
-            std::map<TrackID_t, std::vector<TrackID_t>>   sTrackID_AncestryTrackIDMap;
-            std::map<TrackID_t, std::vector<EdepID_t>>    sTrackID_EdepIDMap;
-            std::map<TrackID_t, std::vector<ProcessType>> sTrackID_EdepProcessMap;
-            std::map<TrackID_t, std::vector<DetSimID_t>>  sTrackID_DetSimIDMap;
-            std::map<TrackID_t, std::vector<DetSimID_t>>  sTrackID_RandomDetSimIDMap; 
+            std::map<TrackID_t, TrackID_List>   sTrackID_DaughterTrackIDMap;
+            std::map<TrackID_t, TrackID_List>   sTrackID_ProgenyTrackIDMap;
+            std::map<TrackID_t, TrackID_List>   sTrackID_AncestryTrackIDMap;
+            std::map<TrackID_t, EdepID_List>    sTrackID_EdepIDMap;
+            std::map<TrackID_t, ProcessTyper_List> sTrackID_EdepProcessMap;
+            std::map<TrackID_t, DetSimID_List>  sTrackID_DetSimIDMap;
+            std::map<TrackID_t, DetSimID_List>  sTrackID_RandomDetSimIDMap; 
 
             std::map<TrackID_t, TrackID_t>      sTrackID_ParentTrackIDMap;
             std::map<TrackID_t, Int_t>          sTrackID_ParentPDGCodeMap;
@@ -289,10 +290,10 @@ namespace arrakis
 
             // EdepID maps
             std::map<EdepID_t, ProcessType> sEdepID_ProcessMap;
-            std::map<EdepID_t, std::vector<DetSimID_t>> sEdepID_DetSimIDMap;
+            std::map<EdepID_t, DetSimID_List> sEdepID_DetSimIDMap;
 
             // DetSmID maps
-            std::map<DetSimID_t, std::vector<EdepID_t>> sDetSimID_EdepIDMap;
+            std::map<DetSimID_t, EdepID_List> sDetSimID_EdepIDMap;
             
         };
     }

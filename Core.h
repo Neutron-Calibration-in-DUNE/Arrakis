@@ -52,6 +52,16 @@ namespace arrakis
     using ParticleID_t = Int_t;
     using DetSimID_t = Int_t;
 
+    using TrackID_List = std::vector<TrackID_t>;
+    using EdepID_List = std::vector<EdepID_t>;
+    using ParticleID_List = std::vector<ParticleID_t>;
+    using DetSimID_List = std::vector<DetSimID_t>;
+
+    using TrackID_Collection = std::vector<TrackID_List>;
+    using EdepIT_Collection = std::vector<EdepIT_List>;
+    using ParticleID_Collection = std::vector<ParticleID_List>;
+    using DetSimID_Collection = std::vector<DetSimID_List>;
+
     enum GeneratorLabel
     {
         Junk = -1,
@@ -101,6 +111,7 @@ namespace arrakis
     { 
         return static_cast<ProcessTypeInt>(process);
     }
+    using ProcessType_List = std::vector<ProcessType>;
 
     inline void PrintIndices(std::string label, std::vector<Int_t> indices)
     {
