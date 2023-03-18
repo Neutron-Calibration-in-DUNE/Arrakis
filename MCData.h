@@ -104,7 +104,7 @@ namespace arrakis
             /**
              * Various accessors from TrackID.  The convention for the function names are
              * "Get<Value>_<Key>", so for example "GetPDGCode_TrackID" will return the PDGCode
-             * for a given TrackID.
+             * for a given TrackID by accessing the map sTrackID_PDGCode.
              */
             inline ParticleID_t     GetParticleID_TrackID(TrackID_t trackID)     { return sTrackID_ParticleIDMap[trackID]; }
             inline GeneratorLabel   GetGeneratorLabel_TrackID(TrackID_t trackID) { return sTrackID_GeneratorLabelMap[trackID]; }
