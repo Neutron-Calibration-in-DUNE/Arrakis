@@ -94,10 +94,10 @@ namespace arrakis
             std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
             DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
 
-            inline Double_t RoundParticleEnergy(TrackID_t track_id, Int_t precision)
+            inline Double_t GetEnergyTrackID(TrackID_t trackID, Int_t precision)
             {
                 Double_t factor = pow(10, precision);
-                Double_t particle_energy = round(GetParticleEnergy(track_id)*factor)/factor;
+                Double_t particle_energy = round(sTrackIDEnergyMap[trackID]*factor)/factor;
                 return particle_energy;
             }
 

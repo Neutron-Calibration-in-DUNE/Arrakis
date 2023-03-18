@@ -481,7 +481,7 @@ namespace arrakis
                         particle_det_sim = mc_data->GetDetectorSimulationByParticleAndProgeny(gamma);
                     }
                     ParticleLabel particle_label = ParticleLabel::NeutronCaptureGammaOther;
-                    Double_t gamma_energy = mc_data->RoundParticleEnergy(gamma, 1);
+                    Double_t gamma_energy = mc_data->GetEnergyTrackID(gamma, 1);
                     if(gamma_energy == 4.7) {
                         particle_label = ParticleLabel::NeutronCaptureGamma475;
                     }
