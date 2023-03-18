@@ -89,8 +89,6 @@ namespace arrakis
             const sim::SimChannel& GetMCSimChannel(Int_t index) { return sMCSimChannelHandle->at(index); }
             const raw::RawDigit& GetMCRawDigit(Int_t index)     { return sMCRawDigitHandle->at(index); }
 
-            
-
             std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
             DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
 
@@ -117,7 +115,7 @@ namespace arrakis
             inline std::vector<TrackID_t> GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
             inline std::vector<TrackID_t> GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
             inline std::vector<EdepID_t>  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
-            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t TrackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[TrackID]); }
+            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[TrackID]); }
 
             inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
             inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -130,7 +128,7 @@ namespace arrakis
             inline std::vector<TrackID_t> GetParentDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetParentProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetParentAncestryTrackID_TrackID(TrackID_t trackID)   { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            const simb::MCParticle& GetParentMCParticle_TrackID(TrackID_t TrackID)      { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]); }
+            const simb::MCParticle& GetParentMCParticle_TrackID(TrackID_t trackID)      { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]); }
 
             inline TrackID_t        GetAncestorTrackID_TrackID(TrackID_t trackID)       { return sTrackID_AncestorTrackIDMap[trackID]; }
             inline Int_t            GetAncestorLevel_TrackID(TrackID_t trackID)         { return sTrackID_AncestorLevelMap[trackID]; }
@@ -144,7 +142,7 @@ namespace arrakis
             inline std::vector<TrackID_t> GetAncestorDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetAncestorAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t TrackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
+            const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
 
             
             
