@@ -211,7 +211,7 @@ namespace arrakis
                 particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(trackID, geometry::VolumeType::TPC);
             }
             else {
-                particle_det_sim = mc_data->GetParticleDetectorSimulation(trackID);
+                particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
             }
             for(auto detsim : particle_det_sim)
             {
@@ -244,7 +244,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(muon, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(muon);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(muon);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -266,7 +266,7 @@ namespace arrakis
                         particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
                     }
                     else {
-                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                        particle_det_sim = mc_data->GetDetSimID_TrackID(particle);
                     }
                     if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackID_TrackID(particle) == muon)
                     {
@@ -307,7 +307,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(muon, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(muon);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(muon);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -329,7 +329,7 @@ namespace arrakis
                         particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
                     }
                     else {
-                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                        particle_det_sim = mc_data->GetDetSimID_TrackID(particle);
                     }
                     if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackID_TrackID(particle) == muon)
                     {
@@ -375,7 +375,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(piplus, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(piplus);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(piplus);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -393,7 +393,7 @@ namespace arrakis
                         particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
                     }
                     else {
-                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                        particle_det_sim = mc_data->GetDetSimID_TrackID(particle);
                     }
                     if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackID_TrackID(particle) == piplus)
                     {
@@ -422,7 +422,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(piminus, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(piminus);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(piminus);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -440,7 +440,7 @@ namespace arrakis
                         particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(particle, geometry::VolumeType::TPC);
                     }
                     else {
-                        particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
+                        particle_det_sim = mc_data->GetDetSimID_TrackID(particle);
                     }
                     if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackID_TrackID(particle) == piminus)
                     {
@@ -513,7 +513,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(elec, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(elec);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(elec);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -539,7 +539,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(elec, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(elec);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(elec);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -566,7 +566,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(elec, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(elec);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(elec);
                 }
                 for(auto detsim : particle_det_sim)
                 {
@@ -596,7 +596,7 @@ namespace arrakis
                     particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(alpha, geometry::VolumeType::TPC);
                 }
                 else {
-                    particle_det_sim = mc_data->GetParticleDetectorSimulation(alpha);
+                    particle_det_sim = mc_data->GetDetSimID_TrackID(alpha);
                 }
                 for(auto detsim : particle_det_sim)
                 {
