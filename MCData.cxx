@@ -158,8 +158,8 @@ namespace arrakis
             sMCDataTree->Branch("random_detsim_map",        &sTrackID_RandomDetSimIDMap);
 
             sMCDataTree->Branch("edep_process_map",         &sEdepID_ProcessMap);
-            sMCDataTree->Branch("edep_detsim_map",          &sEdepDetectorSimulationMap);
-            sMCDataTree->Branch("detsim_edep_map",          &sDetectorSimulationEdepMap);
+            sMCDataTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
+            sMCDataTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
   
             sGeneratorMap["Ar39Label"] = GeneratorLabel::Ar39;
             sGeneratorMap["Ar42Label"] = GeneratorLabel::Ar42;
@@ -205,9 +205,9 @@ namespace arrakis
             sTrackID_AncestorPDGCodeMap.clear();
 
             sEdepID_ProcessMap.clear();
-            sEdepDetectorSimulationMap.clear();
+            sEdepID_DetSimIDMap.clear();
 
-            sDetectorSimulationEdepMap.clear();
+            sDetSimID_EdepIDMap.clear();
         }
         void MCData::PrintParticleData(TrackID_t trackID)
         {
@@ -490,7 +490,7 @@ namespace arrakis
                 sTrackID_EdepIDMap[edep.TrackID()].emplace_back(edep_index);
                 ProcessType process = DetermineEdepProcess(edep);
                 sTrackID_EdepProcessMap[edep.TrackID()].emplace_back(process);
-                sEdepDetectorSimulationMap[edep_index] = {};
+                sEdepID_DetSimIDMap[edep_index] = {};
                 edep_index += 1;
             }
         }
@@ -638,7 +638,7 @@ namespace arrakis
                         }
                     }
                     // determine the edeps associated with this detector simulation
-                    sDetectorSimulationEdepMap[digit_index] = DetermineDetectorSimulationEdeps(
+                    sDetSimID_EdepIDMap[digit_index] = DetermineDetectorSimulationEdeps(
                         trackIDsAndEnergy,
                         digit_index
                     );
@@ -688,7 +688,7 @@ namespace arrakis
                         ) {
                             //std::cout << "\t\tMATCH" << std::endl;
                             edep_ids.emplace_back(edep_id);
-                            sEdepDetectorSimulationMap[edep_id].emplace_back(detsim_id);
+                            sEdepID_DetSimIDMap[edep_id].emplace_back(detsim_id);
                         }
                     }
                 }
@@ -843,7 +843,7 @@ namespace arrakis
             std::vector<DetSimID_t> detsim;
             for(auto edep_id : edep_ids)
             {
-                auto detsim_ids = sEdepDetectorSimulationMap[edep_id];
+                auto detsim_ids = sEdepID_DetSimIDMap[edep_id];
                 detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
             }
             return detsim;
