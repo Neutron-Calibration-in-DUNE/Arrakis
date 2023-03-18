@@ -134,15 +134,20 @@ namespace arrakis
                 "setting up mcdata tree."
             );
             sMCDataTree = sTFileService->make<TTree>("mcdata", "mcdata");
-            sMCDataTree->Branch("generator_label_map", &sTrackIDGeneratorLabelMap);
             sMCDataTree->Branch("generator_map", &sGeneratorMap);
-            sMCDataTree->Branch("pdg_map", &sTrackIDPDGCodeMap);
-            sMCDataTree->Branch("parent_pdg_map", &sTrackIDParentPDGCodeMap);
-            sMCDataTree->Branch("parent_track_id_map", &sTrackIDParentTrackIDMap);
-            sMCDataTree->Branch("particle_energy_map", &sTrackIDEnergyMap);
-            sMCDataTree->Branch("ancestor_pdg_map", &sTrackIDAncestorPDGMap);
-            sMCDataTree->Branch("ancestor_track_id_map", &sTrackIDAncestorTrackIDMap);
-            sMCDataTree->Branch("ancestor_level_map", &sTrackIDAncestorLevelMap);
+
+            sMCDataTree->Branch("generator_label_map",  &sTrackIDGeneratorLabelMap);
+            sMCDataTree->Branch("particle_id_map",      &sTrackIDParticleIDMap);
+            sMCDataTree->Branch("pdg_code_map",         &sTrackIDPDGCodeMap);
+            sMCDataTree->Branch("particle_energy_map",  &sTrackIDEnergyMap);
+            
+            sMCDataTree->Branch("parent_track_id_map",  &sTrackIDParentTrackIDMap);
+            sMCDataTree->Branch("parent_pdg_code_map",  &sTrackIDParentPDGCodeMap);
+            
+            sMCDataTree->Branch("ancestor_track_id_map",&sTrackIDAncestorTrackIDMap);
+            sMCDataTree->Branch("ancestor_level_map",   &sTrackIDAncestorLevelMap);
+            sMCDataTree->Branch("ancestor_pdg_code_map",&sTrackIDAncestorPDGCodeMap);
+
             sMCDataTree->Branch("daughter_map", &sDaughterMap);
             sMCDataTree->Branch("progeny_map", &sProgenyMap);
             sMCDataTree->Branch("ancestry_map", &sAncestryMap);
@@ -183,12 +188,12 @@ namespace arrakis
             sTrackIDEndProcessMap.clear();
             sTrackIDEnergyMap.clear();
 
-            sTrackIDParentPDGCodeMap.clear();
             sTrackIDParentTrackIDMap.clear();
+            sTrackIDParentPDGCodeMap.clear();
             
-            sTrackIDAncestorPDGMap.clear();
             sTrackIDAncestorTrackIDMap.clear();
             sTrackIDAncestorLevelMap.clear();
+            sTrackIDAncestorPDGCodeMap.clear();
 
             sDaughterMap.clear();
             sProgenyMap.clear();
@@ -214,7 +219,7 @@ namespace arrakis
             std::cout << "## Parent TrackID:     [" << std::setw(25) << std::setfill('.') << particle.Mother() << "] ##\n";
             std::cout << "## Parent PDG:         [" << std::setw(25) << std::setfill('.') << sTrackIDParentPDGCodeMap[trackID] << "] ##\n";
             std::cout << "## Ancestor TrackID:   [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorTrackIDMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor PDG:       [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorPDGMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor PDG:       [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorPDGCodeMap[trackID] << "] ##\n";
             std::cout << "## Ancestor level:     [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorLevelMap[trackID] << "] ##\n";
             std::cout << "## Progeny  [.....level] [...TrackID] [.......PDG] ##\n";
             auto progeny = sProgenyMap[trackID];
@@ -379,12 +384,12 @@ namespace arrakis
                 if (level == 0) {
                     sPrimaries.emplace_back(particle.TrackId());
                     sTrackIDParentPDGCodeMap[particle.TrackId()] = 0;
-                    sTrackIDAncestorPDGMap[particle.TrackId()] = 0;
+                    sTrackIDAncestorPDGCodeMap[particle.TrackId()] = 0;
                     sTrackIDAncestorTrackIDMap[particle.TrackId()] = 0;
                 }
                 else {
                     sTrackIDParentPDGCodeMap[particle.TrackId()] = sTrackIDPDGCodeMap[particle.Mother()];
-                    sTrackIDAncestorPDGMap[particle.TrackId()] = sTrackIDPDGCodeMap[track_id];
+                    sTrackIDAncestorPDGCodeMap[particle.TrackId()] = sTrackIDPDGCodeMap[track_id];
                     sTrackIDAncestorTrackIDMap[particle.TrackId()] = track_id;
                 }
 
