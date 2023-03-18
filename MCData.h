@@ -97,7 +97,7 @@ namespace arrakis
             inline Double_t GetEnergyTrackID(TrackID_t trackID, Int_t precision)
             {
                 Double_t factor = pow(10, precision);
-                Double_t particle_energy = round(sTrackIDEnergyMap[trackID]*factor)/factor;
+                Double_t particle_energy = round(sTrackID_EnergyMap[trackID]*factor)/factor;
                 return particle_energy;
             }
 

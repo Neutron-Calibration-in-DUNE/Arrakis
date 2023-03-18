@@ -216,17 +216,17 @@ namespace arrakis
             for(auto detsim : particle_det_sim)
             {
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
-                if(std::abs(mc_data->GetPDGCodeTrackID(trackID)) == 11) {
+                if(std::abs(mc_data->GetPDGCode_TrackID(trackID)) == 11) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
                 }
-                else if(std::abs(mc_data->GetPDGCodeTrackID(trackID)) == 22) {
+                else if(std::abs(mc_data->GetPDGCode_TrackID(trackID)) == 22) {
                     mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
                 }
             }
             auto progeny = mc_data->GetProgeny(trackID);
             for(auto particle : progeny)
             {
-                if(mc_data->GetPDGCodeTrackID(particle) == 11 || mc_data->GetPDGCodeTrackID(particle) == 22) {
+                if(mc_data->GetPDGCode_TrackID(particle) == 11 || mc_data->GetPDGCode_TrackID(particle) == 22) {
                     ProcessShowers(particle);
                 }
             }
@@ -268,7 +268,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == muon)
+                    if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == muon)
                     {
                         for(auto detsim : particle_det_sim)
                         {
@@ -283,7 +283,7 @@ namespace arrakis
                     }
                     else if(
                         mc_data->GetParentTrackIDTrackID(particle) != muon && 
-                        (std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 || std::abs(mc_data->GetPDGCodeTrackID(particle)) == 22)
+                        (std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 || std::abs(mc_data->GetPDGCode_TrackID(particle)) == 22)
                     )
                     {
                         ProcessShowers(particle);
@@ -331,7 +331,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == muon)
+                    if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == muon)
                     {
                         for(auto detsim : particle_det_sim)
                         {
@@ -346,7 +346,7 @@ namespace arrakis
                     }
                     else if(
                         mc_data->GetParentTrackIDTrackID(particle) != muon && 
-                        (std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 || std::abs(mc_data->GetPDGCodeTrackID(particle)) == 22)
+                        (std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 || std::abs(mc_data->GetPDGCode_TrackID(particle)) == 22)
                     )
                     {
                         ProcessShowers(particle);
@@ -395,7 +395,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == piplus)
+                    if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == piplus)
                     {
                         for(auto detsim : particle_det_sim)
                         {
@@ -442,7 +442,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == piminus)
+                    if(std::abs(mc_data->GetPDGCode_TrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == piminus)
                     {
                         for(auto detsim : particle_det_sim)
                         {
