@@ -251,13 +251,19 @@ namespace arrakis
                 ProcessShowers(track_id);
             }
         }
+        void Melange::ProcessShowers(std::vector<std::vector<Int_t>> trackID)
+        {
+            for(auto track_id : trackID) {
+                ProcessShowers(track_id);
+            }
+        }
         void Melange::ProcessMuons(
             const Parameters& config, art::Event const& event
         )
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto muons = mc_data->GetTrackID_PDGCode(13);
-            auto muon_daughters = mc_data->GetDaughterTrackID_TrackID(daughters);
+            auto muon_daughters = mc_data->GetDaughterTrackID_TrackID(muons);
             auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muons);
             auto muon_det_sim = mc_data->GetDetSimID_TrackID(muons);
             // Set muon detsim labels to Track:Muon
@@ -542,7 +548,7 @@ namespace arrakis
              * with a Q-value of 565 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180039.
              */
             auto mc_data = mcdata::MCData::GetInstance();
-            auto ar39 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar39);
+            auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
             std::vector<Int_t> particle_det_sim;
             for(auto elec : ar39)
             {
@@ -568,7 +574,7 @@ namespace arrakis
              * with a Q-value of 599 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180042.
              */
             auto mc_data = mcdata::MCData::GetInstance();
-            auto ar42 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Ar42);
+            auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
             std::vector<Int_t> particle_det_sim;
             for(auto elec : ar42)
             {
@@ -595,7 +601,7 @@ namespace arrakis
              * 173 keV (.43 %): http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=360085. 
              */
             auto mc_data = mcdata::MCData::GetInstance();
-            auto kr85 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Kr85);
+            auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
             std::vector<Int_t> particle_det_sim;
             for(auto elec : kr85)
             {
@@ -625,7 +631,7 @@ namespace arrakis
              * scattering length is (~0.005 cm) or (~50 um).
              */
             auto mc_data = mcdata::MCData::GetInstance();
-            auto rn222 = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Rn222);
+            auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
             std::vector<Int_t> particle_det_sim;
             for(auto alpha : rn222)
             {
@@ -647,7 +653,7 @@ namespace arrakis
         )
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            auto cosmics = mc_data->GetPrimariesByGeneratorLabel(GeneratorLabel::Cosmics);
+            auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
             for(auto cosmic : cosmics)
             {
                 mc_data->PrintParticleData(cosmic);

@@ -812,7 +812,7 @@ namespace arrakis
             std::vector<std::vector<TrackID_t>> particles;
             for(auto track_ids : trackIDs)
             {
-                particles.emplace_back(FilterTrackID_Process(track_ids, pdg));
+                particles.emplace_back(FilterTrackID_Process(track_ids, process));
             }
             return particles;
         }
@@ -821,7 +821,7 @@ namespace arrakis
             std::vector<std::vector<TrackID_t>> particles;
             for(auto track_ids : trackIDs)
             {
-                particles.emplace_back(FilterTrackID_NotProcess(track_ids, pdg));
+                particles.emplace_back(FilterTrackID_NotProcess(track_ids, process));
             }
             return particles;
         }
