@@ -137,8 +137,8 @@ namespace arrakis
             sMCDataTree->Branch("generator_label_map", &sTrackIDGeneratorLabelMap);
             sMCDataTree->Branch("generator_map", &sGeneratorMap);
             sMCDataTree->Branch("pdg_map", &sTrackIDPDGCodeMap);
-            sMCDataTree->Branch("parent_pdg_map", &sParentPDGMap);
-            sMCDataTree->Branch("parent_track_id_map", &sParentTrackIDMap);
+            sMCDataTree->Branch("parent_pdg_map", &sTrackIDParentPDGCodeMap);
+            sMCDataTree->Branch("parent_track_id_map", &sTrackIDParentTrackIDMap);
             sMCDataTree->Branch("particle_energy_map", &sParticleEnergyMap);
             sMCDataTree->Branch("ancestor_pdg_map", &sAncestorPDGMap);
             sMCDataTree->Branch("ancestor_track_id_map", &sAncestorTrackIDMap);
@@ -180,8 +180,11 @@ namespace arrakis
             sTrackIDGeneratorLabelMap.clear();
             sTrackIDParticleIDMap.clear();
             sTrackIDPDGCodeMap.clear();
-            sParentPDGMap.clear();
-            sParentTrackIDMap.clear();
+            sTrackIDProcessMap.clear();
+            sTrackIDEndProcessMap.clear();
+
+            sTrackIDParentPDGCodeMap.clear();
+            sTrackIDParentTrackIDMap.clear();
             sParticleEnergyMap.clear();
             sAncestorPDGMap.clear();
             sAncestorTrackIDMap.clear();
@@ -209,7 +212,7 @@ namespace arrakis
             std::cout << "## Energy [MeV]:       [" << std::setw(25) << std::setfill('.') << particle.E() << "] ##\n";
             std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << particle.Process() << "] ##\n";
             std::cout << "## Parent TrackID:     [" << std::setw(25) << std::setfill('.') << particle.Mother() << "] ##\n";
-            std::cout << "## Parent PDG:         [" << std::setw(25) << std::setfill('.') << sParentPDGMap[trackID] << "] ##\n";
+            std::cout << "## Parent PDG:         [" << std::setw(25) << std::setfill('.') << sTrackIDParentPDGCodeMap[trackID] << "] ##\n";
             std::cout << "## Ancestor TrackID:   [" << std::setw(25) << std::setfill('.') << sAncestorTrackIDMap[trackID] << "] ##\n";
             std::cout << "## Ancestor PDG:       [" << std::setw(25) << std::setfill('.') << sAncestorPDGMap[trackID] << "] ##\n";
             std::cout << "## Ancestor level:     [" << std::setw(25) << std::setfill('.') << sAncestorLevelMap[trackID] << "] ##\n";
@@ -340,8 +343,10 @@ namespace arrakis
 
                 sTrackIDGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::None;
                 sTrackIDPDGCodeMap[particle.TrackId()] = particle.PdgCode();
-                sProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.Process()];
-                sParentTrackIDMap[particle.TrackId()] = particle.Mother();
+                sTrackIDProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.Process()];
+                sTrackIDEndProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.EndProcess()];
+
+                sTrackIDParentTrackIDMap[particle.TrackId()] = particle.Mother();
                 sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
                 // Construct daughter map
                 std::vector<Int_t> daughters = {};
@@ -362,7 +367,7 @@ namespace arrakis
                     level += 1;
                     track_id = mother;
                     ancestry.emplace_back(mother);
-                    mother = sParentTrackIDMap[track_id];
+                    mother = sTrackIDParentTrackIDMap[track_id];
                     if(level > 1) {
                         sProgenyMap[mother].emplace_back(particle.TrackId());
                     }
@@ -372,13 +377,13 @@ namespace arrakis
 
                 if (level == 0) {
                     sPrimaries.emplace_back(particle.TrackId());
-                    sParentPDGMap[particle.TrackId()] = 0;
+                    sTrackIDParentPDGCodeMap[particle.TrackId()] = 0;
                     sAncestorPDGMap[particle.TrackId()] = 0;
                     sAncestorTrackIDMap[particle.TrackId()] = 0;
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
                 }
                 else {
-                    sParentPDGMap[particle.TrackId()] = sTrackIDPDGCodeMap[particle.Mother()];
+                    sTrackIDParentPDGCodeMap[particle.TrackId()] = sTrackIDPDGCodeMap[particle.Mother()];
                     sAncestorPDGMap[particle.TrackId()] = sTrackIDPDGCodeMap[track_id];
                     sAncestorTrackIDMap[particle.TrackId()] = track_id;
                     sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];

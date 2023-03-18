@@ -268,12 +268,12 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackID(particle) == muon)
+                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == muon)
                     {
                         for(auto detsim : particle_det_sim)
                         {
                             mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
-                            if(mc_data->GetProcess(particle) == ProcessType::Decay) {
+                            if(mc_data->GetProcessTrackID(particle) == ProcessType::Decay) {
                                 mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
                             }
                             else {
@@ -282,7 +282,7 @@ namespace arrakis
                         }
                     }
                     else if(
-                        mc_data->GetParentTrackID(particle) != muon && 
+                        mc_data->GetParentTrackIDTrackID(particle) != muon && 
                         (std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 || std::abs(mc_data->GetPDGCodeTrackID(particle)) == 22)
                     )
                     {
@@ -331,12 +331,12 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackID(particle) == muon)
+                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == muon)
                     {
                         for(auto detsim : particle_det_sim)
                         {
                             mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Track);
-                            if(mc_data->GetProcess(particle) == ProcessType::Decay) {
+                            if(mc_data->GetProcessTrackID(particle) == ProcessType::Decay) {
                                 mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::MichelElectron);
                             }
                             else {
@@ -345,7 +345,7 @@ namespace arrakis
                         }
                     }
                     else if(
-                        mc_data->GetParentTrackID(particle) != muon && 
+                        mc_data->GetParentTrackIDTrackID(particle) != muon && 
                         (std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 || std::abs(mc_data->GetPDGCodeTrackID(particle)) == 22)
                     )
                     {
@@ -395,7 +395,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackID(particle) == piplus)
+                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == piplus)
                     {
                         for(auto detsim : particle_det_sim)
                         {
@@ -442,7 +442,7 @@ namespace arrakis
                     else {
                         particle_det_sim = mc_data->GetParticleDetectorSimulation(particle);
                     }
-                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackID(particle) == piminus)
+                    if(std::abs(mc_data->GetPDGCodeTrackID(particle)) == 11 && mc_data->GetParentTrackIDTrackID(particle) == piminus)
                     {
                         for(auto detsim : particle_det_sim)
                         {
