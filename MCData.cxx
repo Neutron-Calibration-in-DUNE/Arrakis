@@ -673,19 +673,14 @@ namespace arrakis
         )
         {
             std::vector<Int_t> edep_ids;
-            //std::cout << "DETSIM: " << detsim_id << std::endl;
             for(auto track : det_ide)
             {
                 if(track.trackID > 0)
                 {
-                    //std::cout << "track_id: " << track.trackID << " - (x,y,z) (";
-                    //std::cout << track.x << "," << track.y << "," << track.z << ")" << std::endl;
                     std::vector<Int_t> candidate_edeps = sTrackID_EdepIDMap[track.trackID];
                     for(auto edep_id : candidate_edeps)
                     {
-                        //std::cout << "\tedep_id: " << edep_id << " - (x,y,z) (";
                         auto edep = GetMCSimEnergyDeposit_EdepID(edep_id);
-                        //std::cout << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ")" << std::endl;
                         if(
                             edep.MidPointX() == track.x && 
                             edep.MidPointY() == track.y &&

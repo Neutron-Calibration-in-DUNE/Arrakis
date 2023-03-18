@@ -78,25 +78,18 @@ namespace arrakis
             void SetADCThreshold(Double_t ADCThreshold);
             Double_t GetADCThreshold()  { return sADCThreshold; }
 
-            art::Handle<std::vector<simb::MCTruth>> GetMCTruth()        { return sMCTruthHandle; }
-            art::Handle<std::vector<simb::MCParticle>> GetMCParticles() { return sMCParticleHandle; }
+            art::Handle<std::vector<simb::MCTruth>>         GetMCTruth()        { return sMCTruthHandle; }
+            art::Handle<std::vector<simb::MCParticle>>      GetMCParticles()    { return sMCParticleHandle; }
             art::Handle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposits() { return sMCSimEnergyDepositHandle; }
-            art::Handle<std::vector<sim::SimChannel>> GetSimChannels()  { return sMCSimChannelHandle; }
-            art::Handle<std::vector<raw::RawDigit>> GetRawDigits()      { return sMCRawDigitHandle; }
+            art::Handle<std::vector<sim::SimChannel>>       GetSimChannels()    { return sMCSimChannelHandle; }
+            art::Handle<std::vector<raw::RawDigit>>         GetRawDigits()      { return sMCRawDigitHandle; }
 
-            const simb::MCParticle& GetMCParticle(ParticleID_t index)  { return sMCParticleHandle->at(index); }
-            const sim::SimChannel& GetMCSimChannel(Int_t index) { return sMCSimChannelHandle->at(index); }
-            const raw::RawDigit& GetMCRawDigit(Int_t index)     { return sMCRawDigitHandle->at(index); }
+            const simb::MCParticle& GetMCParticle(ParticleID_t index)   { return sMCParticleHandle->at(index); }
+            const sim::SimChannel& GetMCSimChannel(Int_t index)         { return sMCSimChannelHandle->at(index); }
+            const raw::RawDigit& GetMCRawDigit(Int_t index)             { return sMCRawDigitHandle->at(index); }
 
             std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
             DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
-
-            inline Double_t GetEnergyTrackID(TrackID_t trackID, Int_t precision)
-            {
-                Double_t factor = pow(10, precision);
-                Double_t particle_energy = round(sTrackID_EnergyMap[trackID]*factor)/factor;
-                return particle_energy;
-            }
 
             /**
              * Various accessors from TrackID.  The convention for the function names are
@@ -110,6 +103,7 @@ namespace arrakis
             inline ProcessType      GetProcess_TrackID(TrackID_t trackID)        { return sTrackID_ProcessMap[trackID]; }
             inline ProcessType      GetEndProcess_TrackID(TrackID_t trackID)     { return sTrackID_EndProcessMap[trackID]; }
             inline Double_t         GetEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[trackID];}
+            inline Double_t         GetEnergy_TrackID(TrackID_t trackID, Int_t precision){ return round(sTrackID_EnergyMap[trackID] * pow(10, precision)) / pow(10, precision); }
             inline std::vector<TrackID_t> GetDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[trackID]; }
             inline std::vector<TrackID_t> GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
             inline std::vector<TrackID_t> GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
@@ -127,6 +121,7 @@ namespace arrakis
             inline ProcessType      GetParentProcess_TrackID(TrackID_t trackID)         { return sTrackID_ProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline ProcessType      GetParentEndProcess_TrackID(TrackID_t trackID)      { return sTrackID_EndProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID)          { return sTrackID_EnergyMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID, Int_t precision) { return GetEnergy_TrackID(sTrackID_ParentTrackIDMap[trackID] , precision); }
             inline std::vector<TrackID_t> GetParentDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetParentProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetParentAncestryTrackID_TrackID(TrackID_t trackID)   { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -144,6 +139,7 @@ namespace arrakis
             inline ProcessType      GetAncestorProcess_TrackID(TrackID_t trackID)       { return sTrackID_ProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline ProcessType      GetAncestorEndProcess_TrackID(TrackID_t trackID)    { return sTrackID_EndProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID)        { return sTrackID_EnergyMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID, Int_t precision) { return GetEnergy_TrackID(sTrackID_AncestorTrackIDMap[trackID] , precision); }
             inline std::vector<TrackID_t> GetAncestorDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetAncestorAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
@@ -156,17 +152,14 @@ namespace arrakis
              * Various accessors for EdepID.  Convention is the same as TrackID accessors,
              * "Get<Value>_EdepID".
              */
-            inline ProcessType GetProcess_EdepID(EdepID_t edepID)   { return sEdepID_ProcessMap[edepID]; }
+            inline ProcessType GetProcess_EdepID(EdepID_t edepID)               { return sEdepID_ProcessMap[edepID]; }
+            inline std::vector<DetSimID_t> GetDetSimID_EdepID(EdepID_t edepID)  { return sEdepID_DetSimIDMap[edepID]; }
             const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
 
-            
-            
 
             void PrintParticleData(TrackID_t trackID);
             void PrintEdepData(EdepID_t edepID);
             void PrintDetSimData(DetSimID_t detsimID);
-
-            
 
             // helper functions for organizing data
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
@@ -255,14 +248,10 @@ namespace arrakis
 
             // EdepID maps
             std::map<EdepID_t, ProcessType> sEdepID_ProcessMap;
-            
-            
-                       
-            
-            std::map<EdepID_t, std::vector<DetSimID_t>> sEdepDetectorSimulationMap;
+            std::map<EdepID_t, std::vector<DetSimID_t>> sEdepID_DetSimIDMap;
 
-            // maps from detsimID
-            std::map<DetSimID_t, std::vector<EdepID_t>> sDetectorSimulationEdepMap;
+            // DetSmID maps
+            std::map<DetSimID_t, std::vector<EdepID_t>> sDetSimID_EdepIDMap;
             
         };
     }
