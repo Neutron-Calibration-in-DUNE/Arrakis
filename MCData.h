@@ -115,7 +115,9 @@ namespace arrakis
             inline std::vector<TrackID_t> GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
             inline std::vector<TrackID_t> GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
             inline std::vector<EdepID_t>  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
-            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
+            inline std::vector<ProcessType> GetEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[trackID]; }
+            inline std::vector<DetSimID_t>  GetDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[trackID]; }
+            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)     { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
 
             inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
             inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -128,6 +130,9 @@ namespace arrakis
             inline std::vector<TrackID_t> GetParentDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetParentProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetParentAncestryTrackID_TrackID(TrackID_t trackID)   { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline std::vector<EdepID_t>  GetParentEdepID_TrackID(TrackID_t trackID)            { return sTrackID_EdepIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline std::vector<ProcessType> GetParentEdepProcess_TrackID(TrackID_t trackID)     { return sTrackID_EdepProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline std::vector<DetSimID_t>  GetParentDetSimID_TrackID(TrackID_t trackID){ return sTrackID_DetSimIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             const simb::MCParticle& GetParentMCParticle_TrackID(TrackID_t trackID)      { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]); }
 
             inline TrackID_t        GetAncestorTrackID_TrackID(TrackID_t trackID)       { return sTrackID_AncestorTrackIDMap[trackID]; }
@@ -142,12 +147,15 @@ namespace arrakis
             inline std::vector<TrackID_t> GetAncestorDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline std::vector<TrackID_t> GetAncestorAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline std::vector<EdepID_t>  GetAncestorEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline std::vector<ProcessType> GetAncestorEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline std::vector<DetSimID_t>  GetAncestorDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
 
             
             
-            inline std::vector<ProcessType> GetParticleEdepProcess(TrackID_t trackID)  { return sParticleEdepProcessMap[trackID]; }
-            inline std::vector<DetSimID_t> GetParticleDetectorSimulation(TrackID_t trackID) { return sParticleDetectorSimulationMap[trackID]; }
+            
+            
             inline std::vector<DetSimID_t> GetRandomDetectorSimulation(TrackID_t trackID)   { return sRandomDetectorSimulationMap[trackID]; }
 
             void PrintParticleData(TrackID_t trackID);
@@ -227,10 +235,12 @@ namespace arrakis
             std::map<TrackID_t, ProcessType>    sTrackID_ProcessMap;
             std::map<TrackID_t, ProcessType>    sTrackID_EndProcessMap;
             std::map<TrackID_t, Double_t>       sTrackID_EnergyMap;
-            std::map<TrackID_t, std::vector<TrackID_t>> sTrackID_DaughterTrackIDMap;
-            std::map<TrackID_t, std::vector<TrackID_t>> sTrackID_ProgenyTrackIDMap;
-            std::map<TrackID_t, std::vector<TrackID_t>> sTrackID_AncestryTrackIDMap;
-            std::map<TrackID_t, std::vector<EdepID_t>>  sTrackID_EdepIDMap;
+            std::map<TrackID_t, std::vector<TrackID_t>>   sTrackID_DaughterTrackIDMap;
+            std::map<TrackID_t, std::vector<TrackID_t>>   sTrackID_ProgenyTrackIDMap;
+            std::map<TrackID_t, std::vector<TrackID_t>>   sTrackID_AncestryTrackIDMap;
+            std::map<TrackID_t, std::vector<EdepID_t>>    sTrackID_EdepIDMap;
+            std::map<TrackID_t, std::vector<ProcessType>> sTrackID_EdepProcessMap;
+            std::map<TrackID_t, std::vector<DetSimID_t>>  sTrackID_DetSimIDMap;
 
             std::map<TrackID_t, TrackID_t>      sTrackID_ParentTrackIDMap;
             std::map<TrackID_t, Int_t>          sTrackID_ParentPDGCodeMap;
@@ -244,12 +254,11 @@ namespace arrakis
             
             
             
-            std::map<TrackID_t, std::vector<DetSimID_t>> sParticleDetectorSimulationMap;
             std::map<TrackID_t, std::vector<DetSimID_t>> sRandomDetectorSimulationMap;
 
             // maps from edepID
             std::map<EdepID_t, ProcessType> sEdepProcessMap;
-            std::map<EdepID_t,  std::vector<ProcessType>> sParticleEdepProcessMap;
+            
             std::map<EdepID_t, std::vector<DetSimID_t>> sEdepDetectorSimulationMap;
 
             // maps from detsimID
