@@ -390,7 +390,8 @@ namespace arrakis
             }
             for(auto const& [key, val] : sParticleMap)
             {
-                std::cout << key == val << " - key: " << key << " - val: " << val << std::endl;
+                bool equal = (key == val);
+                std::cout << equal << " - key: " << key << " - val: " << val << std::endl;
             }
             for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
             {
