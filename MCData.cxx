@@ -139,11 +139,10 @@ namespace arrakis
             sMCDataTree->Branch("pdg_map", &sTrackIDPDGCodeMap);
             sMCDataTree->Branch("parent_pdg_map", &sTrackIDParentPDGCodeMap);
             sMCDataTree->Branch("parent_track_id_map", &sTrackIDParentTrackIDMap);
-            sMCDataTree->Branch("particle_energy_map", &sParticleEnergyMap);
-            sMCDataTree->Branch("ancestor_pdg_map", &sAncestorPDGMap);
-            sMCDataTree->Branch("ancestor_track_id_map", &sAncestorTrackIDMap);
-            sMCDataTree->Branch("ancestor_level_map", &sAncestorLevelMap);
-            sMCDataTree->Branch("ancestor_energy_map", &sAncestorEnergyMap);
+            sMCDataTree->Branch("particle_energy_map", &sTrackIDEnergyMap);
+            sMCDataTree->Branch("ancestor_pdg_map", &sTrackIDAncestorPDGMap);
+            sMCDataTree->Branch("ancestor_track_id_map", &sTrackIDAncestorTrackIDMap);
+            sMCDataTree->Branch("ancestor_level_map", &sTrackIDAncestorLevelMap);
             sMCDataTree->Branch("daughter_map", &sDaughterMap);
             sMCDataTree->Branch("progeny_map", &sProgenyMap);
             sMCDataTree->Branch("ancestry_map", &sAncestryMap);
@@ -182,14 +181,15 @@ namespace arrakis
             sTrackIDPDGCodeMap.clear();
             sTrackIDProcessMap.clear();
             sTrackIDEndProcessMap.clear();
+            sTrackIDEnergyMap.clear();
 
             sTrackIDParentPDGCodeMap.clear();
             sTrackIDParentTrackIDMap.clear();
-            sParticleEnergyMap.clear();
-            sAncestorPDGMap.clear();
-            sAncestorTrackIDMap.clear();
-            sAncestorLevelMap.clear();
-            sAncestorEnergyMap.clear();
+            
+            sTrackIDAncestorPDGMap.clear();
+            sTrackIDAncestorTrackIDMap.clear();
+            sTrackIDAncestorLevelMap.clear();
+
             sDaughterMap.clear();
             sProgenyMap.clear();
             sAncestryMap.clear();
@@ -213,15 +213,15 @@ namespace arrakis
             std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << particle.Process() << "] ##\n";
             std::cout << "## Parent TrackID:     [" << std::setw(25) << std::setfill('.') << particle.Mother() << "] ##\n";
             std::cout << "## Parent PDG:         [" << std::setw(25) << std::setfill('.') << sTrackIDParentPDGCodeMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor TrackID:   [" << std::setw(25) << std::setfill('.') << sAncestorTrackIDMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor PDG:       [" << std::setw(25) << std::setfill('.') << sAncestorPDGMap[trackID] << "] ##\n";
-            std::cout << "## Ancestor level:     [" << std::setw(25) << std::setfill('.') << sAncestorLevelMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor TrackID:   [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorTrackIDMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor PDG:       [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorPDGMap[trackID] << "] ##\n";
+            std::cout << "## Ancestor level:     [" << std::setw(25) << std::setfill('.') << sTrackIDAncestorLevelMap[trackID] << "] ##\n";
             std::cout << "## Progeny  [.....level] [...TrackID] [.......PDG] ##\n";
             auto progeny = sProgenyMap[trackID];
-            auto particle_level = sAncestorLevelMap[trackID];
+            auto particle_level = sTrackIDAncestorLevelMap[trackID];
             for(auto progeny_track_id : progeny)
             {
-                std::cout << "##          [" << std::setw(10) << std::setfill('.') << sAncestorLevelMap[progeny_track_id] - particle_level << "] [";
+                std::cout << "##          [" << std::setw(10) << std::setfill('.') << sTrackIDAncestorLevelMap[progeny_track_id] - particle_level << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << progeny_track_id << "] [";
                 std::cout << std::setw(10) << std::setfill('.') << sTrackIDPDGCodeMap[progeny_track_id] << "] ##\n";
             }
@@ -347,7 +347,8 @@ namespace arrakis
                 sTrackIDEndProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.EndProcess()];
 
                 sTrackIDParentTrackIDMap[particle.TrackId()] = particle.Mother();
-                sParticleEnergyMap[particle.TrackId()] = round(particle.E()*10e6)/10e6;
+                sTrackIDEnergyMap[particle.TrackId()] = particle.E();
+
                 // Construct daughter map
                 std::vector<Int_t> daughters = {};
                 for(auto ii = 0; ii < particle.NumberDaughters(); ii++) {
@@ -372,21 +373,19 @@ namespace arrakis
                         sProgenyMap[mother].emplace_back(particle.TrackId());
                     }
                 }
-                sAncestorLevelMap[particle.TrackId()] = level;
+                sTrackIDAncestorLevelMap[particle.TrackId()] = level;
                 sAncestryMap[particle.TrackId()] = ancestry;
 
                 if (level == 0) {
                     sPrimaries.emplace_back(particle.TrackId());
                     sTrackIDParentPDGCodeMap[particle.TrackId()] = 0;
-                    sAncestorPDGMap[particle.TrackId()] = 0;
-                    sAncestorTrackIDMap[particle.TrackId()] = 0;
-                    sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
+                    sTrackIDAncestorPDGMap[particle.TrackId()] = 0;
+                    sTrackIDAncestorTrackIDMap[particle.TrackId()] = 0;
                 }
                 else {
                     sTrackIDParentPDGCodeMap[particle.TrackId()] = sTrackIDPDGCodeMap[particle.Mother()];
-                    sAncestorPDGMap[particle.TrackId()] = sTrackIDPDGCodeMap[track_id];
-                    sAncestorTrackIDMap[particle.TrackId()] = track_id;
-                    sAncestorEnergyMap[particle.TrackId()] = sParticleEnergyMap[track_id];
+                    sTrackIDAncestorPDGMap[particle.TrackId()] = sTrackIDPDGCodeMap[track_id];
+                    sTrackIDAncestorTrackIDMap[particle.TrackId()] = track_id;
                 }
 
                 // initialize edep maps
