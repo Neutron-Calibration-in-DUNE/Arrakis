@@ -67,8 +67,12 @@ namespace arrakis
             Int_t IterateClusterLabel();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
+            void SetLabels(std::vector<Int_t> detsimID, ShapeLabel shape, ParticleLabel particle);
+            void SetLabels(std::vector<std::vector<Int_t>> detsimIDs, ShapeLabel shape, ParticleLabel particle);
+
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
             void ProcessShowers(Int_t trackID);
+            void ProcessShowers(std::vector<Int_t> trackID);
             void ProcessMuons(const Parameters& config, art::Event const& event);
             void ProcessAntiMuons(const Parameters& config, art::Event const& event);
             void ProcessPion0s(const Parameters& config, art::Event const& event);

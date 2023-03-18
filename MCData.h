@@ -149,6 +149,60 @@ namespace arrakis
             const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
 
             /**
+             * Various functions for collecting TrackIDs from primaries, etc.
+             * The output is always a vector of TrackIDs, but the input can vary.
+             */
+            std::vector<TrackID_t> GetPrimaries_GeneratorLabel(GeneratorLabel label);
+            std::vector<TrackID_t> GetPrimaries_PDGCode(Int_t pdg);
+            std::vector<TrackID_t> GetPrimaries_AbsPDGCode(Int_t pdg);
+            std::vector<TrackID_t> GetPrimaries_Process(ProcessType process);
+            std::vector<TrackID_t> GetPrimaries_EndProcess(ProcessType process);
+
+            std::vector<TrackID_t> GetTrackID_GeneratorLabel(GeneratorLabel label);
+            std::vector<TrackID_t> GetTrackID_PDGCode(Int_t pdg);
+            std::vector<TrackID_t> GetTrackID_AbsPDGCode(Int_t pdg);
+            std::vector<TrackID_t> GetTrackID_Process(ProcessType process);
+            std::vector<TrackID_t> GetTrackID_EndProcess(ProcessType process);
+
+            std::vector<std::vector<DetSimID_t>> GetDetSimID_TrackID(std::vector<TrackID_t> trackIDs);
+
+            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_GeneratorLabel(GeneratorLabel label);
+            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_PDGCode(Int_t pdg);
+            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_AbsPDGCode(Int_t pdg);
+            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_Process(ProcessType process);
+            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_EndProcess(ProcessType process);
+            std::vector<std::vector<TrackID_t>> GetDaughterTrackID_TrackID(std::vector<TrackID_t> trackIDs);
+
+            std::vector<TrackID_t> FilterTrackID_AbsPDGCode(std::vector<TrackID_t>& trackIDs, Int_t pdg);
+            std::vector<TrackID_t> FilterTrackID_ProcessCode(std::vector<TrackID_t>& trackIDs, ProcessType process);
+            std::vector<TrackID_t> FilterTrackID_NotProcessCode(std::vector<TrackID_t>& trackIDs, ProcessType process);
+
+            std::vector<std::vector<TrackID_t>> FilterTrackID_AbsPDGCode(std::vector<std::vector<TrackID_t>>& trackIDs, Int_t pdg);
+            std::vector<std::vector<TrackID_t>> FilterTrackID_ProcessCode(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
+            std::vector<std::vector<TrackID_t>> FilterTrackID_NotProcessCode(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
+            
+            // std::vector<DetSimID_t> GetDaughterDetSimID_GeneratorLabel(GeneratorLabel label);
+            // std::vector<DetSimID_t> GetDaughterDetSimID_PDGCode(Int_t pdg);
+            // std::vector<DetSimID_t> GetDaughterDetSimID_AbsPDGCode(Int_t pdg);
+            // std::vector<DetSimID_t> GetDaughterDetSimID_Process(ProcessType process);
+            // std::vector<DetSimID_t> GetDaughterDetSimID_EndProcess(ProcessType process);
+            // std::vector<std::vector<DetSimID_t>> GetDaughterDetSimID_TrackID(TrackID_t trackID);
+
+            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_GeneratorLabel(GeneratorLabel label);
+            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_PDGCode(Int_t pdg);
+            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_AbsPDGCode(Int_t pdg);
+            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_Process(ProcessType process);
+            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_EndProcess(ProcessType process);
+            std::vector<std::vector<TrackID_t>> GetProgenyTrackID_TrackID(std::vector<TrackID_t> trackIDs);
+
+            // std::vector<DetSimID_t> GetProgenyDetSimID_GeneratorLabel(GeneratorLabel label);
+            // std::vector<DetSimID_t> GetProgenyDetSimID_PDGCode(Int_t pdg);
+            // std::vector<DetSimID_t> GetProgenyDetSimID_AbsPDGCode(Int_t pdg);
+            // std::vector<DetSimID_t> GetProgenyDetSimID_Process(ProcessType process);
+            // std::vector<DetSimID_t> GetProgenyDetSimID_EndProcess(ProcessType process);
+            // std::vector<std::vector<DetSimID_t>> GetProgenyDetSimID_TrackID(TrackID_t trackID);
+
+            /**
              * Various accessors for EdepID.  Convention is the same as TrackID accessors,
              * "Get<Value>_EdepID".
              */
@@ -167,8 +221,7 @@ namespace arrakis
 
             // functions for collecting track ids
             //std::vector<Int_t> GetPrimariesByProcess(ProcessType process_type);
-            std::vector<TrackID_t> GetPrimariesByGeneratorLabel(GeneratorLabel label);
-            std::vector<TrackID_t> GetPrimariesByPDG(Int_t pdg);
+            
             std::vector<TrackID_t> GetParticlesByPDG(Int_t pdg);
             std::vector<TrackID_t> GetDaughtersByPDG(TrackID_t track_id, Int_t pdg);
             std::vector<TrackID_t> GetProgenyByPDG(TrackID_t track_id, Int_t pdg);
