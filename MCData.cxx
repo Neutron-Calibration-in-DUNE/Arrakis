@@ -388,6 +388,10 @@ namespace arrakis
                 sParticleEdepProcessMap[particle.TrackId()] = {};
                 sParticleDetectorSimulationMap[particle.TrackId()] = {};
             }
+            for(auto const& [key, val] : sParticleMap)
+            {
+                std::cout << key == val << " - key: " << key << " - val: " << val << std::endl;
+            }
             for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
             {
                 for(auto truth : *sMCTruthHandles[jj])
