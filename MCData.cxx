@@ -201,7 +201,7 @@ namespace arrakis
         }
         void MCData::PrintParticleData(TrackID_t trackID)
         {
-            auto particle = (*sMCParticleHandle)[sParticleMap[trackID]];
+            auto particle = (*sMCParticleHandle)[sTrackIDParticleIDMap[trackID]];
             std::cout << "## MCParticle #######################################\n";
             std::cout << "## TrackID:            [" << std::setw(25) << std::setfill('.') << trackID << "] ##\n";
             std::cout << "## PDG:                [" << std::setw(25) << std::setfill('.') << particle.PdgCode() << "] ##\n";
@@ -334,7 +334,7 @@ namespace arrakis
             );
             for (auto particle : *sMCParticleHandle)
             {
-                sParticleMap[particle.TrackId()] = particle_index;
+                sTrackIDParticleIDMap[particle.TrackId()] = particle_index;
                 particle_index += 1;
 
                 sGeneratorLabelMap[particle.TrackId()] = GeneratorLabel::None;
@@ -387,11 +387,6 @@ namespace arrakis
                 sParticleEdepMap[particle.TrackId()] = {};
                 sParticleEdepProcessMap[particle.TrackId()] = {};
                 sParticleDetectorSimulationMap[particle.TrackId()] = {};
-            }
-            for(auto const& [key, val] : sParticleMap)
-            {
-                bool equal = (key == val);
-                std::cout << equal << " - key: " << key << " - val: " << val << std::endl;
             }
             for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
             {
@@ -765,7 +760,7 @@ namespace arrakis
             std::vector<TrackID_t> particles;
             for(auto track_id : track_ids)
             {
-                if(sMCParticleHandle->at(sParticleMap[track_id]).Process() == TrajectoryProcessTypeToString[process_type]) {
+                if(sMCParticleHandle->at(sTrackIDParticleIDMap[track_id]).Process() == TrajectoryProcessTypeToString[process_type]) {
                     particles.emplace_back(track_id);
                 }
             }

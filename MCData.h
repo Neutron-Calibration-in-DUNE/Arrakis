@@ -89,7 +89,7 @@ namespace arrakis
             const sim::SimChannel& GetMCSimChannel(Int_t index) { return sMCSimChannelHandle->at(index); }
             const raw::RawDigit& GetMCRawDigit(Int_t index)     { return sMCRawDigitHandle->at(index); }
 
-            const simb::MCParticle& GetMCParticleTrackID(TrackID_t TrackID)  { return sMCParticleHandle->at(sParticleMap[TrackID]); }
+            const simb::MCParticle& GetMCParticleTrackID(TrackID_t TrackID)  { return sMCParticleHandle->at(sTrackIDParticleIDMap[TrackID]); }
 
             std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
             DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
@@ -103,7 +103,7 @@ namespace arrakis
 
             // particle maps from track id
             inline GeneratorLabel GetGeneratorLabel(TrackID_t trackID) { return sGeneratorLabelMap[trackID]; }
-            inline ParticleID_t GetParticleIndex(TrackID_t trackID)    { return sParticleMap[trackID]; }
+            inline ParticleID_t GetParticleIndex(TrackID_t trackID)    { return sTrackIDParticleIDMap[trackID]; }
             inline Int_t GetPDGCode(TrackID_t trackID)          { return sPDGMap[trackID]; }
             inline ProcessType GetProcess(TrackID_t trackID)    { return sProcessMap[trackID]; }
             inline Int_t GetParentPDG(TrackID_t trackID)        { return sParentPDGMap[trackID]; }
@@ -193,16 +193,16 @@ namespace arrakis
             DetectorSimulationNoise sDetectorSimulationNoise;
 
             // MCParticle TrackID maps
-            std::map<TrackID_t, ParticleID_t> sParticleMap;
-            std::map<TrackID_t, Int_t>      sPDGMap;
-            std::map<TrackID_t, ProcessType> sProcessMap;
-            std::map<TrackID_t, Int_t>      sParentPDGMap;
-            std::map<TrackID_t, TrackID_t>  sParentTrackIDMap;
-            std::map<TrackID_t, Double_t>   sParticleEnergyMap;
-            std::map<TrackID_t, Int_t>      sAncestorPDGMap;
-            std::map<TrackID_t, Int_t>      sAncestorTrackIDMap;
-            std::map<TrackID_t, Int_t>      sAncestorLevelMap;
-            std::map<TrackID_t, Double_t>   sAncestorEnergyMap;
+            std::map<TrackID_t, ParticleID_t>   sTrackIDParticleIDMap;
+            std::map<TrackID_t, Int_t>          sPDGMap;
+            std::map<TrackID_t, ProcessType>    sProcessMap;
+            std::map<TrackID_t, Int_t>          sParentPDGMap;
+            std::map<TrackID_t, TrackID_t>      sParentTrackIDMap;
+            std::map<TrackID_t, Double_t>       sParticleEnergyMap;
+            std::map<TrackID_t, Int_t>          sAncestorPDGMap;
+            std::map<TrackID_t, TrackID_t>      sAncestorTrackIDMap;
+            std::map<TrackID_t, Int_t>          sAncestorLevelMap;
+            std::map<TrackID_t, Double_t>       sAncestorEnergyMap;
             std::map<TrackID_t, std::vector<TrackID_t>> sDaughterMap;
             std::map<TrackID_t, std::vector<TrackID_t>> sProgenyMap;
             std::map<TrackID_t, std::vector<TrackID_t>> sAncestryMap;
