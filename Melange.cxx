@@ -203,7 +203,7 @@ namespace arrakis
                 }
             }
         }
-        void Melange::SetLabels(std::vector<DetSimID_t> detsimID, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(std::vector<Int_t> detsimID, ShapeLabel shape, ParticleLabel particle)
         {
             for(auto detsim : detsimID)
             {
@@ -211,7 +211,7 @@ namespace arrakis
                 mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
             }
         }
-        void Melange::SetLabels(std::vector<std::vector<DetSimID_t>> detsimIDs, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(std::vector<std::vector<Int_t>> detsimIDs, ShapeLabel shape, ParticleLabel particle)
         {
             for(auto detsimID : detsimIDs) {
                 SetLabels(detsimID, shape, particle);

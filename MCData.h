@@ -36,18 +36,6 @@ namespace arrakis
 {
     namespace mcdata
     {
-        /**
-         * To reduce confusion throughout MCData code, we will use different names
-         * for integers that mean different things.  TrackID_t refers to the actual 
-         * track id of a particle, while ParticleID_t refers to the index of a particle
-         * in the simb::MCParticle vector.  EdepID_t and DetSimID_t are also the indices
-         * of the sim::SimEnergyDeposit and arrakis::DetectorSimulation vectors respectively.
-         */
-        using TrackID_t = Int_t;
-        using EdepID_t = Int_t;
-        using ParticleID_t = Int_t;
-        using DetSimID_t = Int_t;
-
         class MCData
         {
         public:
@@ -174,12 +162,12 @@ namespace arrakis
             std::vector<std::vector<TrackID_t>> GetDaughterTrackID_TrackID(std::vector<TrackID_t> trackIDs);
 
             std::vector<TrackID_t> FilterTrackID_AbsPDGCode(std::vector<TrackID_t>& trackIDs, Int_t pdg);
-            std::vector<TrackID_t> FilterTrackID_ProcessCode(std::vector<TrackID_t>& trackIDs, ProcessType process);
-            std::vector<TrackID_t> FilterTrackID_NotProcessCode(std::vector<TrackID_t>& trackIDs, ProcessType process);
+            std::vector<TrackID_t> FilterTrackID_Process(std::vector<TrackID_t>& trackIDs, ProcessType process);
+            std::vector<TrackID_t> FilterTrackID_NotProcess(std::vector<TrackID_t>& trackIDs, ProcessType process);
 
             std::vector<std::vector<TrackID_t>> FilterTrackID_AbsPDGCode(std::vector<std::vector<TrackID_t>>& trackIDs, Int_t pdg);
-            std::vector<std::vector<TrackID_t>> FilterTrackID_ProcessCode(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
-            std::vector<std::vector<TrackID_t>> FilterTrackID_NotProcessCode(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
+            std::vector<std::vector<TrackID_t>> FilterTrackID_Process(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
+            std::vector<std::vector<TrackID_t>> FilterTrackID_NotProcess(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process);
             
             // std::vector<DetSimID_t> GetDaughterDetSimID_GeneratorLabel(GeneratorLabel label);
             // std::vector<DetSimID_t> GetDaughterDetSimID_PDGCode(Int_t pdg);

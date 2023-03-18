@@ -776,7 +776,7 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::FilterTrackID_ProcessCode(std::vector<TrackID_t>& trackIDs, ProcessType process)
+        std::vector<TrackID_t> MCData::FilterTrackID_Process(std::vector<TrackID_t>& trackIDs, ProcessType process)
         {
             std::vector<TrackID_t> particles;
             for(auto track_id : trackIDs)
@@ -787,7 +787,7 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<TrackID_t> MCData::FilterTrackID_NotProcessCode(std::vector<TrackID_t>& trackIDs, ProcessType process)
+        std::vector<TrackID_t> MCData::FilterTrackID_NotProcess(std::vector<TrackID_t>& trackIDs, ProcessType process)
         {
             std::vector<TrackID_t> particles;
             for(auto track_id : trackIDs)
@@ -807,21 +807,21 @@ namespace arrakis
             }
             return particles;
         }
-        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_ProcessCode(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process)
+        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_Process(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process)
         {
             std::vector<std::vector<TrackID_t>> particles;
             for(auto track_ids : trackIDs)
             {
-                particles.emplace_back(FilterTrackID_ProcessCode(track_ids, pdg));
+                particles.emplace_back(FilterTrackID_Process(track_ids, pdg));
             }
             return particles;
         }
-        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_NotProcessCode(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process)
+        std::vector<std::vector<TrackID_t>> MCData::FilterTrackID_NotProcess(std::vector<std::vector<TrackID_t>>& trackIDs, ProcessType process)
         {
             std::vector<std::vector<TrackID_t>> particles;
             for(auto track_ids : trackIDs)
             {
-                particles.emplace_back(FilterTrackID_NotProcessCode(track_ids, pdg));
+                particles.emplace_back(FilterTrackID_NotProcess(track_ids, pdg));
             }
             return particles;
         }

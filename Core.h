@@ -40,6 +40,18 @@
 
 namespace arrakis
 {
+    /**
+     * To reduce confusion throughout MCData code, we will use different names
+     * for integers that mean different things.  TrackID_t refers to the actual 
+     * track id of a particle, while ParticleID_t refers to the index of a particle
+     * in the simb::MCParticle vector.  EdepID_t and DetSimID_t are also the indices
+     * of the sim::SimEnergyDeposit and arrakis::DetectorSimulation vectors respectively.
+     */
+    using TrackID_t = Int_t;
+    using EdepID_t = Int_t;
+    using ParticleID_t = Int_t;
+    using DetSimID_t = Int_t;
+
     enum GeneratorLabel
     {
         Junk = -1,
