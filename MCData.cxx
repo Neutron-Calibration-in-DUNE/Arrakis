@@ -153,7 +153,7 @@ namespace arrakis
             sMCDataTree->Branch("ancestry_track_id_map",    &sTrackID_AncestryTrackIDMap);
 
             sMCDataTree->Branch("edep_id_map",          &sTrackID_EdepIDMap);
-            
+
             sMCDataTree->Branch("particle_edep_process_map", &sParticleEdepProcessMap);
             sMCDataTree->Branch("particle_detsim_map", &sParticleDetectorSimulationMap);
             sMCDataTree->Branch("random_detsim_map", &sRandomDetectorSimulationMap);
@@ -652,7 +652,7 @@ namespace arrakis
         ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)
         {
             std::string process = "NotDefined";
-            auto mc_particle = GetMCParticleTrackID(edep.TrackID());
+            auto mc_particle = GetMCParticle_TrackID(edep.TrackID());
             simb::MCTrajectory trajectory = mc_particle.Trajectory();
             auto trajectory_processes = trajectory.TrajectoryProcesses();
             for(size_t ii = 0; ii < mc_particle.NumberTrajectoryPoints(); ii++)
@@ -779,7 +779,7 @@ namespace arrakis
         }    
         std::vector<EdepID_t> MCData::GetParticleAndProgenyEdeps(TrackID_t track_id)
         {
-            std::vector<EdepID_t> edeps = GetParticleEdep(track_id);
+            std::vector<EdepID_t> edeps = sTrackID_EdepIDMap(track_id);
             auto track_ids = sTrackID_ProgenyTrackIDMap[track_id];
             for(auto track_id : track_ids)
             {
@@ -858,7 +858,7 @@ namespace arrakis
         }
         std::vector<DetSimID_t> MCData::GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type)
         {
-            auto particle_edeps = GetParticleEdep(track_id);
+            auto particle_edeps = sTrackID_EdepIDMap(track_id);
             auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
             return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }

@@ -115,7 +115,7 @@ namespace arrakis
             inline std::vector<TrackID_t> GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
             inline std::vector<TrackID_t> GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
             inline std::vector<EdepID_t>  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
-            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[TrackID]); }
+            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
 
             inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
             inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
