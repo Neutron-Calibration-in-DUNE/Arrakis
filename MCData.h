@@ -85,7 +85,6 @@ namespace arrakis
             art::Handle<std::vector<raw::RawDigit>> GetRawDigits()      { return sMCRawDigitHandle; }
 
             const simb::MCParticle& GetMCParticle(ParticleID_t index)  { return sMCParticleHandle->at(index); }
-            const sim::SimEnergyDeposit& GetMCSimEnergyDeposit(EdepID_t index) { return sMCSimEnergyDepositHandle->at(index); }
             const sim::SimChannel& GetMCSimChannel(Int_t index) { return sMCSimChannelHandle->at(index); }
             const raw::RawDigit& GetMCRawDigit(Int_t index)     { return sMCRawDigitHandle->at(index); }
 
@@ -152,9 +151,13 @@ namespace arrakis
             inline std::vector<DetSimID_t>  GetAncestorDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
 
-            
-            
-            
+            /**
+             * Various accessors for EdepID.  Convention is the same as TrackID accessors,
+             * "Get<Value>_EdepID".
+             */
+            inline ProcessType GetProcess_EdepID(EdepID_t edepID)   { return sEdepID_ProcessMap[edepID]; }
+            const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
+
             
             inline std::vector<DetSimID_t> GetRandomDetectorSimulation(TrackID_t trackID)   { return sRandomDetectorSimulationMap[trackID]; }
 
@@ -162,8 +165,7 @@ namespace arrakis
             void PrintEdepData(EdepID_t edepID);
             void PrintDetSimData(DetSimID_t detsimID);
 
-            // maps from edep to process
-            inline ProcessType GetEdepProcess(EdepID_t edepID)   { return sEdepProcessMap[edepID]; }
+            
 
             // helper functions for organizing data
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
@@ -228,7 +230,7 @@ namespace arrakis
             std::vector<DetectorSimulation> sDetectorSimulation;
             DetectorSimulationNoise sDetectorSimulationNoise;
 
-            // MCParticle TrackID maps
+            // TrackID maps
             std::map<TrackID_t, ParticleID_t>   sTrackID_ParticleIDMap;
             std::map<TrackID_t, GeneratorLabel> sTrackID_GeneratorLabelMap;
             std::map<TrackID_t, Int_t>          sTrackID_PDGCodeMap;
@@ -241,6 +243,7 @@ namespace arrakis
             std::map<TrackID_t, std::vector<EdepID_t>>    sTrackID_EdepIDMap;
             std::map<TrackID_t, std::vector<ProcessType>> sTrackID_EdepProcessMap;
             std::map<TrackID_t, std::vector<DetSimID_t>>  sTrackID_DetSimIDMap;
+            std::map<TrackID_t, std::vector<DetSimID_t>>  sTrackID_RandomDetSimIDMap; 
 
             std::map<TrackID_t, TrackID_t>      sTrackID_ParentTrackIDMap;
             std::map<TrackID_t, Int_t>          sTrackID_ParentPDGCodeMap;
@@ -249,15 +252,11 @@ namespace arrakis
             std::map<TrackID_t, Int_t>          sTrackID_AncestorLevelMap;
             std::map<TrackID_t, Int_t>          sTrackID_AncestorPDGCodeMap;
 
-
+            // EdepID maps
+            std::map<EdepID_t, ProcessType> sEdepID_ProcessMap;
             
             
-            
-            
-            std::map<TrackID_t, std::vector<DetSimID_t>> sRandomDetectorSimulationMap;
-
-            // maps from edepID
-            std::map<EdepID_t, ProcessType> sEdepProcessMap;
+                       
             
             std::map<EdepID_t, std::vector<DetSimID_t>> sEdepDetectorSimulationMap;
 

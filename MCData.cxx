@@ -152,14 +152,14 @@ namespace arrakis
             sMCDataTree->Branch("progeny_track_id_map",     &sTrackID_ProgenyTrackIDMap);
             sMCDataTree->Branch("ancestry_track_id_map",    &sTrackID_AncestryTrackIDMap);
 
-            sMCDataTree->Branch("edep_id_map",          &sTrackID_EdepIDMap);
+            sMCDataTree->Branch("edep_id_map",              &sTrackID_EdepIDMap);
+            sMCDataTree->Branch("edep_process_map",         &sTrackID_EdepProcessMap);
+            sMCDataTree->Branch("detsim_map",               &sTrackID_DetSimIDMap);
+            sMCDataTree->Branch("random_detsim_map",        &sTrackID_RandomDetSimIDMap);
 
-            sMCDataTree->Branch("particle_edep_process_map", &sTrackID_EdepProcessMap);
-            sMCDataTree->Branch("particle_detsim_map", &sTrackID_DetSimIDMap);
-            sMCDataTree->Branch("random_detsim_map", &sRandomDetectorSimulationMap);
-            sMCDataTree->Branch("edep_process_map", &sEdepProcessMap);
-            sMCDataTree->Branch("edep_detsim_map", &sEdepDetectorSimulationMap);
-            sMCDataTree->Branch("detsim_edep_map", &sDetectorSimulationEdepMap);
+            sMCDataTree->Branch("edep_process_map",         &sEdepID_ProcessMap);
+            sMCDataTree->Branch("edep_detsim_map",          &sEdepDetectorSimulationMap);
+            sMCDataTree->Branch("detsim_edep_map",          &sDetectorSimulationEdepMap);
   
             sGeneratorMap["Ar39Label"] = GeneratorLabel::Ar39;
             sGeneratorMap["Ar42Label"] = GeneratorLabel::Ar42;
@@ -193,6 +193,9 @@ namespace arrakis
             sTrackID_ProgenyTrackIDMap.clear();
             sTrackID_AncestryTrackIDMap.clear();
             sTrackID_EdepIDMap.clear();
+            sTrackID_EdepProcessMap.clear();
+            sTrackID_DetSimIDMap.clear();
+            sTrackID_RandomDetSimIDMap.clear();
 
             sTrackID_ParentTrackIDMap.clear();
             sTrackID_ParentPDGCodeMap.clear();
@@ -201,13 +204,7 @@ namespace arrakis
             sTrackID_AncestorLevelMap.clear();
             sTrackID_AncestorPDGCodeMap.clear();
 
-            
-            
-            sTrackID_EdepProcessMap.clear();
-            sTrackID_DetSimIDMap.clear();
-            sRandomDetectorSimulationMap.clear();
-
-            sEdepProcessMap.clear();
+            sEdepID_ProcessMap.clear();
             sEdepDetectorSimulationMap.clear();
 
             sDetectorSimulationEdepMap.clear();
@@ -244,7 +241,7 @@ namespace arrakis
             std::cout << "## TrackID:            [" << std::setw(25) << std::setfill('.') << edep.TrackID() << "] ##\n";
             std::cout << "## PDG:                [" << std::setw(25) << std::setfill('.') << sTrackID_PDGCodeMap[edep.TrackID()] << "] ##\n";
             std::cout << "## Energy [MeV]:       [" << std::setw(25) << std::setfill('.') << edep.Energy() << "] ##\n";
-            std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << ProcessTypeToString[sEdepProcessMap[edepID]] << "] ##\n";
+            std::cout << "## Process:            [" << std::setw(25) << std::setfill('.') << ProcessTypeToString[sEdepID_ProcessMap[edepID]] << "] ##\n";
             std::cout << "## MidPoint [x,y,z]:   [" << std::setw(7) << std::setfill('.') << edep.MidPointX() << ", ";
             std::cout << std::setw(7) << std::setfill('.') << edep.MidPointY() << ", ";
             std::cout << std::setw(7) << std::setfill('.') << edep.MidPointZ() << "] ##\n"; 
@@ -637,7 +634,7 @@ namespace arrakis
                             sTrackID_DetSimIDMap[track.trackID].emplace_back(digit_index);
                         }
                         else {
-                            sRandomDetectorSimulationMap[track.trackID] = {digit_index};
+                            sTrackID_RandomDetSimIDMap[track.trackID] = {digit_index};
                         }
                     }
                     // determine the edeps associated with this detector simulation
