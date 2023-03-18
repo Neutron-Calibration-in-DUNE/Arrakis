@@ -116,6 +116,7 @@ namespace arrakis
             inline std::vector<EdepID_t>  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
             inline std::vector<ProcessType> GetEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[trackID]; }
             inline std::vector<DetSimID_t>  GetDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[trackID]; }
+            inline std::vector<DetSimID_t>  GetRandomDetSimID_TrackID(TrackID_t trackID){ return sTrackID_RandomDetSimIDMap[trackID]; }
             const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)     { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
 
             inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
@@ -159,7 +160,7 @@ namespace arrakis
             const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
 
             
-            inline std::vector<DetSimID_t> GetRandomDetectorSimulation(TrackID_t trackID)   { return sRandomDetectorSimulationMap[trackID]; }
+            
 
             void PrintParticleData(TrackID_t trackID);
             void PrintEdepData(EdepID_t edepID);

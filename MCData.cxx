@@ -684,7 +684,7 @@ namespace arrakis
                     for(auto edep_id : candidate_edeps)
                     {
                         //std::cout << "\tedep_id: " << edep_id << " - (x,y,z) (";
-                        auto edep = GetMCSimEnergyDeposit(edep_id);
+                        auto edep = GetMCSimEnergyDeposit_EdepID(edep_id);
                         //std::cout << edep.MidPointX() << "," << edep.MidPointY() << "," << edep.MidPointZ() << ")" << std::endl;
                         if(
                             edep.MidPointX() == track.x && 
