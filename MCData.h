@@ -96,10 +96,10 @@ namespace arrakis
             inline TrackID_List GetProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[trackID]; }
             inline TrackID_List GetAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[trackID]; }
             inline EdepID_List  GetEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[trackID]; }
-            inline ProcessTyper_List GetEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[trackID]; }
+            inline ProcessType_List GetEdepProcess_TrackID(TrackID_t trackID) { return sTrackID_EdepProcessMap[trackID]; }
             inline DetSimID_List  GetDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[trackID]; }
             inline DetSimID_List  GetRandomDetSimID_TrackID(TrackID_t trackID){ return sTrackID_RandomDetSimIDMap[trackID]; }
-            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)     { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
+            const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)  { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
 
             inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
             inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -114,9 +114,9 @@ namespace arrakis
             inline TrackID_List GetParentProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline TrackID_List GetParentAncestryTrackID_TrackID(TrackID_t trackID)   { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline EdepID_List  GetParentEdepID_TrackID(TrackID_t trackID)            { return sTrackID_EdepIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline ProcessTyper_List GetParentEdepProcess_TrackID(TrackID_t trackID)     { return sTrackID_EdepProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline DetSimID_List  GetParentDetSimID_TrackID(TrackID_t trackID){ return sTrackID_DetSimIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            const simb::MCParticle& GetParentMCParticle_TrackID(TrackID_t trackID)      { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]); }
+            inline ProcessType_List GetParentEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            inline DetSimID_List  GetParentDetSimID_TrackID(TrackID_t trackID)        { return sTrackID_DetSimIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+            const simb::MCParticle& GetParentMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]); }
 
             inline TrackID_t        GetAncestorTrackID_TrackID(TrackID_t trackID)       { return sTrackID_AncestorTrackIDMap[trackID]; }
             inline Int_t            GetAncestorLevel_TrackID(TrackID_t trackID)         { return sTrackID_AncestorLevelMap[trackID]; }
@@ -132,9 +132,9 @@ namespace arrakis
             inline TrackID_List GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline TrackID_List GetAncestorAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline EdepID_List  GetAncestorEdepID_TrackID(TrackID_t trackID)          { return sTrackID_EdepIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline ProcessTyper_List GetAncestorEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
+            inline ProcessType_List GetAncestorEdepProcess_TrackID(TrackID_t trackID) { return sTrackID_EdepProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline DetSimID_List  GetAncestorDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
+            const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)  { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
 
             /**
              * Various functions for collecting TrackIDs from primaries, etc.
@@ -277,7 +277,7 @@ namespace arrakis
             std::map<TrackID_t, TrackID_List>   sTrackID_ProgenyTrackIDMap;
             std::map<TrackID_t, TrackID_List>   sTrackID_AncestryTrackIDMap;
             std::map<TrackID_t, EdepID_List>    sTrackID_EdepIDMap;
-            std::map<TrackID_t, ProcessTyper_List> sTrackID_EdepProcessMap;
+            std::map<TrackID_t, ProcessType_List> sTrackID_EdepProcessMap;
             std::map<TrackID_t, DetSimID_List>  sTrackID_DetSimIDMap;
             std::map<TrackID_t, DetSimID_List>  sTrackID_RandomDetSimIDMap; 
 

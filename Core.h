@@ -58,7 +58,7 @@ namespace arrakis
     using DetSimID_List = std::vector<DetSimID_t>;
 
     using TrackID_Collection = std::vector<TrackID_List>;
-    using EdepIT_Collection = std::vector<EdepIT_List>;
+    using EdepID_Collection = std::vector<EdepID_List>;
     using ParticleID_Collection = std::vector<ParticleID_List>;
     using DetSimID_Collection = std::vector<DetSimID_List>;
 

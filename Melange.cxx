@@ -203,21 +203,27 @@ namespace arrakis
                 }
             }
         }
-        void Melange::SetLabels(std::vector<Int_t> detsimID, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(DetSimID_List detSimIDList, ShapeLabel shape, ParticleLabel particle)
         {
-            for(auto detsim : detsimID)
+            for(auto detsim : detSimIDList)
             {
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(shape);
                 mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
             }
         }
-        void Melange::SetLabels(std::vector<std::vector<Int_t>> detsimIDs, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(DetSimID_Collection detSimIDCollection, ShapeLabel shape, ParticleLabel particle)
         {
-            for(auto detsimID : detsimIDs) {
-                SetLabels(detsimID, shape, particle);
+            for(auto detsimIDList : detSimIDCollection) {
+                SetLabels(detsimIDList, shape, particle);
             }
         }
-        void Melange::ProcessShowers(Int_t trackID)
+        void Melange::SetLabels(std::vector<DetSimID_Collection> detSimIDCollection, ShapeLabel shape, ParticleLabel particle)
+        {
+            for(auto detsimIDList : detSimIDCollection) {
+                SetLabels(detsimIDList, shape, particle);
+            }
+        }
+        void Melange::ProcessShowers(TrackID_t trackID)
         {
             auto mc_data = mcdata::MCData::GetInstance();
             std::vector<Int_t> particle_det_sim;
@@ -245,15 +251,15 @@ namespace arrakis
                 }
             }
         }
-        void Melange::ProcessShowers(std::vector<Int_t> trackID)
+        void Melange::ProcessShowers(TrackID_List trackIDList)
         {
-            for(auto track_id : trackID) {
+            for(auto track_id : trackIDList) {
                 ProcessShowers(track_id);
             }
         }
-        void Melange::ProcessShowers(std::vector<std::vector<Int_t>> trackID)
+        void Melange::ProcessShowers(TrackID_Collection trackIDCollection)
         {
-            for(auto track_id : trackID) {
+            for(auto track_id : trackIDCollection) {
                 ProcessShowers(track_id);
             }
         }
