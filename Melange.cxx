@@ -363,7 +363,7 @@ namespace arrakis
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetTrackID_PDGCode(2112);
-            auto neutron_daughters = mc_data->GetDaughtersTrackID_TrackID(neutrons);
+            auto neutron_daughters = mc_data->GetDaughterTrackID_TrackID(neutrons);
             auto gamma_daughters = mc_data->FilterTrackID_AbsPDGCode(neutron_daughters, 22);
             auto capture_daughters = mc_data->FilterTrackID_Process(gamma_daughters, ProcessType::NeutronCapture);
             for(auto capture : capture_daughters)
