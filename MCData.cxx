@@ -1180,7 +1180,7 @@ namespace arrakis
             }
             return detsim;
         }
-        DetSimID_List MCData::GetDetSimID_TrackID(TrackID_t track_id)
+        DetSimID_List MCData::GetAllDetSimID_TrackID(TrackID_t track_id)
         {
             DetSimID_List detsim = sTrackID_DetSimIDMap[track_id];
             auto track_ids = sTrackID_DescendantTrackIDMap[track_id];
