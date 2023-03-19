@@ -228,7 +228,7 @@ namespace arrakis
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(shape);
                 mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
                 mDetectorPointCloud.unique_shape[detsim] = shape_label;
-                mDetectorPointCloud_unique_particle[detsim] = particle_label;
+                mDetectorPointCloud.unique_particle[detsim] = particle_label;
             }
         }
         void Melange::SetLabels(
@@ -265,8 +265,8 @@ namespace arrakis
             auto progeny = mc_data->GetProgenyTrackID_TrackID(trackID);
             auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(daughters, 11);
             auto photon_daughters = mc_data->FilterTrackID_AbsPDGCode(daughters, 22);
-            ProcessShowers(elec_daughters);
-            ProcessShowers(photon_daughters);
+            ProcessShowers(elec_daughters, shapeLabel);
+            ProcessShowers(photon_daughters, shapeLabel);
         }
         void Melange::ProcessShowers(TrackID_List trackIDList, Int_t shapeLabel)
         {
