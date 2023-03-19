@@ -126,6 +126,8 @@ namespace arrakis
         {
             ResetEvent();
             PrepareInitialPointClouds(config, event);
+            ProcessElectrons(config, event);
+            ProcessPositrons(config, event);
             ProcessMuons(config, event);
             ProcessAntiMuons(config, event);
             ProcessPion0s(config, event);
@@ -255,8 +257,11 @@ namespace arrakis
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
-            if(mc_data->GetAbsPDGCode_TrackID(trackID) == 11) {
+            if(mc_data->GetPDGCode_TrackID(trackID) == 11) {
                 SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shapeLabel, IterateParticleLabel());
+            }
+            else if(mc_data->GetPDGCode_TrackID(trackID) == -11) {
+                SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shapeLabel, IterateParticleLabel());
             }
             else if(mc_data->GetAbsPDGCode_TrackID(trackID) == 22) {
                 SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shapeLabel, IterateParticleLabel());
@@ -278,6 +283,48 @@ namespace arrakis
         {
             for(auto track_id : trackIDCollection) {
                 ProcessShowers(track_id, IterateShapeLabel());
+            }
+        }
+        void Melange::ProcessElectrons(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto electrons = mc_data->GetPrimaries_PDGCode(11);
+            for(auto electron : electrons)
+            {
+                auto electron_daughters = mc_data->GetDaughterTrackID_TrackID(electron);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(electron_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto electron_progeny = mc_data->GetProgenyTrackID_TrackID(electron);
+                auto electron_det_sim = mc_data->GetDetSimID_TrackID(electron);
+                // Set electron detsim labels to Shower::ElectronShower
+                Int_t shower_label = IterateShapeLabel();
+                Int_t electron_label = IterateParticleLabel();
+                SetLabels(electron_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
+                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);            
+                ProcessShowers(electron_progeny, shower_label);
+            }
+        }
+        void Melange::ProcessPositrons(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto positrons = mc_data->GetPrimaries_PDGCode(-11);
+            for(auto positron : positrons)
+            {
+                auto positron_daughters = mc_data->GetDaughterTrackID_TrackID(positron);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(positron_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto positron_progeny = mc_data->GetProgenyTrackID_TrackID(positron);
+                auto positron_det_sim = mc_data->GetDetSimID_TrackID(positron);
+                // Set positron detsim labels to Shower::positronShower
+                Int_t shower_label = IterateShapeLabel();
+                Int_t positron_label = IterateParticleLabel();
+                SetLabels(positron_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
+                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);            
+                ProcessShowers(positron_progeny, shower_label);
             }
         }
         void Melange::ProcessMuons(
