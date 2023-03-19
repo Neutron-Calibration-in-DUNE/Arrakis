@@ -363,23 +363,23 @@ namespace arrakis
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetTrackID_PDGCode(2112);
-            auto neutron_descendants = mc_data->GetDescendantTrackID_TrackID(neutrons);
-            auto gamma_descendants = mc_data->FilterTrackID_AbsPDGCode(neutron_descendants, 22);
-            auto capture_descendants = mc_data->FilterTrackID_Process(gamma_descendants, ProcessType::NeutronCapture);
-            for(auto capture : capture_descendants)
+            auto neutron_daughters = mc_data->GetDaughtersTrackID_TrackID(neutrons);
+            auto gamma_daughters = mc_data->FilterTrackID_AbsPDGCode(neutron_daughters, 22);
+            auto capture_daughters = mc_data->FilterTrackID_Process(gamma_daughters, ProcessType::NeutronCapture);
+            for(auto capture : capture_daughters)
             {
                 std::cout << "neutron: " << std::endl;
                 for(auto gamma : capture)
                 {
                     std::cout << "   gamma: " << gamma << std::endl;
-                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 1);
+                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 1000);
                     std::cout << "   energy: " << mc_data->GetEnergy_TrackID(gamma) << std::endl;
                     auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
                     std::cout << "   num: " << gamma_det_sim.size() << std::endl;
-                    if(gamma_energy == 4.7) {
+                    if(gamma_energy == 0.0047) {
                         SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma475);
                     }
-                    else if(gamma_energy == 1.8) {
+                    else if(gamma_energy == 0.0018) {
                         SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma181);
                     }
                     else {
