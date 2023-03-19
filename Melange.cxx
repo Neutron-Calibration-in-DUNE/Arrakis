@@ -371,16 +371,29 @@ namespace arrakis
                 std::cout << "neutron: " << std::endl;
                 for(auto gamma : capture)
                 {
-                    std::cout << "   gamma: " << gamma << std::endl;
                     Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 10000);
-                    std::cout << "   energy: " << gamma_energy << std::endl;
+                    std::cout << "energy: " << gamma_energy << std::endl;
                     auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
-                    std::cout << "   num: " << gamma_det_sim.size() << std::endl;
                     if(gamma_energy == 0.00474) {
-                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma475);
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma474);
+                    }
+                    else if(gamma_energy == 0.00336) {
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma336);
+                    }
+                    else if(gamma_energy == 0.00256) {
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma256);
                     }
                     else if(gamma_energy == 0.00118) {
-                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma181);
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma118);
+                    }
+                    else if(gamma_energy == 0.00083) {
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma083);
+                    }
+                    else if(gamma_energy == 0.00051) {
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma051);
+                    }
+                    else if(gamma_energy == 0.00016) {
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma016);
                     }
                     else {
                         SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGammaOther);
