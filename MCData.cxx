@@ -360,7 +360,7 @@ namespace arrakis
                 }
                 sTrackID_DaughterTrackIDMap[particle.TrackId()] = daughters;
                 sTrackID_ProgenyTrackIDMap[particle.TrackId()] = {};
-                sTrackID_DescendantTrackIDMap[particle.TrackID()] = daughters;
+                sTrackID_DescendantTrackIDMap[particle.TrackId()] = daughters;
 
                 // construct ancestry map
                 std::vector<Int_t> ancestry = {};
@@ -375,7 +375,7 @@ namespace arrakis
                     mother = sTrackID_ParentTrackIDMap[track_id];
                     if(level > 1) {
                         sTrackID_ProgenyTrackIDMap[mother].emplace_back(particle.TrackId());
-                        sTrackID_DescendantTrackIDMap[mother].emplace_back(particle.TrackID());
+                        sTrackID_DescendantTrackIDMap[mother].emplace_back(particle.TrackId());
                     }
                 }
                 sTrackID_AncestorLevelMap[particle.TrackId()] = level;

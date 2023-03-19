@@ -243,7 +243,7 @@ namespace arrakis
         void Melange::ProcessShowers(TrackID_t trackID)
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            auto particle_det_sim = GetDetSimID_TrackID(trackID);
+            auto particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
             if(mc_data->GetAbsPDGCode_TrackID(trackID) == 11) {
                 SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower);
             }

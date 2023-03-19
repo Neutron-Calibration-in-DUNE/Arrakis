@@ -75,6 +75,7 @@ namespace arrakis
             void ProcessShowers(TrackID_t trackID);
             void ProcessShowers(TrackID_List trackID);
             void ProcessShowers(TrackID_Collection trackID);
+            void ProcessElectrons(const Parameters& config, art::Event const& event);
             void ProcessMuons(const Parameters& config, art::Event const& event);
             void ProcessAntiMuons(const Parameters& config, art::Event const& event);
             void ProcessPion0s(const Parameters& config, art::Event const& event);
