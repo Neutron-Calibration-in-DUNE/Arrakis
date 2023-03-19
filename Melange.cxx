@@ -371,7 +371,7 @@ namespace arrakis
                 std::cout << "neutron: " << std::endl;
                 for(auto gamma : capture)
                 {
-                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 10000);
+                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 5);
                     std::cout << "energy: " << gamma_energy << std::endl;
                     auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
                     if(gamma_energy == 0.00474) {
