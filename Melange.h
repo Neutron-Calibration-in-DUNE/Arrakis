@@ -85,9 +85,11 @@ namespace arrakis
             );
 
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
-            void ProcessShowers(TrackID_t trackID);
-            void ProcessShowers(TrackID_List trackID);
+
+            void ProcessShowers(TrackID_t trackID, Int_t shapeLabel);
+            void ProcessShowers(TrackID_List trackID, Int_t shapeLabel);
             void ProcessShowers(TrackID_Collection trackID);
+
             void ProcessElectrons(const Parameters& config, art::Event const& event);
             void ProcessPositrons(const Parameters& config, art::Event const& event);
             void ProcessMuons(const Parameters& config, art::Event const& event);
@@ -95,11 +97,14 @@ namespace arrakis
             void ProcessPion0s(const Parameters& config, art::Event const& event);
             void ProcessPionPlus(const Parameters& config, art::Event const& event);
             void ProcessPionMinus(const Parameters& config, art::Event const& event);
+
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
+
             void ProcessAr39(const Parameters& config, art::Event const& event);
             void ProcessAr42(const Parameters& config, art::Event const& event);
             void ProcessKr85(const Parameters& config, art::Event const& event);
             void ProcessRn222(const Parameters& config, art::Event const& event);
+
             void ProcessCosmics(const Parameters& config, art::Event const& event);
             void CleanUpPointClouds(const Parameters& config, art::Event const& event);
             void SeparatePointClouds(const Parameters& config, art::Event const& event);
