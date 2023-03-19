@@ -91,7 +91,7 @@ namespace arrakis
             inline ProcessType      GetProcess_TrackID(TrackID_t trackID)        { return sTrackID_ProcessMap[trackID]; }
             inline ProcessType      GetEndProcess_TrackID(TrackID_t trackID)     { return sTrackID_EndProcessMap[trackID]; }
             inline Double_t         GetEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[trackID];}
-            inline Double_t         GetEnergy_TrackID(TrackID_t trackID, Int_t precision){ return round(sTrackID_EnergyMap[trackID] * pow(10, precision)) / pow(10, precision); }
+            inline Double_t         GetEnergy_TrackID(TrackID_t trackID, Double_t precision){ return round(sTrackID_EnergyMap[trackID] * pow(10.0, precision)) / pow(10.0, precision); }
             inline TrackID_List     GetDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[trackID]; }
             inline TrackID_List     GetProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[trackID]; }
             inline TrackID_List     GetDescendantTrackID_TrackID(TrackID_t trackID) { return sTrackID_DescendantTrackIDMap[trackID]; }
@@ -110,7 +110,7 @@ namespace arrakis
             inline ProcessType      GetParentProcess_TrackID(TrackID_t trackID)         { return sTrackID_ProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline ProcessType      GetParentEndProcess_TrackID(TrackID_t trackID)      { return sTrackID_EndProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID)          { return sTrackID_EnergyMap[sTrackID_ParentTrackIDMap[trackID]]; }
-            inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID, Int_t precision) { return GetEnergy_TrackID(sTrackID_ParentTrackIDMap[trackID] , precision); }
+            inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID, Double_t precision) { return GetEnergy_TrackID(sTrackID_ParentTrackIDMap[trackID] , precision); }
             inline TrackID_List     GetParentDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline TrackID_List     GetParentProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
             inline TrackID_List     GetParentDescendantTrackID_TrackID(TrackID_t trackID) { return sTrackID_DescendantTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -129,7 +129,7 @@ namespace arrakis
             inline ProcessType      GetAncestorProcess_TrackID(TrackID_t trackID)       { return sTrackID_ProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline ProcessType      GetAncestorEndProcess_TrackID(TrackID_t trackID)    { return sTrackID_EndProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID)        { return sTrackID_EnergyMap[sTrackID_AncestorTrackIDMap[trackID]]; }
-            inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID, Int_t precision) { return GetEnergy_TrackID(sTrackID_AncestorTrackIDMap[trackID] , precision); }
+            inline Double_t         GetAncestorEnergy_TrackID(TrackID_t trackID, Double_t precision) { return GetEnergy_TrackID(sTrackID_AncestorTrackIDMap[trackID] , precision); }
             inline TrackID_List     GetAncestorDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline TrackID_List     GetAncestorProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
             inline TrackID_List     GetAncestorDescendantTrackID_TrackID(TrackID_t trackID) { return sTrackID_DescendantTrackIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
