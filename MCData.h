@@ -209,6 +209,7 @@ namespace arrakis
             inline DetSimID_List GetDetSimID_EdepID(EdepID_t edepID)  { return sEdepID_DetSimIDMap[edepID]; }
             const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
 
+            DetSimID_List GetAllDetSimID_TrackID(TrackID_t track_id);
 
             void PrintParticleData(TrackID_t trackID);
             void PrintEdepData(EdepID_t edepID);
@@ -233,7 +234,7 @@ namespace arrakis
             EdepID_List FilterEdepsByPDG(EdepID_List edep_ids, Int_t pdg);
             
             DetSimID_List GetDetectorSimulationByParticles(TrackID_List track_ids);
-            DetSimID_List GetDetectorSimulationByParticleAndProgeny(TrackID_t track_id);
+            
             DetSimID_List GetDetectorSimulationByEdeps(EdepID_List edep_ids);
             DetSimID_List GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type);
             DetSimID_List GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
