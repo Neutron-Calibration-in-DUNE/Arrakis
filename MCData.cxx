@@ -360,6 +360,7 @@ namespace arrakis
                 }
                 sTrackID_DaughterTrackIDMap[particle.TrackId()] = daughters;
                 sTrackID_ProgenyTrackIDMap[particle.TrackId()] = {};
+                sTrackID_DescendantTrackIDMap[particle.TrackID()] = daughters;
 
                 // construct ancestry map
                 std::vector<Int_t> ancestry = {};
@@ -374,6 +375,7 @@ namespace arrakis
                     mother = sTrackID_ParentTrackIDMap[track_id];
                     if(level > 1) {
                         sTrackID_ProgenyTrackIDMap[mother].emplace_back(particle.TrackId());
+                        sTrackID_DescendantTrackIDMap[mother].emplace_back(particle.TrackID());
                     }
                 }
                 sTrackID_AncestorLevelMap[particle.TrackId()] = level;
@@ -962,6 +964,70 @@ namespace arrakis
                 progeny.emplace_back(sTrackID_ProgenyTrackIDMap[track_id]);
             }
             return progeny;
+        }
+        TrackID_Collection MCData::GetDescendantTrackID_GeneratorLabel(GeneratorLabel label)
+        {
+            TrackID_Collection descendant;
+            for(auto const& [key, value] : sTrackID_GeneratorLabelMap)
+            {
+                if(value == label) {
+                    descendant.emplace_back(sTrackID_DescendantTrackIDMap[key]);
+                }
+            }
+            return descendant;
+        }
+        TrackID_Collection MCData::GetDescendantTrackID_PDGCode(Int_t pdg)
+        {
+            TrackID_Collection descendant;
+            for(auto const& [key, value] : sTrackID_PDGCodeMap)
+            {
+                if(value == pdg) {
+                    descendant.emplace_back(sTrackID_DescendantTrackIDMap[key]);
+                }
+            }
+            return descendant;
+        }
+        TrackID_Collection MCData::GetDescendantTrackID_AbsPDGCode(Int_t pdg)
+        {
+            TrackID_Collection descendant;
+            for(auto const& [key, value] : sTrackID_PDGCodeMap)
+            {
+                if(std::abs(value) == std::abs(pdg)) {
+                    descendant.emplace_back(sTrackID_DescendantTrackIDMap[key]);
+                }
+            }
+            return descendant;
+        }
+        TrackID_Collection MCData::GetDescendantTrackID_Process(ProcessType process)
+        {
+            TrackID_Collection descendant;
+            for(auto const& [key, value] : sTrackID_ProcessMap)
+            {
+                if(value == process) {
+                    descendant.emplace_back(sTrackID_DescendantTrackIDMap[key]);
+                }
+            }
+            return descendant;
+        }
+        TrackID_Collection MCData::GetDescendantTrackID_EndProcess(ProcessType process)
+        {
+            TrackID_Collection descendant;
+            for(auto const& [key, value] : sTrackID_EndProcessMap)
+            {
+                if(value == process) {
+                    descendant.emplace_back(sTrackID_DescendantTrackIDMap[key]);
+                }
+            }
+            return descendant;
+        }
+        TrackID_Collection MCData::GetDescendantTrackID_TrackID(TrackID_List trackIDs)
+        {
+            TrackID_Collection descendant;
+            for(auto track_id : trackIDs)
+            {
+                descendant.emplace_back(sTrackID_DescendantTrackIDMap[track_id]);
+            }
+            return descendant;
         }
 
         ProcessType MCData::DetermineEdepProcess(const sim::SimEnergyDeposit& edep)

@@ -48,7 +48,8 @@ namespace arrakis
             mDetectorView0PointCloudTree->Branch("adc",     &mDetectorView0PointCloud.adc);
             mDetectorView0PointCloudTree->Branch("shape_label",     &mDetectorView0PointCloud.shape_label);
             mDetectorView0PointCloudTree->Branch("particle_label",  &mDetectorView0PointCloud.particle_label);
-            mDetectorView0PointCloudTree->Branch("unique_label",  &mDetectorView0PointCloud.unique_label);
+            mDetectorView0PointCloudTree->Branch("unique_shape",    &mDetectorView0PointCloud.unique_shape);
+            mDetectorView0PointCloudTree->Branch("unique_particle", &mDetectorView0PointCloud.unique_particle);
 
             mDetectorView1PointCloudTree = mTFileService->make<TTree>("det_view1_point_cloud", "det_view1_point_cloud");
             mDetectorView1PointCloudTree->Branch("channel", &mDetectorView1PointCloud.channel);
@@ -56,7 +57,8 @@ namespace arrakis
             mDetectorView1PointCloudTree->Branch("adc",     &mDetectorView1PointCloud.adc);
             mDetectorView1PointCloudTree->Branch("shape_label",     &mDetectorView1PointCloud.shape_label);
             mDetectorView1PointCloudTree->Branch("particle_label",  &mDetectorView1PointCloud.particle_label);
-            mDetectorView1PointCloudTree->Branch("unique_label",  &mDetectorView1PointCloud.unique_label);
+            mDetectorView1PointCloudTree->Branch("unique_shape",    &mDetectorView1PointCloud.unique_shape);
+            mDetectorView1PointCloudTree->Branch("unique_particle", &mDetectorView1PointCloud.unique_particle);
 
             mDetectorView2PointCloudTree = mTFileService->make<TTree>("det_view2_point_cloud", "det_view2_point_cloud");
             mDetectorView2PointCloudTree->Branch("channel", &mDetectorView2PointCloud.channel);
@@ -64,7 +66,8 @@ namespace arrakis
             mDetectorView2PointCloudTree->Branch("adc",     &mDetectorView2PointCloud.adc);
             mDetectorView2PointCloudTree->Branch("shape_label",     &mDetectorView2PointCloud.shape_label);
             mDetectorView2PointCloudTree->Branch("particle_label",  &mDetectorView2PointCloud.particle_label);
-            mDetectorView2PointCloudTree->Branch("unique_label",  &mDetectorView2PointCloud.unique_label);
+            mDetectorView2PointCloudTree->Branch("unique_shape",    &mDetectorView2PointCloud.unique_shape);
+            mDetectorView2PointCloudTree->Branch("unique_particle", &mDetectorView2PointCloud.unique_particle);
 
             mDetectorView0VoxelTree = mTFileService->make<TTree>("det_view0_voxel", "det_view0_voxel");
             mDetectorView1VoxelTree = mTFileService->make<TTree>("det_view1_voxel", "det_view1_voxel");
@@ -148,7 +151,8 @@ namespace arrakis
                 mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
                 mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
                 mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
-                mDetectorPointCloud.unique_label.emplace_back(-1);
+                mDetectorPointCloud.unique_shape.emplace_back(-1);
+                mDetectorPointCloud.unique_particle.emplace_back(-1);
             }
             for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
             {
@@ -158,7 +162,8 @@ namespace arrakis
                 mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
                 mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
                 mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
-                mDetectorPointCloud.unique_label.emplace_back(-1);
+                mDetectorPointCloud.unique_shape.emplace_back(-1);
+                mDetectorPointCloud.unique_particle.emplace_back(-1);
             }
         }
 
@@ -181,7 +186,8 @@ namespace arrakis
                     mDetectorView0PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
                     mDetectorView0PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
                     mDetectorView0PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
-                    mDetectorView0PointCloud.unique_label.emplace_back(mDetectorPointCloud.unique_label[ii]);
+                    mDetectorView0PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
+                    mDetectorView0PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
                 }
                 else if(mDetectorPointCloud.view[ii] == 1) 
                 {
@@ -190,7 +196,8 @@ namespace arrakis
                     mDetectorView1PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
                     mDetectorView1PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
                     mDetectorView1PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
-                    mDetectorView1PointCloud.unique_label.emplace_back(mDetectorPointCloud.unique_label[ii]);
+                    mDetectorView1PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
+                    mDetectorView1PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
                 }
                 else
                 {
@@ -199,11 +206,15 @@ namespace arrakis
                     mDetectorView2PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
                     mDetectorView2PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
                     mDetectorView2PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
-                    mDetectorView2PointCloud.unique_label.emplace_back(mDetectorPointCloud.unique_label[ii]);
+                    mDetectorView2PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
+                    mDetectorView2PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
                 }
             }
         }
-        void Melange::SetLabels(DetSimID_List detSimIDList, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(
+            DetSimID_List detSimIDList, 
+            ShapeLabel shape, ParticleLabel particle
+        )
         {
             for(auto detsim : detSimIDList)
             {
@@ -211,13 +222,19 @@ namespace arrakis
                 mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
             }
         }
-        void Melange::SetLabels(DetSimID_Collection detSimIDCollection, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(
+            DetSimID_Collection detSimIDCollection, 
+            ShapeLabel shape, ParticleLabel particle
+        )
         {
             for(auto detsimIDList : detSimIDCollection) {
                 SetLabels(detsimIDList, shape, particle);
             }
         }
-        void Melange::SetLabels(std::vector<DetSimID_Collection> detSimIDCollection, ShapeLabel shape, ParticleLabel particle)
+        void Melange::SetLabels(
+            std::vector<DetSimID_Collection> detSimIDCollection, 
+            ShapeLabel shape, ParticleLabel particle
+        )
         {
             for(auto detsimIDList : detSimIDCollection) {
                 SetLabels(detsimIDList, shape, particle);
@@ -226,30 +243,19 @@ namespace arrakis
         void Melange::ProcessShowers(TrackID_t trackID)
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            std::vector<Int_t> particle_det_sim;
-            if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
-                particle_det_sim = mc_data->GetDetectorSimulationByParticleVolume(trackID, geometry::VolumeType::TPC);
+            auto particle_det_sim = GetDetSimID_TrackID(trackID);
+            if(mc_data->GetAbsPDGCode_TrackID(trackID) == 11) {
+                SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower);
             }
-            else {
-                particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
+            else if(mc_data->GetAbsPDGCode_TrackID(trackID) == 22) {
+                SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower);
             }
-            for(auto detsim : particle_det_sim)
-            {
-                mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::Shower);
-                if(std::abs(mc_data->GetPDGCode_TrackID(trackID)) == 11) {
-                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::ElectronShower);
-                }
-                else if(std::abs(mc_data->GetPDGCode_TrackID(trackID)) == 22) {
-                    mDetectorPointCloud.particle_label[detsim] = LabelCast(ParticleLabel::PhotonShower);
-                }
-            }
+            auto daughters = mc_data->GetDaughterTrackID_TrackID(trackID);
             auto progeny = mc_data->GetProgenyTrackID_TrackID(trackID);
-            for(auto particle : progeny)
-            {
-                if(mc_data->GetPDGCode_TrackID(particle) == 11 || mc_data->GetPDGCode_TrackID(particle) == 22) {
-                    ProcessShowers(particle);
-                }
-            }
+            auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(daughters, 11);
+            auto photon_daughters = mc_data->FilterTrackID_AbsPDGCode(daughters, 22);
+            ProcessShowers(elec_daughters);
+            ProcessShowers(photon_daughters);
         }
         void Melange::ProcessShowers(TrackID_List trackIDList)
         {
@@ -357,38 +363,23 @@ namespace arrakis
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetTrackID_PDGCode(2112);
-            // auto neutron_daughters = mc_data->GetDaughterTrackID_TrackID(neutrons);
-            // auto neutron_progeny = mc_data->GetProgenyTrackID_TrackID(neutrons);
-            // auto gamma_daughters = mc_data->FilterTrackID_AbsPDGCode(neutron_daughters, 22);
-            // auto capture_daughters = mc_data->FilterTrackID_Process(gamma_daughters, ProcessType::NeutronCapture);
-            // auto gamma_progeny = mc_data->FilterTrackID_AbsPDGCode(neutron_daughters, 22);
-            // auto capture_progeny = mc_data->FilterTrackID_Process(gamma_progeny, ProcessType::NeutronCapture);
-
-            std::vector<Int_t> particle_det_sim;
-            for(auto neutron : neutrons)
+            auto neutron_descendants = mc_data->GetDescendantTrackID_TrackID(neutrons);
+            auto gamma_descendants = mc_data->FilterTrackID_AbsPDGCode(neutron_descendants, 22);
+            auto capture_descendants = mc_data->FilterTrackID_Process(gamma_descendants, ProcessType::NeutronCapture);
+            for(auto capture : capture_descendants)
             {
-                auto gammas = mc_data->GetProgenyByPDG(neutron, 22);
-                auto capture_gammas = mc_data->FilterParticlesByProcess(gammas, ProcessType::NeutronCapture);
-                for(auto gamma : capture_gammas)
+                for(auto gamma : capture)
                 {
-                    if(sFilterDetectorSimulation == FilterDetectorSimulation::EdepID) {
-                        particle_det_sim = mc_data->GetDetectorSimulationByParticleAndProgenyVolume(gamma, geometry::VolumeType::TPC);
-                    }
-                    else {
-                        particle_det_sim = mc_data->GetDetectorSimulationByParticleAndProgeny(gamma);
-                    }
-                    ParticleLabel particle_label = ParticleLabel::NeutronCaptureGammaOther;
                     Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 1);
+                    auto gamma_det_sim = mc_data->GetDetSimID_TrackID(gamma);
                     if(gamma_energy == 4.7) {
-                        particle_label = ParticleLabel::NeutronCaptureGamma475;
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma475);
                     }
                     else if(gamma_energy == 1.8) {
-                        particle_label = ParticleLabel::NeutronCaptureGamma181;
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma181);
                     }
-                    for(auto detsim : particle_det_sim) 
-                    {
-                        mDetectorPointCloud.shape_label[detsim] = LabelCast(ShapeLabel::NeutronCapture);
-                        mDetectorPointCloud.particle_label[detsim] = LabelCast(particle_label);
+                    else {
+                        SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGammaOther);
                     }
                 }
             }

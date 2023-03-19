@@ -92,7 +92,8 @@ namespace arrakis
         std::vector<Int_t> view = {};
         std::vector<ShapeLabelInt> shape_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
-        std::vector<Int_t> unique_label = {};
+        std::vector<Int_t> unique_shape = {};
+        std::vector<Int_t> unique_particle = {};
 
         void clear()
         {
@@ -102,7 +103,8 @@ namespace arrakis
             view.clear();
             shape_label.clear();
             particle_label.clear();
-            unique_label.clear();
+            unique_shape.clear();
+            unique_particle.clear();
         }
     };
 }
