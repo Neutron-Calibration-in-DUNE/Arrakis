@@ -386,6 +386,35 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            /** (From Wikipedia: https://en.wikipedia.org/wiki/Pion)
+             * The dominant π0 decay mode, with a branching ratio of BR2γ = 0.98823, 
+             * is into two photons:
+             *      π0 → 2γ.
+             * The decay π0 → 3γ (as well as decays into any odd number of photons) is 
+             * forbidden by the C-symmetry of the electromagnetic interaction: The intrinsic 
+             * C-parity of the π0 is +1, while the C-parity of a system of n photons is (−1)n.
+             * The second largest π0 decay mode ( BRγee = 0.01174 ) is the Dalitz decay 
+             * (named after Richard Dalitz), which is a two-photon decay with an internal 
+             * photon conversion resulting a photon and an electron-positron pair in the final state:
+             *      π0 → γ + e− + e+.
+             * The third largest established decay mode ( BR2e2e = 3.34×10−5 ) is the double-Dalitz 
+             * decay, with both photons undergoing internal conversion which leads to further 
+             * suppression of the rate:
+             *      π0 → e− + e+ + e− +	e+.
+             * The fourth largest established decay mode is the loop-induced and therefore suppressed 
+             * (and additionally helicity-suppressed) leptonic decay mode ( BRee = 6.46×10−8 ):
+             *      π0 → e− + e+.
+             * The neutral pion has also been observed to decay into positronium with a branching 
+             * fraction on the order of 10−9. No other decay modes have been established experimentally. 
+             */
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto pi0s = mc_data->GetTrackID_PDGCode(111);
+            for(auto pi0 : pi0s)
+            {
+                auto pi0_daughters = mc_data->GetDaughterTrackID_TrackID(pi0);
+                auto pi0_det_sim = mc_data->GetAllDetSimID_TrackID(pi0);
+                SetLabels(pi0_det_sim, ShapeLabel::Shower, ParticleLabel::Pion0, IterateShapeLabel(), IterateParticleLabel());
+            }
         }
         void Melange::ProcessPionPlus(
             const Parameters& config, art::Event const& event
