@@ -372,14 +372,14 @@ namespace arrakis
                 for(auto gamma : capture)
                 {
                     std::cout << "   gamma: " << gamma << std::endl;
-                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 1000);
-                    std::cout << "   energy: " << mc_data->GetEnergy_TrackID(gamma) << std::endl;
+                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 10000);
+                    std::cout << "   energy: " << gamma_energy << std::endl;
                     auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
                     std::cout << "   num: " << gamma_det_sim.size() << std::endl;
-                    if(gamma_energy == 0.0047) {
+                    if(gamma_energy == 0.00474) {
                         SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma475);
                     }
-                    else if(gamma_energy == 0.0018) {
+                    else if(gamma_energy == 0.00118) {
                         SetLabels(gamma_det_sim, ShapeLabel::NeutronCapture, ParticleLabel::NeutronCaptureGamma181);
                     }
                     else {
