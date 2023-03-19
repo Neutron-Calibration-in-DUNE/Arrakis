@@ -368,8 +368,10 @@ namespace arrakis
             auto capture_descendants = mc_data->FilterTrackID_Process(gamma_descendants, ProcessType::NeutronCapture);
             for(auto capture : capture_descendants)
             {
+                std::cout << "neutron: " << std::endl;
                 for(auto gamma : capture)
                 {
+                    std::cout << "   gamma: " << gamma << std::endl;
                     Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 1);
                     auto gamma_det_sim = mc_data->GetDetSimID_TrackID(gamma);
                     if(gamma_energy == 4.7) {
