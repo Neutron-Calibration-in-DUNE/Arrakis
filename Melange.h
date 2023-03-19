@@ -97,7 +97,8 @@ namespace arrakis
             void ProcessPion0s(const Parameters& config, art::Event const& event);
             void ProcessPionPlus(const Parameters& config, art::Event const& event);
             void ProcessPionMinus(const Parameters& config, art::Event const& event);
-
+            void ProcessProtons(const Parameters& config, art::Event const& event);
+            
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
 
             void ProcessAr39(const Parameters& config, art::Event const& event);

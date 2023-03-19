@@ -133,6 +133,7 @@ namespace arrakis
             ProcessPion0s(config, event);
             ProcessPionPlus(config, event);
             ProcessPionMinus(config, event);
+            ProcessProtons(config, event);
             ProcessNeutronCaptures(config, event);
             ProcessAr39(config, event);
             ProcessAr42(config, event);
@@ -426,6 +427,27 @@ namespace arrakis
                 SetLabels(piminus_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);
                 SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);            
                 ProcessShowers(piminus_progeny, IterateShapeLabel());
+            }
+        }
+        void Melange::ProcessProtons(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto protons = mc_data->GetTrackID_PDGCode(2212);
+            for(auto proton : protons)
+            {
+                auto proton_daughters = mc_data->GetDaughterTrackID_TrackID(proton);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(proton_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto proton_progeny = mc_data->GetProgenyTrackID_TrackID(proton);
+                auto proton_det_sim = mc_data->GetDetSimID_TrackID(proton);
+                // Set proton detsim labels to Track:PionMinus
+                Int_t track_label = IterateShapeLabel();
+                Int_t proton_label = IterateParticleLabel();
+                SetLabels(proton_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label);
+                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label);            
+                ProcessShowers(proton_progeny, IterateShapeLabel());
             }
         }
         void Melange::ProcessNeutronCaptures(
