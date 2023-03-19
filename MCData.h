@@ -219,27 +219,6 @@ namespace arrakis
             ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
             EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
 
-            // functions for collecting track ids
-            //std::vector<Int_t> GetPrimariesByProcess(ProcessType process_type);
-            
-            TrackID_List GetParticlesByPDG(Int_t pdg);
-            TrackID_List GetDaughtersByPDG(TrackID_t track_id, Int_t pdg);
-            TrackID_List GetProgenyByPDG(TrackID_t track_id, Int_t pdg);
-
-            TrackID_List FilterParticlesByProcess(TrackID_List track_ids, ProcessType process_type);
-
-            EdepID_List GetParticleAndProgenyEdeps(TrackID_t track_id);
-            EdepID_List GetEdepsByParticles(TrackID_List track_ids);
-            EdepID_List FilterEdepsByVolume(EdepID_List edep_ids, geometry::VolumeType volume_type);
-            EdepID_List FilterEdepsByPDG(EdepID_List edep_ids, Int_t pdg);
-            
-            DetSimID_List GetDetectorSimulationByParticles(TrackID_List track_ids);
-            
-            DetSimID_List GetDetectorSimulationByEdeps(EdepID_List edep_ids);
-            DetSimID_List GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type);
-            DetSimID_List GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
-            DetSimID_List GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type);
-
 
             // fill TTree
             void FillTTree();

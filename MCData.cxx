@@ -1086,100 +1086,7 @@ namespace arrakis
             );
             // add mcdata info
             sMCDataTree->Fill();
-        }    
-
-        
-        TrackID_List MCData::GetDaughtersByPDG(TrackID_t track_id, Int_t pdg)
-        {
-            TrackID_List daughters;
-            for(auto daughter : sTrackID_DaughterTrackIDMap[track_id])
-            {
-                if(sTrackID_PDGCodeMap[daughter] == pdg) {
-                    daughters.emplace_back(daughter);
-                }
-            }
-            return daughters;
-        }
-        TrackID_List MCData::GetProgenyByPDG(TrackID_t track_id, Int_t pdg)
-        {
-            TrackID_List progeny;
-            for(auto daughter : sTrackID_ProgenyTrackIDMap[track_id])
-            {
-                if(sTrackID_PDGCodeMap[daughter] == pdg) {
-                    progeny.emplace_back(daughter);
-                }
-            }
-            return progeny;
-        }
-        TrackID_List MCData::FilterParticlesByProcess(TrackID_List track_ids, ProcessType process_type)
-        {
-            TrackID_List particles;
-            for(auto track_id : track_ids)
-            {
-                if(sMCParticleHandle->at(sTrackID_ParticleIDMap[track_id]).Process() == TrajectoryProcessTypeToString[process_type]) {
-                    particles.emplace_back(track_id);
-                }
-            }
-            return particles;
-        }    
-        std::vector<EdepID_t> MCData::GetParticleAndProgenyEdeps(TrackID_t track_id)
-        {
-            std::vector<EdepID_t> edeps = sTrackID_EdepIDMap[track_id];
-            auto track_ids = sTrackID_ProgenyTrackIDMap[track_id];
-            for(auto track_id : track_ids)
-            {
-                auto edep_ids = sTrackID_EdepIDMap[track_id];
-                edeps.insert(edeps.end(), edep_ids.begin(), edep_ids.end());
-            }
-            return edeps;
-        }       
-        std::vector<EdepID_t> MCData::GetEdepsByParticles(TrackID_List track_ids)
-        {
-            std::vector<EdepID_t> edeps;
-            for(auto track_id : track_ids)
-            {
-                auto edep_ids = sTrackID_EdepIDMap[track_id];
-                edeps.insert(edeps.end(), edep_ids.begin(), edep_ids.end());
-            }
-            return edeps;
-        }
-        std::vector<EdepID_t> MCData::FilterEdepsByVolume(std::vector<EdepID_t> edep_ids, geometry::VolumeType volume_type)
-        {
-            std::vector<EdepID_t> edeps;
-            for(auto edep_id : edep_ids)
-            {
-                geometry::DetectorVolume volume = geometry::DetectorGeometry::GetInstance()->GetVolume(
-                    sMCSimEnergyDepositHandle->at(edep_id).MidPointX(),
-                    sMCSimEnergyDepositHandle->at(edep_id).MidPointX(),
-                    sMCSimEnergyDepositHandle->at(edep_id).MidPointX()
-                );
-                if(volume.volume_type == volume_type) {
-                    edeps.emplace_back(edep_id);
-                }
-            }
-            return edeps;
-        }
-        std::vector<EdepID_t> MCData::FilterEdepsByPDG(std::vector<EdepID_t> edep_ids, Int_t pdg)
-        {
-            std::vector<EdepID_t> edeps;
-            for(auto edep_id : edep_ids)
-            {
-                if(sTrackID_PDGCodeMap[sMCSimEnergyDepositHandle->at(edep_id).TrackID()] == pdg) {
-                    edeps.emplace_back(edep_id);
-                }
-            }
-            return edeps;
-        }
-        DetSimID_List MCData::GetDetectorSimulationByParticles(TrackID_List track_ids)
-        {
-            DetSimID_List detsim;
-            for(auto track_id : track_ids)
-            {
-                auto detsim_ids = sTrackID_DetSimIDMap[track_id];
-                detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
-            }
-            return detsim;
-        }
+        }     
         DetSimID_List MCData::GetAllDetSimID_TrackID(TrackID_t track_id)
         {
             DetSimID_List detsim = sTrackID_DetSimIDMap[track_id];
@@ -1190,34 +1097,6 @@ namespace arrakis
                 detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
             }
             return detsim;
-        }
-        DetSimID_List MCData::GetDetectorSimulationByEdeps(std::vector<EdepID_t> edep_ids)
-        {
-            DetSimID_List detsim;
-            for(auto edep_id : edep_ids)
-            {
-                auto detsim_ids = sEdepID_DetSimIDMap[edep_id];
-                detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
-            }
-            return detsim;
-        }
-        DetSimID_List MCData::GetDetectorSimulationByParticleVolume(TrackID_t track_id, geometry::VolumeType volume_type)
-        {
-            auto particle_edeps = sTrackID_EdepIDMap[track_id];
-            auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
-            return GetDetectorSimulationByEdeps(volume_particle_edeps);
-        }
-        DetSimID_List MCData::GetDetectorSimulationByParticleProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
-        {
-            auto particle_edeps = GetEdepsByParticles(sTrackID_ProgenyTrackIDMap[track_id]);
-            auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
-            return GetDetectorSimulationByEdeps(volume_particle_edeps);
-        }
-        DetSimID_List MCData::GetDetectorSimulationByParticleAndProgenyVolume(TrackID_t track_id, geometry::VolumeType volume_type)
-        {
-            auto particle_edeps = GetParticleAndProgenyEdeps(track_id);
-            auto volume_particle_edeps = FilterEdepsByVolume(particle_edeps, volume_type);
-            return GetDetectorSimulationByEdeps(volume_particle_edeps);
         }
     }
 }
