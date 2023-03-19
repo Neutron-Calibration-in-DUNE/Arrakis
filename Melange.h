@@ -64,12 +64,25 @@ namespace arrakis
 
             // methods for processing event data
             void ResetEvent();
-            Int_t IterateClusterLabel();
+            Int_t IterateShapeLabel();
+            Int_t IterateParticleLabel();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
-            void SetLabels(DetSimID_List detsimID, ShapeLabel shape, ParticleLabel particle);
-            void SetLabels(DetSimID_Collection detsimIDs, ShapeLabel shape, ParticleLabel particle);
-            void SetLabels(std::vector<DetSimID_Collection> detsimIDs, ShapeLabel shape, ParticleLabel particle);
+            void SetLabels(
+                DetSimID_List detsimID, 
+                ShapeLabel shape, ParticleLabel particle,
+                Int_t shape_label, Int_t particle_label
+            );
+            void SetLabels(
+                DetSimID_Collection detsimIDs, 
+                ShapeLabel shape, ParticleLabel particle,
+                Int_t shape_label, Int_t particle_label
+            );
+            void SetLabels(
+                std::vector<DetSimID_Collection> detsimIDs, 
+                ShapeLabel shape, ParticleLabel particle,
+                Int_t shape_label, Int_t particle_label
+            );
 
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
             void ProcessShowers(TrackID_t trackID);
@@ -118,7 +131,8 @@ namespace arrakis
             DetectorPointCloud mDetectorView1PointCloud;
             DetectorPointCloud mDetectorView2PointCloud;
 
-            Int_t mClusterLabel;
+            Int_t mShapeLabel;
+            Int_t mParticleLabel;
         };
     }
 }
