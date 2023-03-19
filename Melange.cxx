@@ -373,7 +373,7 @@ namespace arrakis
                 {
                     std::cout << "   gamma: " << gamma << std::endl;
                     Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 1);
-                    std::cout << "   energy: " << gamma_energy << std::endl;
+                    std::cout << "   energy: " << mc_data->GetEnergy_TrackID(gamma) << std::endl;
                     auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
                     std::cout << "   num: " << gamma_det_sim.size() << std::endl;
                     if(gamma_energy == 4.7) {
