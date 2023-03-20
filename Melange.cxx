@@ -374,6 +374,7 @@ namespace arrakis
                 SetLabels(muon_det_sim, ShapeLabel::Track, ParticleLabel::AntiMuon, muon_label, particle_label);
                 // Filter for Michel and Delta Electrons
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(muon_daughters, 11);
                 auto michel_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::Decay);
                 auto delta_daughters = mc_data->FilterTrackID_NotProcess(elec_daughters, ProcessType::Decay);
                 auto michel_det_sim = mc_data->GetDetSimID_TrackID(michel_daughters);
@@ -381,6 +382,7 @@ namespace arrakis
                 SetLabels(michel_det_sim, ShapeLabel::Track, ParticleLabel::MichelElectron, IterateShapeLabel(), IterateParticleLabel());
                 SetLabels(delta_det_sim, ShapeLabel::Track, ParticleLabel::DeltaElectron, IterateShapeLabel(), IterateParticleLabel());
                 // Process progeny as electron and photon showers
+                ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(muon_progeny, IterateShapeLabel());
             }
         }
@@ -428,6 +430,7 @@ namespace arrakis
             {
                 auto piplus_daughters = mc_data->GetDaughterTrackID_TrackID(piplus);
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(piplus_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(piplus_daughters, 11);
                 auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
                 auto piplus_progeny = mc_data->GetProgenyTrackID_TrackID(piplus);
                 auto piplus_det_sim = mc_data->GetDetSimID_TrackID(piplus);
@@ -435,7 +438,8 @@ namespace arrakis
                 Int_t track_label = IterateShapeLabel();
                 Int_t piplus_label = IterateParticleLabel();
                 SetLabels(piplus_det_sim, ShapeLabel::Track, ParticleLabel::PionPlus, track_label, piplus_label);
-                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionPlus, track_label, piplus_label);            
+                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionPlus, track_label, piplus_label);   
+                ProcessShowers(other_daughters, IterateShapeLabel());        
                 ProcessShowers(piplus_progeny, IterateShapeLabel());
             }
         }
@@ -449,6 +453,7 @@ namespace arrakis
             {
                 auto piminus_daughters = mc_data->GetDaughterTrackID_TrackID(piminus);
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(piminus_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(piminus_daughters, 11);
                 auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
                 auto piminus_progeny = mc_data->GetProgenyTrackID_TrackID(piminus);
                 auto piminus_det_sim = mc_data->GetDetSimID_TrackID(piminus);
@@ -456,7 +461,8 @@ namespace arrakis
                 Int_t track_label = IterateShapeLabel();
                 Int_t piminus_label = IterateParticleLabel();
                 SetLabels(piminus_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);
-                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);            
+                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);  
+                ProcessShowers(other_daughters, IterateShapeLabel());          
                 ProcessShowers(piminus_progeny, IterateShapeLabel());
             }
         }
@@ -470,6 +476,7 @@ namespace arrakis
             {
                 auto proton_daughters = mc_data->GetDaughterTrackID_TrackID(proton);
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(proton_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(proton_daughters, 11);
                 auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
                 auto proton_progeny = mc_data->GetProgenyTrackID_TrackID(proton);
                 auto proton_det_sim = mc_data->GetDetSimID_TrackID(proton);
@@ -477,7 +484,8 @@ namespace arrakis
                 Int_t track_label = IterateShapeLabel();
                 Int_t proton_label = IterateParticleLabel();
                 SetLabels(proton_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label);
-                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label);            
+                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label); 
+                ProcessShowers(other_daughters, IterateShapeLabel());           
                 ProcessShowers(proton_progeny, IterateShapeLabel());
             }
         }
