@@ -345,6 +345,7 @@ namespace arrakis
                 SetLabels(muon_det_sim, ShapeLabel::Track, ParticleLabel::Muon, muon_label, particle_label);
                 // Filter for Michel and Delta Electrons
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(muon_daughters, 11);
                 auto michel_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::Decay);
                 auto delta_daughters = mc_data->FilterTrackID_NotProcess(elec_daughters, ProcessType::Decay);
                 auto michel_det_sim = mc_data->GetDetSimID_TrackID(michel_daughters);
@@ -352,6 +353,7 @@ namespace arrakis
                 SetLabels(michel_det_sim, ShapeLabel::Track, ParticleLabel::MichelElectron, IterateShapeLabel(), IterateParticleLabel());
                 SetLabels(delta_det_sim, ShapeLabel::Track, ParticleLabel::DeltaElectron, IterateShapeLabel(), IterateParticleLabel());
                 // Process progeny as electron and photon showers
+                ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(muon_progeny, IterateShapeLabel());
             }
         }

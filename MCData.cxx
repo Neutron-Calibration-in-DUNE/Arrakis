@@ -787,6 +787,17 @@ namespace arrakis
             }
             return particles;
         }
+        TrackID_List MCData::FilterTrackID_NotAbsPDGCode(TrackID_List& trackIDList, Int_t pdg)
+        {
+            TrackID_List particles;
+            for(auto track_id : trackIDList)
+            {
+                if(std::abs(sTrackID_PDGCodeMap[track_id]) != std::abs(pdg)) {
+                    particles.emplace_back(track_id);
+                }
+            }
+            return particles;
+        }
         TrackID_List MCData::FilterTrackID_Process(TrackID_List& trackIDList, ProcessType process)
         {
             TrackID_List particles;
@@ -815,6 +826,15 @@ namespace arrakis
             for(auto track_ids : trackIDCollection)
             {
                 particles.emplace_back(FilterTrackID_AbsPDGCode(track_ids, pdg));
+            }
+            return particles;
+        }
+        TrackID_Collection MCData::FilterTrackID_NotAbsPDGCode(TrackID_Collection& trackIDCollection, Int_t pdg)
+        {
+            TrackID_Collection particles;
+            for(auto track_ids : trackIDCollection)
+            {
+                particles.emplace_back(FilterTrackID_NotAbsPDGCode(track_ids, pdg));
             }
             return particles;
         }

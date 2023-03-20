@@ -165,10 +165,12 @@ namespace arrakis
             TrackID_Collection GetDaughterTrackID_EndProcess(ProcessType process);
             TrackID_Collection GetDaughterTrackID_TrackID(TrackID_List trackIDs);
 
+            TrackID_List FilterTrackID_NotAbsPDGCode(TrackID_List& trackIDs, Int_t pdg);
             TrackID_List FilterTrackID_AbsPDGCode(TrackID_List& trackIDs, Int_t pdg);
             TrackID_List FilterTrackID_Process(TrackID_List& trackIDs, ProcessType process);
             TrackID_List FilterTrackID_NotProcess(TrackID_List& trackIDs, ProcessType process);
 
+            TrackID_Colleciton FilterTrackID_NotAbsPDGCode(TrackID_Collection& trackIDs, Int_t pdg);
             TrackID_Collection FilterTrackID_AbsPDGCode(TrackID_Collection& trackIDs, Int_t pdg);
             TrackID_Collection FilterTrackID_Process(TrackID_Collection& trackIDs, ProcessType process);
             TrackID_Collection FilterTrackID_NotProcess(TrackID_Collection& trackIDs, ProcessType process);
