@@ -88,12 +88,11 @@ namespace arrakis
 
             Double_t largest_energy()
             {
-                Int_t index = 0;
                 Double_t energy = 0;
                 for(size_t ii = 0; ii < energies.size(); ii++)
                 {
                     if(energies[ii] > energy) {
-                        index = ii; energy = energies[ii];
+                        energy = energies[ii];
                     }
                 }
                 return energy;
@@ -108,7 +107,7 @@ namespace arrakis
                         index = ii; energy = energies[ii];
                     }
                 }
-                return track_ids[index]
+                return track_ids[index];
             }
             Double_t largest_energy_x()
             {
