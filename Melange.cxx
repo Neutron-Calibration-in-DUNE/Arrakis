@@ -504,6 +504,7 @@ namespace arrakis
             auto gamma_daughters = mc_data->FilterTrackID_AbsPDGCode(neutron_daughters, 22);
             auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(neutron_daughters, 22);
             auto capture_daughters = mc_data->FilterTrackID_Process(gamma_daughters, ProcessType::NeutronCapture);
+            auto other_gammas = mc_data->FilterTrackID_NotProcess(gamma_daughters, ProcessType::NeutronCapture);
             for(auto capture : capture_daughters)
             {
                 Int_t neutron_label = IterateShapeLabel();
@@ -542,6 +543,7 @@ namespace arrakis
                 }
             }
             ProcessShowers(other_daughters, IterateShapeLabel());
+            ProcessShowers(other_gammas, IterateShapeLabel());
         }
         void Melange::ProcessAr39(
             const Parameters& config, art::Event const& event
