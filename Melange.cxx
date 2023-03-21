@@ -610,7 +610,7 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
             auto ar40_daughters = mc_data->GetDaughterTrackID_TrackID(ar40);
-            for(ar : ar40)
+            for(auto ar : ar40)
             {
                 auto ar40_det_sim = mc_data->GetDetSimID_TrackID(ar);
                 SetLabels(
