@@ -189,11 +189,11 @@ namespace arrakis
                 {
                     std::cout << "Undefined point: " << ii << " - trackid: ";
                     std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
-                    std::cout << mc_data->GetPDGCode_TrackID[mDetectorPointCloud.track_id[ii]] << " - parent: ";
-                    std::cout << mc_data->GetParentTrackID_TrackID[mDetectorPointCloud.track_id[ii]] << " - parent pdg: ";
-                    std::cout << mc_data->GetParentPDGCode_TrackID[mDetectorPointCloud.track_id[ii]] << " - ancestor: ";
-                    std::cout << mc_data->GetAncestorTrackID_TrackID[mDetectorPointCloud.track_id[ii]] << " - ancestor pdg: ";
-                    std::cout << mc_data->GetAncestorPDGCode_TrackID[mDetectorPointCloud.track_id[ii]] << std::endl;
+                    std::cout << mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - parent: ";
+                    std::cout << mc_data->GetParentTrackID_TrackID(mDetectorPointCloud.track_id[ii]) << " - parent pdg: ";
+                    std::cout << mc_data->GetParentPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - ancestor: ";
+                    std::cout << mc_data->GetAncestorTrackID_TrackID(mDetectorPointCloud.track_id[ii]) << " - ancestor pdg: ";
+                    std::cout << mc_data->GetAncestorPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << std::endl;
                 }
             }
         }
