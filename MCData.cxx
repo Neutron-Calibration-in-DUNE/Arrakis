@@ -426,9 +426,7 @@ namespace arrakis
             for(auto primary : sPrimaries)
             {
                 auto particle = (*sMCParticleHandle)[sTrackID_ParticleIDMap[primary]];
-                Double_t init_x = particle.Vx();
-                Double_t init_y = particle.Vy();
-                Double_t init_z = particle.Vz();
+                auto position = particle.Position();
                 Int_t pdg_code = particle.PdgCode();
                 bool found = false;
                 for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
@@ -438,9 +436,7 @@ namespace arrakis
                         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
                         {
                             if(
-                                truth.GetParticle(ii).Vx() == init_x &&
-                                truth.GetParticle(ii).Vy() == init_y &&
-                                truth.GetParticle(ii).Vz() == init_z &&
+                                truth.GetParticle(ii).Position() == position &&
                                 truth.GetParticle(ii).PdgCode() == pdg_code
                             )
                             {
