@@ -398,27 +398,30 @@ namespace arrakis
                 sTrackID_EdepProcessMap[particle.TrackId()] = {};
                 sTrackID_DetSimIDMap[particle.TrackId()] = {};
             }
-            for(auto truth : *sMCTruthHandles[jj])
+            for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
             {
-                /**
-                 * MCTruth stores MCParticles starting with trackID = 0,
-                 * rather than Geant4 which starts with trackID = 1.
-                */
-                if(truth.NParticles() == 0)
+                for(auto truth : *sMCTruthHandles[jj])
                 {
+                    /**
+                     * MCTruth stores MCParticles starting with trackID = 0,
+                     * rather than Geant4 which starts with trackID = 1.
+                    */
+                    if(truth.NParticles() == 0)
+                    {
+                        Logger::GetInstance("mcdata")->trace(
+                            "MCTruth for " + sMCTruthHandleLabels[jj] + 
+                            " contains no simulated particles."
+                        );
+                        continue;
+                    }
                     Logger::GetInstance("mcdata")->trace(
-                        "MCTruth for " + sMCTruthHandleLabels[jj] + 
-                        " contains no simulated particles."
+                        "adding labels of type " + 
+                        sMCTruthHandleLabels[jj] + 
+                        " for " + std::to_string(truth.NParticles()) + 
+                        " particles starting with track ID = " + 
+                        std::to_string(truth.GetParticle(0).TrackId()+1)
                     );
-                    continue;
                 }
-                Logger::GetInstance("mcdata")->trace(
-                    "adding labels of type " + 
-                    sMCTruthHandleLabels[jj] + 
-                    " for " + std::to_string(truth.NParticles()) + 
-                    " particles starting with track ID = " + 
-                    std::to_string(truth.GetParticle(0).TrackId()+1)
-                );
             }
             for(auto primary : sPrimaries)
             {
