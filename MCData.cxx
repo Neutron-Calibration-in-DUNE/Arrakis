@@ -430,6 +430,7 @@ namespace arrakis
                 Double_t init_y = particle.Vy();
                 Double_t init_z = particle.Vz();
                 Int_t pdg_code = particle.PdgCode();
+                std::cout << "pdg: " << pdg_code << std::endl;
                 for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
                 {
                     for(auto truth : *sMCTruthHandles[jj])
@@ -446,6 +447,7 @@ namespace arrakis
                                 )
                                 {
                                     sTrackID_GeneratorLabelMap[primary] = sGeneratorMap[sMCTruthHandleLabels[jj]];
+                                    std::cout << "success" << std::endl;
                                     break;
                                 }
                             }

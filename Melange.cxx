@@ -606,7 +606,6 @@ namespace arrakis
             auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
             for(auto cosmic : cosmics)
             {
-                mc_data->PrintParticleData(cosmic);
             }
         }
     }
