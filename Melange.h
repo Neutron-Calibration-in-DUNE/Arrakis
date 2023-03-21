@@ -102,6 +102,7 @@ namespace arrakis
             
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
             void ProcessNuclearRecoils(const Parameters& config, art::Event const& event);
+            void ProcessElectronRecoils(const Parameters& config, art::Event const& event);
 
             void ProcessAr39(const Parameters& config, art::Event const& event);
             void ProcessAr42(const Parameters& config, art::Event const& event);

@@ -137,6 +137,7 @@ namespace arrakis
             ProcessProtons(config, event);
             ProcessNeutronCaptures(config, event);
             ProcessNuclearRecoils(config, event);
+            ProcessElectronRecoils(config, event);
             ProcessAr39(config, event);
             ProcessAr42(config, event);
             ProcessKr85(config, event);
@@ -621,6 +622,41 @@ namespace arrakis
             }
             ProcessShowers(ar40_daughters);
         }
+        void Melange::ProcessElectronRecoils(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            /**
+             * Electron recoils can come from many things, such as
+             * edeps created by deuterons/tritons coming out of 
+             * neutron inelastic scatters.
+             */
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto deuterons = mc_data->GetTrackID_PDGCode(1000010020);
+            auto tritons = mc_data->GetTrackID_PDGCode(1000010030);
+            auto deuteron_daughters = mc_data->GetDaughterTrackID_TrackID(deuterons);
+            auto triton_daughters = mc_data->GetDaughterTrackID_TrackID(tritons);
+            for(auto deuteron : deuterons)
+            {
+                auto deuteron_det_sim = mc_data->GetDetSimID_TrackID(deuteron);
+                SetLabels(
+                    deuteron_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+            }
+            for(auto triton : tritons)
+            {
+                auto triton_det_sim = mc_data->GetDetSimID_TrackID(triton);
+                SetLabels(
+                    triton_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+            }
+            ProcessShowers(deuteron_daughters);
+            ProcessShowers(triton_daughters);
+        }
         void Melange::ProcessAr39(
             const Parameters& config, art::Event const& event
         )
@@ -632,7 +668,9 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
             auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar39);
+            auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
             SetLabels(ar39_det_sim, ShapeLabel::Blip, ParticleLabel::Ar39, IterateShapeLabel(), IterateParticleLabel());
+            ProcessShowers(ar39_daughters);
         }
         void Melange::ProcessAr42(
             const Parameters& config, art::Event const& event
@@ -645,7 +683,9 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
             auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar42);
+            auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42);
             SetLabels(ar42_det_sim, ShapeLabel::Blip, ParticleLabel::Ar42, IterateShapeLabel(), IterateParticleLabel());
+            ProcessShowers(ar42_daughters);
         }
         void Melange::ProcessKr85(
             const Parameters& config, art::Event const& event
@@ -659,7 +699,9 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
             auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr85);
+            auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr85);
             SetLabels(kr85_det_sim, ShapeLabel::Blip, ParticleLabel::Kr85, IterateShapeLabel(), IterateParticleLabel());
+            ProcessShowers(kr85_daughters);
         }
         void Melange::ProcessRn222(
             const Parameters& config, art::Event const& event
@@ -676,7 +718,9 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
             auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
+            auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
             SetLabels(rn222_det_sim, ShapeLabel::Blip, ParticleLabel::Rn222, IterateShapeLabel(), IterateParticleLabel());
+            ProcessShowers(rn222_daughters);
         }
         void Melange::ProcessCosmics(
             const Parameters& config, art::Event const& event

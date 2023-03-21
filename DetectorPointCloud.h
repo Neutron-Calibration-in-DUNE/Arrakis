@@ -85,6 +85,7 @@ namespace arrakis
         Kr85 = 25,
         Rn222 = 26,
         NuclearRecoil = 27,
+        ElectronRecoil = 28,
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
