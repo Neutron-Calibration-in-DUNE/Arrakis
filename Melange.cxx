@@ -189,7 +189,7 @@ namespace arrakis
                 {
                     std::cout << "Undefined point: " << ii << " - trackid: ";
                     std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
-                    std::cout << mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << << " - process: ";
+                    std::cout << mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - process: ";
                     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])) << " - parent: ";
                     std::cout << mc_data->GetParentTrackID_TrackID(mDetectorPointCloud.track_id[ii]) << " - parent pdg: ";
                     std::cout << mc_data->GetParentPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - ancestor: ";
