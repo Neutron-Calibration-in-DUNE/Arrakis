@@ -398,47 +398,51 @@ namespace arrakis
                 sTrackID_EdepProcessMap[particle.TrackId()] = {};
                 sTrackID_DetSimIDMap[particle.TrackId()] = {};
             }
-            for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
+            for(auto truth : *sMCTruthHandles[jj])
             {
-                for(auto truth : *sMCTruthHandles[jj])
+                /**
+                 * MCTruth stores MCParticles starting with trackID = 0,
+                 * rather than Geant4 which starts with trackID = 1.
+                */
+                if(truth.NParticles() == 0)
                 {
-                    /**
-                     * MCTruth stores MCParticles starting with trackID = 0,
-                     * rather than Geant4 which starts with trackID = 1.
-                    */
-                    if(truth.NParticles() == 0)
-                    {
-                        Logger::GetInstance("mcdata")->trace(
-                            "MCTruth for " + sMCTruthHandleLabels[jj] + 
-                            " contains no simulated particles."
-                        );
-                        continue;
-                    }
                     Logger::GetInstance("mcdata")->trace(
-                        "adding labels of type " + 
-                        sMCTruthHandleLabels[jj] + 
-                        " for " + std::to_string(truth.NParticles()) + 
-                        " particles starting with track ID = " + 
-                        std::to_string(truth.GetParticle(0).TrackId()+1)
+                        "MCTruth for " + sMCTruthHandleLabels[jj] + 
+                        " contains no simulated particles."
                     );
-                    for(Int_t ii = 0; ii < truth.NParticles(); ii++)
+                    continue;
+                }
+                Logger::GetInstance("mcdata")->trace(
+                    "adding labels of type " + 
+                    sMCTruthHandleLabels[jj] + 
+                    " for " + std::to_string(truth.NParticles()) + 
+                    " particles starting with track ID = " + 
+                    std::to_string(truth.GetParticle(0).TrackId()+1)
+                );
+            }
+            for(auto primary : sPrimaries)
+            {
+                auto particle = (*sMCParticleHandle)[sTrackID_ParticleIDMap[primary]];
+                Double_t init_x = particle.Vx();
+                Double_t init_y = particle.Vy();
+                Double_t init_z = particle.Vz();
+                Int_t pdg_code = particle.PdgCode();
+                for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
+                {
+                    for(auto truth : *sMCTruthHandles[jj])
                     {
-                        if(truth.GetParticle(ii).Process() == "primary")
+                        for(Int_t ii = 0; ii < truth.NParticles(); ii++)
                         {
-                            Double_t init_x = truth.GetParticle(ii).Vx();
-                            Double_t init_y = truth.GetParticle(ii).Vy();
-                            Double_t init_z = truth.GetParticle(ii).Vz();
-                            Int_t pdg_code = truth.GetParticle(ii).PdgCode();
-                            for(auto particle : *sMCParticleHandle)
+                            if(truth.GetParticle(ii).Process() == "primary")
                             {
                                 if(
-                                    particle.Vx() == init_x &&
-                                    particle.Vy() == init_y &&
-                                    particle.Vz() == init_z &&
-                                    particle.PdgCode() == pdg_code
+                                    truth.GetParticle(ii).Vx() == init_x &&
+                                    truth.GetParticle(ii).Vy() == init_y &&
+                                    truth.GetParticle(ii).Vz() == init_z &&
+                                    truth.GetParticle(ii).PdgCode() == pdg_code
                                 )
                                 {
-                                    sTrackID_GeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[jj]];
+                                    sTrackID_GeneratorLabelMap[primary] = sGeneratorMap[sMCTruthHandleLabels[jj]];
                                     break;
                                 }
                             }
@@ -446,6 +450,55 @@ namespace arrakis
                     }
                 }
             }
+            // for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
+            // {
+            //     for(auto truth : *sMCTruthHandles[jj])
+            //     {
+            //         /**
+            //          * MCTruth stores MCParticles starting with trackID = 0,
+            //          * rather than Geant4 which starts with trackID = 1.
+            //         */
+            //         if(truth.NParticles() == 0)
+            //         {
+            //             Logger::GetInstance("mcdata")->trace(
+            //                 "MCTruth for " + sMCTruthHandleLabels[jj] + 
+            //                 " contains no simulated particles."
+            //             );
+            //             continue;
+            //         }
+            //         Logger::GetInstance("mcdata")->trace(
+            //             "adding labels of type " + 
+            //             sMCTruthHandleLabels[jj] + 
+            //             " for " + std::to_string(truth.NParticles()) + 
+            //             " particles starting with track ID = " + 
+            //             std::to_string(truth.GetParticle(0).TrackId()+1)
+            //         );
+            //         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
+            //         {
+            //             if(truth.GetParticle(ii).Process() == "primary")
+            //             {
+            //                 Double_t init_x = truth.GetParticle(ii).Vx();
+            //                 Double_t init_y = truth.GetParticle(ii).Vy();
+            //                 Double_t init_z = truth.GetParticle(ii).Vz();
+            //                 Int_t pdg_code = truth.GetParticle(ii).PdgCode();
+            //                 for(auto primary : sPrimaries)
+            //                 {
+            //                     auto particle = (*sMCParticleHandle)[sTrackID_ParticleIDMap[primary]];
+            //                     if(
+            //                         particle.Vx() == init_x &&
+            //                         particle.Vy() == init_y &&
+            //                         particle.Vz() == init_z &&
+            //                         particle.PdgCode() == pdg_code
+            //                     )
+            //                     {
+            //                         sTrackID_GeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[jj]];
+            //                         break;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
         }
         void MCData::ProcessSimEnergyDeposits(art::Event const& event, 
             art::InputTag producer_label, art::InputTag instance_label
