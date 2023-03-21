@@ -377,8 +377,8 @@ namespace arrakis
                 auto delta_elec_daughters = mc_data->GetDaughterTrackID_TrackID(delta_daughters);
                 auto michel_elec_daughters = mc_data->GetDaughterTrackID_TrackID(michel_daughters);
                 // Process progeny as electron and photon showers
-                ProcessShowers(delta_elec_daughters, IterateShapeLabel());
-                ProcessShowers(michel_elec_daughters, IterateShapeLabel());
+                ProcessShowers(delta_elec_daughters);
+                ProcessShowers(michel_elec_daughters);
                 ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(muon_progeny, IterateShapeLabel());
             }
