@@ -449,7 +449,11 @@ namespace arrakis
                 }
                 if(!found)
                 {
-                    std::cout << "couldn't find mc truth for primary: " << primary << ", " << pdg_code << std::endl; 
+                    Logger::GetInstance("mcdata")->warning(
+                        "couldn't find mc truth for primary with TrackID = " +
+                        std::to_string(primary) + " and PDGCode = " +
+                        std::to_string(pdg_code)
+                    ); 
                 }
             }
             // for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)

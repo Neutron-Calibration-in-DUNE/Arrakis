@@ -92,6 +92,7 @@ namespace arrakis
 
             void ProcessElectrons(const Parameters& config, art::Event const& event);
             void ProcessPositrons(const Parameters& config, art::Event const& event);
+            void ProcessGammas(const Parameters& config, art::Event const& event);
             void ProcessMuons(const Parameters& config, art::Event const& event);
             void ProcessAntiMuons(const Parameters& config, art::Event const& event);
             void ProcessPion0s(const Parameters& config, art::Event const& event);
@@ -100,6 +101,7 @@ namespace arrakis
             void ProcessProtons(const Parameters& config, art::Event const& event);
             
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
+            void ProcessNuclearRecoils(const Parameters& config, art::Event const& event);
 
             void ProcessAr39(const Parameters& config, art::Event const& event);
             void ProcessAr42(const Parameters& config, art::Event const& event);

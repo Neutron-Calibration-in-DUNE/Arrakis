@@ -128,6 +128,7 @@ namespace arrakis
             PrepareInitialPointClouds(config, event);
             ProcessElectrons(config, event);
             ProcessPositrons(config, event);
+            ProcessGammas(config, event);
             ProcessMuons(config, event);
             ProcessAntiMuons(config, event);
             ProcessPion0s(config, event);
@@ -135,6 +136,7 @@ namespace arrakis
             ProcessPionMinus(config, event);
             ProcessProtons(config, event);
             ProcessNeutronCaptures(config, event);
+            ProcessNuclearRecoils(config, event);
             ProcessAr39(config, event);
             ProcessAr42(config, event);
             ProcessKr85(config, event);
@@ -349,6 +351,27 @@ namespace arrakis
                 ProcessShowers(positron_progeny, shower_label);
             }
         }
+        void Melange::ProcessGammas(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto gammas = mc_data->GetPrimaries_AbsPDGCode(22);
+            for(gamma : gammas)
+            {
+                auto gamma_daughters = mc_data->GetDaughterTrackID_TrackID(gamma);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(gamma_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto gamma_progeny = mc_data->GetProgenyTrackID_TrackID(gamma);
+                auto gamma_det_sim = mc_data->GetDetSimID_TrackID(gamma);
+                // Set gamma detsim labels to Shower::PhotonShower
+                Int_t shower_label = IterateShapeLabel();
+                Int_t gamma_label = IterateParticleLabel();
+                SetLabels(gamma_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shower_label, gamma_label);
+                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shower_label, gamma_label);            
+                ProcessShowers(gamma_progeny, shower_label);
+            }
+        }
         void Melange::ProcessMuons(
             const Parameters& config, art::Event const& event
         )
@@ -407,7 +430,12 @@ namespace arrakis
                 auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
                 SetLabels(michel_det_sim, ShapeLabel::Track, ParticleLabel::MichelElectron, IterateShapeLabel(), IterateParticleLabel());
                 SetLabels(delta_det_sim, ShapeLabel::Track, ParticleLabel::DeltaElectron, IterateShapeLabel(), IterateParticleLabel());
+                
+                auto delta_elec_daughters = mc_data->GetDaughterTrackID_TrackID(delta_daughters);
+                auto michel_elec_daughters = mc_data->GetDaughterTrackID_TrackID(michel_daughters);
                 // Process progeny as electron and photon showers
+                ProcessShowers(delta_elec_daughters);
+                ProcessShowers(michel_elec_daughters);
                 ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(muon_progeny, IterateShapeLabel());
             }
@@ -570,6 +598,28 @@ namespace arrakis
             }
             ProcessShowers(other_daughters);
             ProcessShowers(other_gammas);
+        }
+        void Melange::ProcessNuclearRecoils(
+            const Parameters& config, art::Event const& event
+        )
+        {
+            /**
+             * Nuclear recoils can come from many things, but are essentially
+             * edeps created by Ar40 particles (with PDGCode 1000180400).
+             */
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
+            auto ar40_daughters = mc_data->GetDaughterTrackID_TrackID(ar40);
+            for(ar : ar40)
+            {
+                auto ar40_det_sim = mc_data->GetDetSimID_TrackID(ar);
+                SetLabels(
+                    ar40_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+            }
+            ProcessShowers(ar40_daughters);
         }
         void Melange::ProcessAr39(
             const Parameters& config, art::Event const& event
