@@ -602,11 +602,11 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            auto mc_data = mcdata::MCData::GetInstance();
-            auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
-            for(auto cosmic : cosmics)
-            {
-            }
+            // auto mc_data = mcdata::MCData::GetInstance();
+            // auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
+            // for(auto cosmic : cosmics)
+            // {
+            // }
         }
     }
 }
