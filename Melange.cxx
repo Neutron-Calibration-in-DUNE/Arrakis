@@ -542,8 +542,8 @@ namespace arrakis
                     );
                 }
             }
-            ProcessShowers(other_daughters, IterateShapeLabel());
-            ProcessShowers(other_gammas, IterateShapeLabel());
+            ProcessShowers(other_daughters);
+            ProcessShowers(other_gammas);
         }
         void Melange::ProcessAr39(
             const Parameters& config, art::Event const& event
