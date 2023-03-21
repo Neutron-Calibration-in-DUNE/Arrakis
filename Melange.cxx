@@ -197,10 +197,7 @@ namespace arrakis
                         std::cout << "\tancestor: " << ancestor << " - pdg: ";
                         std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
                         std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
-                        std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << " - parent pdg: ";
-                        std::cout << mc_data->GetParentPDGCode_TrackID(ancestor) << " - ancestor: ";
-                        std::cout << mc_data->GetAncestorTrackID_TrackID(ancestor) << " - ancestor pdg: ";
-                        std::cout << mc_data->GetAncestorPDGCode_TrackID(ancestor) << std::endl;
+                        std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
                     }
                 }
             }
