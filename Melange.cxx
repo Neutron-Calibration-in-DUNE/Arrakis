@@ -320,6 +320,7 @@ namespace arrakis
             {
                 auto electron_daughters = mc_data->GetDaughterTrackID_TrackID(electron);
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(electron_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(electron_daughters, 11);
                 auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
                 auto electron_progeny = mc_data->GetProgenyTrackID_TrackID(electron);
                 auto electron_det_sim = mc_data->GetDetSimID_TrackID(electron);
@@ -329,6 +330,7 @@ namespace arrakis
                 SetLabels(electron_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
                 SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);            
                 ProcessShowers(electron_progeny, shower_label);
+                ProcessShowers(other_daughters, IterateShapeLabel());
             }
         }
         void Melange::ProcessPositrons(
@@ -341,6 +343,7 @@ namespace arrakis
             {
                 auto positron_daughters = mc_data->GetDaughterTrackID_TrackID(positron);
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(positron_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(positron_daughters, 11);
                 auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
                 auto positron_progeny = mc_data->GetProgenyTrackID_TrackID(positron);
                 auto positron_det_sim = mc_data->GetDetSimID_TrackID(positron);
@@ -350,6 +353,7 @@ namespace arrakis
                 SetLabels(positron_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
                 SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);            
                 ProcessShowers(positron_progeny, shower_label);
+                ProcessShowers(other_daughters, IterateShapeLabel());
             }
         }
         void Melange::ProcessGammas(
@@ -606,11 +610,18 @@ namespace arrakis
         {
             /**
              * Nuclear recoils can come from many things, but are essentially
-             * edeps created by Ar40 particles (with PDGCode 1000180400).
+             * edeps created by Ar40, Ar39 and Ar36 particles (with PDGCodes 
+             * 1000180400, 1000180390 and 1000180360).
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
+            auto ar39 = mc_data->GetTrackID_PDGCode(1000180390);
+            auto ar38 = mc_data->GetTrackID_PDGCode(1000180380);
+            auto ar36 = mc_data->GetTrackID_PDGCode(1000180360);
             auto ar40_daughters = mc_data->GetDaughterTrackID_TrackID(ar40);
+            auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
+            auto ar38_daughters = mc_data->GetDaughterTrackID_TrackID(ar38);
+            auto ar36_daughters = mc_data->GetDaughterTrackID_TrackID(ar36);
             for(auto ar : ar40)
             {
                 auto ar40_det_sim = mc_data->GetDetSimID_TrackID(ar);
@@ -620,7 +631,37 @@ namespace arrakis
                     IterateShapeLabel(), IterateParticleLabel()
                 );
             }
+            for(auto ar : ar39)
+            {
+                auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar);
+                SetLabels(
+                    ar39_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+            }
+            for(auto ar : ar38)
+            {
+                auto ar38_det_sim = mc_data->GetDetSimID_TrackID(ar);
+                SetLabels(
+                    ar38_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+            }
+            for(auto ar : ar36)
+            {
+                auto ar36_det_sim = mc_data->GetDetSimID_TrackID(ar);
+                SetLabels(
+                    ar36_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+            }
             ProcessShowers(ar40_daughters);
+            ProcessShowers(ar39_daughters);
+            ProcessShowers(ar38_daughters);
+            ProcessShowers(ar36_daughters);
         }
         void Melange::ProcessElectronRecoils(
             const Parameters& config, art::Event const& event
