@@ -191,7 +191,7 @@ namespace arrakis
                     std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
                     std::cout << mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - process: ";
                     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])) << "\n";
-                    auto ancestry = mc_data->GetAncestry_TrackID(mDetectorPointCloud.track_id[ii]);
+                    auto ancestry = mc_data->GetAncestryTrackID_TrackID(mDetectorPointCloud.track_id[ii]);
                     for(auto ancestor : ancestry)
                     {
                         std::cout << "\tancestor: " << ancestor << " - pdg: ";
