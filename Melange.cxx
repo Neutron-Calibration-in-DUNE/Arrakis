@@ -185,7 +185,7 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
             {
-                if(mDetectorPointCloud.particle_label[ii] = LabelCast(ParticleLabel::Undefined))
+                if(mDetectorPointCloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
                 {
                     std::cout << "Undefined point: " << ii << " - trackid: ";
                     std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
