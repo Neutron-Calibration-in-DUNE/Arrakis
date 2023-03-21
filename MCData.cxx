@@ -453,7 +453,7 @@ namespace arrakis
                 }
                 if(!found)
                 {
-                    std::cout << "couldn't find mc truth for primary: " << primary << ", " << pdg_code << ", " init_x << "," << init_y << "," << init_z << std::endl; 
+                    std::cout << "couldn't find mc truth for primary: " << primary << ", " << pdg_code << ", " << init_x << "," << init_y << "," << init_z << std::endl; 
                 }
             }
             // for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
