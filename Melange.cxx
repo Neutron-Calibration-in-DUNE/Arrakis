@@ -190,11 +190,18 @@ namespace arrakis
                     std::cout << "Undefined point: " << ii << " - trackid: ";
                     std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
                     std::cout << mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - process: ";
-                    std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])) << " - parent: ";
-                    std::cout << mc_data->GetParentTrackID_TrackID(mDetectorPointCloud.track_id[ii]) << " - parent pdg: ";
-                    std::cout << mc_data->GetParentPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - ancestor: ";
-                    std::cout << mc_data->GetAncestorTrackID_TrackID(mDetectorPointCloud.track_id[ii]) << " - ancestor pdg: ";
-                    std::cout << mc_data->GetAncestorPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << std::endl;
+                    std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])) << "\n";
+                    auto ancestry = mc_data->GetAncestry_TrackID(mDetectorPointCloud.track_id[ii]);
+                    for(auto ancestor : ancestry)
+                    {
+                        std::cout << "\tancestor: " << ancestor << " - pdg: ";
+                        std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
+                        std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
+                        std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << " - parent pdg: ";
+                        std::cout << mc_data->GetParentPDGCode_TrackID(ancestor) << " - ancestor: ";
+                        std::cout << mc_data->GetAncestorTrackID_TrackID(ancestor) << " - ancestor pdg: ";
+                        std::cout << mc_data->GetAncestorPDGCode_TrackID(ancestor) << std::endl;
+                    }
                 }
             }
         }
