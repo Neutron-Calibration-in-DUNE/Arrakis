@@ -439,6 +439,7 @@ namespace arrakis
                                 )
                                 {
                                     sTrackID_GeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[jj]];
+                                    break;
                                 }
                             }
                         }
