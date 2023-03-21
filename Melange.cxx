@@ -158,6 +158,7 @@ namespace arrakis
                 mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
                 mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
                 mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
+                mDetectorPointCloud.track_id.emplace_back(det_sim[ii].largest_energy_track_id());
                 mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
                 mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
                 mDetectorPointCloud.unique_shape.emplace_back(-1);
@@ -169,6 +170,7 @@ namespace arrakis
                 mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
                 mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
                 mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
+                mDetectorPointCloud.track_id.emplace_back(-1);
                 mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
                 mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
                 mDetectorPointCloud.unique_shape.emplace_back(-1);
@@ -180,6 +182,20 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
+            {
+                if(mDetectorPointCloud.particle_label[ii] = LabelCast(ParticleLabel::Undefined))
+                {
+                    std::cout << "Undefined point: " << ii << " - trackid: ";
+                    std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
+                    std::cout << mc_data->GetPDGCode_TrackID[mDetectorPointCloud.track_id[ii]] << " - parent: ";
+                    std::cout << mc_data->GetParentTrackID_TrackID[mDetectorPointCloud.track_id[ii]] << " - parent pdg: ";
+                    std::cout << mc_data->GetParentPDGCode_TrackID[mDetectorPointCloud.track_id[ii]] << " - ancestor: ";
+                    std::cout << mc_data->GetAncestorTrackID_TrackID[mDetectorPointCloud.track_id[ii]] << " - ancestor pdg: ";
+                    std::cout << mc_data->GetAncestorPDGCode_TrackID[mDetectorPointCloud.track_id[ii]] << std::endl;
+                }
+            }
         }
 
         void Melange::SeparatePointClouds(

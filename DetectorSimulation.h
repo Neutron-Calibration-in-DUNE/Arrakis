@@ -85,6 +85,67 @@ namespace arrakis
                     z.emplace_back(ide.z);
                 }
             }
+
+            Double_t largest_energy()
+            {
+                Int_t index = 0;
+                Double_t energy = 0;
+                for(size_t ii = 0; ii < energies.size(); ii++)
+                {
+                    if(energies[ii] > energy) {
+                        index = ii; energy = energies[ii];
+                    }
+                }
+                return energy;
+            }
+            Int_t largest_energy_track_id()
+            {
+                Int_t index = 0;
+                Double_t energy = 0;
+                for(size_t ii = 0; ii < energies.size(); ii++)
+                {
+                    if(energies[ii] > energy) {
+                        index = ii; energy = energies[ii];
+                    }
+                }
+                return track_ids[index]
+            }
+            Double_t largest_energy_x()
+            {
+                Int_t index = 0;
+                Double_t energy = 0;
+                for(size_t ii = 0; ii < energies.size(); ii++)
+                {
+                    if(energies[ii] > energy) {
+                        index = ii; energy = energies[ii];
+                    }
+                }
+                return x[index];
+            }
+            Double_t largest_energy_y()
+            {
+                Int_t index = 0;
+                Double_t energy = 0;
+                for(size_t ii = 0; ii < energies.size(); ii++)
+                {
+                    if(energies[ii] > energy) {
+                        index = ii; energy = energies[ii];
+                    }
+                }
+                return y[index];
+            }
+            Double_t largest_energy_z()
+            {
+                Int_t index = 0;
+                Double_t energy = 0;
+                for(size_t ii = 0; ii < energies.size(); ii++)
+                {
+                    if(energies[ii] > energy) {
+                        index = ii; energy = energies[ii];
+                    }
+                }
+                return z[index];
+            }
         };
         
         struct DetectorSimulationNoise

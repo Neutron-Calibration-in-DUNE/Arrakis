@@ -97,6 +97,7 @@ namespace arrakis
         std::vector<Double_t> tdc = {};
         std::vector<Double_t> adc = {};
         std::vector<Int_t> view = {};
+        std::vector<Int_t> track_id = {};
         std::vector<ShapeLabelInt> shape_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
         std::vector<Int_t> unique_shape = {};
@@ -108,6 +109,7 @@ namespace arrakis
             tdc.clear();
             adc.clear();
             view.clear();
+            track_id.clear();
             shape_label.clear();
             particle_label.clear();
             unique_shape.clear();
