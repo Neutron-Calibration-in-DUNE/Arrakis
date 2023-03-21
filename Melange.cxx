@@ -357,7 +357,7 @@ namespace arrakis
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto gammas = mc_data->GetPrimaries_AbsPDGCode(22);
-            for(gamma : gammas)
+            for(auto gamma : gammas)
             {
                 auto gamma_daughters = mc_data->GetDaughterTrackID_TrackID(gamma);
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(gamma_daughters, 11);
