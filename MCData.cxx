@@ -437,8 +437,8 @@ namespace arrakis
                     {
                         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
                         {
-                            if(truth.GetParticle(ii).Process() == "primary")
-                            {
+                            // if(truth.GetParticle(ii).Process() == "primary")
+                            // {
                                 if(
                                     truth.GetParticle(ii).Vx() == init_x &&
                                     truth.GetParticle(ii).Vy() == init_y &&
@@ -450,7 +450,7 @@ namespace arrakis
                                     std::cout << "success" << std::endl;
                                     break;
                                 }
-                            }
+                            // }
                         }
                     }
                 }
