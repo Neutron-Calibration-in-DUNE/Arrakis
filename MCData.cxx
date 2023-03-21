@@ -430,29 +430,30 @@ namespace arrakis
                 Double_t init_y = particle.Vy();
                 Double_t init_z = particle.Vz();
                 Int_t pdg_code = particle.PdgCode();
-                std::cout << "pdg: " << pdg_code << std::endl;
+                bool found = false;
                 for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
                 {
                     for(auto truth : *sMCTruthHandles[jj])
                     {
                         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
                         {
-                            // if(truth.GetParticle(ii).Process() == "primary")
-                            // {
-                                if(
-                                    truth.GetParticle(ii).Vx() == init_x &&
-                                    truth.GetParticle(ii).Vy() == init_y &&
-                                    truth.GetParticle(ii).Vz() == init_z &&
-                                    truth.GetParticle(ii).PdgCode() == pdg_code
-                                )
-                                {
-                                    sTrackID_GeneratorLabelMap[primary] = sGeneratorMap[sMCTruthHandleLabels[jj]];
-                                    std::cout << "success" << std::endl;
-                                    break;
-                                }
-                            // }
+                            if(
+                                truth.GetParticle(ii).Vx() == init_x &&
+                                truth.GetParticle(ii).Vy() == init_y &&
+                                truth.GetParticle(ii).Vz() == init_z &&
+                                truth.GetParticle(ii).PdgCode() == pdg_code
+                            )
+                            {
+                                sTrackID_GeneratorLabelMap[primary] = sGeneratorMap[sMCTruthHandleLabels[jj]];
+                                found = true;
+                                break;
+                            }
                         }
                     }
+                }
+                if(!found)
+                {
+                    std::cout << "couldn't find mc truth for primary: " << primary << ", " << pdg_code << ", " init_x << "," << init_y << "," << init_z << std::endl; 
                 }
             }
             // for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
