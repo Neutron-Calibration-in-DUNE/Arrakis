@@ -161,7 +161,7 @@ namespace arrakis
             sMCDataTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
             sMCDataTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
 
-            sWirePlanePointCloudTree = mTFileService->make<TTree>("wire_plane_point_cloud", "wire_plane_point_cloud");
+            sWirePlanePointCloudTree = sTFileService->make<TTree>("wire_plane_point_cloud", "wire_plane_point_cloud");
             sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
             sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
             sWirePlanePointCloudTree->Branch("tick",    &sWirePlanePointCloud.tick);
@@ -187,15 +187,15 @@ namespace arrakis
             Logger::GetInstance("mcdata")->trace(
                 "setting up configuration parameters."
             );
-            sSaveMCData = config().SaveMCData;
+            sSaveMCData = config().SaveMCData();
             Logger::GetInstance("melange")->trace(
                 "setting SaveMCData: " + std::to_string(sSaveMCData)
             );
-            sSaveWirePlanePointCloud = config().SaveWirePlanePointCloud;
+            sSaveWirePlanePointCloud = config().SaveWirePlanePointCloud();
             Logger::GetInstance("melange")->trace(
                 "setting SaveWirePlanePointCloud: " + std::to_string(sSaveWirePlanePointCloud)
             );
-            sADCThreshold = config().ADCThreshold;
+            sADCThreshold = config().ADCThreshold();
             Logger::GetInstance("melange")->trace(
                 "setting ADCThreshold: " + std::to_string(sADCThreshold)
             );
@@ -206,11 +206,11 @@ namespace arrakis
             Int_t uniqueShape, Int_t uniqueParticle
         )
         {
-            if(sWirePlanePointCloud.particle_label[detsim] != LabelCast(ParticleLabel::Undefined)) 
+            if(sWirePlanePointCloud.particle_label[detsim_id] != LabelCast(ParticleLabel::Undefined)) 
             {
                 Logger::GetInstance("mcdata")->warning(
                     "replacing previous particle label: " + 
-                    std::to_string(sWirePlanePointCloud.particle_label[detsim]) + 
+                    std::to_string(sWirePlanePointCloud.particle_label[detsim_id]) + 
                     " with: " + std::to_string(LabelCast(particle))
                 );
             }

@@ -101,6 +101,8 @@ namespace arrakis
         std::vector<Int_t> tdc = {};
         std::vector<Int_t> adc = {};
         std::vector<Int_t> view = {};
+        std::vector<Double_t> energy = {};
+
         std::vector<std::vector<Int_t>> track_ids = {};
         std::vector<std::vector<Double_t>> energies = {};
         std::vector<std::vector<Double_t>> x = {};
@@ -120,7 +122,7 @@ namespace arrakis
         }
 
         WirePlanePointCloud(
-            detinfo::DetectorClocksData const _clock_data)
+            detinfo::DetectorClocksData const _clock_data
         )
         : clock_data(_clock_data)
         {
@@ -134,8 +136,11 @@ namespace arrakis
             tdc.clear();
             adc.clear();
             view.clear();
+            energy.clear();
+
             track_ids.clear();
             energies.clear();
+            
             shape_label.clear();
             particle_label.clear();
             unique_shape.clear();
@@ -166,6 +171,7 @@ namespace arrakis
             std::vector<Double_t> det_x;
             std::vector<Double_t> det_y;
             std::vector<Double_t> det_z;
+            Double_t det_energy = 0.0;
             for(auto ide : det_ide)
             {
                 det_track_ids.emplace_back(ide.trackID);
@@ -173,7 +179,9 @@ namespace arrakis
                 det_x.emplace_back(ide.x);
                 det_y.emplace_back(ide.y);
                 det_z.emplace_back(ide.z);
+                det_energy += ide.energy;
             }
+            energy.emplace_back(det_energy);
             track_ids.emplace_back(det_track_ids);
             energies.emplace_back(det_energies);
             x.emplace_back(det_x);

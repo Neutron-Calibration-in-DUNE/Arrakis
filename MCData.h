@@ -64,7 +64,7 @@ namespace arrakis
                 art::InputTag producer_label, art::InputTag instance_label
             );
 
-            void SetConfigurationParameters(const Parameters& config)
+            void SetConfigurationParameters(const Parameters& config);
             Double_t GetADCThreshold()  { return sADCThreshold; }
 
             art::Handle<std::vector<simb::MCTruth>>         GetMCTruth()        { return sMCTruthHandle; }
