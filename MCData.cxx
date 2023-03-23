@@ -211,7 +211,7 @@ namespace arrakis
                 Logger::GetInstance("mcdata")->warning(
                     "replacing previous particle label: " + 
                     std::to_string(sWirePlanePointCloud.particle_label[detsim_id]) + 
-                    " with: " + std::to_string(LabelCast(particleLabel))
+                    " with: " + std::to_string(particleLabel)
                 );
             }
             sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
