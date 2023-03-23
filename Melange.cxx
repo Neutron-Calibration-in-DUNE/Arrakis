@@ -192,7 +192,7 @@ namespace arrakis
                 {
                     Logger::GetInstance("melange")->warning(
                         "undefined point: " + std::to_string(ii) + " - trackid: " + 
-                        std::to_string(mDetectorPointCloud.track_id[ii]) + " - pdg: " 
+                        std::to_string(mDetectorPointCloud.track_id[ii]) + " - pdg: " +
                         std::to_string(mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii])) + " - process: " +
                         std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])))
                     );
