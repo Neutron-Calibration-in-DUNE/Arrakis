@@ -208,11 +208,11 @@ namespace arrakis
         {
             if(sWirePlanePointCloud.particle_label[detsim_id] != LabelCast(ParticleLabel::Undefined)) 
             {
-                Logger::GetInstance("mcdata")->warning(
-                    "replacing previous particle label: " + 
-                    std::to_string(sWirePlanePointCloud.particle_label[detsim_id]) + 
-                    " with: " + std::to_string(particleLabel)
-                );
+                // Logger::GetInstance("mcdata")->warning(
+                //     "replacing previous particle label: " + 
+                //     std::to_string(sWirePlanePointCloud.particle_label[detsim_id]) + 
+                //     " with: " + std::to_string(particleLabel)
+                // );
             }
             sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
             sWirePlanePointCloud.particle_label[detsim_id] = particleLabel;
@@ -712,16 +712,19 @@ namespace arrakis
                      * noise variable, otherwise, attach the output to the
                      * associated primary.
                      */
-                    if(trackIDsAndEnergy.size() == 0 && std::abs(uncompressed[l]) >= sADCThreshold)
+                    if(trackIDsAndEnergy.size() == 0)
                     {
-                        sWirePlanePointCloud.AddPoint(
-                            clock_data,
-                            trackIDsAndEnergy,
-                            l,
-                            channel,
-                            (Int_t) (std::abs(uncompressed[l])),
-                            true
-                        );
+                        if(std::abs(uncompressed[l]) >= sADCThreshold)
+                        {
+                            sWirePlanePointCloud.AddPoint(
+                                clock_data,
+                                trackIDsAndEnergy,
+                                l,
+                                channel,
+                                (Int_t) (std::abs(uncompressed[l])),
+                                true
+                            );
+                        }
                     }
                     else
                     {
