@@ -95,9 +95,11 @@ namespace arrakis
 
     struct DetectorPointCloud
     {
-        std::vector<Double_t> channel = {};
-        std::vector<Double_t> tdc = {};
-        std::vector<Double_t> adc = {};
+        std::vector<Int_t> channel = {};
+        std::vector<Int_t> wire = {};
+        std::vector<Int_t> tick = {};
+        std::vector<Int_t> tdc = {};
+        std::vector<Int_t> adc = {};
         std::vector<Int_t> view = {};
         std::vector<Int_t> track_id = {};
         std::vector<ShapeLabelInt> shape_label = {};

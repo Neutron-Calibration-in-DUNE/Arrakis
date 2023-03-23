@@ -181,6 +181,7 @@ namespace arrakis
             sMCTruthHandles.clear();
             sPrimaries.clear();
             sDetectorSimulation.clear();
+            sDetectorSimulationBelowThreshold.clear();
             sDetectorSimulationNoise.clear();
 
             sTrackID_GeneratorLabelMap.clear();
@@ -670,7 +671,7 @@ namespace arrakis
                      * noise variable, otherwise, attach the output to the
                      * associated primary.
                      */
-                    if(trackIDsAndEnergy.size() == 0) 
+                    if(trackIDsAndEnergy.size() == 0 && std::abs(uncompressed[l]) >= sADCThreshold) 
                     {
                         sDetectorSimulationNoise.AddNoise(
                             clock_data,

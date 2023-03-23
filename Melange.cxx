@@ -190,18 +190,20 @@ namespace arrakis
             {
                 if(mDetectorPointCloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
                 {
-                    std::cout << "Undefined point: " << ii << " - trackid: ";
-                    std::cout << mDetectorPointCloud.track_id[ii] << " - pdg: ";
-                    std::cout << mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii]) << " - process: ";
-                    std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])) << "\n";
-                    auto ancestry = mc_data->GetAncestryTrackID_TrackID(mDetectorPointCloud.track_id[ii]);
-                    for(auto ancestor : ancestry)
-                    {
-                        std::cout << "\tancestor: " << ancestor << " - pdg: ";
-                        std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
-                        std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
-                        std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
-                    }
+                    Logger::GetInstance("melange")->warning(
+                        "undefined point: " + std::to_string(ii) + " - trackid: " + 
+                        std::to_string(mDetectorPointCloud.track_id[ii]) + " - pdg: " 
+                        std::to_string(mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii])) + " - process: " +
+                        std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])))
+                    );
+                    // auto ancestry = mc_data->GetAncestryTrackID_TrackID(mDetectorPointCloud.track_id[ii]);
+                    // for(auto ancestor : ancestry)
+                    // {
+                    //     std::cout << "\tancestor: " << ancestor << " - pdg: ";
+                    //     std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
+                    //     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
+                    //     std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
+                    // }
                 }
             }
         }
@@ -252,6 +254,14 @@ namespace arrakis
         {
             for(auto detsim : detSimIDList)
             {
+                if(mDetectorPointCloud.particle_label[detsim] != LabelCast(ParticleLabel::Undefined)) 
+                {
+                    Logger::GetInstance("melange")->warning(
+                        "replacing previous particle label: " + 
+                        std::to_string(mDetectorPointCloud.particle_label[detsim]) + 
+                        " with: " + std::to_string(LabelCast(particle))
+                    );
+                }
                 mDetectorPointCloud.shape_label[detsim] = LabelCast(shape);
                 mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
                 mDetectorPointCloud.unique_shape[detsim] = shape_label;
@@ -760,11 +770,6 @@ namespace arrakis
             auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
             auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
             auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
-            std::cout << "alphas: " << rn222.size() << " - detsims: ";
-            for(auto detsim : rn222_det_sim)
-            {
-                std::cout << "\t" << detsim.size() << std::endl;
-            }
             SetLabels(rn222_det_sim, ShapeLabel::Blip, ParticleLabel::Rn222, IterateShapeLabel(), IterateParticleLabel());
             ProcessShowers(rn222_daughters);
         }

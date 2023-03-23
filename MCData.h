@@ -256,6 +256,7 @@ namespace arrakis
 
             // List of detector simulation structs
             std::vector<DetectorSimulation> sDetectorSimulation;
+            std::vector<DetectorSimulation> sDetectorSimulationBelowThreshold;
             DetectorSimulationNoise sDetectorSimulationNoise;
 
             // TrackID maps
