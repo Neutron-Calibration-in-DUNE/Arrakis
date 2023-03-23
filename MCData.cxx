@@ -160,6 +160,19 @@ namespace arrakis
             sMCDataTree->Branch("edep_process_map",         &sEdepID_ProcessMap);
             sMCDataTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
             sMCDataTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
+
+            sWirePlanePointCloudTree = mTFileService->make<TTree>("wire_plane_point_cloud", "wire_plane_point_cloud");
+            sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
+            sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
+            sWirePlanePointCloudTree->Branch("tick",    &sWirePlanePointCloud.tick);
+            sWirePlanePointCloudTree->Branch("tdc",     &sWirePlanePointCloud.tdc);
+            sWirePlanePointCloudTree->Branch("adc",     &sWirePlanePointCloud.adc);
+            sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
+            sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
+            sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
+            sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
+            sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
+            sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
   
             sGeneratorMap["Ar39Label"] =    GeneratorLabel::Ar39;
             sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
@@ -169,20 +182,52 @@ namespace arrakis
             sGeneratorMap["HEPevtLabel"] =  GeneratorLabel::HEPevt;
             sGeneratorMap["PNSLabel"] =     GeneratorLabel::PNS;
         }
-        void MCData::SetADCThreshold(Double_t ADCThreshold)
+        void MCData::SetConfigurationParameters(const Parameters& config)
         {
             Logger::GetInstance("mcdata")->trace(
-                "setting ADC threshold to " + std::to_string(ADCThreshold)
+                "setting up configuration parameters."
             );
-            sADCThreshold = ADCThreshold;
+            sSaveMCData = config().SaveMCData;
+            Logger::GetInstance("melange")->trace(
+                "setting SaveMCData: " + std::to_string(sSaveMCData)
+            );
+            sSaveWirePlanePointCloud = config().SaveWirePlanePointCloud;
+            Logger::GetInstance("melange")->trace(
+                "setting SaveWirePlanePointCloud: " + std::to_string(sSaveWirePlanePointCloud)
+            );
+            sADCThreshold = config().ADCThreshold;
+            Logger::GetInstance("melange")->trace(
+                "setting ADCThreshold: " + std::to_string(sADCThreshold)
+            );
+        }
+        void MCData::SetWirePlanePointCloudLabels(
+            DetSimID_t detsim_id,
+            ShapeLabelInt shapeLabel, ParticleLabelInt particleLabel,
+            Int_t uniqueShape, Int_t uniqueParticle
+        )
+        {
+            if(sWirePlanePointCloud.particle_label[detsim] != LabelCast(ParticleLabel::Undefined)) 
+            {
+                Logger::GetInstance("mcdata")->warning(
+                    "replacing previous particle label: " + 
+                    std::to_string(sWirePlanePointCloud.particle_label[detsim]) + 
+                    " with: " + std::to_string(LabelCast(particle))
+                );
+            }
+            sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
+            sWirePlanePointCloud.particle_label[detsim_id] = particleLabel;
+            sWirePlanePointCloud.unique_shape[detsim_id] = uniqueShape;
+            sWirePlanePointCloud.unique_particle[detsim_id] = uniqueParticle;
         }
         void MCData::ResetEvent()
         {
             sMCTruthHandles.clear();
             sPrimaries.clear();
-            sDetectorSimulation.clear();
-            sDetectorSimulationBelowThreshold.clear();
-            sDetectorSimulationNoise.clear();
+            sWirePlanePointCloud.clear();
+
+            // sDetectorSimulation.clear();
+            // sDetectorSimulationBelowThreshold.clear();
+            // sDetectorSimulationNoise.clear();
 
             sTrackID_GeneratorLabelMap.clear();
             sTrackID_ParticleIDMap.clear();
@@ -660,10 +705,6 @@ namespace arrakis
                 // iterate over each tdc value
                 for(int l=0; l < num_samples; l++) 
                 {
-                    // check if threshold has been met
-                    if(std::abs(uncompressed[l]) < sADCThreshold) {
-                        continue;
-                    }
                     auto const& trackIDsAndEnergy = truth_channel.TrackIDsAndEnergies(l, l);
                     /**
                      * This step distinguishes noise from true MC particles.
@@ -671,25 +712,26 @@ namespace arrakis
                      * noise variable, otherwise, attach the output to the
                      * associated primary.
                      */
-                    if(trackIDsAndEnergy.size() == 0 && std::abs(uncompressed[l]) >= sADCThreshold) 
+                    if(trackIDsAndEnergy.size() == 0 && std::abs(uncompressed[l]) >= sADCThreshold)
                     {
-                        sDetectorSimulationNoise.AddNoise(
-                            clock_data,
-                            l,
-                            channel,
-                            (Int_t) (std::abs(uncompressed[l]))
-                        );
-                        continue;
-                    }
-                    sDetectorSimulation.emplace_back(
-                        DetectorSimulation(
-                            clock_data,
+                        sWirePlanePointCloud.AddPoint(
                             trackIDsAndEnergy,
                             l,
                             channel,
-                            (Int_t) (std::abs(uncompressed[l]))
-                        )
-                    );
+                            (Int_t) (std::abs(uncompressed[l])),
+                            true
+                        );
+                    }
+                    else
+                    {
+                        sWirePlanePointCloud.AddPoint(
+                            trackIDsAndEnergy,
+                            l,
+                            channel,
+                            (Int_t) (std::abs(uncompressed[l])),
+                            false
+                        );
+                    }
                     // associate this detector simulation with a particle particle
                     for(auto track : trackIDsAndEnergy)
                     {
@@ -1162,11 +1204,20 @@ namespace arrakis
         }
         void MCData::FillTTree()
         {
-            Logger::GetInstance("mcdata")->trace(
-                "saving mcdata info to root file."
-            );
-            // add mcdata info
-            sMCDataTree->Fill();
+            if(sSaveMCData)
+            {
+                Logger::GetInstance("mcdata")->trace(
+                    "saving mcdata info to root file."
+                );
+                sMCDataTree->Fill();
+            }
+            if(sSaveWirePlanePointCloud)
+            {
+                Logger::GetInstance("mcdata")->trace(
+                    "saving wire plane point cloud data to root file."
+                );
+                sWirePlanePointCloudTree->Fill();
+            }
         }     
         DetSimID_List MCData::GetAllDetSimID_TrackID(TrackID_t track_id)
         {

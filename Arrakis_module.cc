@@ -96,8 +96,7 @@ namespace arrakis
 
         mGeometry = geometry::DetectorGeometry::GetInstance();
         mMCData = mcdata::MCData::GetInstance();
-        mMCData->SetADCThreshold(config().ADCThreshold());
-
+        mMCData->SetConfigurationParameters(config);
         mMelange = melange::Melange::GetInstance();
         mMelange->SetConfigurationParameters(config);
 

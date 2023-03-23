@@ -37,41 +37,41 @@ namespace arrakis
         }
         Melange::Melange()
         {
-            Logger::GetInstance("melange")->trace(
-                "setting up melange trees."
-            );
-            mDetectorPointCloudTree = mTFileService->make<TTree>("det_point_cloud", "det_point_cloud");
+            // Logger::GetInstance("melange")->trace(
+            //     "setting up melange trees."
+            // );
+            // mDetectorPointCloudTree = mTFileService->make<TTree>("det_point_cloud", "det_point_cloud");
 
-            mDetectorView0PointCloudTree = mTFileService->make<TTree>("det_view0_point_cloud", "det_view0_point_cloud");
-            mDetectorView0PointCloudTree->Branch("channel", &mDetectorView0PointCloud.channel);
-            mDetectorView0PointCloudTree->Branch("tdc",     &mDetectorView0PointCloud.tdc);
-            mDetectorView0PointCloudTree->Branch("adc",     &mDetectorView0PointCloud.adc);
-            mDetectorView0PointCloudTree->Branch("shape_label",     &mDetectorView0PointCloud.shape_label);
-            mDetectorView0PointCloudTree->Branch("particle_label",  &mDetectorView0PointCloud.particle_label);
-            mDetectorView0PointCloudTree->Branch("unique_shape",    &mDetectorView0PointCloud.unique_shape);
-            mDetectorView0PointCloudTree->Branch("unique_particle", &mDetectorView0PointCloud.unique_particle);
+            // mDetectorView0PointCloudTree = mTFileService->make<TTree>("det_view0_point_cloud", "det_view0_point_cloud");
+            // mDetectorView0PointCloudTree->Branch("channel", &mDetectorView0PointCloud.channel);
+            // mDetectorView0PointCloudTree->Branch("tdc",     &mDetectorView0PointCloud.tdc);
+            // mDetectorView0PointCloudTree->Branch("adc",     &mDetectorView0PointCloud.adc);
+            // mDetectorView0PointCloudTree->Branch("shape_label",     &mDetectorView0PointCloud.shape_label);
+            // mDetectorView0PointCloudTree->Branch("particle_label",  &mDetectorView0PointCloud.particle_label);
+            // mDetectorView0PointCloudTree->Branch("unique_shape",    &mDetectorView0PointCloud.unique_shape);
+            // mDetectorView0PointCloudTree->Branch("unique_particle", &mDetectorView0PointCloud.unique_particle);
 
-            mDetectorView1PointCloudTree = mTFileService->make<TTree>("det_view1_point_cloud", "det_view1_point_cloud");
-            mDetectorView1PointCloudTree->Branch("channel", &mDetectorView1PointCloud.channel);
-            mDetectorView1PointCloudTree->Branch("tdc",     &mDetectorView1PointCloud.tdc);
-            mDetectorView1PointCloudTree->Branch("adc",     &mDetectorView1PointCloud.adc);
-            mDetectorView1PointCloudTree->Branch("shape_label",     &mDetectorView1PointCloud.shape_label);
-            mDetectorView1PointCloudTree->Branch("particle_label",  &mDetectorView1PointCloud.particle_label);
-            mDetectorView1PointCloudTree->Branch("unique_shape",    &mDetectorView1PointCloud.unique_shape);
-            mDetectorView1PointCloudTree->Branch("unique_particle", &mDetectorView1PointCloud.unique_particle);
+            // mDetectorView1PointCloudTree = mTFileService->make<TTree>("det_view1_point_cloud", "det_view1_point_cloud");
+            // mDetectorView1PointCloudTree->Branch("channel", &mDetectorView1PointCloud.channel);
+            // mDetectorView1PointCloudTree->Branch("tdc",     &mDetectorView1PointCloud.tdc);
+            // mDetectorView1PointCloudTree->Branch("adc",     &mDetectorView1PointCloud.adc);
+            // mDetectorView1PointCloudTree->Branch("shape_label",     &mDetectorView1PointCloud.shape_label);
+            // mDetectorView1PointCloudTree->Branch("particle_label",  &mDetectorView1PointCloud.particle_label);
+            // mDetectorView1PointCloudTree->Branch("unique_shape",    &mDetectorView1PointCloud.unique_shape);
+            // mDetectorView1PointCloudTree->Branch("unique_particle", &mDetectorView1PointCloud.unique_particle);
 
-            mDetectorView2PointCloudTree = mTFileService->make<TTree>("det_view2_point_cloud", "det_view2_point_cloud");
-            mDetectorView2PointCloudTree->Branch("channel", &mDetectorView2PointCloud.channel);
-            mDetectorView2PointCloudTree->Branch("tdc",     &mDetectorView2PointCloud.tdc);
-            mDetectorView2PointCloudTree->Branch("adc",     &mDetectorView2PointCloud.adc);
-            mDetectorView2PointCloudTree->Branch("shape_label",     &mDetectorView2PointCloud.shape_label);
-            mDetectorView2PointCloudTree->Branch("particle_label",  &mDetectorView2PointCloud.particle_label);
-            mDetectorView2PointCloudTree->Branch("unique_shape",    &mDetectorView2PointCloud.unique_shape);
-            mDetectorView2PointCloudTree->Branch("unique_particle", &mDetectorView2PointCloud.unique_particle);
+            // mDetectorView2PointCloudTree = mTFileService->make<TTree>("det_view2_point_cloud", "det_view2_point_cloud");
+            // mDetectorView2PointCloudTree->Branch("channel", &mDetectorView2PointCloud.channel);
+            // mDetectorView2PointCloudTree->Branch("tdc",     &mDetectorView2PointCloud.tdc);
+            // mDetectorView2PointCloudTree->Branch("adc",     &mDetectorView2PointCloud.adc);
+            // mDetectorView2PointCloudTree->Branch("shape_label",     &mDetectorView2PointCloud.shape_label);
+            // mDetectorView2PointCloudTree->Branch("particle_label",  &mDetectorView2PointCloud.particle_label);
+            // mDetectorView2PointCloudTree->Branch("unique_shape",    &mDetectorView2PointCloud.unique_shape);
+            // mDetectorView2PointCloudTree->Branch("unique_particle", &mDetectorView2PointCloud.unique_particle);
 
-            mDetectorView0VoxelTree = mTFileService->make<TTree>("det_view0_voxel", "det_view0_voxel");
-            mDetectorView1VoxelTree = mTFileService->make<TTree>("det_view1_voxel", "det_view1_voxel");
-            mDetectorView2VoxelTree = mTFileService->make<TTree>("det_view2_voxel", "det_view2_voxel");
+            // mDetectorView0VoxelTree = mTFileService->make<TTree>("det_view0_voxel", "det_view0_voxel");
+            // mDetectorView1VoxelTree = mTFileService->make<TTree>("det_view1_voxel", "det_view1_voxel");
+            // mDetectorView2VoxelTree = mTFileService->make<TTree>("det_view2_voxel", "det_view2_voxel");
         }
 
         void Melange::SetConfigurationParameters(const Parameters& config)
@@ -96,10 +96,10 @@ namespace arrakis
 
         void Melange::ResetEvent()
         {
-            mDetectorPointCloud.clear();
-            mDetectorView0PointCloud.clear();
-            mDetectorView1PointCloud.clear();
-            mDetectorView2PointCloud.clear();
+            // mDetectorPointCloud.clear();
+            // mDetectorView0PointCloud.clear();
+            // mDetectorView1PointCloud.clear();
+            // mDetectorView2PointCloud.clear();
             mShapeLabel = 0;
             mParticleLabel = 0;
         }
@@ -115,9 +115,9 @@ namespace arrakis
         }
         void Melange::FillTTree()
         {
-            mDetectorView0PointCloudTree->Fill();
-            mDetectorView1PointCloudTree->Fill();
-            mDetectorView2PointCloudTree->Fill();
+            // mDetectorView0PointCloudTree->Fill();
+            // mDetectorView1PointCloudTree->Fill();
+            // mDetectorView2PointCloudTree->Fill();
         }
 
         void Melange::ProcessEvent(
@@ -152,99 +152,99 @@ namespace arrakis
             const Parameters& config, art::Event const& event
         )
         {
-            auto mc_data = mcdata::MCData::GetInstance();
-            auto det_sim = mc_data->GetDetectorSimulation();
-            auto det_sim_noise = mc_data->GetDetectorSimulationNoise();
-            for(size_t ii = 0; ii < det_sim.size(); ii++)
-            {
-                mDetectorPointCloud.channel.emplace_back(det_sim[ii].channel);
-                mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
-                mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
-                mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
-                mDetectorPointCloud.track_id.emplace_back(det_sim[ii].largest_energy_track_id());
-                mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
-                mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
-                mDetectorPointCloud.unique_shape.emplace_back(-1);
-                mDetectorPointCloud.unique_particle.emplace_back(-1);
-            }
-            for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
-            {
-                mDetectorPointCloud.channel.emplace_back(det_sim_noise.channel[ii]);
-                mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
-                mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
-                mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
-                mDetectorPointCloud.track_id.emplace_back(-1);
-                mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
-                mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
-                mDetectorPointCloud.unique_shape.emplace_back(-1);
-                mDetectorPointCloud.unique_particle.emplace_back(-1);
-            }
+            // auto mc_data = mcdata::MCData::GetInstance();
+            // auto det_sim = mc_data->GetDetectorSimulation();
+            // auto det_sim_noise = mc_data->GetDetectorSimulationNoise();
+            // for(size_t ii = 0; ii < det_sim.size(); ii++)
+            // {
+            //     mDetectorPointCloud.channel.emplace_back(det_sim[ii].channel);
+            //     mDetectorPointCloud.tdc.emplace_back(det_sim[ii].tdc);
+            //     mDetectorPointCloud.adc.emplace_back(det_sim[ii].adc);
+            //     mDetectorPointCloud.view.emplace_back(det_sim[ii].view);
+            //     mDetectorPointCloud.track_id.emplace_back(det_sim[ii].largest_energy_track_id());
+            //     mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
+            //     mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
+            //     mDetectorPointCloud.unique_shape.emplace_back(-1);
+            //     mDetectorPointCloud.unique_particle.emplace_back(-1);
+            // }
+            // for(size_t ii = 0; ii < det_sim_noise.channel.size(); ii++)
+            // {
+            //     mDetectorPointCloud.channel.emplace_back(det_sim_noise.channel[ii]);
+            //     mDetectorPointCloud.tdc.emplace_back(det_sim_noise.tdc[ii]);
+            //     mDetectorPointCloud.adc.emplace_back(det_sim_noise.adc[ii]);
+            //     mDetectorPointCloud.view.emplace_back(det_sim_noise.view[ii]);
+            //     mDetectorPointCloud.track_id.emplace_back(-1);
+            //     mDetectorPointCloud.shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
+            //     mDetectorPointCloud.particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
+            //     mDetectorPointCloud.unique_shape.emplace_back(-1);
+            //     mDetectorPointCloud.unique_particle.emplace_back(-1);
+            // }
         }
 
         void Melange::CleanUpPointClouds(
             const Parameters& config, art::Event const& event
         )
         {
-            auto mc_data = mcdata::MCData::GetInstance();
-            for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
-            {
-                if(mDetectorPointCloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
-                {
-                    Logger::GetInstance("melange")->warning(
-                        "undefined point: " + std::to_string(ii) + " - trackid: " + 
-                        std::to_string(mDetectorPointCloud.track_id[ii]) + " - pdg: " +
-                        std::to_string(mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii])) + " - process: " +
-                        std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])))
-                    );
-                    // auto ancestry = mc_data->GetAncestryTrackID_TrackID(mDetectorPointCloud.track_id[ii]);
-                    // for(auto ancestor : ancestry)
-                    // {
-                    //     std::cout << "\tancestor: " << ancestor << " - pdg: ";
-                    //     std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
-                    //     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
-                    //     std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
-                    // }
-                }
-            }
+            // auto mc_data = mcdata::MCData::GetInstance();
+            // for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
+            // {
+            //     if(mDetectorPointCloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
+            //     {
+            //         Logger::GetInstance("melange")->warning(
+            //             "undefined point: " + std::to_string(ii) + " - trackid: " + 
+            //             std::to_string(mDetectorPointCloud.track_id[ii]) + " - pdg: " +
+            //             std::to_string(mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii])) + " - process: " +
+            //             std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])))
+            //         );
+            //         // auto ancestry = mc_data->GetAncestryTrackID_TrackID(mDetectorPointCloud.track_id[ii]);
+            //         // for(auto ancestor : ancestry)
+            //         // {
+            //         //     std::cout << "\tancestor: " << ancestor << " - pdg: ";
+            //         //     std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
+            //         //     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
+            //         //     std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
+            //         // }
+            //     }
+            // }
         }
 
         void Melange::SeparatePointClouds(
             const Parameters& config, art::Event const& event
         )
         {
-            for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
-            {
-                if(mDetectorPointCloud.view[ii] == 0) 
-                {
-                    mDetectorView0PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
-                    mDetectorView0PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
-                    mDetectorView0PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
-                    mDetectorView0PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
-                    mDetectorView0PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
-                    mDetectorView0PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
-                    mDetectorView0PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
-                }
-                else if(mDetectorPointCloud.view[ii] == 1) 
-                {
-                    mDetectorView1PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
-                    mDetectorView1PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
-                    mDetectorView1PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
-                    mDetectorView1PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
-                    mDetectorView1PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
-                    mDetectorView1PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
-                    mDetectorView1PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
-                }
-                else
-                {
-                    mDetectorView2PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
-                    mDetectorView2PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
-                    mDetectorView2PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
-                    mDetectorView2PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
-                    mDetectorView2PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
-                    mDetectorView2PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
-                    mDetectorView2PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
-                }
-            }
+            // for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
+            // {
+            //     if(mDetectorPointCloud.view[ii] == 0) 
+            //     {
+            //         mDetectorView0PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
+            //         mDetectorView0PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
+            //         mDetectorView0PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
+            //         mDetectorView0PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
+            //         mDetectorView0PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
+            //         mDetectorView0PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
+            //         mDetectorView0PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
+            //     }
+            //     else if(mDetectorPointCloud.view[ii] == 1) 
+            //     {
+            //         mDetectorView1PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
+            //         mDetectorView1PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
+            //         mDetectorView1PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
+            //         mDetectorView1PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
+            //         mDetectorView1PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
+            //         mDetectorView1PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
+            //         mDetectorView1PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
+            //     }
+            //     else
+            //     {
+            //         mDetectorView2PointCloud.channel.emplace_back(mDetectorPointCloud.channel[ii]);
+            //         mDetectorView2PointCloud.tdc.emplace_back(mDetectorPointCloud.tdc[ii]);
+            //         mDetectorView2PointCloud.adc.emplace_back(mDetectorPointCloud.adc[ii]);
+            //         mDetectorView2PointCloud.shape_label.emplace_back(mDetectorPointCloud.shape_label[ii]);
+            //         mDetectorView2PointCloud.particle_label.emplace_back(mDetectorPointCloud.particle_label[ii]);
+            //         mDetectorView2PointCloud.unique_shape.emplace_back(mDetectorPointCloud.unique_shape[ii]);
+            //         mDetectorView2PointCloud.unique_particle.emplace_back(mDetectorPointCloud.unique_particle[ii]);
+            //     }
+            // }
         }
         void Melange::SetLabels(
             DetSimID_List detSimIDList, 
@@ -252,20 +252,17 @@ namespace arrakis
             Int_t shape_label, Int_t particle_label
         )
         {
+            auto mc_data = mcdata::MCData::GetInstance();
             for(auto detsim : detSimIDList)
             {
-                if(mDetectorPointCloud.particle_label[detsim] != LabelCast(ParticleLabel::Undefined)) 
-                {
-                    Logger::GetInstance("melange")->warning(
-                        "replacing previous particle label: " + 
-                        std::to_string(mDetectorPointCloud.particle_label[detsim]) + 
-                        " with: " + std::to_string(LabelCast(particle))
-                    );
-                }
-                mDetectorPointCloud.shape_label[detsim] = LabelCast(shape);
-                mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
-                mDetectorPointCloud.unique_shape[detsim] = shape_label;
-                mDetectorPointCloud.unique_particle[detsim] = particle_label;
+                mc_data->SetWirePlanePointCloudLabels(
+                    detsim, shape, particle, shape_label, particle_label
+                );
+
+                // mDetectorPointCloud.shape_label[detsim] = LabelCast(shape);
+                // mDetectorPointCloud.particle_label[detsim] = LabelCast(particle);
+                // mDetectorPointCloud.unique_shape[detsim] = shape_label;
+                // mDetectorPointCloud.unique_particle[detsim] = particle_label;
             }
         }
         void Melange::SetLabels(

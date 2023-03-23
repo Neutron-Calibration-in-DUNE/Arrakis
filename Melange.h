@@ -31,6 +31,7 @@
 #include "DetectorSimulation.h"
 #include "Logger.h"
 #include "MCData.h"
+#include "WirePlanePointCloud.h"
 
 namespace arrakis
 {
@@ -125,20 +126,14 @@ namespace arrakis
 
             // Output TTree
             art::ServiceHandle<art::TFileService> mTFileService;
-            TTree *mDetectorPointCloudTree;
-            TTree *mDetectorView0PointCloudTree;
-            TTree *mDetectorView1PointCloudTree;
-            TTree *mDetectorView2PointCloudTree;
+            // TTree *mDetectorPointCloudTree;
+            // TTree *mDetectorView0PointCloudTree;
+            // TTree *mDetectorView1PointCloudTree;
+            // TTree *mDetectorView2PointCloudTree;
 
-            TTree *mDetectorView0VoxelTree;
-            TTree *mDetectorView1VoxelTree;
-            TTree *mDetectorView2VoxelTree;
-
-            // data products
-            DetectorPointCloud mDetectorPointCloud;
-            DetectorPointCloud mDetectorView0PointCloud;
-            DetectorPointCloud mDetectorView1PointCloud;
-            DetectorPointCloud mDetectorView2PointCloud;
+            // TTree *mDetectorView0VoxelTree;
+            // TTree *mDetectorView1VoxelTree;
+            // TTree *mDetectorView2VoxelTree;
 
             Int_t mShapeLabel;
             Int_t mParticleLabel;

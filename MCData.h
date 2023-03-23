@@ -31,6 +31,7 @@
 #include "Core.h"
 #include "DetectorSimulation.h"
 #include "Logger.h"
+#include "WirePlanePointCloud.h"
 
 namespace arrakis
 {
@@ -63,7 +64,7 @@ namespace arrakis
                 art::InputTag producer_label, art::InputTag instance_label
             );
 
-            void SetADCThreshold(Double_t ADCThreshold);
+            void SetConfigurationParameters(const Parameters& config)
             Double_t GetADCThreshold()  { return sADCThreshold; }
 
             art::Handle<std::vector<simb::MCTruth>>         GetMCTruth()        { return sMCTruthHandle; }
@@ -76,8 +77,14 @@ namespace arrakis
             const sim::SimChannel& GetMCSimChannel(Int_t index)         { return sMCSimChannelHandle->at(index); }
             const raw::RawDigit& GetMCRawDigit(Int_t index)             { return sMCRawDigitHandle->at(index); }
 
-            std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
-            DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
+            WirePlanePointCloud GetWirePlanePointCloud()    { return sWirePlanePointCloud; }
+            void SetWirePlanePointCloudLabels(
+                DetSimID_t detsim_id,
+                ShapeLabelInt shapeLabel, ParticleLabelInt particleLabel,
+                Int_t uniqueShape, Int_t uniqueParticle
+            );
+            // std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
+            // DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
 
             /**
              * Various accessors from TrackID.  The convention for the function names are
@@ -239,6 +246,10 @@ namespace arrakis
             // Output TTree
             art::ServiceHandle<art::TFileService> sTFileService;
             TTree *sMCDataTree;
+            TTree *sWirePlanePointCloudTree;
+
+            bool sSaveMCData;
+            bool sSaveWirePlanePointCloud;
 
             // handles
             std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
@@ -255,9 +266,11 @@ namespace arrakis
             TrackID_List sPrimaries;
 
             // List of detector simulation structs
-            std::vector<DetectorSimulation> sDetectorSimulation;
-            std::vector<DetectorSimulation> sDetectorSimulationBelowThreshold;
-            DetectorSimulationNoise sDetectorSimulationNoise;
+            WirePlanePointCloud sWirePlanePointCloud;
+
+            // std::vector<DetectorSimulation> sDetectorSimulation;
+            // std::vector<DetectorSimulation> sDetectorSimulationBelowThreshold;
+            // DetectorSimulationNoise sDetectorSimulationNoise;
 
             // TrackID maps
             std::map<TrackID_t, ParticleID_t>   sTrackID_ParticleIDMap;

@@ -42,7 +42,9 @@ Arrakis:
     }
 
     # array parameters
-    ADCThreshold:   10.0
+    SaveMCData:                 false   # save MCData maps
+    SaveWirePlanePointCloud:    true    # save wire plane point cloud data
+    ADCThreshold:   20.0
 }
 
 END_PROLOG

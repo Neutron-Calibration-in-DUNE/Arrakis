@@ -146,7 +146,16 @@ namespace arrakis
             fhicl::Name("MelangeParameters"),
             fhicl::Comment("Parameters for the melange algorithms.")
         };
-
+        fhicl::Atom<bool> SaveMCData
+        {
+            fhicl::Name("SaveMCData"),
+            fhicl::Comment("Whether to save MC Maps to the output file.")
+        };
+        fhicl::Atom<bool> SaveWirePlanePointCloud
+        {
+            fhicl::Name("SaveWirePlanePointCloud"),
+            fhicl::Comment("Whether to save the wire plane point clouds.")
+        };
         fhicl::Atom<double> ADCThreshold
         {
             fhicl::Name("ADCThreshold"),
