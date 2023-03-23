@@ -760,6 +760,11 @@ namespace arrakis
             auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
             auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
             auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
+            std::cout << "alphas: " << rn222.size() << " - detsims: ";
+            for(auto detsim : rn222_det_sim)
+            {
+                std::cout << "\t" << detsim.size() << std::endl;
+            }
             SetLabels(rn222_det_sim, ShapeLabel::Blip, ParticleLabel::Rn222, IterateShapeLabel(), IterateParticleLabel());
             ProcessShowers(rn222_daughters);
         }
