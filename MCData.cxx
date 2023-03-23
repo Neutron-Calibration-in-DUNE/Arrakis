@@ -188,15 +188,15 @@ namespace arrakis
                 "setting up configuration parameters."
             );
             sSaveMCData = config().SaveMCData();
-            Logger::GetInstance("melange")->trace(
+            Logger::GetInstance("mcdata")->trace(
                 "setting SaveMCData: " + std::to_string(sSaveMCData)
             );
             sSaveWirePlanePointCloud = config().SaveWirePlanePointCloud();
-            Logger::GetInstance("melange")->trace(
+            Logger::GetInstance("mcdata")->trace(
                 "setting SaveWirePlanePointCloud: " + std::to_string(sSaveWirePlanePointCloud)
             );
             sADCThreshold = config().ADCThreshold();
-            Logger::GetInstance("melange")->trace(
+            Logger::GetInstance("mcdata")->trace(
                 "setting ADCThreshold: " + std::to_string(sADCThreshold)
             );
         }

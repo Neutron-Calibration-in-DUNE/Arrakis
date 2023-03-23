@@ -27,7 +27,6 @@
 
 #include "Configuration.h"
 #include "Core.h"
-#include "DetectorSimulation.h"
 #include "Logger.h"
 #include "MCData.h"
 #include "WirePlanePointCloud.h"
