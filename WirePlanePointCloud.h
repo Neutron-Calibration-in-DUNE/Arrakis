@@ -115,16 +115,7 @@ namespace arrakis
         std::vector<Int_t> unique_shape = {};
         std::vector<Int_t> unique_particle = {};
 
-        detinfo::DetectorClocksData clock_data;
-
         WirePlanePointCloud()
-        {
-        }
-
-        WirePlanePointCloud(
-            detinfo::DetectorClocksData const _clock_data
-        )
-        : clock_data(_clock_data)
         {
         }
 
@@ -148,6 +139,7 @@ namespace arrakis
         }
 
         void AddPoint(
+            detinfo::DetectorClocksData const& clock_data,
             std::vector<sim::IDE> det_ide,
             Int_t det_tick,
             Int_t det_channel,

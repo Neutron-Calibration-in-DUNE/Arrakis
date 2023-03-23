@@ -211,7 +211,7 @@ namespace arrakis
                 Logger::GetInstance("mcdata")->warning(
                     "replacing previous particle label: " + 
                     std::to_string(sWirePlanePointCloud.particle_label[detsim_id]) + 
-                    " with: " + std::to_string(LabelCast(particle))
+                    " with: " + std::to_string(LabelCast(particleLabel))
                 );
             }
             sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
@@ -715,6 +715,7 @@ namespace arrakis
                     if(trackIDsAndEnergy.size() == 0 && std::abs(uncompressed[l]) >= sADCThreshold)
                     {
                         sWirePlanePointCloud.AddPoint(
+                            clock_data,
                             trackIDsAndEnergy,
                             l,
                             channel,
@@ -725,6 +726,7 @@ namespace arrakis
                     else
                     {
                         sWirePlanePointCloud.AddPoint(
+                            clock_data,
                             trackIDsAndEnergy,
                             l,
                             channel,

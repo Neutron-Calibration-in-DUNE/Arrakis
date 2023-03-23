@@ -256,7 +256,7 @@ namespace arrakis
             for(auto detsim : detSimIDList)
             {
                 mc_data->SetWirePlanePointCloudLabels(
-                    detsim, shape, particle, shape_label, particle_label
+                    detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
                 );
 
                 // mDetectorPointCloud.shape_label[detsim] = LabelCast(shape);
