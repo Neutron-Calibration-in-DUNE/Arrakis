@@ -881,6 +881,28 @@ namespace arrakis
             }
             return detsim;
         }
+        TrackID_List MCData::FilterTrackID_PDGCode(TrackID_List& trackIDList, Int_t pdg)
+        {
+            TrackID_List particles;
+            for(auto track_id : trackIDList)
+            {
+                if(sTrackID_PDGCodeMap[track_id] == pdg) {
+                    particles.emplace_back(track_id);
+                }
+            }
+            return particles;
+        }
+        TrackID_List MCData::FilterTrackID_NotPDGCode(TrackID_List& trackIDList, Int_t pdg)
+        {
+            TrackID_List particles;
+            for(auto track_id : trackIDList)
+            {
+                if(sTrackID_PDGCodeMap[track_id] != pdg) {
+                    particles.emplace_back(track_id);
+                }
+            }
+            return particles;
+        }
         TrackID_List MCData::FilterTrackID_AbsPDGCode(TrackID_List& trackIDList, Int_t pdg)
         {
             TrackID_List particles;
@@ -922,6 +944,24 @@ namespace arrakis
                 if(sTrackID_ProcessMap[track_id] != process) {
                     particles.emplace_back(track_id);
                 }
+            }
+            return particles;
+        }
+        TrackID_Collection MCData::FilterTrackID_PDGCode(TrackID_Collection& trackIDCollection, Int_t pdg)
+        {
+            TrackID_Collection particles;
+            for(auto track_ids : trackIDCollection)
+            {
+                particles.emplace_back(FilterTrackID_PDGCode(track_ids, pdg));
+            }
+            return particles;
+        }
+        TrackID_Collection MCData::FilterTrackID_NotPDGCode(TrackID_Collection& trackIDCollection, Int_t pdg)
+        {
+            TrackID_Collection particles;
+            for(auto track_ids : trackIDCollection)
+            {
+                particles.emplace_back(FilterTrackID_NotPDGCode(track_ids, pdg));
             }
             return particles;
         }
