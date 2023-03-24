@@ -76,14 +76,12 @@ namespace arrakis
             const sim::SimChannel& GetMCSimChannel(Int_t index)         { return sMCSimChannelHandle->at(index); }
             const raw::RawDigit& GetMCRawDigit(Int_t index)             { return sMCRawDigitHandle->at(index); }
 
-            WirePlanePointCloud GetWirePlanePointCloud()    { return sWirePlanePointCloud; }
+            WirePlanePointCloud& GetWirePlanePointCloud()               { return sWirePlanePointCloud; }
             void SetWirePlanePointCloudLabels(
                 DetSimID_t detsim_id,
                 ShapeLabelInt shapeLabel, ParticleLabelInt particleLabel,
                 Int_t uniqueShape, Int_t uniqueParticle
             );
-            // std::vector<DetectorSimulation> GetDetectorSimulation() { return sDetectorSimulation; }
-            // DetectorSimulationNoise GetDetectorSimulationNoise()    { return sDetectorSimulationNoise; }
 
             /**
              * Various accessors from TrackID.  The convention for the function names are

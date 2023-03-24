@@ -206,14 +206,6 @@ namespace arrakis
             Int_t uniqueShape, Int_t uniqueParticle
         )
         {
-            if(sWirePlanePointCloud.particle_label[detsim_id] != LabelCast(ParticleLabel::Undefined)) 
-            {
-                // Logger::GetInstance("mcdata")->warning(
-                //     "replacing previous particle label: " + 
-                //     std::to_string(sWirePlanePointCloud.particle_label[detsim_id]) + 
-                //     " with: " + std::to_string(particleLabel)
-                // );
-            }
             sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
             sWirePlanePointCloud.particle_label[detsim_id] = particleLabel;
             sWirePlanePointCloud.unique_shape[detsim_id] = uniqueShape;
@@ -224,10 +216,6 @@ namespace arrakis
             sMCTruthHandles.clear();
             sPrimaries.clear();
             sWirePlanePointCloud.clear();
-
-            // sDetectorSimulation.clear();
-            // sDetectorSimulationBelowThreshold.clear();
-            // sDetectorSimulationNoise.clear();
 
             sTrackID_GeneratorLabelMap.clear();
             sTrackID_ParticleIDMap.clear();
@@ -519,55 +507,6 @@ namespace arrakis
                     ); 
                 }
             }
-            // for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
-            // {
-            //     for(auto truth : *sMCTruthHandles[jj])
-            //     {
-            //         /**
-            //          * MCTruth stores MCParticles starting with trackID = 0,
-            //          * rather than Geant4 which starts with trackID = 1.
-            //         */
-            //         if(truth.NParticles() == 0)
-            //         {
-            //             Logger::GetInstance("mcdata")->trace(
-            //                 "MCTruth for " + sMCTruthHandleLabels[jj] + 
-            //                 " contains no simulated particles."
-            //             );
-            //             continue;
-            //         }
-            //         Logger::GetInstance("mcdata")->trace(
-            //             "adding labels of type " + 
-            //             sMCTruthHandleLabels[jj] + 
-            //             " for " + std::to_string(truth.NParticles()) + 
-            //             " particles starting with track ID = " + 
-            //             std::to_string(truth.GetParticle(0).TrackId()+1)
-            //         );
-            //         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
-            //         {
-            //             if(truth.GetParticle(ii).Process() == "primary")
-            //             {
-            //                 Double_t init_x = truth.GetParticle(ii).Vx();
-            //                 Double_t init_y = truth.GetParticle(ii).Vy();
-            //                 Double_t init_z = truth.GetParticle(ii).Vz();
-            //                 Int_t pdg_code = truth.GetParticle(ii).PdgCode();
-            //                 for(auto primary : sPrimaries)
-            //                 {
-            //                     auto particle = (*sMCParticleHandle)[sTrackID_ParticleIDMap[primary]];
-            //                     if(
-            //                         particle.Vx() == init_x &&
-            //                         particle.Vy() == init_y &&
-            //                         particle.Vz() == init_z &&
-            //                         particle.PdgCode() == pdg_code
-            //                     )
-            //                     {
-            //                         sTrackID_GeneratorLabelMap[particle.TrackId()] = sGeneratorMap[sMCTruthHandleLabels[jj]];
-            //                         break;
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
         }
         void MCData::ProcessSimEnergyDeposits(art::Event const& event, 
             art::InputTag producer_label, art::InputTag instance_label

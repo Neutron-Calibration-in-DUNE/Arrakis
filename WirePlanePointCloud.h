@@ -48,6 +48,7 @@ namespace arrakis
         Beam = 2,
         Radiological = 3,
         PulsedNeutronSource = 4,
+        Mixed = 5
     };
     using SourceLabelInt = std::underlying_type<SourceLabel>::type;
     inline Int_t LabelCast(SourceLabel label)
@@ -62,6 +63,7 @@ namespace arrakis
         Track = 2,
         Shower = 3,
         NeutronCapture = 4,
+        Mixed = 5
     };
     using ShapeLabelInt = std::underlying_type<ShapeLabel>::type;
     inline Int_t LabelCast(ShapeLabel label) 
@@ -100,6 +102,7 @@ namespace arrakis
         Rn222 = 26,
         NuclearRecoil = 27,
         ElectronRecoil = 28,
+        Mixed = 29
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
