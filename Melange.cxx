@@ -124,14 +124,6 @@ namespace arrakis
                             std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_ids[ii][jj])))
                         );
                     }
-                    // auto ancestry = mc_data->GetAncestryTrackID_TrackID(wire_plane_point_cloud.track_id[ii]);
-                    // for(auto ancestor : ancestry)
-                    // {
-                    //     std::cout << "\tancestor: " << ancestor << " - pdg: ";
-                    //     std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
-                    //     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
-                    //     std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
-                    // }
                 }
             }
         }
@@ -149,7 +141,8 @@ namespace arrakis
             for (auto detsim : detSimIDList)
             {
                 mc_data->SetWirePlanePointCloudLabels(
-                    detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label);
+                    detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
+                );
             }
         }
         void Melange::SetLabels(

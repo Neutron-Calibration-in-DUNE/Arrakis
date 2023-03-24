@@ -47,6 +47,7 @@ namespace arrakis
         Cosmics = 1,
         Beam = 2,
         Radiological = 3,
+        PulsedNeutronSource = 4,
     };
     using SourceLabelInt = std::underlying_type<SourceLabel>::type;
     inline Int_t LabelCast(SourceLabel label)
