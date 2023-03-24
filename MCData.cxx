@@ -486,10 +486,10 @@ namespace arrakis
                                 truth.GetParticle(ii).PdgCode() == pdg_code
                             )
                             {
-                                std::cout << "primary: " << sMCTruthHandleLabels[jj] << " - pdg: " << pdg_code;
-                                std::cout << " - pos: (" << position[0] << "," << position[1] << "," << position[2] << " - (";
-                                std::cout << truth.GetParticle(ii).Position()[0] << "," << truth.GetParticle(ii).Position()[1] << "," << truth.GetParticle(ii).Position()[2];
-                                std::cout << "energy: " << particle.E() << " - " << truth.GetParticle(ii).E();
+                                std::cout << "primary: " << sMCTruthHandleLabels[jj] << "\n\tpdg: " << pdg_code;
+                                std::cout << "\n\tpos: (" << position[0] << "," << position[1] << "," << position[2] << ")\n\t(";
+                                std::cout << truth.GetParticle(ii).Position()[0] << "," << truth.GetParticle(ii).Position()[1] << "," << truth.GetParticle(ii).Position()[2] << ")";
+                                std::cout << "\n\tenergy: " << particle.E() << "\n\t" << truth.GetParticle(ii).E();
                                 sTrackID_GeneratorLabelMap[primary] = sGeneratorMap[sMCTruthHandleLabels[jj]];
                                 found = true;
                                 break;
@@ -499,13 +499,16 @@ namespace arrakis
                 }
                 if(!found)
                 {
-                    Logger::GetInstance("mcdata")->warning(
-                        "couldn't find mc truth for primary with TrackID: " +
-                        std::to_string(primary) + " - PDGCode: " +
-                        std::to_string(pdg_code) + " - Position: (" +
-                        std::to_string(position[0]) + "," + std::to_string(position[1]) +
-                        "," + std::to_string(position[2])
-                    ); 
+                    std::cout << "couldn't find primary: " << primary << "\n\tpdg: " << pdg_code;
+                    std::cout << "\n\tpos: (" << position[0] << "," << position[1] << "," << position[2] << ")";
+                    std::cout << "energy: " << particle.E() << "\n\t" << truth.GetParticle(ii).E();
+                    // Logger::GetInstance("mcdata")->warning(
+                    //     "couldn't find mc truth for primary with TrackID: " +
+                    //     std::to_string(primary) + " - PDGCode: " +
+                    //     std::to_string(pdg_code) + " - Position: (" +
+                    //     std::to_string(position[0]) + "," + std::to_string(position[1]) +
+                    //     "," + std::to_string(position[2])
+                    // ); 
                 }
             }
             // for(size_t jj = 0; jj < sMCTruthHandles.size(); jj++)
