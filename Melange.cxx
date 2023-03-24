@@ -140,18 +140,21 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             for (auto detsim : detSimIDList)
             {
-                if(mc_data->GetWirePlanePointCloud().particle_label[detsim] == LabelCast(ParticleLabel::Undefined))
-                {
-                    mc_data->SetWirePlanePointCloudLabels(
-                        detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
-                    );
-                }
-                else
-                {
-                    mc_data->SetWirePlanePointCloudLabels(
-                        detsim, LabelCast(ShapeLabel::Mixed), LabelCast(ParticleLabel::Mixed), shape_label, particle_label
-                    );
-                }
+                mc_data->SetWirePlanePointCloudLabels(
+                    detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
+                );
+                // if(mc_data->GetWirePlanePointCloud().particle_label[detsim] == LabelCast(ParticleLabel::Undefined))
+                // {
+                //     mc_data->SetWirePlanePointCloudLabels(
+                //         detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
+                //     );
+                // }
+                // else
+                // {
+                //     mc_data->SetWirePlanePointCloudLabels(
+                //         detsim, LabelCast(ShapeLabel::Mixed), LabelCast(ParticleLabel::Mixed), shape_label, particle_label
+                //     );
+                // }
             }
         }
         void Melange::SetLabels(
