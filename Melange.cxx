@@ -140,7 +140,7 @@ namespace arrakis
             auto mc_data = mcdata::MCData::GetInstance();
             for (auto detsim : detSimIDList)
             {
-                if(mc_data->GetWirePlanePointCloud().particle_label == LabelCast(ParticleLabel::Undefined))
+                if(mc_data->GetWirePlanePointCloud().particle_label[detsim] == LabelCast(ParticleLabel::Undefined))
                 {
                     mc_data->SetWirePlanePointCloudLabels(
                         detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
