@@ -278,7 +278,7 @@ namespace arrakis
             for (auto muon : muons)
             {
                 auto muon_daughters = mc_data->GetDaughterTrackID_TrackID(muon);
-                //auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muon);
+                auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muon);
                 auto muon_det_sim = mc_data->GetDetSimID_TrackID(muon);
                 Int_t muon_label = IterateShapeLabel();
                 Int_t particle_label = IterateParticleLabel();
