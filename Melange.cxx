@@ -115,12 +115,15 @@ namespace arrakis
             {
                 if(wire_plane_point_cloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
                 {
-                    Logger::GetInstance("melange")->warning(
-                        "undefined point: " + std::to_string(ii) + " - trackid: " +
-                        std::to_string(wire_plane_point_cloud.track_id[ii]) + " - pdg: " +
-                        std::to_string(mc_data->GetPDGCode_TrackID(wire_plane_point_cloud.track_id[ii])) + " - process: " +
-                        std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_id[ii])))
-                    );
+                    for(size_t jj = 0; jj < wire_plane_point_cloud.track_ids[ii].size(); jj++)
+                    {
+                        Logger::GetInstance("melange")->warning(
+                            "undefined point: " + std::to_string(ii) + " - trackid: " +
+                            std::to_string(wire_plane_point_cloud.track_ids[ii][jj]) + " - pdg: " +
+                            std::to_string(mc_data->GetPDGCode_TrackID(wire_plane_point_cloud.track_ids[ii][jj])) + " - process: " +
+                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_ids[ii][jj])))
+                        );
+                    }
                     // auto ancestry = mc_data->GetAncestryTrackID_TrackID(wire_plane_point_cloud.track_id[ii]);
                     // for(auto ancestor : ancestry)
                     // {
