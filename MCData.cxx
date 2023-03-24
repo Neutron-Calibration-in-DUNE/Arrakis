@@ -481,10 +481,16 @@ namespace arrakis
                     {
                         for(Int_t ii = 0; ii < truth.NParticles(); ii++)
                         {
+                            auto truth_position = truth.GetParticle(ii).Position();
                             if(
-                                truth.GetParticle(ii).Position() == position &&
-                                truth.GetParticle(ii).PdgCode() == pdg_code
+                                round(truth_position[0]*pow(10,6))/pow(10,6) == round(position[0]*pow(10,6))/pow(10,6) &&
+                                round(truth_position[1]*pow(10,6))/pow(10,6) == round(position[1]*pow(10,6))/pow(10,6) &&
+                                round(truth_position[2]*pow(10,6))/pow(10,6) == round(position[2]*pow(10,6))/pow(10,6)
                             )
+                            // if(
+                            //     truth.GetParticle(ii).Position() == position &&
+                            //     truth.GetParticle(ii).PdgCode() == pdg_code
+                            // )
                             {
                                 std::cout << "primary: " << sMCTruthHandleLabels[jj] << "\n\ttrack_id: " << primary << "\n\t";
                                 std::cout << std::to_string(truth.GetParticle(ii).TrackId()) << "\n\tpdg: " << pdg_code;
