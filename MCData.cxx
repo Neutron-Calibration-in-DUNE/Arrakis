@@ -489,7 +489,7 @@ namespace arrakis
                                 std::cout << "primary: " << sMCTruthHandleLabels[jj] << "\n\tpdg: " << pdg_code;
                                 std::cout << "\n\tpos: (" << position[0] << "," << position[1] << "," << position[2] << ")\n\t(";
                                 std::cout << truth.GetParticle(ii).Position()[0] << "," << truth.GetParticle(ii).Position()[1] << "," << truth.GetParticle(ii).Position()[2] << ")";
-                                std::cout << "\n\tenergy: " << particle.E() << "\n\t" << truth.GetParticle(ii).E();
+                                std::cout << "\n\tenergy: " << particle.E() << "\n\t" << truth.GetParticle(ii).E() << std::endl;
                                 sTrackID_GeneratorLabelMap[primary] = sGeneratorMap[sMCTruthHandleLabels[jj]];
                                 found = true;
                                 break;
@@ -501,7 +501,7 @@ namespace arrakis
                 {
                     std::cout << "couldn't find primary: " << primary << "\n\tpdg: " << pdg_code;
                     std::cout << "\n\tpos: (" << position[0] << "," << position[1] << "," << position[2] << ")";
-                    std::cout << "energy: " << particle.E() << "\n\t" << truth.GetParticle(ii).E();
+                    std::cout << "energy: " << particle.E() << std::endl;
                     // Logger::GetInstance("mcdata")->warning(
                     //     "couldn't find mc truth for primary with TrackID: " +
                     //     std::to_string(primary) + " - PDGCode: " +
