@@ -40,6 +40,19 @@
 
 namespace arrakis
 {
+    enum class SourceLabel
+    {
+        Undefined = -1,
+        Noise = 0,
+        Cosmics = 1,
+        Beam = 2,
+        Radiological = 3,
+    };
+    using SourceLabelInt = std::underlying_type<SourceLabel>::type;
+    inline Int_t LabelCast(SourceLabel label)
+    {
+        return static_cast<SourceLabelInt>(label);
+    }
     enum class ShapeLabel
     {
         Undefined = -1,
@@ -109,9 +122,11 @@ namespace arrakis
         std::vector<std::vector<Double_t>> y = {};
         std::vector<std::vector<Double_t>> z = {};
 
+        std::vector<SourceLabelInt> source_label = {};
         std::vector<ShapeLabelInt> shape_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
 
+        std::vector<Int_t> unique_source = {};
         std::vector<Int_t> unique_shape = {};
         std::vector<Int_t> unique_particle = {};
 
@@ -132,8 +147,11 @@ namespace arrakis
             track_ids.clear();
             energies.clear();
             
+            source_label.clear();
             shape_label.clear();
             particle_label.clear();
+
+            unique_source.clear();
             unique_shape.clear();
             unique_particle.clear();
         }
@@ -182,14 +200,17 @@ namespace arrakis
 
             if(det_noise)
             {
+                source_label.emplace_back(LabelCast(SourceLabel::Noise));
                 shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
             }
             else
             {
+                source_label.emplace_back(LabelCast(SourceLabel::Undefined));
                 shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
             }
+            unique_source.emplace_back(-1);
             unique_shape.emplace_back(-1);
             unique_particle.emplace_back(-1);
         }

@@ -661,11 +661,42 @@ namespace arrakis
         void Melange::ProcessCosmics(
             const Parameters &config, art::Event const &event)
         {
-            // auto mc_data = mcdata::MCData::GetInstance();
-            // auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
-            // for(auto cosmic : cosmics)
-            // {
-            // }
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
+            auto electrons = mc_data->FilterTrackID_PDGCode(cosmics, 11);
+            auto positrons = mc_data->FilterTrackID_PDGCode(cosmics, -11);
+            for (auto electron : electrons)
+            {
+                auto electron_daughters = mc_data->GetDaughterTrackID_TrackID(electron);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(electron_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(electron_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto electron_progeny = mc_data->GetProgenyTrackID_TrackID(electron);
+                auto electron_det_sim = mc_data->GetDetSimID_TrackID(electron);
+                // Set electron detsim labels to Shower::ElectronShower
+                Int_t shower_label = IterateShapeLabel();
+                Int_t electron_label = IterateParticleLabel();
+                SetLabels(electron_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
+                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
+                ProcessShowers(electron_progeny, shower_label);
+                ProcessShowers(other_daughters, IterateShapeLabel());
+            }
+            for (auto positron : positrons)
+            {
+                auto positron_daughters = mc_data->GetDaughterTrackID_TrackID(positron);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(positron_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(positron_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto positron_progeny = mc_data->GetProgenyTrackID_TrackID(positron);
+                auto positron_det_sim = mc_data->GetDetSimID_TrackID(positron);
+                // Set positron detsim labels to Shower::positronShower
+                Int_t shower_label = IterateShapeLabel();
+                Int_t positron_label = IterateParticleLabel();
+                SetLabels(positron_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
+                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
+                ProcessShowers(positron_progeny, shower_label);
+                ProcessShowers(other_daughters, IterateShapeLabel());
+            }
         }
     }
 }
