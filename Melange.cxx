@@ -109,27 +109,28 @@ namespace arrakis
         void Melange::CleanUpPointClouds(
             const Parameters &config, art::Event const &event)
         {
-            // auto mc_data = mcdata::MCData::GetInstance();
-            // for(size_t ii = 0; ii < mDetectorPointCloud.channel.size(); ii++)
-            // {
-            //     if(mDetectorPointCloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
-            //     {
-            //         Logger::GetInstance("melange")->warning(
-            //             "undefined point: " + std::to_string(ii) + " - trackid: " +
-            //             std::to_string(mDetectorPointCloud.track_id[ii]) + " - pdg: " +
-            //             std::to_string(mc_data->GetPDGCode_TrackID(mDetectorPointCloud.track_id[ii])) + " - process: " +
-            //             std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(mDetectorPointCloud.track_id[ii])))
-            //         );
-            //         // auto ancestry = mc_data->GetAncestryTrackID_TrackID(mDetectorPointCloud.track_id[ii]);
-            //         // for(auto ancestor : ancestry)
-            //         // {
-            //         //     std::cout << "\tancestor: " << ancestor << " - pdg: ";
-            //         //     std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
-            //         //     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
-            //         //     std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
-            //         // }
-            //     }
-            // }
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto wire_plane_point_cloud = mc_data->GetWirePlanePointCloud();
+            for(size_t ii = 0; ii < wire_plane_point_cloud.channel.size(); ii++)
+            {
+                if(wire_plane_point_cloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
+                {
+                    Logger::GetInstance("melange")->warning(
+                        "undefined point: " + std::to_string(ii) + " - trackid: " +
+                        std::to_string(wire_plane_point_cloud.track_id[ii]) + " - pdg: " +
+                        std::to_string(mc_data->GetPDGCode_TrackID(wire_plane_point_cloud.track_id[ii])) + " - process: " +
+                        std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_id[ii])))
+                    );
+                    // auto ancestry = mc_data->GetAncestryTrackID_TrackID(wire_plane_point_cloud.track_id[ii]);
+                    // for(auto ancestor : ancestry)
+                    // {
+                    //     std::cout << "\tancestor: " << ancestor << " - pdg: ";
+                    //     std::cout << mc_data->GetPDGCode_TrackID(ancestor) << " - process: ";
+                    //     std::cout << ProcessTypeInt(mc_data->GetProcess_TrackID(ancestor)) << " - parent: ";
+                    //     std::cout << mc_data->GetParentTrackID_TrackID(ancestor) << std::endl;
+                    // }
+                }
+            }
         }
 
         void Melange::SeparatePointClouds(
@@ -223,7 +224,7 @@ namespace arrakis
                 Int_t electron_label = IterateParticleLabel();
                 SetLabels(electron_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
                 SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
-                ProcessShowers(electron_daughters, shower_label);
+                ProcessShowers(electron_progeny, shower_label);
                 ProcessShowers(other_daughters, IterateShapeLabel());
             }
         }
@@ -246,7 +247,7 @@ namespace arrakis
                 Int_t positron_label = IterateParticleLabel();
                 SetLabels(positron_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
                 SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
-                ProcessShowers(positron_daughters, shower_label);
+                ProcessShowers(positron_progeny, shower_label);
                 ProcessShowers(other_daughters, IterateShapeLabel());
             }
         }
@@ -267,7 +268,7 @@ namespace arrakis
                 Int_t gamma_label = IterateParticleLabel();
                 SetLabels(gamma_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shower_label, gamma_label);
                 SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shower_label, gamma_label);
-                ProcessShowers(gamma_daughters, shower_label);
+                ProcessShowers(gamma_progeny, shower_label);
             }
         }
         void Melange::ProcessMuons(
