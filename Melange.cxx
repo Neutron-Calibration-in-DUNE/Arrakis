@@ -509,14 +509,24 @@ namespace arrakis
              * 1000180400, 1000180390 and 1000180360).
              */
             auto mc_data = mcdata::MCData::GetInstance();
+            auto ar41 = mc_data->GetTrackID_PDGCode(1000180410);
             auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
             auto ar39 = mc_data->GetTrackID_PDGCode(1000180390);
             auto ar38 = mc_data->GetTrackID_PDGCode(1000180380);
             auto ar36 = mc_data->GetTrackID_PDGCode(1000180360);
+            auto ar41_daughters = mc_data->GetDaughterTrackID_TrackID(ar41);
             auto ar40_daughters = mc_data->GetDaughterTrackID_TrackID(ar40);
             auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
             auto ar38_daughters = mc_data->GetDaughterTrackID_TrackID(ar38);
             auto ar36_daughters = mc_data->GetDaughterTrackID_TrackID(ar36);
+            for (auto ar : ar41)
+            {
+                auto ar41_det_sim = mc_data->GetDetSimID_TrackID(ar);
+                SetLabels(
+                    ar41_det_sim,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel(), IterateParticleLabel());
+            }
             for (auto ar : ar40)
             {
                 auto ar40_det_sim = mc_data->GetDetSimID_TrackID(ar);
@@ -549,6 +559,7 @@ namespace arrakis
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
                     IterateShapeLabel(), IterateParticleLabel());
             }
+            ProcessShowers(ar41_daughters);
             ProcessShowers(ar40_daughters);
             ProcessShowers(ar39_daughters);
             ProcessShowers(ar38_daughters);
