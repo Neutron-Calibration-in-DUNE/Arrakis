@@ -724,6 +724,7 @@ namespace arrakis
                                 (Int_t) (std::abs(uncompressed[l])),
                                 true
                             );
+                            digit_index += 1;
                         }
                     }
                     else
@@ -736,23 +737,23 @@ namespace arrakis
                             (Int_t) (std::abs(uncompressed[l])),
                             false
                         );
-                    }
-                    // associate this detector simulation with a particle particle
-                    for(auto track : trackIDsAndEnergy)
-                    {
-                        if(track.trackID > 0) {
-                            sTrackID_DetSimIDMap[track.trackID].emplace_back(digit_index);
+                        // associate this detector simulation with a particle particle
+                        for(auto track : trackIDsAndEnergy)
+                        {
+                            if(track.trackID > 0) {
+                                sTrackID_DetSimIDMap[track.trackID].emplace_back(digit_index);
+                            }
+                            else {
+                                sTrackID_RandomDetSimIDMap[track.trackID] = {digit_index};
+                            }
                         }
-                        else {
-                            sTrackID_RandomDetSimIDMap[track.trackID] = {digit_index};
-                        }
+                        // determine the edeps associated with this detector simulation
+                        sDetSimID_EdepIDMap[digit_index] = DetermineDetectorSimulationEdeps(
+                            trackIDsAndEnergy,
+                            digit_index
+                        );
+                        digit_index += 1;
                     }
-                    // determine the edeps associated with this detector simulation
-                    sDetSimID_EdepIDMap[digit_index] = DetermineDetectorSimulationEdeps(
-                        trackIDsAndEnergy,
-                        digit_index
-                    );
-                    digit_index += 1;
                 }
             }
         }
