@@ -486,7 +486,7 @@ namespace arrakis
                                 truth.GetParticle(ii).PdgCode() == pdg_code
                             )
                             {
-                                std::cout << "primary: " << sTruthHandleLabels[jj] << " - pdg: " << pdg_code;
+                                std::cout << "primary: " << sMCTruthHandleLabels[jj] << " - pdg: " << pdg_code;
                                 std::cout << " - pos: (" << position[0] << "," << position[1] << "," << position[2] << " - (";
                                 std::cout << truth.GetParticle(ii).Position()[0] << "," << truth.GetParticle(ii).Position()[1] << "," << truth.GetParticle(ii).Position()[2];
                                 std::cout << "energy: " << particle.E() << " - " << truth.GetParticle(ii).E();
