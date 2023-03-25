@@ -78,7 +78,7 @@ namespace arrakis
 
             WirePlanePointCloud& GetWirePlanePointCloud()               { return sWirePlanePointCloud; }
             void SetWirePlanePointCloudLabels(
-                DetSimID_t detsim_id,
+                DetSimID_t detsim_id, TrackID_t track_id,
                 ShapeLabelInt shapeLabel, ParticleLabelInt particleLabel,
                 Int_t uniqueShape, Int_t uniqueParticle
             );

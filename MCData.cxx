@@ -201,11 +201,19 @@ namespace arrakis
             );
         }
         void MCData::SetWirePlanePointCloudLabels(
-            DetSimID_t detsim_id,
+            DetSimID_t detsim_id, TrackID_t track_id,
             ShapeLabelInt shapeLabel, ParticleLabelInt particleLabel,
             Int_t uniqueShape, Int_t uniqueParticle
         )
         {
+            auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detsim_id, track_id);
+            if(track_index != -1)
+            {
+                sWirePlanePointCloud.shape_labels[detsim][track_index] = shapeLabel;
+                sWirePlanePointCloud.particle_labels[detsim][track_index] = particleLabel;
+                sWirePlanePointCloud.unique_shapes[detsim][track_index] = uniqueShape;
+                sWirePlanePointCloud.unique_particles[detsim][track_index] = uniqueParticle;
+            }
             sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
             sWirePlanePointCloud.particle_label[detsim_id] = particleLabel;
             sWirePlanePointCloud.unique_shape[detsim_id] = uniqueShape;
@@ -693,7 +701,7 @@ namespace arrakis
                             (Int_t) (std::abs(uncompressed[l])),
                             false
                         );
-                        // associate this detector simulation with a particle particle
+                        // associate this detector simulation with a particle
                         for(auto track : trackIDsAndEnergy)
                         {
                             if(track.trackID > 0) {

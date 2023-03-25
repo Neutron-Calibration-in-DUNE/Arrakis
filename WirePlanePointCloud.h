@@ -125,6 +125,12 @@ namespace arrakis
         std::vector<std::vector<Double_t>> x = {};
         std::vector<std::vector<Double_t>> y = {};
         std::vector<std::vector<Double_t>> z = {};
+        std::vector<std::vector<SourceLabelInt>> source_labels = {};
+        std::vector<std::vector<ShapeLabelInt>> shape_labels = {};
+        std::vector<std::vector<ParticleLabelInt>> particle_labels = {};
+        std::vector<std::vector<Int_t>> unique_sources = {};
+        std::vector<std::vector<Int_t>> unique_shapes = {};
+        std::vector<std::vector<Int_t>> unique_particles = {};
 
         std::vector<SourceLabelInt> source_label = {};
         std::vector<ShapeLabelInt> shape_label = {};
@@ -133,6 +139,8 @@ namespace arrakis
         std::vector<Int_t> unique_source = {};
         std::vector<Int_t> unique_shape = {};
         std::vector<Int_t> unique_particle = {};
+
+
 
         WirePlanePointCloud()
         {
@@ -150,6 +158,15 @@ namespace arrakis
 
             track_ids.clear();
             energies.clear();
+            x.clear();
+            y.clear();
+            z.clear();
+            source_labels.clear();
+            shape_labels.clear();
+            particle_labels.clear();
+            unique_sources.clear();
+            unique_shapes.clear();
+            unique_particles.clear();
             
             source_label.clear();
             shape_label.clear();
@@ -185,6 +202,12 @@ namespace arrakis
             std::vector<Double_t> det_x;
             std::vector<Double_t> det_y;
             std::vector<Double_t> det_z;
+            std::vector<SourceLabelInt> det_source;
+            std::vector<ShapeLabelInt> det_shape;
+            std::vector<ParticleLabelInt> det_particle;
+            std::vector<Int_t> det_unique_source;
+            std::vector<Int_t> det_unique_shape;
+            std::vector<Int_t> det_unique_particle;
             Double_t det_energy = 0.0;
             for(auto ide : det_ide)
             {
@@ -193,6 +216,21 @@ namespace arrakis
                 det_x.emplace_back(ide.x);
                 det_y.emplace_back(ide.y);
                 det_z.emplace_back(ide.z);
+                if(det_noise)
+                {
+                    det_source.emplace_back(LabelCast(SourceLabel::Noise));
+                    det_shape.emplace_back(LabelCast(ShapeLabel::Noise));
+                    det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
+                }
+                else
+                {
+                    det_source.emplace_back(LabelCast(SourceLabel::Undefined));
+                    det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
+                    det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
+                }
+                det_unique_source.emplace_back(-1);
+                det_unique_shape.emplace_back(-1);
+                det_unique_particle.emplace_back(-1);
                 det_energy += ide.energy;
             }
             energy.emplace_back(det_energy);
@@ -201,6 +239,12 @@ namespace arrakis
             x.emplace_back(det_x);
             y.emplace_back(det_y);
             z.emplace_back(det_z);
+            source_labels.emplace_back(det_source);
+            shape_labels.emplace_back(det_shape);
+            particle_labels.emplace_back(det_particle);
+            unique_sources.emplace_back(det_unique_source);
+            unique_shapes.emplace_back(det_unique_shape);
+            unique_particles.emplace_back(det_unique_particle);
 
             if(det_noise)
             {
@@ -217,6 +261,15 @@ namespace arrakis
             unique_source.emplace_back(-1);
             unique_shape.emplace_back(-1);
             unique_particle.emplace_back(-1);
+        }
+        Int_t GetIndex_TrackID(DetSimID_t detsim, TrackID_t track_id)
+        {
+            for(size_t ii = 0; ii < track_ids[detsim].size(); ii++) {
+                if(track_ids[detsim][ii] == track_id) {
+                    return ii;
+                }
+            }
+            return -1;
         }
     };
 }

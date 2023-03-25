@@ -125,6 +125,17 @@ namespace arrakis
                         );
                     }
                 }
+                if(wire_plane_point_cloud.shape_labels[ii].size() > 1)
+                {
+                    auto num_tracks = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Track));
+                    auto num_showers = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Shower));
+                    auto num_blips = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Blip));
+                    auto num_captures = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::NeutronCapture));
+                    if(num_tracks)
+                    {
+                        wire_plane_point_cloud.shape_label[ii] = LabelCast(ShapeLabel::Track);
+                    }
+                }
             }
         }
 
@@ -133,48 +144,50 @@ namespace arrakis
         {
         }
         void Melange::SetLabels(
-            DetSimID_List detSimIDList,
+            DetSimID_List detSimIDList, TrackID_t trackID, 
             ShapeLabel shape, ParticleLabel particle,
             Int_t shape_label, Int_t particle_label)
         {
             auto mc_data = mcdata::MCData::GetInstance();
-            for (auto detsim : detSimIDList)
+            for(size_t ii = 0; ii < detSimIDList.size(); ii++)
             {
                 mc_data->SetWirePlanePointCloudLabels(
-                    detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
+                    detSimIDList[ii], trackID, 
+                    LabelCast(shape), LabelCast(particle), 
+                    shape_label, particle_label
                 );
-                // if(mc_data->GetWirePlanePointCloud().particle_label[detsim] == LabelCast(ParticleLabel::Undefined))
-                // {
-                //     mc_data->SetWirePlanePointCloudLabels(
-                //         detsim, LabelCast(shape), LabelCast(particle), shape_label, particle_label
-                //     );
-                // }
-                // else
-                // {
-                //     mc_data->SetWirePlanePointCloudLabels(
-                //         detsim, LabelCast(ShapeLabel::Mixed), LabelCast(ParticleLabel::Mixed), shape_label, particle_label
-                //     );
-                // }
             }
         }
         void Melange::SetLabels(
             DetSimID_Collection detSimIDCollection,
+            TrackID_List trackIDList,
             ShapeLabel shape, ParticleLabel particle,
             Int_t shape_label, Int_t particle_label)
         {
-            for (auto detsimIDList : detSimIDCollection)
+            for(size_t ii = 0; ii < detSimIDCollection.size(); ii++)
             {
-                SetLabels(detsimIDList, shape, particle, shape_label, particle_label);
+                SetLabels(
+                    detsimIDCollection[ii],
+                    trackIDList[ii], 
+                    shape, particle, 
+                    shape_label, particle_label
+                );
             }
         }
         void Melange::SetLabels(
             std::vector<DetSimID_Collection> detSimIDCollection,
+            TrackID_Collections trackIDCollection,
             ShapeLabel shape, ParticleLabel particle,
             Int_t shape_label, Int_t particle_label)
         {
-            for (auto detsimIDList : detSimIDCollection)
+            for(size_t ii = 0; ii < detSimIDCollection.size(); ii++)
             {
-                SetLabels(detsimIDList, shape, particle, shape_label, particle_label);
+                SetLabels(
+                    detsimIDCollection[ii],
+                    trackIDCollection[ii], 
+                    shape, particle, 
+                    shape_label, particle_label
+                );
             }
         }
         void Melange::ProcessShowers(TrackID_t trackID, Int_t shapeLabel)
@@ -183,15 +196,27 @@ namespace arrakis
             auto particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
             if (mc_data->GetPDGCode_TrackID(trackID) == 11)
             {
-                SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shapeLabel, IterateParticleLabel());
+                SetLabels(
+                    particle_det_sim, trackID,
+                    ShapeLabel::Shower, ParticleLabel::ElectronShower, 
+                    shapeLabel, IterateParticleLabel()
+                );
             }
             else if (mc_data->GetPDGCode_TrackID(trackID) == -11)
             {
-                SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shapeLabel, IterateParticleLabel());
+                SetLabels(
+                    particle_det_sim, trackID,
+                    ShapeLabel::Shower, ParticleLabel::PositronShower, 
+                    shapeLabel, IterateParticleLabel()
+                );
             }
             else if (mc_data->GetAbsPDGCode_TrackID(trackID) == 22)
             {
-                SetLabels(particle_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shapeLabel, IterateParticleLabel());
+                SetLabels(
+                    particle_det_sim, trackID,
+                    ShapeLabel::Shower, ParticleLabel::PhotonShower, 
+                    shapeLabel, IterateParticleLabel()
+                );
             }
             auto daughters = mc_data->GetDaughterTrackID_TrackID(trackID);
             auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(daughters, 11);
@@ -230,8 +255,16 @@ namespace arrakis
                 // Set electron detsim labels to Shower::ElectronShower
                 Int_t shower_label = IterateShapeLabel();
                 Int_t electron_label = IterateParticleLabel();
-                SetLabels(electron_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
-                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
+                SetLabels(
+                    electron_det_sim, electron,
+                    ShapeLabel::Shower, ParticleLabel::ElectronShower, 
+                    shower_label, electron_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Shower, ParticleLabel::ElectronShower, 
+                    shower_label, electron_label
+                );
                 ProcessShowers(electron_progeny, shower_label);
                 ProcessShowers(other_daughters, IterateShapeLabel());
             }
@@ -253,8 +286,16 @@ namespace arrakis
                 // Set positron detsim labels to Shower::positronShower
                 Int_t shower_label = IterateShapeLabel();
                 Int_t positron_label = IterateParticleLabel();
-                SetLabels(positron_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
-                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
+                SetLabels(
+                    positron_det_sim, positron,
+                    ShapeLabel::Shower, ParticleLabel::PositronShower, 
+                    shower_label, positron_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Shower, ParticleLabel::PositronShower, 
+                    shower_label, positron_label
+                );
                 ProcessShowers(positron_progeny, shower_label);
                 ProcessShowers(other_daughters, IterateShapeLabel());
             }
@@ -274,8 +315,16 @@ namespace arrakis
                 // Set gamma detsim labels to Shower::PhotonShower
                 Int_t shower_label = IterateShapeLabel();
                 Int_t gamma_label = IterateParticleLabel();
-                SetLabels(gamma_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shower_label, gamma_label);
-                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PhotonShower, shower_label, gamma_label);
+                SetLabels(
+                    gamma_det_sim, gamma,
+                    ShapeLabel::Shower, ParticleLabel::PhotonShower, 
+                    shower_label, gamma_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Shower, ParticleLabel::PhotonShower, 
+                    shower_label, gamma_label
+                );
                 ProcessShowers(gamma_progeny, shower_label);
             }
         }
@@ -292,7 +341,11 @@ namespace arrakis
                 Int_t muon_label = IterateShapeLabel();
                 Int_t particle_label = IterateParticleLabel();
                 // Set muon detsim labels to Track:Muon
-                SetLabels(muon_det_sim, ShapeLabel::Track, ParticleLabel::Muon, muon_label, particle_label);
+                SetLabels(
+                    muon_det_sim, muon,
+                    ShapeLabel::Track, ParticleLabel::Muon, 
+                    muon_label, particle_label
+                );
                 // Filter for Michel and Delta Electrons
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
                 auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(muon_daughters, 11);
@@ -300,8 +353,16 @@ namespace arrakis
                 auto delta_daughters = mc_data->FilterTrackID_NotProcess(elec_daughters, ProcessType::Decay);
                 auto michel_det_sim = mc_data->GetDetSimID_TrackID(michel_daughters);
                 auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
-                SetLabels(michel_det_sim, ShapeLabel::Track, ParticleLabel::MichelElectron, IterateShapeLabel(), IterateParticleLabel());
-                SetLabels(delta_det_sim, ShapeLabel::Track, ParticleLabel::DeltaElectron, IterateShapeLabel(), IterateParticleLabel());
+                SetLabels(
+                    michel_det_sim, michel_daughters,
+                    ShapeLabel::Track, ParticleLabel::MichelElectron, 
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+                SetLabels(
+                    delta_det_sim, delta_daughters,
+                    ShapeLabel::Track, ParticleLabel::DeltaElectron, 
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
 
                 auto delta_elec_daughters = mc_data->GetDaughterTrackID_TrackID(delta_daughters);
                 auto michel_elec_daughters = mc_data->GetDaughterTrackID_TrackID(michel_daughters);
@@ -325,7 +386,11 @@ namespace arrakis
                 Int_t muon_label = IterateShapeLabel();
                 Int_t particle_label = IterateParticleLabel();
                 // Set muon detsim labels to Track:Muon
-                SetLabels(muon_det_sim, ShapeLabel::Track, ParticleLabel::AntiMuon, muon_label, particle_label);
+                SetLabels(
+                    muon_det_sim, muon,
+                    ShapeLabel::Track, ParticleLabel::AntiMuon,
+                     muon_label, particle_label
+                    );
                 // Filter for Michel and Delta Electrons
                 auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
                 auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(muon_daughters, 11);
@@ -333,8 +398,16 @@ namespace arrakis
                 auto delta_daughters = mc_data->FilterTrackID_NotProcess(elec_daughters, ProcessType::Decay);
                 auto michel_det_sim = mc_data->GetDetSimID_TrackID(michel_daughters);
                 auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
-                SetLabels(michel_det_sim, ShapeLabel::Track, ParticleLabel::MichelElectron, IterateShapeLabel(), IterateParticleLabel());
-                SetLabels(delta_det_sim, ShapeLabel::Track, ParticleLabel::DeltaElectron, IterateShapeLabel(), IterateParticleLabel());
+                SetLabels(
+                    michel_det_sim, michel_daughters,
+                    ShapeLabel::Track, ParticleLabel::MichelElectron, 
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
+                SetLabels(
+                    delta_det_sim, delta_daughters,
+                    ShapeLabel::Track, ParticleLabel::DeltaElectron, 
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
 
                 auto delta_elec_daughters = mc_data->GetDaughterTrackID_TrackID(delta_daughters);
                 auto michel_elec_daughters = mc_data->GetDaughterTrackID_TrackID(michel_daughters);
@@ -375,7 +448,11 @@ namespace arrakis
             {
                 auto pi0_daughters = mc_data->GetDaughterTrackID_TrackID(pi0);
                 auto pi0_det_sim = mc_data->GetAllDetSimID_TrackID(pi0);
-                SetLabels(pi0_det_sim, ShapeLabel::Shower, ParticleLabel::Pion0, IterateShapeLabel(), IterateParticleLabel());
+                SetLabels(
+                    pi0_det_sim, pi0,
+                    ShapeLabel::Shower, ParticleLabel::Pion0, 
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
         }
         void Melange::ProcessPionPlus(
@@ -394,8 +471,16 @@ namespace arrakis
                 // Set piplus detsim labels to Track:PionMinus
                 Int_t track_label = IterateShapeLabel();
                 Int_t piplus_label = IterateParticleLabel();
-                SetLabels(piplus_det_sim, ShapeLabel::Track, ParticleLabel::PionPlus, track_label, piplus_label);
-                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionPlus, track_label, piplus_label);
+                SetLabels(
+                    piplus_det_sim, piplus,
+                    ShapeLabel::Track, ParticleLabel::PionPlus,
+                    track_label, piplus_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters
+                    ShapeLabel::Track, ParticleLabel::PionPlus, 
+                    track_label, piplus_label
+                );
                 ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(piplus_progeny, IterateShapeLabel());
             }
@@ -416,8 +501,16 @@ namespace arrakis
                 // Set piminus detsim labels to Track:PionMinus
                 Int_t track_label = IterateShapeLabel();
                 Int_t piminus_label = IterateParticleLabel();
-                SetLabels(piminus_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);
-                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::PionMinus, track_label, piminus_label);
+                SetLabels(
+                    piminus_det_sim, piminus,
+                    ShapeLabel::Track, ParticleLabel::PionMinus, 
+                    track_label, piminus_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Track, ParticleLabel::PionMinus, 
+                    track_label, piminus_label
+                );
                 ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(piminus_progeny, IterateShapeLabel());
             }
@@ -438,8 +531,16 @@ namespace arrakis
                 // Set proton detsim labels to Track:PionMinus
                 Int_t track_label = IterateShapeLabel();
                 Int_t proton_label = IterateParticleLabel();
-                SetLabels(proton_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label);
-                SetLabels(elec_det_sim, ShapeLabel::Track, ParticleLabel::Proton, track_label, proton_label);
+                SetLabels(
+                    proton_det_sim, proton,
+                    ShapeLabel::Track, ParticleLabel::Proton, 
+                    track_label, proton_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Track, ParticleLabel::Proton, 
+                    track_label, proton_label
+                );
                 ProcessShowers(other_daughters, IterateShapeLabel());
                 ProcessShowers(proton_progeny, IterateShapeLabel());
             }
@@ -497,9 +598,10 @@ namespace arrakis
                         particle_label = ParticleLabel::NeutronCaptureGamma016;
                     }
                     SetLabels(
-                        gamma_det_sim,
+                        gamma_det_sim, gamma,
                         ShapeLabel::NeutronCapture, particle_label,
-                        neutron_label, gamma_label);
+                        neutron_label, gamma_label
+                    );
                 }
             }
             ProcessShowers(other_daughters);
@@ -528,41 +630,46 @@ namespace arrakis
             {
                 auto ar41_det_sim = mc_data->GetDetSimID_TrackID(ar);
                 SetLabels(
-                    ar41_det_sim,
+                    ar41_det_sim, ar,
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             for (auto ar : ar40)
             {
                 auto ar40_det_sim = mc_data->GetDetSimID_TrackID(ar);
                 SetLabels(
-                    ar40_det_sim,
+                    ar40_det_sim, ar,
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             for (auto ar : ar39)
             {
                 auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar);
                 SetLabels(
-                    ar39_det_sim,
+                    ar39_det_sim, ar,
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             for (auto ar : ar38)
             {
                 auto ar38_det_sim = mc_data->GetDetSimID_TrackID(ar);
                 SetLabels(
-                    ar38_det_sim,
+                    ar38_det_sim, ar,
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             for (auto ar : ar36)
             {
                 auto ar36_det_sim = mc_data->GetDetSimID_TrackID(ar);
                 SetLabels(
-                    ar36_det_sim,
+                    ar36_det_sim, ar,
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             ProcessShowers(ar41_daughters);
             ProcessShowers(ar40_daughters);
@@ -587,17 +694,19 @@ namespace arrakis
             {
                 auto deuteron_det_sim = mc_data->GetDetSimID_TrackID(deuteron);
                 SetLabels(
-                    deuteron_det_sim,
+                    deuteron_det_sim, deuteron,
                     ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             for (auto triton : tritons)
             {
                 auto triton_det_sim = mc_data->GetDetSimID_TrackID(triton);
                 SetLabels(
-                    triton_det_sim,
+                    triton_det_sim, triton,
                     ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
-                    IterateShapeLabel(), IterateParticleLabel());
+                    IterateShapeLabel(), IterateParticleLabel()
+                );
             }
             ProcessShowers(deuteron_daughters);
             ProcessShowers(triton_daughters);
@@ -613,7 +722,11 @@ namespace arrakis
             auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
             auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar39);
             auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
-            SetLabels(ar39_det_sim, ShapeLabel::Blip, ParticleLabel::Ar39, IterateShapeLabel(), IterateParticleLabel());
+            SetLabels(
+                ar39_det_sim, ar39,
+                ShapeLabel::Blip, ParticleLabel::Ar39, 
+                IterateShapeLabel(), IterateParticleLabel()
+            );
             ProcessShowers(ar39_daughters);
         }
         void Melange::ProcessAr42(
@@ -627,7 +740,11 @@ namespace arrakis
             auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
             auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar42);
             auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42);
-            SetLabels(ar42_det_sim, ShapeLabel::Blip, ParticleLabel::Ar42, IterateShapeLabel(), IterateParticleLabel());
+            SetLabels(
+                ar42_det_sim, ar42, 
+                ShapeLabel::Blip, ParticleLabel::Ar42, 
+                IterateShapeLabel(), IterateParticleLabel()
+            );
             ProcessShowers(ar42_daughters);
         }
         void Melange::ProcessKr85(
@@ -642,7 +759,11 @@ namespace arrakis
             auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
             auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr85);
             auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr85);
-            SetLabels(kr85_det_sim, ShapeLabel::Blip, ParticleLabel::Kr85, IterateShapeLabel(), IterateParticleLabel());
+            SetLabels(
+                kr85_det_sim, kr85, 
+                ShapeLabel::Blip, ParticleLabel::Kr85, 
+                IterateShapeLabel(), IterateParticleLabel()
+            );
             ProcessShowers(kr85_daughters);
         }
         void Melange::ProcessRn222(
@@ -660,7 +781,11 @@ namespace arrakis
             auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
             auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
             auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
-            SetLabels(rn222_det_sim, ShapeLabel::Blip, ParticleLabel::Rn222, IterateShapeLabel(), IterateParticleLabel());
+            SetLabels(
+                rn222_det_sim, rn222, 
+                ShapeLabel::Blip, ParticleLabel::Rn222, 
+                IterateShapeLabel(), IterateParticleLabel()
+            );
             ProcessShowers(rn222_daughters);
         }
         void Melange::ProcessCosmics(
@@ -681,8 +806,16 @@ namespace arrakis
                 // Set electron detsim labels to Shower::ElectronShower
                 Int_t shower_label = IterateShapeLabel();
                 Int_t electron_label = IterateParticleLabel();
-                SetLabels(electron_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
-                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::ElectronShower, shower_label, electron_label);
+                SetLabels(
+                    electron_det_sim, electron,
+                    ShapeLabel::Shower, ParticleLabel::ElectronShower, 
+                    shower_label, electron_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters, 
+                    ShapeLabel::Shower, ParticleLabel::ElectronShower, 
+                    shower_label, electron_label
+                );
                 ProcessShowers(electron_progeny, shower_label);
                 ProcessShowers(other_daughters, IterateShapeLabel());
             }
@@ -697,8 +830,16 @@ namespace arrakis
                 // Set positron detsim labels to Shower::positronShower
                 Int_t shower_label = IterateShapeLabel();
                 Int_t positron_label = IterateParticleLabel();
-                SetLabels(positron_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
-                SetLabels(elec_det_sim, ShapeLabel::Shower, ParticleLabel::PositronShower, shower_label, positron_label);
+                SetLabels(
+                    positron_det_sim, positron, 
+                    ShapeLabel::Shower, ParticleLabel::PositronShower, 
+                    shower_label, positron_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Shower, ParticleLabel::PositronShower, 
+                    shower_label, positron_label
+                );
                 ProcessShowers(positron_progeny, shower_label);
                 ProcessShowers(other_daughters, IterateShapeLabel());
             }

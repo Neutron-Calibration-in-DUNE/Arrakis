@@ -68,17 +68,18 @@ namespace arrakis
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
             void SetLabels(
-                DetSimID_List detsimID, 
+                DetSimID_List detsimID, TrackID_T track_id,
                 ShapeLabel shape, ParticleLabel particle,
                 Int_t shape_label, Int_t particle_label
             );
             void SetLabels(
-                DetSimID_Collection detsimIDs, 
+                DetSimID_Collection detsimIDs, TrackID_List, trackIDList,
                 ShapeLabel shape, ParticleLabel particle,
                 Int_t shape_label, Int_t particle_label
             );
             void SetLabels(
                 std::vector<DetSimID_Collection> detsimIDs, 
+                TrackID_Collection trackIDCollection,
                 ShapeLabel shape, ParticleLabel particle,
                 Int_t shape_label, Int_t particle_label
             );
