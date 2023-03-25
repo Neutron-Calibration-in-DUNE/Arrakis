@@ -128,9 +128,9 @@ namespace arrakis
                 if(wire_plane_point_cloud.shape_labels[ii].size() > 1)
                 {
                     auto num_tracks = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Track));
-                    auto num_showers = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Shower));
-                    auto num_blips = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Blip));
-                    auto num_captures = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::NeutronCapture));
+                    // auto num_showers = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Shower));
+                    // auto num_blips = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Blip));
+                    // auto num_captures = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::NeutronCapture));
                     if(num_tracks)
                     {
                         wire_plane_point_cloud.shape_label[ii] = LabelCast(ShapeLabel::Track);
@@ -167,7 +167,7 @@ namespace arrakis
             for(size_t ii = 0; ii < detSimIDCollection.size(); ii++)
             {
                 SetLabels(
-                    detsimIDCollection[ii],
+                    detSimIDCollection[ii],
                     trackIDList[ii], 
                     shape, particle, 
                     shape_label, particle_label
@@ -176,14 +176,14 @@ namespace arrakis
         }
         void Melange::SetLabels(
             std::vector<DetSimID_Collection> detSimIDCollection,
-            TrackID_Collections trackIDCollection,
+            TrackID_Collection trackIDCollection,
             ShapeLabel shape, ParticleLabel particle,
             Int_t shape_label, Int_t particle_label)
         {
             for(size_t ii = 0; ii < detSimIDCollection.size(); ii++)
             {
                 SetLabels(
-                    detsimIDCollection[ii],
+                    detSimIDCollection[ii],
                     trackIDCollection[ii], 
                     shape, particle, 
                     shape_label, particle_label
@@ -477,7 +477,7 @@ namespace arrakis
                     track_label, piplus_label
                 );
                 SetLabels(
-                    elec_det_sim, elec_daughters
+                    elec_det_sim, elec_daughters,
                     ShapeLabel::Track, ParticleLabel::PionPlus, 
                     track_label, piplus_label
                 );
