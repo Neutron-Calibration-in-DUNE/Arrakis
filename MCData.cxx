@@ -209,10 +209,10 @@ namespace arrakis
             auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detsim_id, track_id);
             if(track_index != -1)
             {
-                sWirePlanePointCloud.shape_labels[detsim][track_index] = shapeLabel;
-                sWirePlanePointCloud.particle_labels[detsim][track_index] = particleLabel;
-                sWirePlanePointCloud.unique_shapes[detsim][track_index] = uniqueShape;
-                sWirePlanePointCloud.unique_particles[detsim][track_index] = uniqueParticle;
+                sWirePlanePointCloud.shape_labels[detsim_id][track_index] = shapeLabel;
+                sWirePlanePointCloud.particle_labels[detsim_id][track_index] = particleLabel;
+                sWirePlanePointCloud.unique_shapes[detsim_id][track_index] = uniqueShape;
+                sWirePlanePointCloud.unique_particles[detsim_id][track_index] = uniqueParticle;
             }
             sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
             sWirePlanePointCloud.particle_label[detsim_id] = particleLabel;
