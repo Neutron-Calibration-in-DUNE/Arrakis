@@ -116,7 +116,6 @@ namespace arrakis
 
             void ProcessCosmics(const Parameters& config, art::Event const& event);
             void CleanUpPointClouds(const Parameters& config, art::Event const& event);
-            void SeparatePointClouds(const Parameters& config, art::Event const& event);
 
             void FillTTree();
 
