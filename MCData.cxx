@@ -201,23 +201,25 @@ namespace arrakis
             );
         }
         void MCData::SetWirePlanePointCloudLabels(
-            DetSimID_t detsim_id, TrackID_t track_id,
-            ShapeLabelInt shapeLabel, ParticleLabelInt particleLabel,
-            Int_t uniqueShape, Int_t uniqueParticle
+            DetSimID_t detSimID, TrackID_t trackID,
+            SourceLabelInt sourceLabel, ShapeLabelInt shapeLabel, 
+            ParticleLabelInt particleLabel, Int_t uniqueShape
         )
         {
-            auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detsim_id, track_id);
+            auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detSimID, trackID);
             if(track_index != -1)
             {
-                sWirePlanePointCloud.shape_labels[detsim_id][track_index] = shapeLabel;
-                sWirePlanePointCloud.particle_labels[detsim_id][track_index] = particleLabel;
-                sWirePlanePointCloud.unique_shapes[detsim_id][track_index] = uniqueShape;
-                sWirePlanePointCloud.unique_particles[detsim_id][track_index] = uniqueParticle;
+                sWirePlanePointCloud.source_labels[detSimID][track_index] = sourceLabel;
+                sWirePlanePointCloud.shape_labels[detSimID][track_index] = shapeLabel;
+                sWirePlanePointCloud.particle_labels[detSimID][track_index] = particleLabel;
+                sWirePlanePointCloud.unique_shapes[detSimID][track_index] = uniqueShape;
+                sWirePlanePointCloud.unique_particles[detSimID][track_index] = trackID;
             }
-            sWirePlanePointCloud.shape_label[detsim_id] = shapeLabel;
-            sWirePlanePointCloud.particle_label[detsim_id] = particleLabel;
-            sWirePlanePointCloud.unique_shape[detsim_id] = uniqueShape;
-            sWirePlanePointCloud.unique_particle[detsim_id] = uniqueParticle;
+            sWirePlanePointCloud.source_label[detSimID] = sourceLabel;
+            sWirePlanePointCloud.shape_label[detSimID] = shapeLabel;
+            sWirePlanePointCloud.particle_label[detSimID] = particleLabel;
+            sWirePlanePointCloud.unique_shape[detSimID] = uniqueShape;
+            sWirePlanePointCloud.unique_particle[detSimID] = trackID;
         }
         void MCData::ResetEvent()
         {

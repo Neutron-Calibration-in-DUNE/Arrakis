@@ -67,6 +67,8 @@ namespace arrakis
             Int_t IterateParticleLabel();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
+            SourceLabelInt DetermineSourceLabel(TrackID_t trackID);
+
             void SetLabels(
                 DetSimID_List detsimID, TrackID_t track_id,
                 ShapeLabel shape, ParticleLabel particle,
@@ -98,6 +100,9 @@ namespace arrakis
             void ProcessPion0s(const Parameters& config, art::Event const& event);
             void ProcessPionPlus(const Parameters& config, art::Event const& event);
             void ProcessPionMinus(const Parameters& config, art::Event const& event);
+            void ProcessKaon0s(const Parameters& config, art::Event const& event);
+            void ProcessKaonPlus(const Parameters& config, art::Event const& event);
+            void ProcessKaonMinus(const Parameters& config, art::Event const& event);
             void ProcessProtons(const Parameters& config, art::Event const& event);
             
             void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
@@ -125,14 +130,6 @@ namespace arrakis
 
             // Output TTree
             art::ServiceHandle<art::TFileService> mTFileService;
-            // TTree *mDetectorPointCloudTree;
-            // TTree *mDetectorView0PointCloudTree;
-            // TTree *mDetectorView1PointCloudTree;
-            // TTree *mDetectorView2PointCloudTree;
-
-            // TTree *mDetectorView0VoxelTree;
-            // TTree *mDetectorView1VoxelTree;
-            // TTree *mDetectorView2VoxelTree;
 
             Int_t mShapeLabel;
             Int_t mParticleLabel;
