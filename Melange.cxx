@@ -100,7 +100,6 @@ namespace arrakis
             ProcessRn222(config, event);
             ProcessCosmics(config, event);
             CleanUpPointClouds(config, event);
-            SeparatePointClouds(config, event);
             FillTTree();
         }
         SourceLabel Melange::DetermineSourceLabel(TrackID_t trackID)
