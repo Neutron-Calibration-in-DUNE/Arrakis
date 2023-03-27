@@ -126,7 +126,7 @@ namespace arrakis
                 generator_label == GeneratorLabel::Kr85 ||
                 generator_label == GeneratorLabel::Rn222
             ) {
-                return SourceLabel::Radiologicals;
+                return SourceLabel::Radiological;
             }
             else if(generator_label == GeneratorLabel::Cosmics) {
                 return SourceLabel::Cosmics;
@@ -298,7 +298,6 @@ namespace arrakis
                 auto electron_det_sim = mc_data->GetDetSimID_TrackID(electron);
                 // Set electron detsim labels to Shower::ElectronShower
                 Int_t shower_label = IterateShapeLabel();
-                Int_t electron_label = IterateParticleLabel();
                 SetLabels(
                     electron_det_sim, electron,
                     ShapeLabel::Shower, ParticleLabel::ElectronShower, 
@@ -329,7 +328,6 @@ namespace arrakis
                 auto positron_det_sim = mc_data->GetDetSimID_TrackID(positron);
                 // Set positron detsim labels to Shower::positronShower
                 Int_t shower_label = IterateShapeLabel();
-                Int_t positron_label = IterateParticleLabel();
                 SetLabels(
                     positron_det_sim, positron,
                     ShapeLabel::Shower, ParticleLabel::PositronShower, 
@@ -358,7 +356,6 @@ namespace arrakis
                 auto gamma_det_sim = mc_data->GetDetSimID_TrackID(gamma);
                 // Set gamma detsim labels to Shower::PhotonShower
                 Int_t shower_label = IterateShapeLabel();
-                Int_t gamma_label = IterateParticleLabel();
                 SetLabels(
                     gamma_det_sim, gamma,
                     ShapeLabel::Shower, ParticleLabel::PhotonShower, 
@@ -383,7 +380,6 @@ namespace arrakis
                 auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muon);
                 auto muon_det_sim = mc_data->GetDetSimID_TrackID(muon);
                 Int_t muon_label = IterateShapeLabel();
-                Int_t particle_label = IterateParticleLabel();
                 // Set muon detsim labels to Track:Muon
                 SetLabels(
                     muon_det_sim, muon,
@@ -428,7 +424,6 @@ namespace arrakis
                 auto muon_progeny = mc_data->GetProgenyTrackID_TrackID(muon);
                 auto muon_det_sim = mc_data->GetDetSimID_TrackID(muon);
                 Int_t muon_label = IterateShapeLabel();
-                Int_t particle_label = IterateParticleLabel();
                 // Set muon detsim labels to Track:Muon
                 SetLabels(
                     muon_det_sim, muon,
