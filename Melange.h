@@ -67,23 +67,23 @@ namespace arrakis
             Int_t IterateParticleLabel();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
-            SourceLabelInt DetermineSourceLabel(TrackID_t trackID);
+            SourceLabel DetermineSourceLabel(TrackID_t trackID);
 
             void SetLabels(
                 DetSimID_List detsimID, TrackID_t track_id,
                 ShapeLabel shape, ParticleLabel particle,
-                Int_t shape_label, Int_t particle_label
+                Int_t shape_label
             );
             void SetLabels(
                 DetSimID_Collection detsimIDs, TrackID_List trackIDList,
                 ShapeLabel shape, ParticleLabel particle,
-                Int_t shape_label, Int_t particle_label
+                Int_t shape_label
             );
             void SetLabels(
                 std::vector<DetSimID_Collection> detsimIDs, 
                 TrackID_Collection trackIDCollection,
                 ShapeLabel shape, ParticleLabel particle,
-                Int_t shape_label, Int_t particle_label
+                Int_t shape_label
             );
 
             void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);

@@ -169,6 +169,7 @@ namespace arrakis
             sWirePlanePointCloudTree->Branch("adc",     &sWirePlanePointCloud.adc);
             sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
             sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
+            sWirePlanePointCloudTree->Branch("source_label",    &sWirePlanePointCloud.source_label);
             sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
             sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
             sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);

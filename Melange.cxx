@@ -103,7 +103,7 @@ namespace arrakis
             SeparatePointClouds(config, event);
             FillTTree();
         }
-        SourceLabelInt Melange::DetermineSourceLabel(TrackID_t trackID)
+        SourceLabel Melange::DetermineSourceLabel(TrackID_t trackID)
         {
             /**
              * Find the ancestor track id for this particle particle,
@@ -149,7 +149,7 @@ namespace arrakis
             {
                 mc_data->SetWirePlanePointCloudLabels(
                     detSimIDList[ii], trackID, 
-                    source_label, LabelCast(shape), 
+                    LabelCast(source_label), LabelCast(shape), 
                     LabelCast(particle), shape_label
                 );
             }
