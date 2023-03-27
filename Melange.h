@@ -64,7 +64,6 @@ namespace arrakis
             // methods for processing event data
             void ResetEvent();
             Int_t IterateShapeLabel();
-            Int_t IterateParticleLabel();
             void ProcessEvent(const Parameters& config, art::Event const& event);
 
             SourceLabel DetermineSourceLabel(TrackID_t trackID);

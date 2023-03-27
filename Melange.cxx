@@ -65,11 +65,6 @@ namespace arrakis
             mShapeLabel += 1;
             return mShapeLabel;
         }
-        Int_t Melange::IterateParticleLabel()
-        {
-            mParticleLabel += 1;
-            return mParticleLabel;
-        }
         void Melange::FillTTree()
         {
         }
@@ -219,12 +214,14 @@ namespace arrakis
                 if(wire_plane_point_cloud.shape_labels[ii].size() > 1)
                 {
                     auto num_tracks = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Track));
-                    // auto num_showers = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Shower));
+                    auto num_showers = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Shower));
                     // auto num_blips = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Blip));
                     // auto num_captures = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::NeutronCapture));
-                    if(num_tracks)
-                    {
+                    if(num_tracks) {
                         wire_plane_point_cloud.shape_label[ii] = LabelCast(ShapeLabel::Track);
+                    }
+                    else if(num_showers) {
+                        wire_plane_point_cloud.shape_label[ii] = LabelCast(ShapeLabel::Shower);
                     }
                 }
                 /**
@@ -658,20 +655,27 @@ namespace arrakis
         {
             /**
              * Nuclear recoils can come from many things, but are essentially
-             * edeps created by Ar40, Ar39 and Ar36 particles (with PDGCodes
-             * 1000180400, 1000180390 and 1000180360).
+             * edeps created by Ar41-Ar36 particles (with PDGCodes
+             * 1000180400-1000180360), but also by fission from neutron inelastic
+             * interactions, which generate an alpha and Sulfur 35
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar41 = mc_data->GetTrackID_PDGCode(1000180410);
             auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
             auto ar39 = mc_data->GetTrackID_PDGCode(1000180390);
             auto ar38 = mc_data->GetTrackID_PDGCode(1000180380);
+            auto ar37 = mc_data->GetTrackID_PDGCode(1000180370);
             auto ar36 = mc_data->GetTrackID_PDGCode(1000180360);
             auto ar41_daughters = mc_data->GetDaughterTrackID_TrackID(ar41);
             auto ar40_daughters = mc_data->GetDaughterTrackID_TrackID(ar40);
             auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
             auto ar38_daughters = mc_data->GetDaughterTrackID_TrackID(ar38);
+            auto ar37_daughters = mc_data->GetDaughterTrackID_TrackID(ar37);
             auto ar36_daughters = mc_data->GetDaughterTrackID_TrackID(ar36);
+
+            auto s35 = mc_data->GetTrackID_PDGCode(1000160350);
+            auto s35_daughters = mc_data->GetDaughterTrackID_TrackID(s35);
+
             for (auto ar : ar41)
             {
                 auto ar41_det_sim = mc_data->GetDetSimID_TrackID(ar);
@@ -708,6 +712,15 @@ namespace arrakis
                     IterateShapeLabel()
                 );
             }
+            for (auto ar : ar37)
+            {
+                auto ar37_det_sim = mc_data->GetDetSimID_TrackID(ar);
+                SetLabels(
+                    ar37_det_sim, ar,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel()
+                );
+            }
             for (auto ar : ar36)
             {
                 auto ar36_det_sim = mc_data->GetDetSimID_TrackID(ar);
@@ -717,25 +730,39 @@ namespace arrakis
                     IterateShapeLabel()
                 );
             }
+            for (auto s : s35)
+            {
+                auto s35_det_sim = mc_data->GetDetSimID_TrackID(s);
+                SetLabels(
+                    s35_det_sim, s,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel()
+                );
+            }
             ProcessShowers(ar41_daughters);
             ProcessShowers(ar40_daughters);
             ProcessShowers(ar39_daughters);
             ProcessShowers(ar38_daughters);
+            ProcessShowers(ar37_daughters);
             ProcessShowers(ar36_daughters);
+            ProcessShowers(s35_daughters);
         }
         void Melange::ProcessElectronRecoils(
             const Parameters &config, art::Event const &event)
         {
             /**
              * Electron recoils can come from many things, such as
-             * edeps created by deuterons/tritons coming out of
+             * edeps created by deuterons/tritons/alphas coming out of
              * neutron inelastic scatters.
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto deuterons = mc_data->GetTrackID_PDGCode(1000010020);
             auto tritons = mc_data->GetTrackID_PDGCode(1000010030);
+            auto alphas = mc_data->GetTrackID_PDGCode(1000020040);
+            auto inelastic_alphas = mc_data->FilterTrackID_Process(alphas, ProcessType::NeutronInelastic);
             auto deuteron_daughters = mc_data->GetDaughterTrackID_TrackID(deuterons);
             auto triton_daughters = mc_data->GetDaughterTrackID_TrackID(tritons);
+            auto inelastic_alpha_daughters = mc_data->GetDaughterTrackID_TrackID(inelastic_alphas);
             for (auto deuteron : deuterons)
             {
                 auto deuteron_det_sim = mc_data->GetDetSimID_TrackID(deuteron);
@@ -754,8 +781,18 @@ namespace arrakis
                     IterateShapeLabel()
                 );
             }
+            for (auto inelastic_alpha : inelastic_alphas)
+            {
+                auto inelastic_alpha_det_sim = mc_data->GetDetSimID_TrackID(inelastic_alpha);
+                SetLabels(
+                    inelastic_alpha_det_sim, inelastic_alpha,
+                    ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
+                    IterateShapeLabel()
+                );
+            }
             ProcessShowers(deuteron_daughters);
             ProcessShowers(triton_daughters);
+            ProcessShowers(inelastic_alpha_daughters);
         }
         void Melange::ProcessAr39(
             const Parameters &config, art::Event const &event)
