@@ -132,6 +132,9 @@ namespace arrakis
             else if(generator_label == GeneratorLabel::PNS) {
                 return SourceLabel::PulsedNeutronSource;
             }
+            else if(generator_label == GeneratorLabel::HEPevt) {
+                return SourceLabel::HEPevt;
+            }
             else {
                 return SourceLabel::Undefined;
             }
