@@ -161,7 +161,9 @@ namespace arrakis
             sMCDataTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
             sMCDataTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
 
-            sWirePlanePointCloudTree = sTFileService->make<TTree>("wire_plane_point_cloud", "wire_plane_point_cloud");
+            sWirePlanePointCloudTree = sTFileService->make<TTree>(
+                "wire_plane_point_cloud", "wire_plane_point_cloud"
+            );
             sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
             sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
             sWirePlanePointCloudTree->Branch("tick",    &sWirePlanePointCloud.tick);

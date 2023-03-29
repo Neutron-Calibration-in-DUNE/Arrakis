@@ -39,6 +39,10 @@ namespace arrakis
 
         void Melange::SetConfigurationParameters(const Parameters &config)
         {
+            /**
+             * Configuration parameters are enumerated in the Arrakis.fcl file.  
+             * Each of the associated Melange parameters are assigned here.
+             */
             Logger::GetInstance("melange")->trace(
                 "setting up configuration parameters.");
             fhicl::ParameterSet const &melange_params = config().melange_parameters.get_PSet();
@@ -551,14 +555,76 @@ namespace arrakis
         void Melange::ProcessKaon0s(
             const Parameters &config, art::Event const &event)
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto ka0s = mc_data->GetTrackID_PDGCode(311);
+            for (auto ka0 : ka0s)
+            {
+                auto ka0_daughters = mc_data->GetDaughterTrackID_TrackID(ka0);
+                auto ka0_det_sim = mc_data->GetAllDetSimID_TrackID(ka0);
+                SetLabels(
+                    ka0_det_sim, ka0,
+                    ShapeLabel::Shower, ParticleLabel::Kaon0, 
+                    IterateShapeLabel()
+                );
+            }
         }
         void Melange::ProcessKaonPlus(
             const Parameters &config, art::Event const &event)
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto kaonpluses = mc_data->GetTrackID_PDGCode(321);
+            for (auto kaonplus : kaonpluses)
+            {
+                auto kaonplus_daughters = mc_data->GetDaughterTrackID_TrackID(kaonplus);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(kaonplus_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(kaonplus_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto kaonplus_progeny = mc_data->GetProgenyTrackID_TrackID(kaonplus);
+                auto kaonplus_det_sim = mc_data->GetDetSimID_TrackID(kaonplus);
+                // Set kaonplus detsim labels to Track:kaononMinus
+                Int_t track_label = IterateShapeLabel();
+                SetLabels(
+                    kaonplus_det_sim, kaonplus,
+                    ShapeLabel::Track, ParticleLabel::KaonPlus,
+                    track_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Track, ParticleLabel::KaonPlus, 
+                    track_label
+                );
+                ProcessShowers(other_daughters, IterateShapeLabel());
+                ProcessShowers(kaonplus_progeny, IterateShapeLabel());
+            }
         }
         void Melange::ProcessKaonMinus(
             const Parameters &config, art::Event const &event)
         {
+            auto mc_data = mcdata::MCData::GetInstance();
+            auto kaonminuses = mc_data->GetTrackID_PDGCode(-321);
+            for (auto kaonminus : kaonminuses)
+            {
+                auto kaonminus_daughters = mc_data->GetDaughterTrackID_TrackID(kaonminus);
+                auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(kaonminus_daughters, 11);
+                auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(kaonminus_daughters, 11);
+                auto elec_det_sim = mc_data->GetDetSimID_TrackID(elec_daughters);
+                auto kaonminus_progeny = mc_data->GetProgenyTrackID_TrackID(kaonminus);
+                auto kaonminus_det_sim = mc_data->GetDetSimID_TrackID(kaonminus);
+                // Set kaonminus detsim labels to Track:kaononMinus
+                Int_t track_label = IterateShapeLabel();
+                SetLabels(
+                    kaonminus_det_sim, kaonminus,
+                    ShapeLabel::Track, ParticleLabel::KaonMinus,
+                    track_label
+                );
+                SetLabels(
+                    elec_det_sim, elec_daughters,
+                    ShapeLabel::Track, ParticleLabel::KaonMinus, 
+                    track_label
+                );
+                ProcessShowers(other_daughters, IterateShapeLabel());
+                ProcessShowers(kaonminus_progeny, IterateShapeLabel());
+            }
         }
         void Melange::ProcessProtons(
             const Parameters &config, art::Event const &event)
