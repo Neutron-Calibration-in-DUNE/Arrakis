@@ -273,6 +273,7 @@ namespace arrakis
                     if(influence > 0) {
                         mc_data->SetWirePlanePointCloudLabels(
                             detsim_id, largest_influence,
+                            wire_plane_point_cloud.source_label[largest_influence],
                             wire_plane_point_cloud.shape_label[largest_influence],
                             wire_plane_point_cloud.particle_label[largest_influence],
                             wire_plane_point_cloud.unique_shape[largest_influence]
