@@ -237,7 +237,8 @@ namespace arrakis
                 {
                     Int_t current_channel = wire_plane_point_cloud.channel[detsim_id];
                     Int_t current_tdc = wire_plane_point_cloud.tdc[detsim_id];
-                    std::vector<DetSimID_t> region_of_influence;
+                    DetSimID_t largest_influence = -1;
+                    Double_t influence = 0.0;
                     for(size_t other_id = 0; other_id < wire_plane_point_cloud.channel.size(); other_id++)
                     {
                         if(
@@ -246,16 +247,24 @@ namespace arrakis
                              wire_plane_point_cloud.shape_label[other_id] != LabelCast(ShapeLabel::Noise)
                         )
                         {
-                            region_of_influence.emplace_back(other_id);
+                            Double_t temp_influence = Double_t(wire_plane_point_cloud.adc[other_id]) / (sqrt(
+                                pow((wire_plane_point_cloud.channel[other_id] - current_channel), 2.0) + pow((wire_plane_point_cloud.tdc[other_id] - current_tdc), 2.0)
+                            ));
+                            if(temp_influence > influence)
+                            {
+                                influence = temp_influence;
+                                largest_influence = other_id;
+                            }
                         }
                     }
                     /**
                      * Now pass the region of influence and the current DetSimID to 
                      * some logic to determine how to label this point.
                      */
-                    if(region_of_influence.size() > 0) {
-                        std::cout << "noise: " << detsim_id << " - num influence: " << region_of_influence.size() << std::endl;
-                        ProcessNoise(detsim_id, region_of_influence);
+                    if(influence > 0.0) {
+                        wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
+                        wire_plane_point_cloud.particle_label[detsim_id] = wire_plane_point_cloud.particle_label[largest_influence];
+                        // ProcessNoise(detsim_id, largest_influence);
                     }
                 }
                 if(wire_plane_point_cloud.shape_labels[detsim_id].size() > 1)
@@ -274,9 +283,9 @@ namespace arrakis
 
             }
         }
-        void Melange::ProcessNoise(DetSimID_t detSimID, std::vector<DetSimID_t> ROI)
+        void Melange::ProcessNoise(DetSimID_t detSimID, DetSimID_t largestInfluence)
         {
-
+            
         }
         void Melange::ProcessShowers(TrackID_t trackID, Int_t shapeLabel)
         {

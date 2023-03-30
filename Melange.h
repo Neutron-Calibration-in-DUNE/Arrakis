@@ -91,7 +91,7 @@ namespace arrakis
             void ProcessShowers(TrackID_List trackID, Int_t shapeLabel);
             void ProcessShowers(TrackID_Collection trackID);
 
-            void ProcessNoise(DetSimID_t detSimID, std::vector<DetSimID_t> ROI);
+            void ProcessNoise(DetSimID_t detSimID, DetSimID_t largestInfluence);
 
             void ProcessElectrons(const Parameters& config, art::Event const& event);
             void ProcessPositrons(const Parameters& config, art::Event const& event);
