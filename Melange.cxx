@@ -234,12 +234,14 @@ namespace arrakis
                  * electrons to SimChannels.
                  */
                 else if(
-                    wire_plane_point_cloud.shape_label[detsim_id] == LabelCast(ShapeLabel::Noise) ||
+                    wire_plane_point_cloud.source_label[detsim_id] == LabelCast(SourceLabel::Noise) ||
+                    wire_plane_point_cloud.shape_label[detsim_id] == LabelCast(ShapeLabel::Noise)   ||
                     wire_plane_point_cloud.particle_label[detsim_id] == LabelCast(ParticleLabel::Noise)
                 )
                 {
                     Int_t current_channel = wire_plane_point_cloud.channel[detsim_id];
                     Int_t current_tdc = wire_plane_point_cloud.tdc[detsim_id];
+                    Int_t current_view = wire_plane_point_cloud.view[detsim_id];
                     DetSimID_t largest_influence = -1;
                     Double_t influence = 0.0;
                     for(size_t other_id = 0; other_id < wire_plane_point_cloud.channel.size(); other_id++)
@@ -247,6 +249,7 @@ namespace arrakis
                         if(
                             (std::abs(wire_plane_point_cloud.channel[other_id] - current_channel) < sInducedChannelInfluence ||
                              std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence) &&
+                            wire_plane_point_cloud.view[other_id] == current_view &&
                             wire_plane_point_cloud.shape_label[other_id] != LabelCast(ShapeLabel::Noise) &&
                             wire_plane_point_cloud.particle_label[other_id] != LabelCast(ParticleLabel::Noise)
                         )
@@ -267,12 +270,14 @@ namespace arrakis
                      * Now pass the region of influence and the current DetSimID to 
                      * some logic to determine how to label this point.
                      */
-                    std::cout << "detsim: " << detsim_id << " - other: " << largest_influence << " - inf: " << influence;
-                    std::cout << " - shape: " << wire_plane_point_cloud.shape_label[largest_influence] << " - particle: " << wire_plane_point_cloud.particle_label[largest_influence] << std::endl;
                     if(influence > 0) {
+                        wire_plane_point_cloud.source_label[detsim_id] = wire_plane_point_cloud.source_label[largest_influence];
                         wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
                         wire_plane_point_cloud.particle_label[detsim_id] = wire_plane_point_cloud.particle_label[largest_influence];
                         // ProcessNoise(detsim_id, largest_influence);
+                    }
+                    else {
+                        std::cout << "detsim: " << detsim_id << " channel: " << current_channel << " tdc: " << current_tdc << " view: " << current_view << std::endl;
                     }
                 }
                 if(wire_plane_point_cloud.shape_labels[detsim_id].size() > 1)
