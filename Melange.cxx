@@ -247,8 +247,8 @@ namespace arrakis
                              wire_plane_point_cloud.shape_label[other_id] != LabelCast(ShapeLabel::Noise)
                         )
                         {
-                            Double_t temp_influence = Double_t(wire_plane_point_cloud.adc[other_id]) / (sqrt(
-                                pow((wire_plane_point_cloud.channel[other_id] - current_channel), 2.0) + pow((wire_plane_point_cloud.tdc[other_id] - current_tdc), 2.0)
+                            Double_t temp_influence = Double_t(wire_plane_point_cloud.adc[other_id]) / Double_t(sqrt(
+                                pow(Double_t(wire_plane_point_cloud.channel[other_id] - current_channel), 2.0) + pow(Double_t(wire_plane_point_cloud.tdc[other_id] - current_tdc), 2.0)
                             ));
                             if(temp_influence > influence)
                             {
