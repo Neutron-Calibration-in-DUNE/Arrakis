@@ -272,10 +272,10 @@ namespace arrakis
                      */
                     if(influence > 0) {
                         SetLabels(
-                            detsim_id, wire_plane_point_cloud.track_id[largest_influence],
+                            detsim_id, largest_influence,
                             wire_plane_point_cloud.shape_label[largest_influence],
                             wire_plane_point_cloud.particle_label[largest_influence],
-                            wire_plane_point_cloud.unique_shape_label[largest_influence]
+                            wire_plane_point_cloud.unique_shape[largest_influence]
                         );
                         // wire_plane_point_cloud.source_label[detsim_id] = wire_plane_point_cloud.source_label[largest_influence];
                         // wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
