@@ -250,7 +250,6 @@ namespace arrakis
                             Double_t temp_influence = Double_t(wire_plane_point_cloud.adc[other_id]) / (sqrt(
                                 pow((wire_plane_point_cloud.channel[other_id] - current_channel), 2.0) + pow((wire_plane_point_cloud.tdc[other_id] - current_tdc), 2.0)
                             ));
-                            std::cout << "detsim: " << detsim_id << " - other: " << other_id << " - inf: " << temp_influence << std::endl;
                             if(temp_influence > influence)
                             {
                                 influence = temp_influence;
@@ -263,6 +262,8 @@ namespace arrakis
                      * some logic to determine how to label this point.
                      */
                     if(influence > 0.0) {
+                        std::cout << "detsim: " << detsim_id << " - other: " << largest_influence << " - inf: " << influence;
+                        std::cout << " - shape: " << wire_plane_point_cloud.shape_label[largest_influence] << " - particle: " << wire_plane_point_cloud.particle_label[largest_influence] << std::endl;
                         wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
                         wire_plane_point_cloud.particle_label[detsim_id] = wire_plane_point_cloud.particle_label[largest_influence];
                         // ProcessNoise(detsim_id, largest_influence);
