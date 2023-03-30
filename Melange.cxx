@@ -271,9 +271,15 @@ namespace arrakis
                      * some logic to determine how to label this point.
                      */
                     if(influence > 0) {
-                        wire_plane_point_cloud.source_label[detsim_id] = wire_plane_point_cloud.source_label[largest_influence];
-                        wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
-                        wire_plane_point_cloud.particle_label[detsim_id] = wire_plane_point_cloud.particle_label[largest_influence];
+                        SetLabels(
+                            detsim_id, wire_plane_point_cloud.track_id[largest_influence],
+                            wire_plane_point_cloud.shape_label[largest_influence],
+                            wire_plane_point_cloud.particle_label[largest_influence],
+                            wire_plane_point_cloud.unique_shape_label[largest_influence]
+                        );
+                        // wire_plane_point_cloud.source_label[detsim_id] = wire_plane_point_cloud.source_label[largest_influence];
+                        // wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
+                        // wire_plane_point_cloud.particle_label[detsim_id] = wire_plane_point_cloud.particle_label[largest_influence];
                         // ProcessNoise(detsim_id, largest_influence);
                     }
                     else {
