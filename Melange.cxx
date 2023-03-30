@@ -57,6 +57,14 @@ namespace arrakis
             sNeutronCaptureGammaDetail = NeutronCaptureGammaDetailMap[melange_tags["NeutronCaptureGammaDetail"]];
             Logger::GetInstance("melange")->trace(
                 "setting neutron capture gamma detail to: " + melange_tags["NeutronCaptureGammaDetail"]);
+            sInducedChannelInfluence = config().InducedChannelInfluence();
+            Logger::GetInstance("melange")->trace(
+                "setting channel influence radius to: " + std::to_string(sInducedChannelInfluence) + " channels."
+            );
+            sInducedTDCInfluence = config().InducedTDCInfluence();
+            Logger::GetInstance("melange")->trace(
+                "setting tdc influence radius to: " + std::to_string(sInducedTDCInfluence) + " tdcs."
+            );
         }
 
         void Melange::ResetEvent()
@@ -198,7 +206,7 @@ namespace arrakis
         {
             auto mc_data = mcdata::MCData::GetInstance();
             auto wire_plane_point_cloud = mc_data->GetWirePlanePointCloud();
-            for(size_t ii = 0; ii < wire_plane_point_cloud.channel.size(); ii++)
+            for(size_t detsim_id = 0; detsim_id < wire_plane_point_cloud.channel.size(); detsim_id++)
             {
                 /**
                  * Check to see if a point has an undefined particle label, or
@@ -206,36 +214,69 @@ namespace arrakis
                  * then there is some logic to determine which should be
                  * considered the "true" label.
                  */
-                if(wire_plane_point_cloud.particle_label[ii] == LabelCast(ParticleLabel::Undefined))
+                if(wire_plane_point_cloud.particle_label[detsim_id] == LabelCast(ParticleLabel::Undefined))
                 {
-                    for(size_t jj = 0; jj < wire_plane_point_cloud.track_ids[ii].size(); jj++)
+                    for(size_t track_id = 0; track_id < wire_plane_point_cloud.track_ids[detsim_id].size(); track_id++)
                     {
                         Logger::GetInstance("melange")->warning(
-                            "undefined point: " + std::to_string(ii) + " - trackid: " +
-                            std::to_string(wire_plane_point_cloud.track_ids[ii][jj]) + " - pdg: " +
-                            std::to_string(mc_data->GetPDGCode_TrackID(wire_plane_point_cloud.track_ids[ii][jj])) + " - process: " +
-                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_ids[ii][jj])))
+                            "undefined point: " + std::to_string(detsim_id) + " - trackid: " +
+                            std::to_string(wire_plane_point_cloud.track_ids[detsim_id][track_id]) + " - pdg: " +
+                            std::to_string(mc_data->GetPDGCode_TrackID(wire_plane_point_cloud.track_ids[detsim_id][track_id])) + " - process: " +
+                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_ids[detsim_id][track_id])))
                         );
                     }
                 }
-                if(wire_plane_point_cloud.shape_labels[ii].size() > 1)
+                /**
+                 * If the point corresponds to noise, then we need to do some digging to see
+                 * if the point actually corresponds to some induced signal from the wirecell
+                 * simulation.  This can happen through various effects which are not
+                 * accounted for by SimChannelSink, the module which saves the drifted 
+                 * electrons to SimChannels.
+                 */
+                else if(wire_plane_point_cloud.particle_label[detsim_id] == LabelCast(ParticleLabel::Noise))
                 {
-                    auto num_tracks = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Track));
-                    auto num_showers = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Shower));
-                    // auto num_blips = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::Blip));
-                    // auto num_captures = std::count(wire_plane_point_cloud.shape_labels[ii].begin(), wire_plane_point_cloud.shape_labels[ii].end(), LabelCast(ShapeLabel::NeutronCapture));
-                    if(num_tracks) {
-                        wire_plane_point_cloud.shape_label[ii] = LabelCast(ShapeLabel::Track);
+                    Int_t current_channel = wire_plane_point_cloud.channel[detsim_id];
+                    Int_t current_tdc = wire_plane_point_cloud.tdc[detsim_id];
+                    std::vector<DetSimID_t> region_of_influence;
+                    for(size_t other_id = 0; other_id < wire_plane_point_cloud.channel.size(); other_id++)
+                    {
+                        if(
+                            (std::abs(wire_plane_point_cloud.channel[other_id] - current_channel) < sInducedChannelInfluence ||
+                             std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence) &&
+                             wire_plane_point_cloud.shape_label[other_id] != LabelCast(ShapeLabel::Noise)
+                        )
+                        {
+                            region_of_influence.emplace_back(other_id);
+                        }
                     }
-                    else if(num_showers) {
-                        wire_plane_point_cloud.shape_label[ii] = LabelCast(ShapeLabel::Shower);
+                    /**
+                     * Now pass the region of influence and the current DetSimID to 
+                     * some logic to determine how to label this point.
+                     */
+                    if(region_of_influence.size() > 0) {
+                        std::cout << "noise: " << detsim_id << " - num influence: " << region_of_influence.size() << std::endl;
+                        ProcessNoise(detsim_id, region_of_influence);
                     }
                 }
-                /**
-                 * Here we assign the SourceLabel, which depends on the generator
-                 * of the ancestor.
-                 */
+                if(wire_plane_point_cloud.shape_labels[detsim_id].size() > 1)
+                {
+                    auto num_tracks = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::Track));
+                    auto num_showers = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::Shower));
+                    // auto num_blips = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::Blip));
+                    // auto num_captures = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::NeutronCapture));
+                    if(num_tracks) {
+                        wire_plane_point_cloud.shape_label[detsim_id] = LabelCast(ShapeLabel::Track);
+                    }
+                    else if(num_showers) {
+                        wire_plane_point_cloud.shape_label[detsim_id] = LabelCast(ShapeLabel::Shower);
+                    }
+                }
+
             }
+        }
+        void Melange::ProcessNoise(DetSimID_t detSimID, std::vector<DetSimID_t> ROI)
+        {
+
         }
         void Melange::ProcessShowers(TrackID_t trackID, Int_t shapeLabel)
         {

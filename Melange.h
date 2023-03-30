@@ -91,6 +91,8 @@ namespace arrakis
             void ProcessShowers(TrackID_List trackID, Int_t shapeLabel);
             void ProcessShowers(TrackID_Collection trackID);
 
+            void ProcessNoise(DetSimID_t detSimID, std::vector<DetSimID_t> ROI);
+
             void ProcessElectrons(const Parameters& config, art::Event const& event);
             void ProcessPositrons(const Parameters& config, art::Event const& event);
             void ProcessGammas(const Parameters& config, art::Event const& event);
@@ -125,6 +127,8 @@ namespace arrakis
             // Configuration Parameters
             FilterDetectorSimulation sFilterDetectorSimulation;
             NeutronCaptureGammaDetail sNeutronCaptureGammaDetail;
+            Int_t sInducedChannelInfluence;
+            Int_t sInducedTDCInfluence;
 
             // Output TTree
             art::ServiceHandle<art::TFileService> mTFileService;

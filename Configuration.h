@@ -161,7 +161,16 @@ namespace arrakis
             fhicl::Name("ADCThreshold"),
             fhicl::Comment("ADC threshold value to use for filling 2D arrays.")
         };    
-
+        fhicl::Atom<Int_t> InducedChannelInfluence
+        {
+            fhicl::Name("InducedChannelInfluence"),
+            fhicl::Comment("The amount of channels a nearby wire effects through induction.")
+        };
+        fhicl::Atom<Int_t> InducedTDCInfluence
+        {
+            fhicl::Name("InducedTDCInfluence"),
+            fhicl::Comment("The amount of tdc values influenced by a surrounding signal.")
+        };
     };
 
     using Parameters = art::EDAnalyzer::Table<Configuration>;
