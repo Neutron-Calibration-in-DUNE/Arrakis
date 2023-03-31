@@ -259,7 +259,7 @@ namespace arrakis
                     size_t start = 0;
                     size_t end = wire_plane_point_cloud.channel.size();
                     Int_t index_distance = sInducedChannelInfluence * mc_data->GetNumberOfTDCs() + sInducedTDCInfluence;
-                    if(detsim_id - index_distance > 0) {
+                    if(detsim_id > index_distance) {
                         start = detsim_id - index_distance;
                     }
                     if(detsim_id + index_distance < end) {
