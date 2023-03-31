@@ -204,6 +204,9 @@ namespace arrakis
         void Melange::CleanUpPointClouds(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "cleaning up point clouds."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto wire_plane_point_cloud = mc_data->GetWirePlanePointCloud();
             for(size_t detsim_id = 0; detsim_id < wire_plane_point_cloud.channel.size(); detsim_id++)
@@ -216,13 +219,15 @@ namespace arrakis
                  */
                 if(wire_plane_point_cloud.particle_label[detsim_id] == LabelCast(ParticleLabel::Undefined))
                 {
-                    for(size_t track_id = 0; track_id < wire_plane_point_cloud.track_ids[detsim_id].size(); track_id++)
+                    for(auto track_id : wire_plane_point_cloud.track_ids[detsim_id])
                     {
                         Logger::GetInstance("melange")->warning(
-                            "undefined point: " + std::to_string(detsim_id) + " - trackid: " +
-                            std::to_string(wire_plane_point_cloud.track_ids[detsim_id][track_id]) + " - pdg: " +
-                            std::to_string(mc_data->GetPDGCode_TrackID(wire_plane_point_cloud.track_ids[detsim_id][track_id])) + " - process: " +
-                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(wire_plane_point_cloud.track_ids[detsim_id][track_id])))
+                            "undefined point: " + std::to_string(detsim_id) + " - (trackid,pdg): (" +
+                            std::to_string(track_id) + "," + std::to_string(mc_data->GetPDGCode_TrackID(track_id)) + ") - process: " +
+                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(track_id))) + " - parent (trackid,pdg): (" + 
+                            std::to_string(mc_data->GetParentTrackID_TrackID(track_id)) + "," + std::to_string(mc_data->GetParentPDGCode_TrackID(track_id)) +
+                            ") - ancestor (trackid,pdg): (" + std::to_string(mc_data->GetAncestorTrackID_TrackID(track_id)) + "," + 
+                            std::to_string(mc_data->GetAncestorPDGCode_TrackID(track_id)) + ")." 
                         );
                     }
                 }
@@ -401,6 +406,9 @@ namespace arrakis
         void Melange::ProcessElectrons(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing primary electrons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto hep_evt = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::HEPevt);
             auto electrons = mc_data->FilterTrackID_PDGCode(hep_evt, 11);
@@ -431,6 +439,9 @@ namespace arrakis
         void Melange::ProcessPositrons(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing primary positrons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto hep_evt = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::HEPevt);
             auto positrons = mc_data->FilterTrackID_PDGCode(hep_evt, -11);
@@ -461,6 +472,9 @@ namespace arrakis
         void Melange::ProcessGammas(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing primary gammas."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto gammas = mc_data->GetPrimaries_AbsPDGCode(22);
             for (auto gamma : gammas)
@@ -488,6 +502,9 @@ namespace arrakis
         void Melange::ProcessMuons(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing muons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto muons = mc_data->GetTrackID_PDGCode(13);
             for (auto muon : muons)
@@ -532,6 +549,9 @@ namespace arrakis
         void Melange::ProcessAntiMuons(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing anti-muons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto muons = mc_data->GetTrackID_PDGCode(-13);
             for (auto muon : muons)
@@ -597,6 +617,9 @@ namespace arrakis
              * The neutral pion has also been observed to decay into positronium with a branching
              * fraction on the order of 10−9. No other decay modes have been established experimentally.
              */
+            Logger::GetInstance("melange")->trace(
+                "processing neutral pions."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto pi0s = mc_data->GetTrackID_PDGCode(111);
             for (auto pi0 : pi0s)
@@ -613,6 +636,9 @@ namespace arrakis
         void Melange::ProcessPionPlus(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing pion+s."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto pipluses = mc_data->GetTrackID_PDGCode(211);
             for (auto piplus : pipluses)
@@ -642,6 +668,9 @@ namespace arrakis
         void Melange::ProcessPionMinus(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing pion-s."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto piminuses = mc_data->GetTrackID_PDGCode(-211);
             for (auto piminus : piminuses)
@@ -671,6 +700,9 @@ namespace arrakis
         void Melange::ProcessKaon0s(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing neutral kaons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto ka0s = mc_data->GetTrackID_PDGCode(311);
             for (auto ka0 : ka0s)
@@ -687,6 +719,9 @@ namespace arrakis
         void Melange::ProcessKaonPlus(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing kaon+s."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto kaonpluses = mc_data->GetTrackID_PDGCode(321);
             for (auto kaonplus : kaonpluses)
@@ -716,6 +751,9 @@ namespace arrakis
         void Melange::ProcessKaonMinus(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing kaon-s."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto kaonminuses = mc_data->GetTrackID_PDGCode(-321);
             for (auto kaonminus : kaonminuses)
@@ -745,6 +783,9 @@ namespace arrakis
         void Melange::ProcessProtons(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing protons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto protons = mc_data->GetTrackID_PDGCode(2212);
             for (auto proton : protons)
@@ -779,6 +820,9 @@ namespace arrakis
              * gammas, which are generated according to a cascade:
              *
              */
+            Logger::GetInstance("melange")->trace(
+                "processing neutrons."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto neutrons = mc_data->GetTrackID_PDGCode(2112);
             auto neutron_daughters = mc_data->GetDaughterTrackID_TrackID(neutrons);
@@ -842,6 +886,9 @@ namespace arrakis
              * interactions, which generate an alpha and Sulfur 35 or
              * Chlorine 36.
              */
+            Logger::GetInstance("melange")->trace(
+                "processing nuclear recoils."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar41 = mc_data->GetTrackID_PDGCode(1000180410);
             auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
@@ -861,6 +908,8 @@ namespace arrakis
 
             auto cl36 = mc_data->GetTrackID_PDGCode(1000170360);
             auto cl36_daughters = mc_data->GetDaughterTrackID_TrackID(cl36);
+            auto cl39 = mc_data->GetTrackID_PDGCode(1000170390);
+            auto cl39_daughters = mc_data->GetDaughterTrackID_TrackID(cl39);
 
             for (auto ar : ar41)
             {
@@ -934,6 +983,15 @@ namespace arrakis
                     IterateShapeLabel()
                 );
             }
+            for (auto cl : cl39)
+            {
+                auto cl39_det_sim = mc_data->GetDetSimID_TrackID(cl);
+                SetLabels(
+                    cl39_det_sim, cl,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel()
+                );
+            }
             ProcessShowers(ar41_daughters);
             ProcessShowers(ar40_daughters);
             ProcessShowers(ar39_daughters);
@@ -942,6 +1000,7 @@ namespace arrakis
             ProcessShowers(ar36_daughters);
             ProcessShowers(s35_daughters);
             ProcessShowers(cl36_daughters);
+            ProcessShowers(cl39_daughters);
         }
         void Melange::ProcessElectronRecoils(
             const Parameters &config, art::Event const &event)
@@ -951,6 +1010,9 @@ namespace arrakis
              * edeps created by deuterons/tritons/alphas coming out of
              * neutron inelastic scatters.
              */
+            Logger::GetInstance("melange")->trace(
+                "processing electron recoils."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto deuterons = mc_data->GetTrackID_PDGCode(1000010020);
             auto tritons = mc_data->GetTrackID_PDGCode(1000010030);
@@ -997,6 +1059,9 @@ namespace arrakis
              * Argon-39 decays via beta decay into Potassium-39,
              * with a Q-value of 565 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180039.
              */
+            Logger::GetInstance("melange")->trace(
+                "processing argon-39."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
             auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar39);
@@ -1015,6 +1080,9 @@ namespace arrakis
              * Argon-42 decays via beta decay into Potassium-42,
              * with a Q-value of 599 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180042.
              */
+            Logger::GetInstance("melange")->trace(
+                "processing argon-42."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
             auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar42);
@@ -1034,6 +1102,9 @@ namespace arrakis
              * with two prominent betas with energies of 687 keV (99.56 %) and
              * 173 keV (.43 %): http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=360085.
              */
+            Logger::GetInstance("melange")->trace(
+                "processing krypton-85."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
             auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr85);
@@ -1056,6 +1127,9 @@ namespace arrakis
              * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
              * scattering length is (~0.005 cm) or (~50 um).
              */
+            Logger::GetInstance("melange")->trace(
+                "processing radon-222."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
             auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
@@ -1070,6 +1144,9 @@ namespace arrakis
         void Melange::ProcessCosmics(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing cosmics."
+            );
             auto mc_data = mcdata::MCData::GetInstance();
             auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
             auto electrons = mc_data->FilterTrackID_PDGCode(cosmics, 11);
