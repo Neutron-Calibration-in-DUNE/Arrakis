@@ -256,8 +256,8 @@ namespace arrakis
                     DetSimID_t largest_influence = -1;
                     Double_t influence = 0.0;
 
-                    Int_t start = 0;
-                    Int_t end = wire_plane_point_cloud.channel.size();
+                    size_t start = 0;
+                    size_t end = wire_plane_point_cloud.channel.size();
                     Int_t index_distance = sInducedChannelInfluence * mc_data->GetNumberOfTDCs() + sInducedTDCInfluence;
                     if(detsim_id - index_distance > 0) {
                         start = detsim_id - index_distance;
@@ -928,7 +928,7 @@ namespace arrakis
             }
             for (auto cl : cl36)
             {
-                auto cl36_det_sim = mc_data->GetDetSimID_TrackID(s);
+                auto cl36_det_sim = mc_data->GetDetSimID_TrackID(cl);
                 SetLabels(
                     cl36_det_sim, cl,
                     ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
