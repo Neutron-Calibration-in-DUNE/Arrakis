@@ -156,7 +156,7 @@ namespace arrakis
             fhicl::Name("SaveWirePlanePointCloud"),
             fhicl::Comment("Whether to save the wire plane point clouds.")
         };
-        fhicl::Atom<double> ADCThreshold
+        fhicl::Atom<Int_t> ADCThreshold
         {
             fhicl::Name("ADCThreshold"),
             fhicl::Comment("ADC threshold value to use for filling 2D arrays.")

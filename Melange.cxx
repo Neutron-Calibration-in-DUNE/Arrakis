@@ -232,25 +232,46 @@ namespace arrakis
                  * simulation.  This can happen through various effects which are not
                  * accounted for by SimChannelSink, the module which saves the drifted 
                  * electrons to SimChannels.
+                 * 
+                 * The energy depositions are first drifted to 10cm from the wire planes, 
+                 * which is chosen as a cutoff distance for induction effects.  From this 10cm
+                 * distance, SimChannelSink assigns track ids to SimChannels.  
+                 * 
+                 * Other effects from the detector simulation include (a) the field response,
+                 * (b) detector response, where induction effects can reach out to a 10 wire distance
+                 * and approximately 200 tdc values (~2 microseconds).  This induction influence
+                 * is not backtracked to the SimChannel, which results in bands around tracks and
+                 * showers which do not have associated track ids.  To deal with this,
+                 * we search within the 10 wire and 200 tdc distance for noise labeled points
+                 * and weight the influence of nearby track ids by their distance and ADC value.
                  */
                 else if(
-                    wire_plane_point_cloud.source_label[detsim_id] == LabelCast(SourceLabel::Noise) ||
-                    wire_plane_point_cloud.shape_label[detsim_id] == LabelCast(ShapeLabel::Noise)   ||
                     wire_plane_point_cloud.particle_label[detsim_id] == LabelCast(ParticleLabel::Noise)
                 )
                 {
                     Int_t current_channel = wire_plane_point_cloud.channel[detsim_id];
                     Int_t current_tdc = wire_plane_point_cloud.tdc[detsim_id];
                     Int_t current_view = wire_plane_point_cloud.view[detsim_id];
+
                     DetSimID_t largest_influence = -1;
                     Double_t influence = 0.0;
-                    for(size_t other_id = 0; other_id < wire_plane_point_cloud.channel.size(); other_id++)
+
+                    Int_t start = 0;
+                    Int_t end = wire_plane_point_cloud.channel.size();
+                    Int_t index_distance = sInducedChannelInfluence * mc_data->GetNumberOfTDCs() + sInducedTDCInfluence;
+                    if(detsim_id - index_distance > 0) {
+                        start = detsim_id - index_distance;
+                    }
+                    if(detsim_id + index_distance < end) {
+                        end = detsim_id + index_distance;
+                    }
+                    std::cout << "begin: " << start << " - end: " << end << std::endl;
+                    for(size_t other_id = start; other_id < end; other_id++)
                     {
                         if(
                             (std::abs(wire_plane_point_cloud.channel[other_id] - current_channel) < sInducedChannelInfluence ||
                              std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence) &&
                             wire_plane_point_cloud.view[other_id] == current_view &&
-                            wire_plane_point_cloud.shape_label[other_id] != LabelCast(ShapeLabel::Noise) &&
                             wire_plane_point_cloud.particle_label[other_id] != LabelCast(ParticleLabel::Noise)
                         )
                         {
@@ -278,29 +299,52 @@ namespace arrakis
                             wire_plane_point_cloud.particle_label[largest_influence],
                             wire_plane_point_cloud.unique_shape[largest_influence]
                         );
-                        // wire_plane_point_cloud.source_label[detsim_id] = wire_plane_point_cloud.source_label[largest_influence];
-                        // wire_plane_point_cloud.shape_label[detsim_id] = wire_plane_point_cloud.shape_label[largest_influence];
-                        // wire_plane_point_cloud.particle_label[detsim_id] = wire_plane_point_cloud.particle_label[largest_influence];
-                        // ProcessNoise(detsim_id, largest_influence);
                     }
                     else {
-                        std::cout << "detsim: " << detsim_id << " channel: " << current_channel << " tdc: " << current_tdc << " view: " << current_view << std::endl;
+                        Logger::GetInstance("melange")->warning(
+                            "noise point: " + std::to_string(detsim_id) + 
+                            " channel: " + std::to_string(current_channel) +
+                            " tdc: " + std::to_string(current_tdc) +
+                            " view: " + std::to_string(current_view) + 
+                            " has no nearby track ids to influence labeling."
+                        );
                     }
                 }
                 if(wire_plane_point_cloud.shape_labels[detsim_id].size() > 1)
                 {
-                    auto num_tracks = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::Track));
-                    auto num_showers = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::Shower));
-                    // auto num_blips = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::Blip));
-                    // auto num_captures = std::count(wire_plane_point_cloud.shape_labels[detsim_id].begin(), wire_plane_point_cloud.shape_labels[detsim_id].end(), LabelCast(ShapeLabel::NeutronCapture));
+                    auto num_tracks = std::count(
+                        wire_plane_point_cloud.shape_labels[detsim_id].begin(), 
+                        wire_plane_point_cloud.shape_labels[detsim_id].end(), 
+                        LabelCast(ShapeLabel::Track)
+                    );
+                    auto num_showers = std::count(
+                        wire_plane_point_cloud.shape_labels[detsim_id].begin(), 
+                        wire_plane_point_cloud.shape_labels[detsim_id].end(), 
+                        LabelCast(ShapeLabel::Shower)
+                    );
+                    auto num_blips = std::count(
+                        wire_plane_point_cloud.shape_labels[detsim_id].begin(), 
+                        wire_plane_point_cloud.shape_labels[detsim_id].end(), 
+                        LabelCast(ShapeLabel::Blip)
+                    );
+                    auto num_captures = std::count(
+                        wire_plane_point_cloud.shape_labels[detsim_id].begin(), 
+                        wire_plane_point_cloud.shape_labels[detsim_id].end(), 
+                        LabelCast(ShapeLabel::NeutronCapture)
+                    );
                     if(num_tracks) {
                         wire_plane_point_cloud.shape_label[detsim_id] = LabelCast(ShapeLabel::Track);
                     }
                     else if(num_showers) {
                         wire_plane_point_cloud.shape_label[detsim_id] = LabelCast(ShapeLabel::Shower);
                     }
+                    else if(num_blips) {
+                        wire_plane_point_cloud.shape_label[detsim_id] = LabelCast(ShapeLabel::Blip);
+                    }
+                    else if(num_captures) {
+                        wire_plane_point_cloud.shape_label[detsim_id] = LabelCast(ShapeLabel::NeutronCapture);
+                    }
                 }
-
             }
         }
         void Melange::ProcessNoise(DetSimID_t detSimID, DetSimID_t largestInfluence)
@@ -796,7 +840,8 @@ namespace arrakis
              * Nuclear recoils can come from many things, but are essentially
              * edeps created by Ar41-Ar36 particles (with PDGCodes
              * 1000180400-1000180360), but also by fission from neutron inelastic
-             * interactions, which generate an alpha and Sulfur 35
+             * interactions, which generate an alpha and Sulfur 35 or
+             * Chlorine 36.
              */
             auto mc_data = mcdata::MCData::GetInstance();
             auto ar41 = mc_data->GetTrackID_PDGCode(1000180410);
@@ -814,6 +859,9 @@ namespace arrakis
 
             auto s35 = mc_data->GetTrackID_PDGCode(1000160350);
             auto s35_daughters = mc_data->GetDaughterTrackID_TrackID(s35);
+
+            auto cl36 = mc_data->GetTrackID_PDGCode(1000170360);
+            auto cl36_daughters = mc_data->GetDaughterTrackID_TrackID(cl36);
 
             for (auto ar : ar41)
             {
@@ -878,6 +926,15 @@ namespace arrakis
                     IterateShapeLabel()
                 );
             }
+            for (auto cl : cl36)
+            {
+                auto cl36_det_sim = mc_data->GetDetSimID_TrackID(s);
+                SetLabels(
+                    cl36_det_sim, cl,
+                    ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                    IterateShapeLabel()
+                );
+            }
             ProcessShowers(ar41_daughters);
             ProcessShowers(ar40_daughters);
             ProcessShowers(ar39_daughters);
@@ -885,6 +942,7 @@ namespace arrakis
             ProcessShowers(ar37_daughters);
             ProcessShowers(ar36_daughters);
             ProcessShowers(s35_daughters);
+            ProcessShowers(cl36_daughters);
         }
         void Melange::ProcessElectronRecoils(
             const Parameters &config, art::Event const &event)

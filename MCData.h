@@ -64,7 +64,8 @@ namespace arrakis
             );
 
             void SetConfigurationParameters(const Parameters& config);
-            Double_t GetADCThreshold()  { return sADCThreshold; }
+            Int_t GetADCThreshold()  { return sADCThreshold; }
+            Int_t GetNumberOfTDCs()  { return sNumberOfTDCs; }
 
             art::Handle<std::vector<simb::MCTruth>>         GetMCTruth()        { return sMCTruthHandle; }
             art::Handle<std::vector<simb::MCParticle>>      GetMCParticles()    { return sMCParticleHandle; }
@@ -242,7 +243,8 @@ namespace arrakis
             static std::mutex sMutex;
 
             // ADC threshold
-            Double_t sADCThreshold = {0.0};
+            Int_t sADCThreshold = {0};
+            Int_t sNumberOfTDCs = {0};
 
             // Output TTree
             art::ServiceHandle<art::TFileService> sTFileService;

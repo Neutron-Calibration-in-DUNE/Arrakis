@@ -651,6 +651,7 @@ namespace arrakis
                 std::to_string((*sMCRawDigitHandle).size()) + 
                 " <raw::RawDigit>s."
             );
+            sNumberOfTDCs = sMCRawDigitHandle->at(0).Samples();
             for(auto digit : *sMCRawDigitHandle)
             {
                 // Get the channel number for this digit, number of samples,

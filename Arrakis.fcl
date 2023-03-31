@@ -44,7 +44,7 @@ Arrakis:
     # array parameters
     SaveMCData:                 false   # save MCData maps
     SaveWirePlanePointCloud:    true    # save wire plane point cloud data
-    ADCThreshold:               20.0    # ADC threshold for saving points
+    ADCThreshold:               20      # ADC threshold for saving points
     InducedChannelInfluence:    10      # number of wires which are influenced by signals
     InducedTDCInfluence:        200     # number of tdc ticks which are influenced by signals
 }
