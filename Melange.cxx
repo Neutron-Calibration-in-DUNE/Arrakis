@@ -230,7 +230,7 @@ namespace arrakis
                             std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(track_id))) + "," + 
                             std::to_string(mc_data->GetAncestorLevel_TrackID(track_id)) + "]"
                         );
-                        auto ancestry = mc_data->GetAncestry_TrackID(track_id);
+                        auto ancestry = mc_data->GetAncestryTrackID_TrackID(track_id);
                         if(ancestry.size() > 1)
                         {
                             Logger::GetInstance("melange")->warning(
