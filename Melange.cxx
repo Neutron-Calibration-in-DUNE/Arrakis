@@ -265,7 +265,6 @@ namespace arrakis
                     if(detsim_id + index_distance < end) {
                         end = detsim_id + index_distance;
                     }
-                    std::cout << detsim_id << " - begin: " << start << " - end: " << end << std::endl;
                     for(size_t other_id = start; other_id < end; other_id++)
                     {
                         if(
