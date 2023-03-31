@@ -265,12 +265,12 @@ namespace arrakis
                     if(detsim_id + index_distance < end) {
                         end = detsim_id + index_distance;
                     }
-                    std::cout << "begin: " << start << " - end: " << end << std::endl;
+                    std::cout << detsim_id << " - begin: " << start << " - end: " << end << std::endl;
                     for(size_t other_id = start; other_id < end; other_id++)
                     {
                         if(
-                            //std::abs(wire_plane_point_cloud.channel[other_id] - current_channel) < sInducedChannelInfluence ||
-                            std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence &&
+                            (std::abs(wire_plane_point_cloud.channel[other_id] - current_channel) < sInducedChannelInfluence ||
+                             std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence) &&
                             //wire_plane_point_cloud.view[other_id] == current_view &&
                             wire_plane_point_cloud.particle_label[other_id] != LabelCast(ParticleLabel::Noise)
                         )
