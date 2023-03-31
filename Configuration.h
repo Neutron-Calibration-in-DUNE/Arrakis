@@ -164,12 +164,12 @@ namespace arrakis
         fhicl::Atom<Int_t> InducedChannelInfluence
         {
             fhicl::Name("InducedChannelInfluence"),
-            fhicl::Comment("The amount of channels a nearby wire effects through induction.")
+            fhicl::Comment("The amount of channels a nearby wire effects through induction.  This is to account for the wirecell simulation which is not back tracked to sim::IDE's in SimChannel.")
         };
         fhicl::Atom<Int_t> InducedTDCInfluence
         {
             fhicl::Name("InducedTDCInfluence"),
-            fhicl::Comment("The amount of tdc values influenced by a surrounding signal.")
+            fhicl::Comment("The amount of tdc values influenced by a surrounding signal.  This is to account for the wirecell simulation which is not back tracked to sim::IDE's in SimChannel.")
         };
     };
 

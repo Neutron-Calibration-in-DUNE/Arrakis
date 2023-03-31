@@ -84,6 +84,9 @@ namespace arrakis
         void Melange::ProcessEvent(
             const Parameters &config, art::Event const &event)
         {
+            Logger::GetInstance("melange")->trace(
+                "processing event."
+            );
             ResetEvent();
             PrepareInitialPointClouds(config, event);
             ProcessElectrons(config, event);
@@ -222,13 +225,26 @@ namespace arrakis
                     for(auto track_id : wire_plane_point_cloud.track_ids[detsim_id])
                     {
                         Logger::GetInstance("melange")->warning(
-                            "undefined point: " + std::to_string(detsim_id) + " - (trackid,pdg): (" +
-                            std::to_string(track_id) + "," + std::to_string(mc_data->GetPDGCode_TrackID(track_id)) + ") - process: " +
-                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(track_id))) + " - parent (trackid,pdg): (" + 
-                            std::to_string(mc_data->GetParentTrackID_TrackID(track_id)) + "," + std::to_string(mc_data->GetParentPDGCode_TrackID(track_id)) +
-                            ") - ancestor (trackid,pdg): (" + std::to_string(mc_data->GetAncestorTrackID_TrackID(track_id)) + "," + 
-                            std::to_string(mc_data->GetAncestorPDGCode_TrackID(track_id)) + ")." 
+                            "undefined point: " + std::to_string(detsim_id) + " - [trackid,pdg,process,level]: [" +
+                            std::to_string(track_id) + "," + std::to_string(mc_data->GetPDGCode_TrackID(track_id)) + "," +
+                            std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(track_id))) + "," + 
+                            std::to_string(mc_data->GetAncestorLevel_TrackID(track_id)) + "]"
                         );
+                        auto ancestry = mc_data->GetAncestry_TrackID(track_id);
+                        if(ancestry.size() > 1)
+                        {
+                            Logger::GetInstance("melange")->warning(
+                                "ancestry [trackid,pdg,process,level]:"
+                            );
+                        }
+                        for(auto id : ancestry)
+                        { 
+                            Logger::GetInstance("melange")->warning(
+                                "\t[" + std::to_string(id) + "," + std::to_string(mc_data->GetPDGCode_TrackID(id)) +
+                                "," + std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(id))) + "," + 
+                                std::to_string(mc_data->GetAncestorLevel_TrackID(id)) + "]" 
+                            );
+                        }
                     }
                 }
                 /**
