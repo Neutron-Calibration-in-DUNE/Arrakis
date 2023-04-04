@@ -46,12 +46,12 @@ namespace arrakis
 
         sFilterDetectorSimulation = FilterDetectorSimulation[config().FilterDetectorSimulation()];
         Logger::GetInstance("SimulationLabelingLogic")->trace(
-            "setting filter detector simulation to: " + config().FilterDetectorSimulation()
+            "setting filter detector simulation to: " + config().FilterDetectorSimulation().label()
         );
 
         sNeutronCaptureGammaDetail = NeutronCaptureGammaDetail[config().NeutronCaptureGammaDetail()];
         Logger::GetInstance("SimulationLabelingLogic")->trace(
-            "setting neutron capture gamma detail to: " + config().NeutronCaptureGammaDetail()
+            "setting neutron capture gamma detail to: " + config().NeutronCaptureGammaDetail().label()
         );
 
         sInducedChannelInfluence = config().InducedChannelInfluence();
