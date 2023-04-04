@@ -28,25 +28,24 @@ Arrakis:
         PNSLabel:           "PNS"
     }
 
-    MelangeParameters:
-    {
-        # whether to collect detector simulation by edep or
-        # by particle track id.
-        FilterDetectorSimulation:   "TrackID"   # ["TrackID", "EdepID"]
+    # Simulation Labeling Logic Parameters:
+    SaveSimulationWrangler:         false   # save SimulationWrangler maps
+    SaveWirePlanePointCloud:        true    # save wire plane point cloud data
+    SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
+    
+    # whether to collect detector simulation by edep or
+    # by particle track id.
+    FilterDetectorSimulation:   "TrackID"   # ["TrackID", "EdepID"]
 
-        # labeling scheme for neutron captures,
-        # simple labels all gammas as "other", while medium labels
-        # 4.75 and 1.81 MeV gammas separately from others, and full
-        # labels all energies as different types.
-        NeutronCaptureGammaDetail:  "Simple"    # ["Simple", "Medium", "Full"]
-    }
-
-    # array parameters
-    SaveMCData:                 false   # save MCData maps
-    SaveWirePlanePointCloud:    true    # save wire plane point cloud data
-    ADCThreshold:               20      # ADC threshold for saving points
-    InducedChannelInfluence:    10      # number of wires which are influenced by signals
-    InducedTDCInfluence:        200     # number of tdc ticks which are influenced by signals
+    # labeling scheme for neutron captures,
+    # simple labels all gammas as "other", while medium labels
+    # 4.75 and 1.81 MeV gammas separately from others, and full
+    # labels all energies as different types.
+    NeutronCaptureGammaDetail:  "Simple"    # ["Simple", "Medium", "Full"]
+    
+    ADCThreshold:                   20      # ADC threshold for saving points
+    InducedChannelInfluence:        10      # number of wires which are influenced by signals
+    InducedTDCInfluence:            200     # number of tdc ticks which are influenced by signals
 }
 
 END_PROLOG

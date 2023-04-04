@@ -45,11 +45,12 @@
 #include <cmath>
 
 #include "Configuration.h"
+#include "DataWrangler.h"
 #include "DetectorGeometry.h"
 #include "Core.h"
 #include "Logger.h"
-#include "MCData.h"
-#include "Melange.h"
+#include "SimulationWrangler.h"
+#include "SimulationLabelingLogic.h"
 
 namespace arrakis
 {
@@ -82,9 +83,10 @@ namespace arrakis
         TTree *mMetaTree;
 
         // Detector Geometry Instance
-        geometry::DetectorGeometry* mGeometry;
-        mcdata::MCData* mMCData;
-        melange::Melange* mMelange;
+        DetectorGeometry* mGeometry;
+        DataWrangler* mDataWrangler;
+        SimulationWrangler* mSimulationWrangler;
+        SimulationLabelingLogic* mSimulationLabelingLogic;
 
     };
 
@@ -94,11 +96,16 @@ namespace arrakis
     , mParameters(config)
     {
 
-        mGeometry = geometry::DetectorGeometry::GetInstance();
-        mMCData = mcdata::MCData::GetInstance();
-        mMCData->SetConfigurationParameters(config);
-        mMelange = melange::Melange::GetInstance();
-        mMelange->SetConfigurationParameters(config);
+        mGeometry = DetectorGeometry::GetInstance();
+
+        mDataWrangler = DataWrangler::GetInstance();
+        mDataWrangler->SetConfigurationParameters(config);
+
+        mSimulationWrangler = SimulationWrangler::GetInstance();
+        mSimulationWrangler->SetConfigurationParameters(config);
+
+        mSimulationLabelingLogic = SimulationLabelingLogic::GetInstance();
+        mSimulationLabelingLogic->SetConfigurationParameters(config);
 
         Logger::GetInstance("arrakis_module")->trace("initializing arrakis module");      
     }
@@ -121,11 +128,13 @@ namespace arrakis
             std::to_string(event_id) + "]"
         );
 
-        mMCData->ProcessEvent(mParameters, event);
-        mMelange->ProcessEvent(mParameters, event);
-        
+        mDataWrangler->ProcessEvent(mParameters, event);
 
-        mMCData->FillTTree();
+        mSimulationWrangler->ProcessEvent(mParameters, event);
+        mSimulationLabelingLogic->ProcessEvent(mParameters, event);
+        
+        mDataWrangler->FillTTree();
+        mSimulationWrangler->FillTTree();
     }
     
     // end job

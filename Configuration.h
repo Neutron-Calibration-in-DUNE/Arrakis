@@ -128,23 +128,18 @@ namespace arrakis
             fhicl::Name("GeneratorLabels"),
             fhicl::Comment("Input Tag Table for accessing GeneratorLabels for various generator labels.")
         };
-        struct MelangeParameters
+        /**
+         * Parameters for the simulation labeling logic class.
+         */
+        fhicl::Atom<std::string> FilterDetectorSimulation
         {
-            fhicl::Atom<std::string> FilterDetectorSimulation
-            {
-                fhicl::Name("FilterDetectorSimulation"),
-                fhicl::Comment("Whether to grab detector simulation by Edep, or by track id, can be either 'TrackID' or 'EdepID'.")
-            };
-            fhicl::Atom<std::string> NeutronCaptureGammaDetail
-            {
-                fhicl::Name("NeutronCaptureGammaDetail"),
-                fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
-            };
+            fhicl::Name("FilterDetectorSimulation"),
+            fhicl::Comment("Whether to grab detector simulation by Edep, or by track id, can be either 'TrackID' or 'EdepID'.")
         };
-        fhicl::Table<MelangeParameters> melange_parameters
+        fhicl::Atom<std::string> NeutronCaptureGammaDetail
         {
-            fhicl::Name("MelangeParameters"),
-            fhicl::Comment("Parameters for the melange algorithms.")
+            fhicl::Name("NeutronCaptureGammaDetail"),
+            fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
         };
         fhicl::Atom<bool> SaveMCData
         {

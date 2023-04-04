@@ -50,242 +50,239 @@
 
 namespace arrakis 
 {
-    namespace geometry
+    // list of materials in the detector
+    enum MaterialList 
     {
-        // list of materials in the detector
-        enum MaterialList 
-        {
 
-        };
+    };
 
-        enum VolumeType 
-        {
-            World,
-            Cryostat,
-            TPC,
-        };
+    enum VolumeType 
+    {
+        World,
+        Cryostat,
+        TPC,
+    };
 
-        // struct for detector volume information
-        struct DetectorVolume
-        {
-            VolumeType volume_type;
-            std::string volume_name;
-            std::string material_name;
-            double material;
+    // struct for detector volume information
+    struct DetectorVolume
+    {
+        VolumeType volume_type;
+        std::string volume_name;
+        std::string material_name;
+        double material;
 
-            DetectorVolume() {}
-            
-            DetectorVolume(
-                VolumeType volumeType, 
-                std::string volumeName, 
-                std::string materialName, 
-                double material
-            )
-            : volume_type(volumeType)
-            , volume_name(volumeName)
-            , material_name(materialName)
-            , material(material)
-            {}
-        };
+        DetectorVolume() {}
         
-        // struct for bounding boxes
-        struct BoundingBox
+        DetectorVolume(
+            VolumeType volumeType, 
+            std::string volumeName, 
+            std::string materialName, 
+            double material
+        )
+        : volume_type(volumeType)
+        , volume_name(volumeName)
+        , material_name(materialName)
+        , material(material)
+        {}
+    };
+    
+    // struct for bounding boxes
+    struct BoundingBox
+    {
+        double x_min = 0; double x_max = 0;
+        double y_min = 0; double y_max = 0;
+        double z_min = 0; double z_max = 0;
+
+        double width()  { return x_max - x_min; }
+        double height() { return y_max - y_min; }
+        double length() { return z_max - z_min; }
+
+        // setting boundaries
+        void setBox(geo::BoxBoundedGeo const& Box) 
         {
-            double x_min = 0; double x_max = 0;
-            double y_min = 0; double y_max = 0;
-            double z_min = 0; double z_max = 0;
-
-            double width()  { return x_max - x_min; }
-            double height() { return y_max - y_min; }
-            double length() { return z_max - z_min; }
-
-            // setting boundaries
-            void setBox(geo::BoxBoundedGeo const& Box) 
-            {
-                x_min = Box.MinX(); x_max = Box.MaxX();
-                y_min = Box.MinY(); y_max = Box.MaxY();
-                z_min = Box.MinZ(); z_max = Box.MaxZ();
-            }
-            void setBox(
-                double xmin, double xmax,
-                double ymin, double ymax,
-                double zmin, double zmax
-            )
-            {
-                x_min = xmin; x_max = xmax;
-                y_min = ymin; y_max = ymax;
-                z_min = zmin; z_max = zmax;
-            }
-
-            // constructors
-            BoundingBox() {}
-            BoundingBox(double xs[2], double ys[2], double zs[2])
-            {
-                x_min = xs[0]; x_max = xs[1];
-                y_min = ys[0]; y_max = ys[1];
-                z_min = zs[0]; z_max = zs[1];
-            }
-            BoundingBox(double vals[6])
-            {
-                x_min = vals[0]; x_max = vals[1];
-                y_min = vals[2]; y_max = vals[3];
-                z_min = vals[4]; z_max = vals[4];
-            }
-            BoundingBox(
-                double xmin, double xmax,
-                double ymin, double ymax,
-                double zmin, double zmax
-            )
-            {
-                x_min = xmin; x_max = xmax;
-                y_min = ymin; y_max = ymax;
-                z_min = zmin; z_max = zmax;
-            }
-            BoundingBox(geo::BoxBoundedGeo const& Box) 
-            {
-                x_min = Box.MinX(); x_max = Box.MaxX();
-                y_min = Box.MinY(); y_max = Box.MaxY();
-                z_min = Box.MinZ(); z_max = Box.MaxZ();
-            }
-        };
-
-        /**
-         * @brief Singleton class for storing detector geometry information.
-         * 
-         */
-        class DetectorGeometry
+            x_min = Box.MinX(); x_max = Box.MaxX();
+            y_min = Box.MinY(); y_max = Box.MaxY();
+            z_min = Box.MinZ(); z_max = Box.MaxZ();
+        }
+        void setBox(
+            double xmin, double xmax,
+            double ymin, double ymax,
+            double zmin, double zmax
+        )
         {
-        public:
-            // this singleton cannot be cloned
-            DetectorGeometry(DetectorGeometry &other) = delete;
-            // singleton should also not be assignable
-            void operator=(const DetectorGeometry &) = delete;
+            x_min = xmin; x_max = xmax;
+            y_min = ymin; y_max = ymax;
+            z_min = zmin; z_max = zmax;
+        }
 
-            // static method that controls access to 
-            // the singleton instance
-            static DetectorGeometry* GetInstance();
+        // constructors
+        BoundingBox() {}
+        BoundingBox(double xs[2], double ys[2], double zs[2])
+        {
+            x_min = xs[0]; x_max = xs[1];
+            y_min = ys[0]; y_max = ys[1];
+            z_min = zs[0]; z_max = zs[1];
+        }
+        BoundingBox(double vals[6])
+        {
+            x_min = vals[0]; x_max = vals[1];
+            y_min = vals[2]; y_max = vals[3];
+            z_min = vals[4]; z_max = vals[4];
+        }
+        BoundingBox(
+            double xmin, double xmax,
+            double ymin, double ymax,
+            double zmin, double zmax
+        )
+        {
+            x_min = xmin; x_max = xmax;
+            y_min = ymin; y_max = ymax;
+            z_min = zmin; z_max = zmax;
+        }
+        BoundingBox(geo::BoxBoundedGeo const& Box) 
+        {
+            x_min = Box.MinX(); x_max = Box.MaxX();
+            y_min = Box.MinY(); y_max = Box.MaxY();
+            z_min = Box.MinZ(); z_max = Box.MaxZ();
+        }
+    };
 
-            unsigned int NumberOfUChannels() { return sNumberOfUChannels; }
-            unsigned int NumberOfVChannels() { return sNumberOfVChannels; }
-            unsigned int NumberOfZChannels() { return sNumberOfZChannels; }
+    /**
+     * @brief Singleton class for storing detector geometry information.
+     * 
+     */
+    class DetectorGeometry
+    {
+    public:
+        // this singleton cannot be cloned
+        DetectorGeometry(DetectorGeometry &other) = delete;
+        // singleton should also not be assignable
+        void operator=(const DetectorGeometry &) = delete;
 
-            // find channel boundaries for each view
-            unsigned int UChannelMin() { return sUChannelMin; }
-            unsigned int UChannelMax() { return sUChannelMax; }
-            unsigned int VChannelMin() { return sVChannelMin; }
-            unsigned int VChannelMax() { return sVChannelMax; }
-            unsigned int ZChannelMin() { return sZChannelMin; }
-            unsigned int ZChannelMax() { return sZChannelMax; }
+        // static method that controls access to 
+        // the singleton instance
+        static DetectorGeometry* GetInstance();
 
-            unsigned int NumberOfAPAs() { return sNumberOfAPAs; }
-            unsigned int NumberOfChannelsPerAPA() { return sNumberOfChannelsPerAPA; }
+        unsigned int NumberOfUChannels() { return sNumberOfUChannels; }
+        unsigned int NumberOfVChannels() { return sNumberOfVChannels; }
+        unsigned int NumberOfZChannels() { return sNumberOfZChannels; }
 
-            geo::View_t View(raw::ChannelID_t const channel) { return sGeometryCore->View(channel); }
-            std::vector<geo::WireID> ChannelToWire(raw::ChannelID_t const channel) { return sChannelToWireIDMap[channel]; }
-            Double_t GetWirePitch(geo::View_t view) { return sWirePitchMap[view]; }
+        // find channel boundaries for each view
+        unsigned int UChannelMin() { return sUChannelMin; }
+        unsigned int UChannelMax() { return sUChannelMax; }
+        unsigned int VChannelMin() { return sVChannelMin; }
+        unsigned int VChannelMax() { return sVChannelMax; }
+        unsigned int ZChannelMin() { return sZChannelMin; }
+        unsigned int ZChannelMax() { return sZChannelMax; }
 
-            // getters
-            std::string GetWorldName()      { return sWorldName; }
-            BoundingBox GetWorldBox()       { return sWorldBox; }
+        unsigned int NumberOfAPAs() { return sNumberOfAPAs; }
+        unsigned int NumberOfChannelsPerAPA() { return sNumberOfChannelsPerAPA; }
 
-            std::string GetDetectorName()   { return sDetectorName; }
-            BoundingBox GetDetectorBox()    { return sDetectorBox; }
+        geo::View_t View(raw::ChannelID_t const channel) { return sGeometryCore->View(channel); }
+        std::vector<geo::WireID> ChannelToWire(raw::ChannelID_t const channel) { return sChannelToWireIDMap[channel]; }
+        Double_t GetWirePitch(geo::View_t view) { return sWirePitchMap[view]; }
 
-            std::string GetCryostatName()   { return sCryostatName; }
-            BoundingBox GetCryostatBox()    { return sCryostatBox; }
+        // getters
+        std::string GetWorldName()      { return sWorldName; }
+        BoundingBox GetWorldBox()       { return sWorldBox; }
 
-            int GetNumberOfTPCs()                   { return sNumberOfTPCs; }
-            std::vector<std::string> GetTPCNames()  { return sTPCNames; }
-            BoundingBox GetTotalTPCBox()            { return sTotalTPCBox; }
-            BoundingBox GetTotalActiveTPCBox()      { return sTotalActiveTPCBox; }
-            double GetTotalTPCMass()                { return sTotalTPCMass; }
-            std::vector<double> GetTPCMasses()      { return sTPCMasses; }
-            std::vector<double> GetTPCDriftDistances()  { return sTPCDriftDistances; }
+        std::string GetDetectorName()   { return sDetectorName; }
+        BoundingBox GetDetectorBox()    { return sDetectorBox; }
 
-            std::string GetTPCName(const size_t i);
-            BoundingBox GetTPCBox(const size_t i);
-            BoundingBox GetActiveTPCBox(const size_t i);
-            double GetTPCMass(const size_t i);
-            double GetTPCDriftDistance(const size_t i);
-            
-            // get volume information for a point
-            DetectorVolume GetVolume(std::vector<double> position);
-            DetectorVolume GetVolume(double x, double y, double z);
+        std::string GetCryostatName()   { return sCryostatName; }
+        BoundingBox GetCryostatBox()    { return sCryostatBox; }
 
-            // function for finding total tpc volumes
-            void FindTotalTPCBoxes();
-            // fill the geometry ttree
-            void FillTTree();
+        int GetNumberOfTPCs()                   { return sNumberOfTPCs; }
+        std::vector<std::string> GetTPCNames()  { return sTPCNames; }
+        BoundingBox GetTotalTPCBox()            { return sTotalTPCBox; }
+        BoundingBox GetTotalActiveTPCBox()      { return sTotalActiveTPCBox; }
+        double GetTotalTPCMass()                { return sTotalTPCMass; }
+        std::vector<double> GetTPCMasses()      { return sTPCMasses; }
+        std::vector<double> GetTPCDriftDistances()  { return sTPCDriftDistances; }
+
+        std::string GetTPCName(const size_t i);
+        BoundingBox GetTPCBox(const size_t i);
+        BoundingBox GetActiveTPCBox(const size_t i);
+        double GetTPCMass(const size_t i);
+        double GetTPCDriftDistance(const size_t i);
         
-        protected:
-            DetectorGeometry();
-            ~DetectorGeometry() {}
-            
-        private:
-            static DetectorGeometry * sInstance;
-            static std::mutex sMutex;
+        // get volume information for a point
+        DetectorVolume GetVolume(std::vector<double> position);
+        DetectorVolume GetVolume(double x, double y, double z);
 
-            art::ServiceHandle<geo::Geometry> sGeometryService;
-            geo::GeometryCore const* sGeometryCore;
-            art::ServiceHandle<art::TFileService> sTFileService;
+        // function for finding total tpc volumes
+        void FindTotalTPCBoxes();
+        // fill the geometry ttree
+        void FillTTree();
+    
+    protected:
+        DetectorGeometry();
+        ~DetectorGeometry() {}
+        
+    private:
+        static DetectorGeometry * sInstance;
+        static std::mutex sMutex;
 
-            // TPC // Number of channels in each planes
-            unsigned int sNumberOfUChannels;
-            unsigned int sNumberOfVChannels;
-            unsigned int sNumberOfZChannels;
+        art::ServiceHandle<geo::Geometry> sGeometryService;
+        geo::GeometryCore const* sGeometryCore;
+        art::ServiceHandle<art::TFileService> sTFileService;
 
-            // find channel boundaries for each view
-            unsigned int sUChannelMin;
-            unsigned int sUChannelMax;
-            unsigned int sVChannelMin;
-            unsigned int sVChannelMax;
-            unsigned int sZChannelMin;
-            unsigned int sZChannelMax;
+        // TPC // Number of channels in each planes
+        unsigned int sNumberOfUChannels;
+        unsigned int sNumberOfVChannels;
+        unsigned int sNumberOfZChannels;
 
-            unsigned int sNumberOfAPAs; //Number of APAs
-            unsigned int sNumberOfChannelsPerAPA; //Number of channels in each APA
+        // find channel boundaries for each view
+        unsigned int sUChannelMin;
+        unsigned int sUChannelMax;
+        unsigned int sVChannelMin;
+        unsigned int sVChannelMax;
+        unsigned int sZChannelMin;
+        unsigned int sZChannelMax;
 
-            std::map<raw::ChannelID_t, std::vector<geo::WireID>> sChannelToWireIDMap;
-            std::map<geo::View_t, geo::Length_t> sWirePitchMap;
+        unsigned int sNumberOfAPAs; //Number of APAs
+        unsigned int sNumberOfChannelsPerAPA; //Number of channels in each APA
 
-            TTree *sGeometryTree;
-            size_t sTriggerOffset;
-            
-            std::map<std::string,VolumeType> sVolumeTypeMap;
+        std::map<raw::ChannelID_t, std::vector<geo::WireID>> sChannelToWireIDMap;
+        std::map<geo::View_t, geo::Length_t> sWirePitchMap;
 
-            // world volume
-            std::string sWorldName;
-            BoundingBox sWorldBox;
-            // detector volume
-            std::string sDetectorName;
-            BoundingBox sDetectorBox;
-            // cryostat volume
-            std::string sCryostatName;
-            BoundingBox sCryostatBox;
+        TTree *sGeometryTree;
+        size_t sTriggerOffset;
+        
+        std::map<std::string,VolumeType> sVolumeTypeMap;
 
-            // tpc volumes
-            int sNumberOfTPCs;
-            std::vector<std::string> sTPCNames;
-            std::vector<BoundingBox> sTPCBoxes;
-            std::vector<BoundingBox> sActiveTPCBoxes;
-            std::vector<double> sTPCMasses;
-            std::vector<double> sTPCDriftDistances;
+        // world volume
+        std::string sWorldName;
+        BoundingBox sWorldBox;
+        // detector volume
+        std::string sDetectorName;
+        BoundingBox sDetectorBox;
+        // cryostat volume
+        std::string sCryostatName;
+        BoundingBox sCryostatBox;
 
-            // full tpc volume
-            BoundingBox sTotalTPCBox;
-            BoundingBox sTotalActiveTPCBox;
-            double sTotalTPCMass;
+        // tpc volumes
+        int sNumberOfTPCs;
+        std::vector<std::string> sTPCNames;
+        std::vector<BoundingBox> sTPCBoxes;
+        std::vector<BoundingBox> sActiveTPCBoxes;
+        std::vector<double> sTPCMasses;
+        std::vector<double> sTPCDriftDistances;
 
-            ////////////////////////////////////////////////
-            // detector material variables
-            ////////////////////////////////////////////////
-            // we will need to ask Geant4 about material 
-            // properties for the detector volume
-            // at each point of interest.  This requires holding 
-            // this information in a
-            // TGeoMaterial object, which is part of ROOT.
-            const TGeoMaterial *sMaterial;
-            geo::Point_t sMaterialPOI;
-        };
-    }
+        // full tpc volume
+        BoundingBox sTotalTPCBox;
+        BoundingBox sTotalActiveTPCBox;
+        double sTotalTPCMass;
+
+        ////////////////////////////////////////////////
+        // detector material variables
+        ////////////////////////////////////////////////
+        // we will need to ask Geant4 about material 
+        // properties for the detector volume
+        // at each point of interest.  This requires holding 
+        // this information in a
+        // TGeoMaterial object, which is part of ROOT.
+        const TGeoMaterial *sMaterial;
+        geo::Point_t sMaterialPOI;
+    };
 }
