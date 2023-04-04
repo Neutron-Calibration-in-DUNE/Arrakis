@@ -141,6 +141,11 @@ namespace arrakis
             fhicl::Name("NeutronCaptureGammaDetail"),
             fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
         };
+        fhicl::Atom<bool> SaveEnergyDepositPointCloud
+        {
+            fhicl::Name("SaveEnergyDepositPointCloud"),
+            fhicl::Comment("Whether to save the wire plane point clouds.")
+        };
         fhicl::Atom<bool> SaveSimulationWrangler
         {
             fhicl::Name("SaveSimulationWrangler"),
