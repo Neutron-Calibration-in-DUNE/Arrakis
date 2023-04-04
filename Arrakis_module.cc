@@ -140,7 +140,7 @@ namespace arrakis
     // end job
     void Arrakis::endJob()
     {
-        geometry::DetectorGeometry::GetInstance()->FillTTree();
+        DetectorGeometry::GetInstance()->FillTTree();
         // if(mSaveMeta) {
         //     mMetaTree->Fill();
         // }
