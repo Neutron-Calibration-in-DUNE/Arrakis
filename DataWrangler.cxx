@@ -46,4 +46,7 @@ namespace arrakis
     {
         ResetEvent();
     }
+    void DataWrangler::FillTTree()
+    {
+    }
 }
