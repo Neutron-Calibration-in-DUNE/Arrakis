@@ -141,9 +141,9 @@ namespace arrakis
             fhicl::Name("NeutronCaptureGammaDetail"),
             fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
         };
-        fhicl::Atom<bool> SaveMCData
+        fhicl::Atom<bool> SaveSimulationWrangler
         {
-            fhicl::Name("SaveMCData"),
+            fhicl::Name("SaveSimulationWrangler"),
             fhicl::Comment("Whether to save MC Maps to the output file.")
         };
         fhicl::Atom<bool> SaveWirePlanePointCloud

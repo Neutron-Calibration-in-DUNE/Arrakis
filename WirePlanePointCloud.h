@@ -188,9 +188,9 @@ namespace arrakis
             bool det_noise
         )
         {
-            auto wires = geometry::DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
-            auto det_view = geometry::DetectorGeometry::GetInstance()->View(det_channel);
-            Double_t wire_multiple = geometry::DetectorGeometry::GetInstance()->GetWirePitch(det_view);
+            auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
+            auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance()->GetWirePitch(det_view);
 
             channel.emplace_back(det_channel);
             wire.emplace_back(wires[det_view].Wire * wire_multiple);

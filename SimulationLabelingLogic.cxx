@@ -58,7 +58,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "setting channel influence radius to: " + std::to_string(sInducedChannelInfluence) + " channels."
         );
-        
+
         sInducedTDCInfluence = config().InducedTDCInfluence();
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "setting tdc influence radius to: " + std::to_string(sInducedTDCInfluence) + " tdcs."
@@ -117,7 +117,7 @@ namespace arrakis
          * then determine how to label the source based on the 
          * generator from the ancestor.
          */
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         GeneratorLabel generator_label;
         if(mc_data->GetParentTrackID_TrackID(trackID) == 0) {
             generator_label = mc_data->GetGeneratorLabel_TrackID(trackID);
@@ -153,7 +153,7 @@ namespace arrakis
         ShapeLabel shape, ParticleLabel particle,
         Int_t shape_label)
     {
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto source_label = DetermineSourceLabel(trackID);
         for(size_t ii = 0; ii < detSimIDList.size(); ii++)
         {
@@ -208,7 +208,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "cleaning up point clouds."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto wire_plane_point_cloud = mc_data->GetWirePlanePointCloud();
         for(size_t detsim_id = 0; detsim_id < wire_plane_point_cloud.channel.size(); detsim_id++)
         {
@@ -371,7 +371,7 @@ namespace arrakis
     }
     void SimulationLabelingLogic::ProcessShowers(TrackID_t trackID, Int_t shapeLabel)
     {
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
         if (mc_data->GetPDGCode_TrackID(trackID) == 11)
         {
@@ -423,7 +423,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing primary electrons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto hep_evt = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::HEPevt);
         auto electrons = mc_data->FilterTrackID_PDGCode(hep_evt, 11);
         for (auto electron : electrons)
@@ -456,7 +456,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing primary positrons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto hep_evt = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::HEPevt);
         auto positrons = mc_data->FilterTrackID_PDGCode(hep_evt, -11);
         for (auto positron : positrons)
@@ -489,7 +489,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing primary gammas."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto gammas = mc_data->GetPrimaries_AbsPDGCode(22);
         for (auto gamma : gammas)
         {
@@ -519,7 +519,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing muons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto muons = mc_data->GetTrackID_PDGCode(13);
         for (auto muon : muons)
         {
@@ -566,7 +566,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing anti-muons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto muons = mc_data->GetTrackID_PDGCode(-13);
         for (auto muon : muons)
         {
@@ -634,7 +634,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing neutral pions."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto pi0s = mc_data->GetTrackID_PDGCode(111);
         for (auto pi0 : pi0s)
         {
@@ -653,7 +653,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing pion+s."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto pipluses = mc_data->GetTrackID_PDGCode(211);
         for (auto piplus : pipluses)
         {
@@ -685,7 +685,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing pion-s."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto piminuses = mc_data->GetTrackID_PDGCode(-211);
         for (auto piminus : piminuses)
         {
@@ -717,7 +717,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing neutral kaons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto ka0s = mc_data->GetTrackID_PDGCode(311);
         for (auto ka0 : ka0s)
         {
@@ -736,7 +736,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing kaon+s."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto kaonpluses = mc_data->GetTrackID_PDGCode(321);
         for (auto kaonplus : kaonpluses)
         {
@@ -768,7 +768,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing kaon-s."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto kaonminuses = mc_data->GetTrackID_PDGCode(-321);
         for (auto kaonminus : kaonminuses)
         {
@@ -800,7 +800,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing protons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto protons = mc_data->GetTrackID_PDGCode(2212);
         for (auto proton : protons)
         {
@@ -837,7 +837,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing neutrons."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto neutrons = mc_data->GetTrackID_PDGCode(2112);
         auto neutron_daughters = mc_data->GetDaughterTrackID_TrackID(neutrons);
         auto gamma_daughters = mc_data->FilterTrackID_AbsPDGCode(neutron_daughters, 22);
@@ -903,7 +903,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing nuclear recoils."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto ar41 = mc_data->GetTrackID_PDGCode(1000180410);
         auto ar40 = mc_data->GetTrackID_PDGCode(1000180400);
         auto ar39 = mc_data->GetTrackID_PDGCode(1000180390);
@@ -1027,7 +1027,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing electron recoils."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto deuterons = mc_data->GetTrackID_PDGCode(1000010020);
         auto tritons = mc_data->GetTrackID_PDGCode(1000010030);
         auto alphas = mc_data->GetTrackID_PDGCode(1000020040);
@@ -1076,7 +1076,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing argon-39."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
         auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar39);
         auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
@@ -1097,7 +1097,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing argon-42."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
         auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar42);
         auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42);
@@ -1119,7 +1119,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing krypton-85."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
         auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr85);
         auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr85);
@@ -1144,7 +1144,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing radon-222."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
         auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
         auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
@@ -1161,7 +1161,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing cosmics."
         );
-        auto mc_data = mcdata::MCData::GetInstance();
+        auto mc_data = SimulationWrangler::GetInstance();
         auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
         auto electrons = mc_data->FilterTrackID_PDGCode(cosmics, 11);
         auto positrons = mc_data->FilterTrackID_PDGCode(cosmics, -11);

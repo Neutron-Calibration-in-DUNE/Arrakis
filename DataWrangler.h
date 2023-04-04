@@ -46,6 +46,8 @@ namespace arrakis
         // the singleton instance
         static DataWrangler* GetInstance();
 
+        void SetConfigurationParameters(const Parameters& config);
+
         // methods for processing event data
         void ResetEvent();
         void ProcessEvent(const Parameters& config, art::Event const& event);
