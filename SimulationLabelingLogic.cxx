@@ -44,7 +44,7 @@ namespace arrakis
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "setting up configuration parameters.");
 
-        sFilterDetectorSimulation = std::to_string(config().FilterDetectorSimulation());
+        sFilterDetectorSimulation = config().FilterDetectorSimulation().c_str();
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "setting filter detector simulation to: " + sFilterDetectorSimulation
         );
