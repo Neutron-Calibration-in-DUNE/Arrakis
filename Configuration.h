@@ -107,6 +107,11 @@ namespace arrakis
                 fhicl::Name("Rn222Label"),
                 fhicl::Comment("Tag of the input data product for the Rn222Label.")
             };
+            fhicl::Atom<art::InputTag> BeamLabel
+            {
+                fhicl::Name("BeamLabel"),
+                fhicl::Comment("Tag of the input data product for the BeamLabel.")
+            };
             fhicl::Atom<art::InputTag> CosmicsLabel
             {
                 fhicl::Name("CosmicsLabel"),

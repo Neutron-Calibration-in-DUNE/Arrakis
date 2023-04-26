@@ -23,6 +23,7 @@ Arrakis:
         Ar42Label:          "Ar42"
         Kr85Label:          "Kr85"
         Rn222Label:         "Rn222"
+        BeamLabel:          "Beam"
         CosmicsLabel:       "Cosmics"
         HEPevtLabel:        "HEPevt"
         PNSLabel:           "PNS"

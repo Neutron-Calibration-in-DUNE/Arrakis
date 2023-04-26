@@ -194,6 +194,7 @@ namespace arrakis
         sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
         sGeneratorMap["Kr85Label"] =    GeneratorLabel::Kr85;
         sGeneratorMap["Rn222Label"] =   GeneratorLabel::Rn222;
+        sGeneratorMap["BeamLabel"] =    GeneratorLabel::Beam;
         sGeneratorMap["CosmicsLabel"] = GeneratorLabel::Cosmics;
         sGeneratorMap["HEPevtLabel"] =  GeneratorLabel::HEPevt;
         sGeneratorMap["PNSLabel"] =     GeneratorLabel::PNS;

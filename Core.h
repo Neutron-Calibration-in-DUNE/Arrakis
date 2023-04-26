@@ -70,9 +70,10 @@ namespace arrakis
         Ar42 = 2,
         Kr85 = 3,
         Rn222 = 4,
-        Cosmics = 5,
-        HEPevt = 6,
-        PNS = 7,
+        Beam = 5,
+        Cosmics = 6,
+        HEPevt = 7,
+        PNS = 8,
     };
     using GeneratorLabelInt = std::underlying_type<GeneratorLabel>::type;
     inline Int_t Generator(GeneratorLabel generator_label)
