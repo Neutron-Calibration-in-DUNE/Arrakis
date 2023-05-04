@@ -968,8 +968,12 @@ namespace arrakis
         auto ar37_daughters = mc_data->GetDaughterTrackID_TrackID(ar37);
         auto ar36_daughters = mc_data->GetDaughterTrackID_TrackID(ar36);
 
+        auto s33 = mc_data->GetTrackID_PDGCode(1000160330);
+        auto s33_daughters = mc_data->GetDaughterTrackID_TrackID(s33);
         auto s35 = mc_data->GetTrackID_PDGCode(1000160350);
         auto s35_daughters = mc_data->GetDaughterTrackID_TrackID(s35);
+        auto s36 = mc_data->GetTrackID_PDGCode(1000160360);
+        auto s36_daughters = mc_data->GetDaughterTrackID_TrackID(s36);
 
         auto cl36 = mc_data->GetTrackID_PDGCode(1000170360);
         auto cl36_daughters = mc_data->GetDaughterTrackID_TrackID(cl36);
@@ -1034,11 +1038,29 @@ namespace arrakis
                 IterateShapeLabel()
             );
         }
+        for (auto s : s33)
+        {
+            auto s33_det_sim = mc_data->GetDetSimID_TrackID(s);
+            SetLabels(
+                s33_det_sim, s,
+                ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                IterateShapeLabel()
+            );
+        }
         for (auto s : s35)
         {
             auto s35_det_sim = mc_data->GetDetSimID_TrackID(s);
             SetLabels(
                 s35_det_sim, s,
+                ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                IterateShapeLabel()
+            );
+        }
+        for (auto s : s36)
+        {
+            auto s36_det_sim = mc_data->GetDetSimID_TrackID(s);
+            SetLabels(
+                s36_det_sim, s,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
                 IterateShapeLabel()
             );
@@ -1086,6 +1108,7 @@ namespace arrakis
         ProcessShowers(ar37_daughters);
         ProcessShowers(ar36_daughters);
         ProcessShowers(s35_daughters);
+        ProcessShowers(s36_daughters);
         ProcessShowers(cl36_daughters);
         ProcessShowers(cl37_daughters);
         ProcessShowers(cl39_daughters);
@@ -1243,6 +1266,14 @@ namespace arrakis
         auto cosmics = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Cosmics);
         auto electrons = mc_data->FilterTrackID_PDGCode(cosmics, 11);
         auto positrons = mc_data->FilterTrackID_PDGCode(cosmics, -11);
+        auto gammas = mc_data->FilterTrackID_AbsPDGCode(cosmics, 22);
+        auto neutrons = mc_data->FilterTrackID_PDGCode(cosmics, 2112);
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "num cosmic gammas: " + std::to_string(gammas.size())
+        );
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "num cosmic neutrons: " + std::to_string(neutrons.size())
+        );
         for (auto electron : electrons)
         {
             auto electron_daughters = mc_data->GetDaughterTrackID_TrackID(electron);
