@@ -243,8 +243,8 @@ namespace arrakis
                             std::to_string(mc_data->GetAncestorLevel_TrackID(id)) + "]" 
                         );
                     }
+                    mc_data->PrintParticleData(track_id);
                 }
-                mc_data->PrintParticleData(track_id);
             }
             /**
              * If the point corresponds to noise, then we need to do some digging to see
