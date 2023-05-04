@@ -229,7 +229,7 @@ namespace arrakis
                         std::to_string(mc_data->GetAncestorLevel_TrackID(track_id)) + "]"
                     );
                     auto ancestry = mc_data->GetAncestryTrackID_TrackID(track_id);
-                    if(ancestry.size() > 1)
+                    if(ancestry.size() > 0)
                     {
                         Logger::GetInstance("SimulationLabelingLogic")->warning(
                             "ancestry [trackid,pdg,process,level]:"
@@ -973,8 +973,12 @@ namespace arrakis
 
         auto cl36 = mc_data->GetTrackID_PDGCode(1000170360);
         auto cl36_daughters = mc_data->GetDaughterTrackID_TrackID(cl36);
+        auto cl37 = mc_data->GetTrackID_PDGCode(1000170370);
+        auto cl37_daughters = mc_data->GetDaughterTrackID_TrackID(cl37);
         auto cl39 = mc_data->GetTrackID_PDGCode(1000170390);
         auto cl39_daughters = mc_data->GetDaughterTrackID_TrackID(cl39);
+        auto cl40 = mc_data->GetTrackID_PDGCode(1000170400);
+        auto cl40_daughters = mc_data->GetDaughterTrackID_TrackID(cl40);
 
         for (auto ar : ar41)
         {
@@ -1048,11 +1052,29 @@ namespace arrakis
                 IterateShapeLabel()
             );
         }
+        for (auto cl : cl37)
+        {
+            auto cl37_det_sim = mc_data->GetDetSimID_TrackID(cl);
+            SetLabels(
+                cl37_det_sim, cl,
+                ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                IterateShapeLabel()
+            );
+        }
         for (auto cl : cl39)
         {
             auto cl39_det_sim = mc_data->GetDetSimID_TrackID(cl);
             SetLabels(
                 cl39_det_sim, cl,
+                ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
+                IterateShapeLabel()
+            );
+        }
+        for (auto cl : cl40)
+        {
+            auto cl40_det_sim = mc_data->GetDetSimID_TrackID(cl);
+            SetLabels(
+                cl40_det_sim, cl,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
                 IterateShapeLabel()
             );
@@ -1065,7 +1087,9 @@ namespace arrakis
         ProcessShowers(ar36_daughters);
         ProcessShowers(s35_daughters);
         ProcessShowers(cl36_daughters);
+        ProcessShowers(cl37_daughters);
         ProcessShowers(cl39_daughters);
+        ProcessShowers(cl40_daughters);
     }
     void SimulationLabelingLogic::ProcessElectronRecoils(
         const Parameters &config, art::Event const &event)
