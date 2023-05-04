@@ -318,17 +318,47 @@ namespace arrakis
     )
     {
         ResetEvent();
-        ProcessMCTruth(event, config().labels.get_PSet());
-        ProcessMCParticles(event, config().LArGeantProducerLabel());
-        ProcessSimEnergyDeposits(event, 
-            config().IonAndScintProducerLabel(), config().IonAndScintInstanceLabel()
-        );
-        ProcessSimChannels(event, 
-            config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
-        );
-        ProcessRawDigits(event,
-            config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
-        );
+        if(config().ProcessMCTruth()) 
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing MCTruth"
+            );
+            ProcessMCTruth(event, config().labels.get_PSet());
+        }
+        if(config().ProcessMCParticles())
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing MCParticles"
+            );
+            ProcessMCParticles(event, config().LArGeantProducerLabel());
+        }
+        if(config().ProcessSimEnergyDeposits())
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing SimEnergyDeposits"
+            );
+            ProcessSimEnergyDeposits(event, 
+                config().IonAndScintProducerLabel(), config().IonAndScintInstanceLabel()
+            );
+        }
+        if(config().ProcessSimChannels())
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing SimChannels"
+            );
+            ProcessSimChannels(event, 
+                config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
+            );
+        }
+        if(config().ProcessRawDigits())
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing RawDigits"
+            );
+            ProcessRawDigits(event,
+                config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
+            );
+        }
     }
     void SimulationWrangler::ProcessMCTruth(
         art::Event const& event, fhicl::ParameterSet const& generator_labels
@@ -1224,7 +1254,6 @@ namespace arrakis
                         edep.MidPointY() == track.y &&
                         edep.MidPointZ() == track.z
                     ) {
-                        //std::cout << "\t\tMATCH" << std::endl;
                         edep_ids.emplace_back(edep_id);
                         sEdepID_DetSimIDMap[edep_id].emplace_back(detsim_id);
                     }

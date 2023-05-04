@@ -1269,10 +1269,16 @@ namespace arrakis
         auto gammas = mc_data->FilterTrackID_AbsPDGCode(cosmics, 22);
         auto neutrons = mc_data->FilterTrackID_PDGCode(cosmics, 2112);
         Logger::GetInstance("SimulationLabelingLogic")->trace(
-            "num cosmic gammas: " + std::to_string(gammas.size())
+            "number of cosmic electrons: " + std::to_string(electrons.size())
         );
         Logger::GetInstance("SimulationLabelingLogic")->trace(
-            "num cosmic neutrons: " + std::to_string(neutrons.size())
+            "number of cosmic positrons: " + std::to_string(positrons.size())
+        );
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "number of cosmic gammas: " + std::to_string(gammas.size())
+        );
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "number of cosmic neutrons: " + std::to_string(neutrons.size())
         );
         for (auto electron : electrons)
         {

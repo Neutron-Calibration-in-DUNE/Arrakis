@@ -36,6 +36,31 @@ namespace arrakis
             fhicl::Name("SaveGeometry"),
             fhicl::Comment("Whether to save geometry arrays.")
         };
+        fhicl::Atom<bool> ProcessMCTruth
+        {
+            fhicl::Name("ProcessMCTruth"),
+            fhicl::Comment("Whether to process MCTruth.")
+        };
+        fhicl::Atom<bool> ProcessMCParticles
+        {
+            fhicl::Name("ProcessMCParticles"),
+            fhicl::Comment("Whether to process MCParticles.")
+        };
+        fhicl::Atom<bool> ProcessSimEnergyDeposits
+        {
+            fhicl::Name("ProcessSimEnergyDeposits"),
+            fhicl::Comment("Whether to process SimEnergyDesposits.")
+        };
+        fhicl::Atom<bool> ProcessSimChannels
+        {
+            fhicl::Name("ProcessSimChannels"),
+            fhicl::Comment("Whether to process SimChannels.")
+        };
+        fhicl::Atom<bool> ProcessRawDigits
+        {
+            fhicl::Name("ProcessRawDigits"),
+            fhicl::Comment("Whether to process RawDigits.")
+        };
 
         /**
          * @brief Producer and Instance labels.

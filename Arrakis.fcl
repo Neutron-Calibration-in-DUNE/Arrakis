@@ -4,9 +4,12 @@ Arrakis:
 {
     module_type:    "Arrakis"
 
-    # which products to save
-    SaveMeta:       true
-    SaveGeometry:   true
+    # which products for the wrangler to handle
+    ProcessMCTruth:             true
+    ProcessMCParticles:         true
+    ProcessSimEnergyDeposits:   true
+    ProcessSimChannels:         true
+    ProcessRawDigits:           true
 
     # module labels
     LArGeantProducerLabel:      "largeant"
@@ -29,7 +32,9 @@ Arrakis:
         PNSLabel:           "PNS"
     }
 
-    # Simulation Labeling Logic Parameters:
+    # which products to save
+    SaveMeta:       true
+    SaveGeometry:   true
     SaveSimulationWrangler:         false   # save SimulationWrangler maps
     SaveWirePlanePointCloud:        true    # save wire plane point cloud data
     SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
