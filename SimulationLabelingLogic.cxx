@@ -244,6 +244,7 @@ namespace arrakis
                         );
                     }
                 }
+                mc_data->PrintParticleData(track_id);
             }
             /**
              * If the point corresponds to noise, then we need to do some digging to see
