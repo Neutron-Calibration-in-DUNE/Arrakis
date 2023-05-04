@@ -142,7 +142,9 @@ namespace arrakis
         sCryostatBox.setBox(Cryo.Boundaries());
 
         // create name-volumetype map for cryostat
-        sMaterialPOI.SetCoordinates(sCryostatBox.x_min, sCryostatBox.y_min, sCryostatBox.z_min);
+        sMaterialPOI.SetCoordinates(
+            sCryostatBox.x_min, sCryostatBox.y_min, sCryostatBox.z_min
+        );
         volumeName = sGeometryCore->VolumeName(sMaterialPOI);
         sVolumeTypeMap[volumeName] = VolumeType::Cryostat;
 

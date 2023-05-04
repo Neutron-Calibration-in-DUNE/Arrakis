@@ -275,6 +275,13 @@ namespace arrakis
                 DetSimID_t largest_influence = -1;
                 Double_t influence = 0.0;
 
+                /**
+                 * The logic here is meant to speed up the search time for the region of influence.
+                 * We want to look out 10 wires in each direction and 200 tdc ticks in each 
+                 * direction.  Since the RawDigit information is saved sequentially as [channel,tdc]:
+                 * [0,0],[0,1],[0,2],...,[0,N],[1,0],[1,1],[1,2],...,[1,N],[2,0],...,[M,N],
+                 * we can index to the left and right by flattening the index.
+                */
                 size_t start = 0;
                 size_t end = wire_plane_point_cloud.channel.size();
                 size_t index_distance = sInducedChannelInfluence * mc_data->GetNumberOfTDCs() + sInducedTDCInfluence;
@@ -288,9 +295,9 @@ namespace arrakis
                 {
                     if(
                         (std::abs(wire_plane_point_cloud.channel[other_id] - current_channel) < sInducedChannelInfluence ||
-                            std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence) &&
-                        //wire_plane_point_cloud.view[other_id] == current_view &&
-                        wire_plane_point_cloud.particle_label[other_id] != LabelCast(ParticleLabel::Noise)
+                         std::abs(wire_plane_point_cloud.tdc[other_id] - current_tdc) < sInducedTDCInfluence) &&
+                         wire_plane_point_cloud.view[other_id] == current_view &&
+                         wire_plane_point_cloud.particle_label[other_id] != LabelCast(ParticleLabel::Noise)
                     )
                     {
                         Double_t temp_distance = Double_t(sqrt(
@@ -328,6 +335,14 @@ namespace arrakis
                     );
                 }
             }
+            /**
+             * Here we check to see if there are multiple labels for a given point,
+             * and if so, then we use a rule to decide what the label should be.
+             * The rule is, if any of the following points exist, then they
+             * are taken with priority:
+             * 
+             *      track > shower > blip > neutron_capture
+            */
             if(wire_plane_point_cloud.shape_labels[detsim_id].size() > 1)
             {
                 auto num_tracks = std::count(
@@ -371,6 +386,9 @@ namespace arrakis
     }
     void SimulationLabelingLogic::ProcessShowers(TrackID_t trackID, Int_t shapeLabel)
     {
+        /**
+         * 
+        */
         auto mc_data = SimulationWrangler::GetInstance();
         auto particle_det_sim = mc_data->GetDetSimID_TrackID(trackID);
         if (mc_data->GetPDGCode_TrackID(trackID) == 11)
@@ -420,6 +438,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessElectrons(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing primary electrons."
         );
@@ -453,6 +474,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessPositrons(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing primary positrons."
         );
@@ -486,6 +510,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessGammas(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing primary gammas."
         );
@@ -516,6 +543,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessMuons(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing muons."
         );
@@ -563,6 +593,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessAntiMuons(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing anti-muons."
         );
@@ -650,6 +683,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessPionPlus(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing pion+s."
         );
@@ -682,6 +718,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessPionMinus(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing pion-s."
         );
@@ -714,6 +753,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessKaon0s(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing neutral kaons."
         );
@@ -733,6 +775,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessKaonPlus(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing kaon+s."
         );
@@ -765,6 +810,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessKaonMinus(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing kaon-s."
         );
@@ -797,6 +845,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessProtons(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing protons."
         );
@@ -1158,6 +1209,9 @@ namespace arrakis
     void SimulationLabelingLogic::ProcessCosmics(
         const Parameters &config, art::Event const &event)
     {
+        /**
+         * 
+        */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing cosmics."
         );

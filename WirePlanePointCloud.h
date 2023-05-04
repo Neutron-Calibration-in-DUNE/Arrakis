@@ -40,6 +40,9 @@
 
 namespace arrakis
 {
+    /**
+     * 
+    */
     enum class SourceLabel
     {
         Undefined = -1,
@@ -56,6 +59,9 @@ namespace arrakis
     {
         return static_cast<SourceLabelInt>(label);
     }
+    /**
+     * 
+    */
     enum class ShapeLabel
     {
         Undefined = -1,
@@ -71,6 +77,9 @@ namespace arrakis
     { 
         return static_cast<ShapeLabelInt>(label);
     }
+    /**
+     * 
+    */
     enum class ParticleLabel
     {
         Undefined = -1,
@@ -114,6 +123,47 @@ namespace arrakis
 
     struct WirePlanePointCloud
     {
+        /**
+         * A WirePlanePointCloud is the basic data structure that
+         * we use for data from the detector output.  Technically,
+         * since each variable (besides the energy) is discrete,
+         * and contiguous, the data is automatically voxelized. Perhaps
+         * then a more proper name is a *WirePlaneVoxelGrid*.
+         * 
+         * The main variables of interest are the signals (adc) as
+         * a function of (channel, tick) or equivalently (channel, tdc).
+         * To each point in the discriminating variables adc(channel, tdc),
+         * we assign a set of labels which if known would allow
+         * unambiguous analysis of the data.
+         * 
+         *  (a) source - this label identifies what the generator of the
+         *               associated primary was.  For example, all particles
+         *               whose ancestor was a cosmic ray would get the label
+         *               'cosmic', while all radiologicals get 'radiological'.
+         *               Some special classes are 'PNS', which stands for the
+         *               Pulsed Neutron Source, and 'HEPevt', which comes from
+         *               any HEPevt provided file.
+         * 
+         *  (b) shape - shape refers to a high level description of the geometry
+         *               of the associated charge depositions.  Long one-dimensional
+         *               tracks are aptly called 'track', while electron/position/
+         *               photon showers are called 'shower'.  Other current shapes 
+         *               are 'blip', which are low energy activity, and a specific
+         *               blip 'neutron_capture'.
+         * 
+         *  (c) particle - the class particle most often refers to the actual 
+         *               particle that left behind the energy deposition, however
+         *               this is not always the case and can be subtle.  
+         * 
+         *  (d) unique_shape - this is a clustering label, meant to identify
+         *               unique instances of a shape, i.e. since when the network
+         *               learns to identify the shape 'track', it doesn't also learn
+         *               whether two pixels belong to the same track or not.  That
+         *               is what this label is meant to do.
+         * 
+         *  (e) unique_particle - this is also a clustering label with the same logic
+         *               as unique_shape but now with respect to the 'particle' label.  
+        */
         std::vector<Int_t> channel = {};
         std::vector<Int_t> wire = {};
         std::vector<Int_t> tick = {};
@@ -188,6 +238,9 @@ namespace arrakis
             bool det_noise
         )
         {
+            /**
+             * 
+            */
             auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
             auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
             Double_t wire_multiple = DetectorGeometry::GetInstance()->GetWirePitch(det_view);
@@ -207,7 +260,6 @@ namespace arrakis
             std::vector<SourceLabelInt> det_source;
             std::vector<ShapeLabelInt> det_shape;
             std::vector<ParticleLabelInt> det_particle;
-            std::vector<Int_t> det_unique_source;
             std::vector<Int_t> det_unique_shape;
             std::vector<Int_t> det_unique_particle;
             Double_t det_energy = 0.0;
@@ -230,7 +282,6 @@ namespace arrakis
                     det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
                 }
-                det_unique_source.emplace_back(-1);
                 det_unique_shape.emplace_back(-1);
                 det_unique_particle.emplace_back(-1);
                 det_energy += ide.energy;
@@ -244,7 +295,6 @@ namespace arrakis
             source_labels.emplace_back(det_source);
             shape_labels.emplace_back(det_shape);
             particle_labels.emplace_back(det_particle);
-            unique_sources.emplace_back(det_unique_source);
             unique_shapes.emplace_back(det_unique_shape);
             unique_particles.emplace_back(det_unique_particle);
 
@@ -260,7 +310,6 @@ namespace arrakis
                 shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
             }
-            unique_source.emplace_back(-1);
             unique_shape.emplace_back(-1);
             unique_particle.emplace_back(-1);
         }
