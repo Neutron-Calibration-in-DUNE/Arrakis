@@ -36,6 +36,11 @@ namespace arrakis
             fhicl::Name("SaveGeometry"),
             fhicl::Comment("Whether to save geometry arrays.")
         };
+        fhicl::Atom<std::string> ProcessType
+        {
+            fhicl::Name("ProcessType"),
+            fhicl::Comment("Whether the data to process is 'simulation' or 'data'.")
+        };
         fhicl::Atom<bool> ProcessMCTruth
         {
             fhicl::Name("ProcessMCTruth"),
@@ -72,15 +77,15 @@ namespace arrakis
             fhicl::Comment("Tag of the input data product for the largeant side of the simulation.")
         };
         
-        fhicl::Atom<art::InputTag> IonAndScintProducerLabel
+        fhicl::Atom<art::InputTag> SimEnergyDepositProducerLabel
         {
-            fhicl::Name("IonAndScintProducerLabel"),
-            fhicl::Comment("Tag of the input data product for the IonAndScint side of the simulation.")
+            fhicl::Name("SimEnergyDepositProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the SimEnergyDeposit side of the simulation.")
         };
-        fhicl::Atom<art::InputTag> IonAndScintInstanceLabel
+        fhicl::Atom<art::InputTag> SimEnergyDepositInstanceLabel
         {
-            fhicl::Name("IonAndScintInstanceLabel"),
-            fhicl::Comment("Tag of the input data product for the IonAndScint side of the simulation.")
+            fhicl::Name("SimEnergyDepositInstanceLabel"),
+            fhicl::Comment("Tag of the input data product for the SimEnergyDeposit side of the simulation.")
         };
         fhicl::Atom<art::InputTag> SimChannelProducerLabel
         {

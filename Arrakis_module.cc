@@ -74,6 +74,7 @@ namespace arrakis
 
     private:
         Parameters mParameters;
+        std::string mProcessType;
         /// ROOT output through art::TFileService
         /** We will save different TTrees to different TFiles specified 
          *  by the directories for each type.
@@ -95,7 +96,8 @@ namespace arrakis
     : EDAnalyzer(config)
     , mParameters(config)
     {
-
+        
+        mProcessType = config().ProcessType();
         mGeometry = DetectorGeometry::GetInstance();
 
         mDataWrangler = DataWrangler::GetInstance();
@@ -127,14 +129,15 @@ namespace arrakis
             std::to_string(sub_run_id) + ":" + 
             std::to_string(event_id) + "]"
         );
-
-        mDataWrangler->ProcessEvent(mParameters, event);
-
-        mSimulationWrangler->ProcessEvent(mParameters, event);
-        mSimulationLabelingLogic->ProcessEvent(mParameters, event);
-        
-        mDataWrangler->FillTTree();
-        mSimulationWrangler->FillTTree();
+        if (mProcessType == "data") {
+            mDataWrangler->ProcessEvent(mParameters, event);
+            mDataWrangler->FillTTree();
+        }
+        else {
+            mSimulationWrangler->ProcessEvent(mParameters, event);
+            mSimulationLabelingLogic->ProcessEvent(mParameters, event);
+            mSimulationWrangler->FillTTree();
+        }
     }
     
     // end job

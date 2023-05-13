@@ -51,6 +51,12 @@ namespace arrakis
         // methods for processing event data
         void ResetEvent();
         void ProcessEvent(const Parameters& config, art::Event const& event);
+        void ProcessSimChannels(art::Event const& event,
+            art::InputTag producer_label, art::InputTag instance_label
+        );
+        void ProcessRawDigits(art::Event const& event,
+            art::InputTag producer_label, art::InputTag instance_label
+        );
 
         // fill TTree
         void FillTTree();
@@ -64,6 +70,12 @@ namespace arrakis
         static std::mutex sMutex;
 
         // Output TTree
-        art::ServiceHandle<art::TFileService> sTFileService;       
+        art::ServiceHandle<art::TFileService> sTFileService;   
+
+        // service handles
+        art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;
+        art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
+
+        WirePlanePointCloud sWirePlanePointCloud;    
     };
 }

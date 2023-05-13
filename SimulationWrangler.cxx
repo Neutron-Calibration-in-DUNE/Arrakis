@@ -143,33 +143,32 @@ namespace arrakis
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting up SimulationWrangler tree."
         );
-        sSimulationWranglerTree = sTFileService->make<TTree>("SimulationWrangler", "SimulationWrangler");
-        sSimulationWranglerTree->Branch("generator_map", &sGeneratorMap);
-
-        sSimulationWranglerTree->Branch("generator_label_map",  &sTrackID_GeneratorLabelMap);
-        sSimulationWranglerTree->Branch("particle_id_map",      &sTrackID_ParticleIDMap);
+        sSimulationWranglerTree = sTFileService->make<TTree>("mc_maps", "mc_maps");
         sSimulationWranglerTree->Branch("pdg_code_map",         &sTrackID_PDGCodeMap);
-        sSimulationWranglerTree->Branch("particle_energy_map",  &sTrackID_EnergyMap);
-        
         sSimulationWranglerTree->Branch("parent_track_id_map",  &sTrackID_ParentTrackIDMap);
-        sSimulationWranglerTree->Branch("parent_pdg_code_map",  &sTrackID_ParentPDGCodeMap);
-        
-        sSimulationWranglerTree->Branch("ancestor_track_id_map",    &sTrackID_AncestorTrackIDMap);
-        sSimulationWranglerTree->Branch("ancestor_level_map",       &sTrackID_AncestorLevelMap);
-        sSimulationWranglerTree->Branch("ancestor_pdg_code_map",    &sTrackID_AncestorPDGCodeMap);
 
-        sSimulationWranglerTree->Branch("daughter_track_id_map",    &sTrackID_DaughterTrackIDMap);
-        sSimulationWranglerTree->Branch("progeny_track_id_map",     &sTrackID_ProgenyTrackIDMap);
-        sSimulationWranglerTree->Branch("ancestry_track_id_map",    &sTrackID_AncestryTrackIDMap);
-
-        sSimulationWranglerTree->Branch("edep_id_map",              &sTrackID_EdepIDMap);
-        sSimulationWranglerTree->Branch("edep_process_map",         &sTrackID_EdepProcessMap);
-        sSimulationWranglerTree->Branch("detsim_map",               &sTrackID_DetSimIDMap);
-        sSimulationWranglerTree->Branch("random_detsim_map",        &sTrackID_RandomDetSimIDMap);
-
-        sSimulationWranglerTree->Branch("edep_process_map",         &sEdepID_ProcessMap);
-        sSimulationWranglerTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
-        sSimulationWranglerTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
+        if (sSaveSimulationWrangler)
+        {
+            sSimulationWranglerTree->Branch("generator_map",        &sGeneratorMap);
+            sSimulationWranglerTree->Branch("generator_label_map",  &sTrackID_GeneratorLabelMap);
+            sSimulationWranglerTree->Branch("particle_id_map",      &sTrackID_ParticleIDMap);
+            sSimulationWranglerTree->Branch("particle_energy_map",  &sTrackID_EnergyMap);       
+            sSimulationWranglerTree->Branch("parent_track_id_map",  &sTrackID_ParentTrackIDMap);
+            sSimulationWranglerTree->Branch("parent_pdg_code_map",  &sTrackID_ParentPDGCodeMap);
+            sSimulationWranglerTree->Branch("ancestor_track_id_map",    &sTrackID_AncestorTrackIDMap);
+            sSimulationWranglerTree->Branch("ancestor_level_map",       &sTrackID_AncestorLevelMap);
+            sSimulationWranglerTree->Branch("ancestor_pdg_code_map",    &sTrackID_AncestorPDGCodeMap);
+            sSimulationWranglerTree->Branch("daughter_track_id_map",    &sTrackID_DaughterTrackIDMap);
+            sSimulationWranglerTree->Branch("progeny_track_id_map",     &sTrackID_ProgenyTrackIDMap);
+            sSimulationWranglerTree->Branch("ancestry_track_id_map",    &sTrackID_AncestryTrackIDMap);
+            sSimulationWranglerTree->Branch("edep_id_map",              &sTrackID_EdepIDMap);
+            sSimulationWranglerTree->Branch("edep_process_map",         &sTrackID_EdepProcessMap);
+            sSimulationWranglerTree->Branch("detsim_map",               &sTrackID_DetSimIDMap);
+            sSimulationWranglerTree->Branch("random_detsim_map",        &sTrackID_RandomDetSimIDMap);
+            sSimulationWranglerTree->Branch("edep_process_map",         &sEdepID_ProcessMap);
+            sSimulationWranglerTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
+            sSimulationWranglerTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
+        }
 
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting up WirePlanePointCloud tree."
@@ -338,7 +337,7 @@ namespace arrakis
                 "processing SimEnergyDeposits"
             );
             ProcessSimEnergyDeposits(event, 
-                config().IonAndScintProducerLabel(), config().IonAndScintInstanceLabel()
+                config().SimEnergyDepositProducerLabel(), config().SimEnergyDepositInstanceLabel()
             );
         }
         if(config().ProcessSimChannels())
@@ -1264,13 +1263,10 @@ namespace arrakis
     }
     void SimulationWrangler::FillTTree()
     {
-        if(sSaveSimulationWrangler)
-        {
-            Logger::GetInstance("SimulationWrangler")->trace(
-                "saving SimulationWrangler info to root file."
-            );
-            sSimulationWranglerTree->Fill();
-        }
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "saving SimulationWrangler info to root file."
+        );
+        sSimulationWranglerTree->Fill();
         if(sSaveWirePlanePointCloud)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
