@@ -71,6 +71,7 @@ namespace arrakis
 
         // Output TTree
         art::ServiceHandle<art::TFileService> sTFileService;   
+        TTree *sWirePlanePointCloudTree;
 
         // service handles
         art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;

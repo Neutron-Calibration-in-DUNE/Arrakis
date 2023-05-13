@@ -26,7 +26,7 @@ namespace arrakis
         Logger::GetInstance("DataWrangler")->trace(
             "setting up DataWrangler tree."
         );
-        sDataWranglerTree = sTFileService->make<TTree>(
+        sWirePlanePointCloudTree = sTFileService->make<TTree>(
             "wire_plane_point_cloud", "wire_plane_point_cloud"
         );
         sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
@@ -136,13 +136,11 @@ namespace arrakis
         detinfo::DetectorClocksData const clock_data(
             art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
         ); 
-        Int_t digit_index = 0;
         Logger::GetInstance("DataWrangler")->trace(
             "creating detector Data and particle ID maps for " +
             std::to_string((*sMCRawDigitHandle).size()) + 
             " <raw::RawDigit>s."
         );
-        sNumberOfTDCs = sMCRawDigitHandle->at(0).Samples();
         for(auto digit : *sMCRawDigitHandle)
         {
             // Get the channel number for this digit, number of samples,
@@ -172,8 +170,7 @@ namespace arrakis
                     clock_data,
                     l,
                     channel,
-                    (Int_t) (std::abs(uncompressed[l])),
-                    false
+                    (Int_t) (std::abs(uncompressed[l]))
                 );
             }
         }

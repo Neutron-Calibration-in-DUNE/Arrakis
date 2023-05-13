@@ -229,6 +229,31 @@ namespace arrakis
             unique_particle.clear();
         }
 
+        // This function is used primarily with Data,
+        // which doesn't have other truth information
+        // associated with the points.
+        void AddPoint(
+            detinfo::DetectorClocksData const& clock_data,
+            Int_t det_tick,
+            Int_t det_channel,
+            Int_t det_adc
+        )
+        {
+            auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
+            auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance()->GetWirePitch(det_view);
+
+            channel.emplace_back(det_channel);
+            wire.emplace_back(wires[det_view].Wire * wire_multiple);
+            tick.emplace_back(det_tick);
+            tdc.emplace_back(clock_data.TPCTick2TDC(det_tick));
+            adc.emplace_back(det_adc);
+            view.emplace_back(det_view);
+        }
+
+        // This function is used for simulation, where
+        // truth information about RawDigits is in the
+        // sim::IDE vector.
         void AddPoint(
             detinfo::DetectorClocksData const& clock_data,
             std::vector<sim::IDE> det_ide,
