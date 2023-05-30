@@ -818,12 +818,17 @@ namespace arrakis
             std::to_string((*sMCOpDetWaveformHandle).size()) + 
             " <raw::OpDetWaveform>s."
         );
+        detinfo::DetectorClocksData const clock_data(
+            art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
+        ); 
         for(auto waveform : *sMCOpDetWaveformHandle)
         {
             auto adc = waveform.Waveform();
             auto channel = waveform.ChannelNumber();
             auto time_stamp = waveform.TimeStamp();
-            std::cout << "channel: " << channel << ", time_stamp: " << time_stamp << ", num adcs: " << adc.size() << std::endl;
+            auto time_tick = clock_data.Time2Tick(time_stamp);
+            std::cout << "channel: " << channel << ", time_stamp: " << time_stamp;
+            std::cout << ", tick: " << time_tick << ", num adcs: " << adc.size() << std::endl;
         }
     }
     TrackID_List SimulationWrangler::GetPrimaries_GeneratorLabel(GeneratorLabel label)
