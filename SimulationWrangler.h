@@ -206,6 +206,11 @@ namespace arrakis
         // DetSimID_List GetProgenyDetSimID_AbsPDGCode(Int_t pdg);
         // DetSimID_List GetProgenyDetSimID_Process(ProcessType process);
         // DetSimID_List GetProgenyDetSimID_EndProcess(ProcessType process);
+        // DetSimID_Collection GetProgenyDetSimID_TrackID(TrackID_t trackID);
+
+        TrackID_Collection GetDescendantTrackID_GeneratorLabel(GeneratorLabel label);
+        TrackID_Collection GetDescendantTrackID_PDGCode(Int_t pdg);
+        TrackID_Collection GetDescendantTrackID_AbsPDGCode(Int_t pdg);
         TrackID_Collection GetDescendantTrackID_Process(ProcessType process);
         TrackID_Collection GetDescendantTrackID_EndProcess(ProcessType process);
         TrackID_Collection GetDescendantTrackID_TrackID(TrackID_List trackIDs);
@@ -217,7 +222,6 @@ namespace arrakis
         inline ProcessType GetProcess_EdepID(EdepID_t edepID)               { return sEdepID_ProcessMap[edepID]; }
         inline DetSimID_List GetDetSimID_EdepID(EdepID_t edepID)  { return sEdepID_DetSimIDMap[edepID]; }
         const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
-        ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
 
         DetSimID_List GetAllDetSimID_TrackID(TrackID_t track_id);
 
@@ -227,6 +231,10 @@ namespace arrakis
 
         // fill TTree
         void FillTTree();
+
+        // helper functions for organizing data
+        ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
+        EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
 
     protected:
         SimulationWrangler();
