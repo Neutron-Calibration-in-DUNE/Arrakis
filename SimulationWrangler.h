@@ -217,12 +217,13 @@ namespace arrakis
         inline ProcessType GetProcess_EdepID(EdepID_t edepID)               { return sEdepID_ProcessMap[edepID]; }
         inline DetSimID_List GetDetSimID_EdepID(EdepID_t edepID)  { return sEdepID_DetSimIDMap[edepID]; }
         const sim::SimEnergyDeposit& GetMCSimEnergyDeposit_EdepID(EdepID_t edepID)  { return sMCSimEnergyDepositHandle->at(edepID); }
+        ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
 
         DetSimID_List GetAllDetSimID_TrackID(TrackID_t track_id);
 
         void PrintParticleData(TrackID_t trackID);
         void PrintEdepData(EdepID_t edepID);
-
+        void PrintDetSimData(DetSimID_t detsimID);
 
         // fill TTree
         void FillTTree();

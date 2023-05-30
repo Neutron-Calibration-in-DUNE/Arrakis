@@ -37,6 +37,7 @@
 // necessary ROOT libraries
 #include <TTree.h>
 
+#include "Core.h"
 #include "DetectorGeometry.h"
 
 namespace arrakis
