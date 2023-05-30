@@ -785,7 +785,7 @@ namespace arrakis
     )
     {
         Logger::GetInstance("SimulationWrangler")->trace(
-            "collecting raw::OptDetWaveform from label <" + 
+            "collecting raw::OpDetWaveform from label <" + 
             producer_label.label() + ">"
         );
         if(!event.getByLabel(
@@ -795,20 +795,20 @@ namespace arrakis
         {
             Logger::GetInstance("SimulationWrangler")->error(
                 "no label matching " + producer_label.label() + 
-                " for raw::OptDetWaveform!"
+                " for raw::OpDetWaveform!"
             );
             exit(0);
         }
         else 
         {
-            sMCOpDetWaveformHandle = event.getHandle<std::vector<raw::OptDetWaveform>>(
+            sMCOpDetWaveformHandle = event.getHandle<std::vector<raw::OpDetWaveform>>(
                 art::InputTag(producer_label.label())
             );
             if(!sMCOpDetWaveformHandle.isValid()) 
             {
                 Logger::GetInstance("SimulationWrangler")->error(
                     "data product " + producer_label.label() + 
-                    " for raw::OptDetWaveform is invalid!"
+                    " for raw::OpDetWaveform is invalid!"
                 );
                 exit(0);
             }
