@@ -31,6 +31,7 @@
 #include "Core.h"
 #include "EnergyDepositPointCloud.h"
 #include "Logger.h"
+#include "OpDetPointCloud.h"
 #include "WirePlanePointCloud.h"
 
 namespace arrakis
@@ -60,6 +61,9 @@ namespace arrakis
         );
         void ProcessRawDigits(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
+        );
+        void ProcessOpDetWaveforms(art::Event const& event,
+            art::InputTag producer_label
         );
 
         void SetConfigurationParameters(const Parameters& config);
@@ -201,7 +205,7 @@ namespace arrakis
         // DetSimID_List GetProgenyDetSimID_PDGCode(Int_t pdg);
         // DetSimID_List GetProgenyDetSimID_AbsPDGCode(Int_t pdg);
         // DetSimID_List GetProgenyDetSimID_Process(ProcessType process);
-        // DetSimID_List GetProgenyDetSimID_EndProcess(ProcessTypxroot://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/raw/2020/detector/cosmics/None/00/01/16/52/np04_raw_run011652_0002_dl8.rootpdg);
+        // DetSimID_List GetProgenyDetSimID_EndProcess(ProcessType process);
         TrackID_Collection GetDescendantTrackID_Process(ProcessType process);
         TrackID_Collection GetDescendantTrackID_EndProcess(ProcessType process);
         TrackID_Collection GetDescendantTrackID_TrackID(TrackID_List trackIDs);
@@ -217,7 +221,7 @@ namespace arrakis
         DetSimID_List GetAllDetSimID_TrackID(TrackID_t track_id);
 
         void PrintParticleData(TrackID_t trackID);
-        void PrintEdepData(EdepID_t edepID);xroot://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/raw/2020/detector/cosmics/None/00/01/16/52/np04_raw_run011652_0002_dl8.rootd);
+        void PrintEdepData(EdepID_t edepID);
 
 
         // fill TTree
@@ -253,6 +257,7 @@ namespace arrakis
         art::Handle<std::vector<sim::SimEnergyDeposit>> sMCSimEnergyDepositHandle;
         art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
+        art::Handle<std::vector<raw::OpDetWaveform>>    sMCOpDetWaveformHandle;
 
         std::map<std::string, GeneratorLabel> sGeneratorMap;
 
@@ -262,6 +267,7 @@ namespace arrakis
         // List of detector simulation structs
         EnergyDepositPointCloud sEnergyDepositPointCloud;
         WirePlanePointCloud sWirePlanePointCloud;
+        OpDetPointCloud sOpDetPointCloud;
 
         // std::vector<DetectorSimulation> sDetectorSimulation;
         // std::vector<DetectorSimulation> sDetectorSimulationBelowThreshold;
