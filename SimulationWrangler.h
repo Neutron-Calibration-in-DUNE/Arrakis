@@ -75,10 +75,12 @@ namespace arrakis
         art::Handle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposits() { return sMCSimEnergyDepositHandle; }
         art::Handle<std::vector<sim::SimChannel>>       GetSimChannels()    { return sMCSimChannelHandle; }
         art::Handle<std::vector<raw::RawDigit>>         GetRawDigits()      { return sMCRawDigitHandle; }
+        art::Handle<std::vector<raw::OpDetWaveform>>    GetOpDetWaveforms() { return sMCOpDetWaveformHandle; }
 
         const simb::MCParticle& GetMCParticle(ParticleID_t index)   { return sMCParticleHandle->at(index); }
         const sim::SimChannel& GetMCSimChannel(Int_t index)         { return sMCSimChannelHandle->at(index); }
         const raw::RawDigit& GetMCRawDigit(Int_t index)             { return sMCRawDigitHandle->at(index); }
+        const raw::OpDetWaveform& GetMCOpDetWaveform(Int_t index)   { return sMCOpDetWaveformHandle->at(index); }
 
         WirePlanePointCloud& GetWirePlanePointCloud()               { return sWirePlanePointCloud; }
         void SetWirePlanePointCloudLabels(

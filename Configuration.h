@@ -111,6 +111,12 @@ namespace arrakis
             fhicl::Comment("Tag of the input data product for the RawDigitInstanceLabel.")
         };
 
+        fhicl::Atom<art::InputTag> OpDetWaveformProducerLabel
+        {
+            fhicl::Name("OpDetWaveformProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the OpDetWaveformProducerLabel.")
+        };
+
         /**
          * @brief Generator labels for various 
          * particle generators used in the simulation.

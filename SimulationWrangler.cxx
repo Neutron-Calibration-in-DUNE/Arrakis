@@ -358,6 +358,15 @@ namespace arrakis
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
             );
         }
+        if(config().ProcessOpDetWaveforms())
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing OpDetWaveforms"
+            );
+            ProcessOpDetWaveforms(event,
+                config().OpDetWaveformProducerLabel()
+            );
+        }
     }
     void SimulationWrangler::ProcessMCTruth(
         art::Event const& event, fhicl::ParameterSet const& generator_labels
@@ -768,6 +777,40 @@ namespace arrakis
                     );
                     digit_index += 1;
                 }
+            }
+        }
+    }
+    void SimulationWrangler::ProcessOpDetWaveforms(art::Event const& event,
+        art::InputTag producer_label
+    )
+    {
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "collecting raw::OptDetWaveform from label <" + 
+            producer_label.label() + ">"
+        );
+        if(!event.getByLabel(
+            art::InputTag(producer_label.label()),
+            sMCOpDetWaveformHandle
+        ))
+        {
+            Logger::GetInstance("SimulationWrangler")->error(
+                "no label matching " + producer_label.label() + 
+                " for raw::OptDetWaveform!"
+            );
+            exit(0);
+        }
+        else 
+        {
+            sMCOpDetWaveformHandle = event.getHandle<std::vector<raw::OptDetWaveform>>(
+                art::InputTag(producer_label.label())
+            );
+            if(!sMCOpDetWaveformHandle.isValid()) 
+            {
+                Logger::GetInstance("SimulationWrangler")->error(
+                    "data product " + producer_label.label() + 
+                    " for raw::OptDetWaveform is invalid!"
+                );
+                exit(0);
             }
         }
     }

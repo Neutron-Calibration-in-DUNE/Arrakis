@@ -11,6 +11,7 @@ Arrakis:
     ProcessSimEnergyDeposits:   true
     ProcessSimChannels:         true
     ProcessRawDigits:           true
+    ProcessOpDetWaveforms:      true
 
     # module labels
     LArGeantProducerLabel:      "largeant"
@@ -20,6 +21,7 @@ Arrakis:
     SimChannelInstanceLabel:    "simpleSC"
     RawDigitProducerLabel:      "tpcrawdecoder"
     RawDigitInstanceLabel:      "daq"
+    OpDetWaveformProducerLabel: "opdigi"
 
     GeneratorLabels: 
     {
