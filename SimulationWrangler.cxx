@@ -813,6 +813,18 @@ namespace arrakis
                 exit(0);
             }
         }
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "creating optical detector simulation and particle ID maps for " +
+            std::to_string((*sMCOpDetWaveformHandle).size()) + 
+            " <raw::OpDetWaveform>s."
+        );
+        for(auto waveform : *sMCOpDetWaveformHandle)
+        {
+            auto adc = waveform.Waveform();
+            auto channel = waveform.ChannelNumber();
+            auto time_stamp = waveform.TimeStamp();
+            std::cout << "channel: " << channel << ", time_stamp: " << time_stamp << ", num adcs: " << adc.size() << std::endl;
+        }
     }
     TrackID_List SimulationWrangler::GetPrimaries_GeneratorLabel(GeneratorLabel label)
     {
