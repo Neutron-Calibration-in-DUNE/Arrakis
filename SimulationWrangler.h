@@ -201,12 +201,7 @@ namespace arrakis
         // DetSimID_List GetProgenyDetSimID_PDGCode(Int_t pdg);
         // DetSimID_List GetProgenyDetSimID_AbsPDGCode(Int_t pdg);
         // DetSimID_List GetProgenyDetSimID_Process(ProcessType process);
-        // DetSimID_List GetProgenyDetSimID_EndProcess(ProcessType process);
-        // DetSimID_Collection GetProgenyDetSimID_TrackID(TrackID_t trackID);
-
-        TrackID_Collection GetDescendantTrackID_GeneratorLabel(GeneratorLabel label);
-        TrackID_Collection GetDescendantTrackID_PDGCode(Int_t pdg);
-        TrackID_Collection GetDescendantTrackID_AbsPDGCode(Int_t pdg);
+        // DetSimID_List GetProgenyDetSimID_EndProcess(ProcessTypxroot://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/raw/2020/detector/cosmics/None/00/01/16/52/np04_raw_run011652_0002_dl8.rootpdg);
         TrackID_Collection GetDescendantTrackID_Process(ProcessType process);
         TrackID_Collection GetDescendantTrackID_EndProcess(ProcessType process);
         TrackID_Collection GetDescendantTrackID_TrackID(TrackID_List trackIDs);
@@ -222,12 +217,7 @@ namespace arrakis
         DetSimID_List GetAllDetSimID_TrackID(TrackID_t track_id);
 
         void PrintParticleData(TrackID_t trackID);
-        void PrintEdepData(EdepID_t edepID);
-        void PrintDetSimData(DetSimID_t detsimID);
-
-        // helper functions for organizing data
-        ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
-        EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
+        void PrintEdepData(EdepID_t edepID);xroot://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/raw/2020/detector/cosmics/None/00/01/16/52/np04_raw_run011652_0002_dl8.rootd);
 
 
         // fill TTree

@@ -55,6 +55,7 @@ art_make(
         lardataobj_AnalysisBase
         nurandom_RandomUtils_NuRandomService_service
         nusimdata_SimulationBase
+        dunecore_DuneObj
         ${ART_FRAMEWORK_CORE}
         ${ART_FRAMEWORK_PRINCIPAL}
         ${ART_FRAMEWORK_SERVICES_REGISTRY}

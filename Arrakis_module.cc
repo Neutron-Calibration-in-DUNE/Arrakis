@@ -31,11 +31,14 @@
 #include "nusimdata/SimulationBase/MCGeneratorInfo.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
 #include "lardataobj/Simulation/SimChannel.h"
+#include "lardataobj/RawData/OpDetWaveform.h"
 #include "larsim/Simulation/LArG4Parameters.h"
 #include "larsim/Utils/TruthMatchUtils.h"
 #include "lardata/ArtDataHelper/TrackUtils.h"
 #include "nusimdata/SimulationBase/MCParticle.h"
 #include "nusimdata/SimulationBase/MCTruth.h"
+
+#include "dunecore/DuneObj/OpDetDivRec.h"
 
 #include <TTree.h>
 #include <TH1.h>
@@ -51,6 +54,7 @@
 #include "Logger.h"
 #include "SimulationWrangler.h"
 #include "SimulationLabelingLogic.h"
+
 
 namespace arrakis
 {
