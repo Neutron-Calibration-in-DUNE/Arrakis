@@ -66,6 +66,11 @@ namespace arrakis
             fhicl::Name("ProcessRawDigits"),
             fhicl::Comment("Whether to process RawDigits.")
         };
+        fhicl::Atom<bool> ProcessOpDetWaveforms
+        {
+            fhicl::Name("ProcessOpDetWaveforms"),
+            fhicl::Comment("Whether to process OpDetWaveforms.")
+        };
 
         /**
          * @brief Producer and Instance labels.
