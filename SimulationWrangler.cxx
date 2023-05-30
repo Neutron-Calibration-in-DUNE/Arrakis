@@ -827,8 +827,9 @@ namespace arrakis
             auto channel = waveform.ChannelNumber();
             auto time_stamp = waveform.TimeStamp();
             auto time_tick = clock_data.Time2Tick(time_stamp);
+            auto time_tdc = clock_data.TPCTick2TDC(time_tick);
             std::cout << "channel: " << channel << ", time_stamp: " << time_stamp;
-            std::cout << ", tick: " << time_tick << ", num adcs: " << adc.size() << std::endl;
+            std::cout << ", tick: " << time_tick << ", tdc: " << time_tdc << ", num adcs: " << adc.size() << std::endl;
         }
     }
     TrackID_List SimulationWrangler::GetPrimaries_GeneratorLabel(GeneratorLabel label)
