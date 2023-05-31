@@ -202,6 +202,11 @@ namespace arrakis
             fhicl::Name("SaveWirePlanePointCloud"),
             fhicl::Comment("Whether to save the wire plane point clouds.")
         };
+        fhicl::Atom<bool> SaveOpDetPointCloud
+        {
+            fhicl::Name("SaveOpDetPointCloud"),
+            fhicl::Comment("Whether to save the optical detector point clouds.")
+        };
         fhicl::Atom<Int_t> ADCThreshold
         {
             fhicl::Name("ADCThreshold"),

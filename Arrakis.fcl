@@ -41,6 +41,7 @@ Arrakis:
     SaveSimulationWrangler:         false   # save SimulationWrangler maps
     SaveWirePlanePointCloud:        true    # save wire plane point cloud data
     SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
+    SaveOpDetPointCloud:            true    # save optical detector point cloud data
     
     # whether to collect detector simulation by edep or
     # by particle track id.
