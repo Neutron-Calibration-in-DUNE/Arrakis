@@ -189,6 +189,22 @@ namespace arrakis
         sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
         sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
 
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting up OpDetPointCloud tree."
+        );
+        sOpDetPointCloudTree = sTFileService->make<TTree>(
+            "op_det_point_cloud", "op_det_point_cloud"
+        );
+        sOpDetPointCloudTree->Branch("channel", &sOpDetPointCloud.channel);
+        sOpDetPointCloudTree->Branch("tick",    &sOpDetPointCloud.tick);
+        sOpDetPointCloudTree->Branch("adc",     &sOpDetPointCloud.adc);
+        sOpDetPointCloudTree->Branch("energy",  &sOpDetPointCloud.energy);
+        sOpDetPointCloudTree->Branch("source_label",    &sOpDetPointCloud.source_label);
+        sOpDetPointCloudTree->Branch("shape_label",     &sOpDetPointCloud.shape_label);
+        sOpDetPointCloudTree->Branch("particle_label",  &sOpDetPointCloud.particle_label);
+        sOpDetPointCloudTree->Branch("unique_shape",    &sOpDetPointCloud.unique_shape);
+        sOpDetPointCloudTree->Branch("unique_particle", &sOpDetPointCloud.unique_particle);
+
         sGeneratorMap["Ar39Label"] =    GeneratorLabel::Ar39;
         sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
         sGeneratorMap["Kr85Label"] =    GeneratorLabel::Kr85;
@@ -210,6 +226,10 @@ namespace arrakis
         sSaveWirePlanePointCloud = config().SaveWirePlanePointCloud();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveWirePlanePointCloud: " + std::to_string(sSaveWirePlanePointCloud)
+        );
+        sSaveOpDetPointCloud = config().SaveOpDetPointCloud();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting SaveOpDetPointCloud: " + std::to_string(sSaveOpDetPointCloud)
         );
         sADCThreshold = config().ADCThreshold();
         Logger::GetInstance("SimulationWrangler")->trace(
@@ -243,6 +263,7 @@ namespace arrakis
         sPrimaries.clear();
         sEnergyDepositPointCloud.clear();
         sWirePlanePointCloud.clear();
+        sOpDetPointCloud.clear();
 
         sTrackID_GeneratorLabelMap.clear();
         sTrackID_ParticleIDMap.clear();
@@ -827,9 +848,20 @@ namespace arrakis
             auto channel = waveform.ChannelNumber();
             auto time_stamp = waveform.TimeStamp();
             auto time_tick = clock_data.Time2Tick(time_stamp);
-            auto time_tdc = clock_data.TPCTick2TDC(time_tick);
-            std::cout << "channel: " << channel << ", time_stamp: " << time_stamp;
-            std::cout << ", tick: " << time_tick << ", tdc: " << time_tdc << ", num adcs: " << adc.size() << std::endl;
+            for(size_t ii = 0; ii < adc.size(); ii++)
+            {
+                sOpDetPointCloud.AddPoint(
+                    channel, 
+                    time_tick + ii * 6.67, 
+                    adc[ii], false
+                );
+            }
+            // auto channel = waveform.ChannelNumber();
+            // auto time_stamp = waveform.TimeStamp();
+            // auto time_tick = clock_data.Time2Tick(time_stamp);
+            // auto time_tdc = clock_data.TPCTick2TDC(time_tick);
+            // std::cout << "channel: " << channel << ", time_stamp: " << time_stamp;
+            // std::cout << ", tick: " << time_tick << ", tdc: " << time_tdc << ", num adcs: " << adc.size() << std::endl;
         }
     }
     TrackID_List SimulationWrangler::GetPrimaries_GeneratorLabel(GeneratorLabel label)
@@ -1334,6 +1366,13 @@ namespace arrakis
                 "saving wire plane point cloud data to root file."
             );
             sWirePlanePointCloudTree->Fill();
+        }
+        if(sSaveOpDetPointCloud)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "saving optical detector point cloud data to root file."
+            );
+            sOpDetPointCloudTree->Fill();
         }
     }     
     DetSimID_List SimulationWrangler::GetAllDetSimID_TrackID(TrackID_t track_id)

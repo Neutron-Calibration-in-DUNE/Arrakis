@@ -112,7 +112,6 @@ namespace arrakis
         // which doesn't have other truth information
         // associated with the points.
         void AddPoint(
-            detinfo::DetectorClocksData const& clock_data,
             Int_t det_tick,
             Int_t det_channel,
             Int_t det_adc
@@ -127,10 +126,8 @@ namespace arrakis
         // truth information about RawDigits is in the
         // sim::IDE vector.
         void AddPoint(
-            detinfo::DetectorClocksData const& clock_data,
-            std::vector<sim::IDE> det_ide,
-            Int_t det_tick,
             Int_t det_channel,
+            Int_t det_tick,
             Int_t det_adc,
             bool det_noise
         )
@@ -153,29 +150,29 @@ namespace arrakis
             std::vector<Int_t> det_unique_shape;
             std::vector<Int_t> det_unique_particle;
             Double_t det_energy = 0.0;
-            for(auto ide : det_ide)
-            {
-                det_track_ids.emplace_back(ide.trackID);
-                det_energies.emplace_back(ide.energy);
-                det_x.emplace_back(ide.x);
-                det_y.emplace_back(ide.y);
-                det_z.emplace_back(ide.z);
-                if(det_noise)
-                {
-                    det_source.emplace_back(LabelCast(SourceLabel::Noise));
-                    det_shape.emplace_back(LabelCast(ShapeLabel::Noise));
-                    det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
-                }
-                else
-                {
-                    det_source.emplace_back(LabelCast(SourceLabel::Undefined));
-                    det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
-                    det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
-                }
-                det_unique_shape.emplace_back(-1);
-                det_unique_particle.emplace_back(-1);
-                det_energy += ide.energy;
-            }
+            // for(auto ide : det_ide)
+            // {
+            //     det_track_ids.emplace_back(ide.trackID);
+            //     det_energies.emplace_back(ide.energy);
+            //     det_x.emplace_back(ide.x);
+            //     det_y.emplace_back(ide.y);
+            //     det_z.emplace_back(ide.z);
+            //     if(det_noise)
+            //     {
+            //         det_source.emplace_back(LabelCast(SourceLabel::Noise));
+            //         det_shape.emplace_back(LabelCast(ShapeLabel::Noise));
+            //         det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
+            //     }
+            //     else
+            //     {
+            //         det_source.emplace_back(LabelCast(SourceLabel::Undefined));
+            //         det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
+            //         det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
+            //     }
+            //     det_unique_shape.emplace_back(-1);
+            //     det_unique_particle.emplace_back(-1);
+            //     det_energy += ide.energy;
+            // }
             energy.emplace_back(det_energy);
             track_ids.emplace_back(det_track_ids);
             energies.emplace_back(det_energies);

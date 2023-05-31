@@ -255,10 +255,12 @@ namespace arrakis
         TTree *sEnergyDepositPointCloudTree;
         TTree *sSimulationWranglerTree;
         TTree *sWirePlanePointCloudTree;
+        TTree *sOpDetPointCloudTree;
 
         bool sSaveEnergyDepositPointCloud;
         bool sSaveSimulationWrangler;
         bool sSaveWirePlanePointCloud;
+        bool sSaveOpDetPointCloud;
 
         // handles
         std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
