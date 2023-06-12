@@ -5,7 +5,7 @@ Arrakis:
     module_type:    "Arrakis"
 
     # which products for the wrangler to handle
-    ProcessType:                "data"  # simulation, data
+    ProcessType:                "simulation"  # simulation, data
     ProcessMCTruth:             true
     ProcessMCParticles:         true
     ProcessSimEnergyDeposits:   true

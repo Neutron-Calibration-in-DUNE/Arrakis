@@ -934,7 +934,7 @@ namespace arrakis
                 }
                 SetLabels(
                     gamma_det_sim, gamma,
-                    ShapeLabel::NeutronCapture, particle_label,
+                    ShapeLabel::Blip, particle_label,
                     neutron_label
                 );
             }

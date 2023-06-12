@@ -765,7 +765,7 @@ namespace arrakis
                             trackIDsAndEnergy,
                             l,
                             channel,
-                            (Int_t) (std::abs(uncompressed[l])),
+                            (Int_t) (uncompressed[l]),
                             true
                         );
                         digit_index += 1;
@@ -778,7 +778,7 @@ namespace arrakis
                         trackIDsAndEnergy,
                         l,
                         channel,
-                        (Int_t) (std::abs(uncompressed[l])),
+                        (Int_t) (uncompressed[l]),
                         false
                     );
                     // associate this detector simulation with a particle
