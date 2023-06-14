@@ -131,7 +131,7 @@ namespace arrakis
             "setting up EnergyDepositPointCloud tree."
         );
         sEnergyDepositPointCloudTree = sTFileService->make<TTree>(
-            "edep_point_cloud", "edep_point_cloud"
+            "mc_edep_point_cloud", "mc_edep_point_cloud"
         );
         sEnergyDepositPointCloudTree->Branch("x",   &sEnergyDepositPointCloud.x);
         sEnergyDepositPointCloudTree->Branch("y",   &sEnergyDepositPointCloud.y);
@@ -174,7 +174,7 @@ namespace arrakis
             "setting up WirePlanePointCloud tree."
         );
         sWirePlanePointCloudTree = sTFileService->make<TTree>(
-            "wire_plane_point_cloud", "wire_plane_point_cloud"
+            "mc_wire_plane_point_cloud", "mc_wire_plane_point_cloud"
         );
         sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
         sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
@@ -193,7 +193,7 @@ namespace arrakis
             "setting up OpDetPointCloud tree."
         );
         sOpDetPointCloudTree = sTFileService->make<TTree>(
-            "op_det_point_cloud", "op_det_point_cloud"
+            "mc_op_det_point_cloud", "mc_op_det_point_cloud"
         );
         sOpDetPointCloudTree->Branch("channel", &sOpDetPointCloud.channel);
         sOpDetPointCloudTree->Branch("tick",    &sOpDetPointCloud.tick);

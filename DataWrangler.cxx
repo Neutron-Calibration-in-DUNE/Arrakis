@@ -27,7 +27,7 @@ namespace arrakis
             "setting up DataWrangler tree."
         );
         sWirePlanePointCloudTree = sTFileService->make<TTree>(
-            "wire_plane_point_cloud", "wire_plane_point_cloud"
+            "data_wire_plane_point_cloud", "data_wire_plane_point_cloud"
         );
         sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
         sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
