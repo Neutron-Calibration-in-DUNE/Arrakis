@@ -305,7 +305,7 @@ namespace arrakis
                             pow(Double_t(wire_plane_point_cloud.channel[other_id] - current_channel), 2.0) + 
                             pow(Double_t(wire_plane_point_cloud.tdc[other_id] - current_tdc), 2.0)
                         ));
-                        Double_t temp_influence = Double_t(wire_plane_point_cloud.adc[other_id]) / temp_distance;
+                        Double_t temp_influence = Double_t(std::abs(wire_plane_point_cloud.adc[other_id])) / temp_distance;
                         if(temp_influence > influence)
                         {
                             influence = temp_influence;
