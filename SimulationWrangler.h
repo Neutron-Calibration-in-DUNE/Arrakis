@@ -32,7 +32,9 @@
 #include "EnergyDepositPointCloud.h"
 #include "Logger.h"
 #include "OpDetPointCloud.h"
+#include "WirePlaneHits.h"
 #include "WirePlanePointCloud.h"
+#include "WirePlaneTrackTopology.h"
 
 namespace arrakis
 {
@@ -250,19 +252,32 @@ namespace arrakis
         Int_t sADCThreshold = {0};
         Int_t sNumberOfTDCs = {0};
 
+        // Processes
+        bool sProcessMCTruth = {false};
+        bool sProcessMCParticles = {false};
+        bool sProcessSimEnergyDeposits = {false};
+        bool sProcessSimChannels = {false};
+        bool sProcessRawDigits = {false};
+        bool sProcessOpDetWaveforms = {false};
+
         // Output TTree
         art::ServiceHandle<art::TFileService> sTFileService;
         TTree *sEnergyDepositPointCloudTree;
         TTree *sSimulationWranglerTree;
+        TTree *sWirePlaneHitsTree;
         TTree *sWirePlanePointCloudTree;
+        TTree *sWirePlaneTrackTopologyTree;
         TTree *sOpDetPointCloudTree;
 
+        // Data products
         bool sSaveEnergyDepositPointCloud;
         bool sSaveSimulationWrangler;
+        bool sSaveWirePlaneHits;
         bool sSaveWirePlanePointCloud;
+        bool sSaveWirePlaneTrackTopology;
         bool sSaveOpDetPointCloud;
 
-        // handles
+        // Handles
         std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
         std::vector<std::string>                        sMCTruthHandleLabels;
         art::Handle<std::vector<simb::MCTruth>>         sMCTruthHandle;
@@ -279,7 +294,9 @@ namespace arrakis
 
         // List of detector simulation structs
         EnergyDepositPointCloud sEnergyDepositPointCloud;
+        WirePlaneHits sWirePlaneHits;
         WirePlanePointCloud sWirePlanePointCloud;
+        WirePlaneTrackTopology sWirePlaneTrackTopology;
         OpDetPointCloud sOpDetPointCloud;
 
         // std::vector<DetectorSimulation> sDetectorSimulation;

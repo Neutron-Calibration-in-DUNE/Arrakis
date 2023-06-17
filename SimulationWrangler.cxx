@@ -127,28 +127,30 @@ namespace arrakis
     }
     SimulationWrangler::SimulationWrangler()
     {
-        Logger::GetInstance("SimulationWrangler")->trace(
-            "setting up EnergyDepositPointCloud tree."
-        );
-        sEnergyDepositPointCloudTree = sTFileService->make<TTree>(
-            "mc_edep_point_cloud", "mc_edep_point_cloud"
-        );
-        sEnergyDepositPointCloudTree->Branch("x",   &sEnergyDepositPointCloud.x);
-        sEnergyDepositPointCloudTree->Branch("y",   &sEnergyDepositPointCloud.y);
-        sEnergyDepositPointCloudTree->Branch("z",   &sEnergyDepositPointCloud.z);
-        sEnergyDepositPointCloudTree->Branch("energy",   &sEnergyDepositPointCloud.energy);
-        sEnergyDepositPointCloudTree->Branch("track_id",   &sEnergyDepositPointCloud.track_id);
-        sEnergyDepositPointCloudTree->Branch("detsim_id",   &sEnergyDepositPointCloud.detsim_id);
-
-        Logger::GetInstance("SimulationWrangler")->trace(
-            "setting up SimulationWrangler tree."
-        );
-        sSimulationWranglerTree = sTFileService->make<TTree>("mc_maps", "mc_maps");
-        sSimulationWranglerTree->Branch("pdg_code_map",         &sTrackID_PDGCodeMap);
-        sSimulationWranglerTree->Branch("parent_track_id_map",  &sTrackID_ParentTrackIDMap);
+        if (sSaveEnergyDepositPointCloud)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up EnergyDepositPointCloud tree."
+            );
+            sEnergyDepositPointCloudTree = sTFileService->make<TTree>(
+                "mc_edep_point_cloud", "mc_edep_point_cloud"
+            );
+            sEnergyDepositPointCloudTree->Branch("x",   &sEnergyDepositPointCloud.x);
+            sEnergyDepositPointCloudTree->Branch("y",   &sEnergyDepositPointCloud.y);
+            sEnergyDepositPointCloudTree->Branch("z",   &sEnergyDepositPointCloud.z);
+            sEnergyDepositPointCloudTree->Branch("energy",   &sEnergyDepositPointCloud.energy);
+            sEnergyDepositPointCloudTree->Branch("track_id",   &sEnergyDepositPointCloud.track_id);
+            sEnergyDepositPointCloudTree->Branch("detsim_id",   &sEnergyDepositPointCloud.detsim_id);
+        }
 
         if (sSaveSimulationWrangler)
         {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up SimulationWrangler tree."
+            );
+            sSimulationWranglerTree = sTFileService->make<TTree>("mc_maps", "mc_maps");
+            sSimulationWranglerTree->Branch("pdg_code_map",         &sTrackID_PDGCodeMap);
+            sSimulationWranglerTree->Branch("parent_track_id_map",  &sTrackID_ParentTrackIDMap);
             sSimulationWranglerTree->Branch("generator_map",        &sGeneratorMap);
             sSimulationWranglerTree->Branch("generator_label_map",  &sTrackID_GeneratorLabelMap);
             sSimulationWranglerTree->Branch("particle_id_map",      &sTrackID_ParticleIDMap);
@@ -170,40 +172,90 @@ namespace arrakis
             sSimulationWranglerTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
         }
 
-        Logger::GetInstance("SimulationWrangler")->trace(
-            "setting up WirePlanePointCloud tree."
-        );
-        sWirePlanePointCloudTree = sTFileService->make<TTree>(
-            "mc_wire_plane_point_cloud", "mc_wire_plane_point_cloud"
-        );
-        sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
-        sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
-        sWirePlanePointCloudTree->Branch("tick",    &sWirePlanePointCloud.tick);
-        sWirePlanePointCloudTree->Branch("tdc",     &sWirePlanePointCloud.tdc);
-        sWirePlanePointCloudTree->Branch("adc",     &sWirePlanePointCloud.adc);
-        sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
-        sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
-        sWirePlanePointCloudTree->Branch("source_label",    &sWirePlanePointCloud.source_label);
-        sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
-        sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
-        sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
-        sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
+        if (sSaveWirePlaneHits)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up WirePlaneHits tree."
+            );
+            sWirePlaneHitsTree = sTFileService->make<TTree>(
+                "mc_wire_plane_hits", "mc_wire_plane_hits"
+            );
+            sWirePlaneHitsTree->Branch("channel", &sWirePlaneHits.channel);
+            sWirePlaneHitsTree->Branch("wire",    &sWirePlaneHits.wire);
+            sWirePlaneHitsTree->Branch("tick",    &sWirePlaneHits.tick);
+            sWirePlaneHitsTree->Branch("tdc",     &sWirePlaneHits.tdc);
+            sWirePlaneHitsTree->Branch("adc",     &sWirePlaneHits.adc);
+            sWirePlaneHitsTree->Branch("view",    &sWirePlaneHits.view);
+        }
 
-        Logger::GetInstance("SimulationWrangler")->trace(
-            "setting up OpDetPointCloud tree."
-        );
-        sOpDetPointCloudTree = sTFileService->make<TTree>(
-            "mc_op_det_point_cloud", "mc_op_det_point_cloud"
-        );
-        sOpDetPointCloudTree->Branch("channel", &sOpDetPointCloud.channel);
-        sOpDetPointCloudTree->Branch("tick",    &sOpDetPointCloud.tick);
-        sOpDetPointCloudTree->Branch("adc",     &sOpDetPointCloud.adc);
-        sOpDetPointCloudTree->Branch("energy",  &sOpDetPointCloud.energy);
-        sOpDetPointCloudTree->Branch("source_label",    &sOpDetPointCloud.source_label);
-        sOpDetPointCloudTree->Branch("shape_label",     &sOpDetPointCloud.shape_label);
-        sOpDetPointCloudTree->Branch("particle_label",  &sOpDetPointCloud.particle_label);
-        sOpDetPointCloudTree->Branch("unique_shape",    &sOpDetPointCloud.unique_shape);
-        sOpDetPointCloudTree->Branch("unique_particle", &sOpDetPointCloud.unique_particle);
+        if (sSaveWirePlanePointCloud)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up WirePlanePointCloud tree."
+            );
+            sWirePlanePointCloudTree = sTFileService->make<TTree>(
+                "mc_wire_plane_point_cloud", "mc_wire_plane_point_cloud"
+            );
+            sWirePlanePointCloudTree->Branch("channel", &sWirePlanePointCloud.channel);
+            sWirePlanePointCloudTree->Branch("wire",    &sWirePlanePointCloud.wire);
+            sWirePlanePointCloudTree->Branch("tick",    &sWirePlanePointCloud.tick);
+            sWirePlanePointCloudTree->Branch("tdc",     &sWirePlanePointCloud.tdc);
+            sWirePlanePointCloudTree->Branch("adc",     &sWirePlanePointCloud.adc);
+            sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
+            sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
+            sWirePlanePointCloudTree->Branch("source_label",    &sWirePlanePointCloud.source_label);
+            sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
+            sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
+            sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
+            sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
+        }
+
+        if (sSaveWirePlaneTrackTopology)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up WirePlaneTrackTopology tree."
+            );
+            sWirePlaneTrackTopologyTree = sTFileService->make<TTree>(
+                "mc_wire_plane_track_topology", "mc_wire_plane_track_topology"
+            );
+            sWirePlaneTrackTopologyTree->Branch("track_begin_channel", &sWirePlaneTrackTopology.track_begin_channel);
+            sWirePlaneTrackTopologyTree->Branch("track_begin_wire",    &sWirePlaneTrackTopology.track_begin_wire);
+            sWirePlaneTrackTopologyTree->Branch("track_begin_tick",    &sWirePlaneTrackTopology.track_begin_tick);
+            sWirePlaneTrackTopologyTree->Branch("track_begin_tdc",     &sWirePlaneTrackTopology.track_begin_tdc);
+            sWirePlaneTrackTopologyTree->Branch("track_begin_adc",     &sWirePlaneTrackTopology.track_begin_adc);
+            sWirePlaneTrackTopologyTree->Branch("track_begin_view",    &sWirePlaneTrackTopology.track_begin_view);
+            sWirePlaneTrackTopologyTree->Branch("track_end_channel", &sWirePlaneTrackTopology.track_end_channel);
+            sWirePlaneTrackTopologyTree->Branch("track_end_wire",    &sWirePlaneTrackTopology.track_end_wire);
+            sWirePlaneTrackTopologyTree->Branch("track_end_tick",    &sWirePlaneTrackTopology.track_end_tick);
+            sWirePlaneTrackTopologyTree->Branch("track_end_tdc",     &sWirePlaneTrackTopology.track_end_tdc);
+            sWirePlaneTrackTopologyTree->Branch("track_end_adc",     &sWirePlaneTrackTopology.track_end_adc);
+            sWirePlaneTrackTopologyTree->Branch("track_end_view",    &sWirePlaneTrackTopology.track_end_view);
+            sWirePlaneTrackTopologyTree->Branch("vertex_channel", &sWirePlaneTrackTopology.vertex_channel);
+            sWirePlaneTrackTopologyTree->Branch("vertex_wire",    &sWirePlaneTrackTopology.vertex_wire);
+            sWirePlaneTrackTopologyTree->Branch("vertex_tick",    &sWirePlaneTrackTopology.vertex_tick);
+            sWirePlaneTrackTopologyTree->Branch("vertex_tdc",     &sWirePlaneTrackTopology.vertex_tdc);
+            sWirePlaneTrackTopologyTree->Branch("vertex_adc",     &sWirePlaneTrackTopology.vertex_adc);
+            sWirePlaneTrackTopologyTree->Branch("vertex_view",    &sWirePlaneTrackTopology.vertex_view);
+        }
+
+        if (sSaveOpDetPointCloud)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up OpDetPointCloud tree."
+            );
+            sOpDetPointCloudTree = sTFileService->make<TTree>(
+                "mc_op_det_point_cloud", "mc_op_det_point_cloud"
+            );
+            sOpDetPointCloudTree->Branch("channel", &sOpDetPointCloud.channel);
+            sOpDetPointCloudTree->Branch("tick",    &sOpDetPointCloud.tick);
+            sOpDetPointCloudTree->Branch("adc",     &sOpDetPointCloud.adc);
+            sOpDetPointCloudTree->Branch("energy",  &sOpDetPointCloud.energy);
+            sOpDetPointCloudTree->Branch("source_label",    &sOpDetPointCloud.source_label);
+            sOpDetPointCloudTree->Branch("shape_label",     &sOpDetPointCloud.shape_label);
+            sOpDetPointCloudTree->Branch("particle_label",  &sOpDetPointCloud.particle_label);
+            sOpDetPointCloudTree->Branch("unique_shape",    &sOpDetPointCloud.unique_shape);
+            sOpDetPointCloudTree->Branch("unique_particle", &sOpDetPointCloud.unique_particle);
+        }
 
         sGeneratorMap["Ar39Label"] =    GeneratorLabel::Ar39;
         sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
@@ -219,13 +271,45 @@ namespace arrakis
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting up configuration parameters."
         );
+        sProcessMCTruth = config().ProcessMCTruth();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessMCTruth: " + std::to_string(sProcessMCTruth)
+        );
+        sProcessMCParticles = config().ProcessMCParticles();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessMCParticles: " + std::to_string(sProcessMCParticles)
+        );
+        sProcessSimEnergyDeposits = config().ProcessSimEnergyDeposits();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessSimEnergyDeposits: " + std::to_string(sProcessSimEnergyDeposits)
+        );
+        sProcessSimChannels = config().ProcessSimChannels();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessSimChannels: " + std::to_string(sProcessSimChannels)
+        );
+        sProcessRawDigits = config().ProcessRawDigits();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessRawDigits: " + std::to_string(sProcessRawDigits)
+        );
+        sProcessOpDetWaveforms = config().ProcessOpDetWaveforms();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessOpDetWaveforms: " + std::to_string(sProcessOpDetWaveforms)
+        );
         sSaveSimulationWrangler = config().SaveSimulationWrangler();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveSimulationWrangler: " + std::to_string(sSaveSimulationWrangler)
         );
+        sSaveWirePlaneHits = config().SaveWirePlaneHits();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting SaveWirePlaneHits: " + std::to_string(sSaveWirePlaneHits)
+        );
         sSaveWirePlanePointCloud = config().SaveWirePlanePointCloud();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveWirePlanePointCloud: " + std::to_string(sSaveWirePlanePointCloud)
+        );
+        sSaveWirePlaneTrackTopology = config().SaveWirePlaneTrackTopology();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting SaveWirePlaneTrackTopology: " + std::to_string(sSaveWirePlaneTrackTopology)
         );
         sSaveOpDetPointCloud = config().SaveOpDetPointCloud();
         Logger::GetInstance("SimulationWrangler")->trace(
@@ -262,7 +346,9 @@ namespace arrakis
         sMCTruthHandles.clear();
         sPrimaries.clear();
         sEnergyDepositPointCloud.clear();
+        sWirePlaneHits.clear();
         sWirePlanePointCloud.clear();
+        sWirePlaneTrackTopology.clear();
         sOpDetPointCloud.clear();
 
         sTrackID_GeneratorLabelMap.clear();
@@ -338,21 +424,21 @@ namespace arrakis
     )
     {
         ResetEvent();
-        if(config().ProcessMCTruth()) 
+        if(sProcessMCTruth) 
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing MCTruth"
             );
             ProcessMCTruth(event, config().labels.get_PSet());
         }
-        if(config().ProcessMCParticles())
+        if(sProcessMCParticle)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing MCParticles"
             );
             ProcessMCParticles(event, config().LArGeantProducerLabel());
         }
-        if(config().ProcessSimEnergyDeposits())
+        if(sProcessSimEnergyDeposit)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing SimEnergyDeposits"
@@ -361,7 +447,7 @@ namespace arrakis
                 config().SimEnergyDepositProducerLabel(), config().SimEnergyDepositInstanceLabel()
             );
         }
-        if(config().ProcessSimChannels())
+        if(sProcessSimChannel)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing SimChannels"
@@ -370,7 +456,7 @@ namespace arrakis
                 config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
             );
         }
-        if(config().ProcessRawDigits())
+        if(sProcessRawDigit)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing RawDigits"
@@ -379,7 +465,7 @@ namespace arrakis
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
             );
         }
-        if(config().ProcessOpDetWaveforms())
+        if(sProcessOpDetWaveform)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing OpDetWaveforms"
@@ -1356,16 +1442,33 @@ namespace arrakis
     }
     void SimulationWrangler::FillTTree()
     {
-        Logger::GetInstance("SimulationWrangler")->trace(
-            "saving SimulationWrangler info to root file."
-        );
-        sSimulationWranglerTree->Fill();
+        if(sSaveSimulationWrangler)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "saving SimulationWrangler info to root file."
+            );
+            sSimulationWranglerTree->Fill();
+        }
+        if(sSaveWirePlaneHits)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "saving WirePlaneHits info to root file."
+            );
+            sWirePlaneHitsTree->Fill();
+        }
         if(sSaveWirePlanePointCloud)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "saving wire plane point cloud data to root file."
             );
             sWirePlanePointCloudTree->Fill();
+        }
+        if(sSaveWirePlaneTrackTopology)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "saving WirePlaneTrackTopology info to root file."
+            );
+            sWirePlaneTrackTopologyTree->Fill();
         }
         if(sSaveOpDetPointCloud)
         {
