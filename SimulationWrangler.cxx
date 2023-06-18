@@ -341,42 +341,6 @@ namespace arrakis
         sWirePlanePointCloud.unique_shape[detSimID] = uniqueShape;
         sWirePlanePointCloud.unique_particle[detSimID] = trackID;
     }
-    void SimulationWrangler::ResetEvent()
-    {
-        sMCTruthHandles.clear();
-        sPrimaries.clear();
-        sEnergyDepositPointCloud.clear();
-        sWirePlaneHits.clear();
-        sWirePlanePointCloud.clear();
-        sWirePlaneTrackTopology.clear();
-        sOpDetPointCloud.clear();
-
-        sTrackID_GeneratorLabelMap.clear();
-        sTrackID_ParticleIDMap.clear();
-        sTrackID_PDGCodeMap.clear();
-        sTrackID_ProcessMap.clear();
-        sTrackID_EndProcessMap.clear();
-        sTrackID_EnergyMap.clear();
-        sTrackID_DaughterTrackIDMap.clear();
-        sTrackID_ProgenyTrackIDMap.clear();
-        sTrackID_AncestryTrackIDMap.clear();
-        sTrackID_EdepIDMap.clear();
-        sTrackID_EdepProcessMap.clear();
-        sTrackID_DetSimIDMap.clear();
-        sTrackID_RandomDetSimIDMap.clear();
-
-        sTrackID_ParentTrackIDMap.clear();
-        sTrackID_ParentPDGCodeMap.clear();
-        
-        sTrackID_AncestorTrackIDMap.clear();
-        sTrackID_AncestorLevelMap.clear();
-        sTrackID_AncestorPDGCodeMap.clear();
-
-        sEdepID_ProcessMap.clear();
-        sEdepID_DetSimIDMap.clear();
-
-        sDetSimID_EdepIDMap.clear();
-    }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
         auto particle = (*sMCParticleHandle)[sTrackID_ParticleIDMap[trackID]];
@@ -418,6 +382,42 @@ namespace arrakis
     void SimulationWrangler::PrintDetSimData(DetSimID_t detsimID)
     {
 
+    }
+    void SimulationWrangler::ResetEvent()
+    {
+        sMCTruthHandles.clear();
+        sPrimaries.clear();
+        sEnergyDepositPointCloud.clear();
+        sWirePlaneHits.clear();
+        sWirePlanePointCloud.clear();
+        sWirePlaneTrackTopology.clear();
+        sOpDetPointCloud.clear();
+
+        sTrackID_GeneratorLabelMap.clear();
+        sTrackID_ParticleIDMap.clear();
+        sTrackID_PDGCodeMap.clear();
+        sTrackID_ProcessMap.clear();
+        sTrackID_EndProcessMap.clear();
+        sTrackID_EnergyMap.clear();
+        sTrackID_DaughterTrackIDMap.clear();
+        sTrackID_ProgenyTrackIDMap.clear();
+        sTrackID_AncestryTrackIDMap.clear();
+        sTrackID_EdepIDMap.clear();
+        sTrackID_EdepProcessMap.clear();
+        sTrackID_DetSimIDMap.clear();
+        sTrackID_RandomDetSimIDMap.clear();
+
+        sTrackID_ParentTrackIDMap.clear();
+        sTrackID_ParentPDGCodeMap.clear();
+        
+        sTrackID_AncestorTrackIDMap.clear();
+        sTrackID_AncestorLevelMap.clear();
+        sTrackID_AncestorPDGCodeMap.clear();
+
+        sEdepID_ProcessMap.clear();
+        sEdepID_DetSimIDMap.clear();
+
+        sDetSimID_EdepIDMap.clear();
     }
     void SimulationWrangler::ProcessEvent(
         const Parameters& config, art::Event const& event
@@ -1449,10 +1449,17 @@ namespace arrakis
             );
             sSimulationWranglerTree->Fill();
         }
+        if(sSaveEnergyDepositPointCloud)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "saving energy deposit point cloud data to root file."
+            );
+            sEnersSaveEnergyDepositPointCloudTree->Fill();
+        }
         if(sSaveWirePlaneHits)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
-                "saving WirePlaneHits info to root file."
+                "saving wire plane hits info to root file."
             );
             sWirePlaneHitsTree->Fill();
         }
@@ -1466,7 +1473,7 @@ namespace arrakis
         if(sSaveWirePlaneTrackTopology)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
-                "saving WirePlaneTrackTopology info to root file."
+                "saving wire plane track topology info to root file."
             );
             sWirePlaneTrackTopologyTree->Fill();
         }

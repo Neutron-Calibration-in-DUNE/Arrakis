@@ -14,14 +14,14 @@ Arrakis:
     ProcessOpDetWaveforms:      true
 
     # module labels
-    LArGeantProducerLabel:      "largeant"
-    SimEnergyDepositProducerLabel:   "IonAndScint"
-    SimEnergyDepositInstanceLabel:   "priorSCE"
-    SimChannelProducerLabel:    "tpcrawdecoder"
-    SimChannelInstanceLabel:    "simpleSC"
-    RawDigitProducerLabel:      "tpcrawdecoder"
-    RawDigitInstanceLabel:      "daq"
-    OpDetWaveformProducerLabel: "opdigi"
+    LArGeantProducerLabel:          "largeant"
+    SimEnergyDepositProducerLabel:  "IonAndScint"
+    SimEnergyDepositInstanceLabel:  "priorSCE"
+    SimChannelProducerLabel:        "tpcrawdecoder"
+    SimChannelInstanceLabel:        "simpleSC"
+    RawDigitProducerLabel:          "tpcrawdecoder"
+    RawDigitInstanceLabel:          "daq"
+    OpDetWaveformProducerLabel:     "opdigi"
 
     GeneratorLabels: 
     {
@@ -49,7 +49,7 @@ Arrakis:
     # simple labels all gammas as "other", while medium labels
     # 4.75 and 1.81 MeV gammas separately from others, and full
     # labels all energies as different types.
-    NeutronCaptureGammaDetail:  "Simple"    # ["Simple", "Medium", "Full"]
+    NeutronCaptureGammaDetail:      "Simple"    # ["Simple", "Medium", "Full"]
     
     ADCThreshold:                   20      # ADC threshold for saving points
     InducedChannelInfluence:        10      # number of wires which are influenced by signals

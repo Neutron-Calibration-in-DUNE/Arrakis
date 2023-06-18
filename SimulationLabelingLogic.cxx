@@ -79,6 +79,12 @@ namespace arrakis
             "processing event."
         );
         ResetEvent();
+        /**
+         * Process Energy Deposit Point Clouds
+        */ 
+        /**
+         * Process Wire Plane Point Clouds
+        */ 
         PrepareInitialPointClouds(config, event);
         ProcessElectrons(config, event);
         ProcessPositrons(config, event);
@@ -101,6 +107,15 @@ namespace arrakis
         ProcessRn222(config, event);
         ProcessCosmics(config, event);
         CleanUpPointClouds(config, event);
+        /**
+         * Process Wire Plane Hits
+        */ 
+       /**
+         * Process Wire Plane Track Topology
+        */ 
+       /**
+         * Process Op Det Point Clouds
+        */ 
         FillTTree();
     }
     SourceLabel SimulationLabelingLogic::DetermineSourceLabel(TrackID_t trackID)
@@ -1262,6 +1277,7 @@ namespace arrakis
         auto positrons = mc_data->FilterTrackID_PDGCode(cosmics, -11);
         auto gammas = mc_data->FilterTrackID_AbsPDGCode(cosmics, 22);
         auto neutrons = mc_data->FilterTrackID_PDGCode(cosmics, 2112);
+        auto anti_neutrons = mc_data->FilterTrackID_PDGCode(cosmics, -2112);
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "number of cosmic electrons: " + std::to_string(electrons.size())
         );
@@ -1273,6 +1289,9 @@ namespace arrakis
         );
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "number of cosmic neutrons: " + std::to_string(neutrons.size())
+        );
+         Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "number of cosmic anti-neutrons: " + std::to_string(anti_neutrons.size())
         );
         for (auto electron : electrons)
         {
