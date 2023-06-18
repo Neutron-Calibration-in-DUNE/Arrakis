@@ -27,4 +27,27 @@ We are currently working to make Arrakis part of a LArSoft namespace.
 <a name="config"></a>
 
 ### LArSoft Configuration
+There are several FHiCL parameters that must be specified at run time.  These include the *Producer* and *Instance* labels for the various products that Arrakis uses.  Other required parameters are the names of the various generators that are used in the simulation.  Both of these are shown below from the [Arrakis.fcl](https://github.com/Neutron-Calibration-in-DUNE/Arrakis/blob/main/Arrakis.fcl) file,
+```{perl}
+LArGeantProducerLabel:      "largeant"
+SimEnergyDepositProducerLabel:   "IonAndScint"
+SimEnergyDepositInstanceLabel:   "priorSCE"
+SimChannelProducerLabel:    "tpcrawdecoder"
+SimChannelInstanceLabel:    "simpleSC"
+RawDigitProducerLabel:      "tpcrawdecoder"
+RawDigitInstanceLabel:      "daq"
+OpDetWaveformProducerLabel: "opdigi"
+
+GeneratorLabels: 
+{
+    Ar39Label:          "Ar39" 
+    Ar42Label:          "Ar42"
+    Kr85Label:          "Kr85"
+    Rn222Label:         "Rn222"
+    BeamLabel:          "Beam"
+    CosmicsLabel:       "Cosmics"
+    HEPevtLabel:        "HEPevt"
+    PNSLabel:           "PNS"
+}
+```
 
