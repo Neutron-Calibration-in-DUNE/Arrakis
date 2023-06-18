@@ -431,14 +431,14 @@ namespace arrakis
             );
             ProcessMCTruth(event, config().labels.get_PSet());
         }
-        if(sProcessMCParticle)
+        if(sProcessMCParticles)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing MCParticles"
             );
             ProcessMCParticles(event, config().LArGeantProducerLabel());
         }
-        if(sProcessSimEnergyDeposit)
+        if(sProcessSimEnergyDeposits)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing SimEnergyDeposits"
@@ -447,7 +447,7 @@ namespace arrakis
                 config().SimEnergyDepositProducerLabel(), config().SimEnergyDepositInstanceLabel()
             );
         }
-        if(sProcessSimChannel)
+        if(sProcessSimChannels)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing SimChannels"
@@ -456,7 +456,7 @@ namespace arrakis
                 config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
             );
         }
-        if(sProcessRawDigit)
+        if(sProcessRawDigits)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing RawDigits"
@@ -465,7 +465,7 @@ namespace arrakis
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
             );
         }
-        if(sProcessOpDetWaveform)
+        if(sProcessOpDetWaveforms)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing OpDetWaveforms"
