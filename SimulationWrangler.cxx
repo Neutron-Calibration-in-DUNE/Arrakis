@@ -180,12 +180,12 @@ namespace arrakis
             sWirePlaneHitsTree = sTFileService->make<TTree>(
                 "mc_wire_plane_hits", "mc_wire_plane_hits"
             );
-            sWirePlaneHitsTree->Branch("channel", &sWirePlaneHits.channel);
-            sWirePlaneHitsTree->Branch("wire",    &sWirePlaneHits.wire);
-            sWirePlaneHitsTree->Branch("tick",    &sWirePlaneHits.tick);
-            sWirePlaneHitsTree->Branch("tdc",     &sWirePlaneHits.tdc);
-            sWirePlaneHitsTree->Branch("adc",     &sWirePlaneHits.adc);
-            sWirePlaneHitsTree->Branch("view",    &sWirePlaneHits.view);
+            sWirePlaneHitsTree->Branch("channel", &sWirePlaneHits.hit_channel);
+            sWirePlaneHitsTree->Branch("wire",    &sWirePlaneHits.hit_wire);
+            sWirePlaneHitsTree->Branch("tick",    &sWirePlaneHits.hit_tick);
+            sWirePlaneHitsTree->Branch("tdc",     &sWirePlaneHits.hit_tdc);
+            sWirePlaneHitsTree->Branch("adc",     &sWirePlaneHits.hit_adc);
+            sWirePlaneHitsTree->Branch("view",    &sWirePlaneHits.hit_view);
         }
 
         if (sSaveWirePlanePointCloud)

@@ -67,5 +67,5 @@ namespace arrakis
         std::vector<Int_t> vertex_tdc = {};
         std::vector<Int_t> vertex_adc = {};
         std::vector<Int_t> vertex_view = {};
-    }
+    };
 }

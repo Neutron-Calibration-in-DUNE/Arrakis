@@ -26,16 +26,6 @@ namespace arrakis
 {
     struct Configuration
     {
-        fhicl::Atom<bool> SaveMeta
-        {
-            fhicl::Name("SaveMeta"),
-            fhicl::Comment("Whether to save meta info arrays.")
-        };
-        fhicl::Atom<bool> SaveGeometry
-        {
-            fhicl::Name("SaveGeometry"),
-            fhicl::Comment("Whether to save geometry arrays.")
-        };
         fhicl::Atom<std::string> ProcessType
         {
             fhicl::Name("ProcessType"),
@@ -174,6 +164,48 @@ namespace arrakis
             fhicl::Name("GeneratorLabels"),
             fhicl::Comment("Input Tag Table for accessing GeneratorLabels for various generator labels.")
         };
+        
+        fhicl::Atom<bool> SaveMeta
+        {
+            fhicl::Name("SaveMeta"),
+            fhicl::Comment("Whether to save meta info arrays.")
+        };
+        fhicl::Atom<bool> SaveGeometry
+        {
+            fhicl::Name("SaveGeometry"),
+            fhicl::Comment("Whether to save geometry arrays.")
+        };
+        fhicl::Atom<bool> SaveEnergyDepositPointCloud
+        {
+            fhicl::Name("SaveEnergyDepositPointCloud"),
+            fhicl::Comment("Whether to save the energy deposit point clouds.")
+        };
+        fhicl::Atom<bool> SaveSimulationWrangler
+        {
+            fhicl::Name("SaveSimulationWrangler"),
+            fhicl::Comment("Whether to save MC Maps to the output file.")
+        };
+        fhicl::Atom<bool> SaveWirePlaneHists
+        {
+            fhicl::Name("SaveWirePlaneHists"),
+            fhicl::Comment("Whether to save the wire plane hits.")
+        };
+        fhicl::Atom<bool> SaveWirePlanePointCloud
+        {
+            fhicl::Name("SaveWirePlanePointCloud"),
+            fhicl::Comment("Whether to save the wire plane point clouds.")
+        };
+        fhicl::Atom<bool> SaveWirePlaneTrackTopology
+        {
+            fhicl::Name("SaveWirePlaneTrackTopology"),
+            fhicl::Comment("Whether to save the wire plane track topology.")
+        };
+        fhicl::Atom<bool> SaveOpDetPointCloud
+        {
+            fhicl::Name("SaveOpDetPointCloud"),
+            fhicl::Comment("Whether to save the optical detector point clouds.")
+        };
+
         /**
          * Parameters for the simulation labeling logic class.
          */
@@ -186,26 +218,6 @@ namespace arrakis
         {
             fhicl::Name("NeutronCaptureGammaDetail"),
             fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
-        };
-        fhicl::Atom<bool> SaveEnergyDepositPointCloud
-        {
-            fhicl::Name("SaveEnergyDepositPointCloud"),
-            fhicl::Comment("Whether to save the wire plane point clouds.")
-        };
-        fhicl::Atom<bool> SaveSimulationWrangler
-        {
-            fhicl::Name("SaveSimulationWrangler"),
-            fhicl::Comment("Whether to save MC Maps to the output file.")
-        };
-        fhicl::Atom<bool> SaveWirePlanePointCloud
-        {
-            fhicl::Name("SaveWirePlanePointCloud"),
-            fhicl::Comment("Whether to save the wire plane point clouds.")
-        };
-        fhicl::Atom<bool> SaveOpDetPointCloud
-        {
-            fhicl::Name("SaveOpDetPointCloud"),
-            fhicl::Comment("Whether to save the optical detector point clouds.")
         };
         fhicl::Atom<Int_t> ADCThreshold
         {

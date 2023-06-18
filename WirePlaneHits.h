@@ -61,19 +61,8 @@ namespace arrakis
         std::vector<Int_t> hit_tdc = {};
         std::vector<Int_t> hit_adc = {};
         std::vector<Int_t> hit_view = {};
-        
-        std::vector<Int_t> track_end_channel = {};
-        std::vector<Int_t> track_end_wire = {};
-        std::vector<Int_t> track_end_tick = {};
-        std::vector<Int_t> track_end_tdc = {};
-        std::vector<Int_t> track_end_adc = {};
-        std::vector<Int_t> track_end_view = {};
 
-        std::vector<Int_t> vertex_channel = {};
-        std::vector<Int_t> vertex_wire = {};
-        std::vector<Int_t> vertex_tick = {};
-        std::vector<Int_t> vertex_tdc = {};
-        std::vector<Int_t> vertex_adc = {};
-        std::vector<Int_t> vertex_view = {};
-    }
+        
+
+    };
 }
