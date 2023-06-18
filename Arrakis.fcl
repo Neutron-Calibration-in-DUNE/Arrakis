@@ -36,17 +36,15 @@ Arrakis:
     }
 
     # which products to save
-    SaveMeta:       true
-    SaveGeometry:   true
-    SaveSimulationWrangler:         false   # save SimulationWrangler maps
-    SaveWirePlanePointCloud:        true    # save wire plane point cloud data
+    SaveMeta:                       true    # save meta information 
+    SaveGeometry:                   true    # save geometry information
+    SaveSimulationWrangler:         false   # save simulation wrangler maps
     SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
+    SaveWirePlaneHits:              true    # save wire plane hits data
+    SaveWirePlanePointCloud:        true    # save wire plane point cloud data
+    SaveWirePlaneTrackTopology:     true    # save wire plane track topology data
     SaveOpDetPointCloud:            true    # save optical detector point cloud data
     
-    # whether to collect detector simulation by edep or
-    # by particle track id.
-    FilterDetectorSimulation:   "TrackID"   # ["TrackID", "EdepID"]
-
     # labeling scheme for neutron captures,
     # simple labels all gammas as "other", while medium labels
     # 4.75 and 1.81 MeV gammas separately from others, and full

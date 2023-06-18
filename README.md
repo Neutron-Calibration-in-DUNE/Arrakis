@@ -7,6 +7,13 @@ Arrakis is a LArSoft module for creating training data for ML tasks.
 1. [ Installing Arrakis ](#install)
 2. [ Using Arrakis ](#usage)
 	* [ LArSoft Configuration ](#config)
+3. [ Data Products ](#data)
+    * [ SimulationWrangler ](#wrangler)
+    * [ EnergyDepositPointClouds ](#edeps)
+    * [ WirePlaneHits ](#hits)
+    * [ WirePlanePointClouds ](#pointclouds)
+    * [ WirePlaneTrackTopology ](#tracktopology)
+    * [ OpDetPointClouds ](#opdet)
 
 <a name="install"></a>
 ## Installing Arrakis
@@ -51,3 +58,46 @@ GeneratorLabels:
 }
 ```
 
+Arrakis operates in two modes, *"simulation"* and *"data"*.  This parameter, together with setting which products to process are shown below,
+```{yaml}
+# which products for the wrangler to handle
+ProcessType:                "simulation"  # simulation, data
+ProcessMCTruth:             true
+ProcessMCParticles:         true
+ProcessSimEnergyDeposits:   true
+ProcessSimChannels:         true
+ProcessRawDigits:           true
+ProcessOpDetWaveforms:      true
+```
+
+You can also specify which data products to save from Arrakis,
+```{yaml}
+# which products to save
+SaveMeta:       true
+SaveGeometry:   true
+SaveSimulationWrangler:         false   # save SimulationWrangler maps
+SaveWirePlanePointCloud:        true    # save wire plane point cloud data
+SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
+SaveOpDetPointCloud:            true    # save optical detector point cloud data
+```
+
+<a name="data"></a>
+## Data Products
+
+<a name="wrangler"></a>
+### Simulation Wrangler
+
+<a name="edeps"></a>
+### Energy Deposit Point Clouds
+
+<a name="hits"></a>
+### Wire Plane Hits
+
+<a name="pointclouds"></a>
+### Wire Plane Point Clouds
+
+<a name="tracktopology"></a>
+### Wire Plane Track Topology
+
+<a name="opdet"></a>
+### Op Det Point Clouds
