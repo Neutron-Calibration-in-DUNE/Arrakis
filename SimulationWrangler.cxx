@@ -1454,7 +1454,7 @@ namespace arrakis
             Logger::GetInstance("SimulationWrangler")->trace(
                 "saving energy deposit point cloud data to root file."
             );
-            sSaveEnergyDepositPointCloudTree->Fill();
+            sEnergyDepositPointCloudTree->Fill();
         }
         if(sSaveWirePlaneHits)
         {
