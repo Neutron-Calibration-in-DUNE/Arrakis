@@ -35,7 +35,7 @@ We are currently working to make Arrakis part of a LArSoft namespace.
 
 ### LArSoft Configuration
 There are several FHiCL parameters that must be specified at run time.  These include the *Producer* and *Instance* labels for the various products that Arrakis uses.  Other required parameters are the names of the various generators that are used in the simulation.  Both of these are shown below from the [Arrakis.fcl](https://github.com/Neutron-Calibration-in-DUNE/Arrakis/blob/main/Arrakis.fcl) file,
-```{yaml}
+```yaml
 LArGeantProducerLabel:      "largeant"
 SimEnergyDepositProducerLabel:   "IonAndScint"
 SimEnergyDepositInstanceLabel:   "priorSCE"
@@ -59,7 +59,7 @@ GeneratorLabels:
 ```
 
 Arrakis operates in two modes, *"simulation"* and *"data"*.  This parameter, together with setting which products to process are shown below,
-```{yaml}
+```yaml
 # which products for the wrangler to handle
 ProcessType:                "simulation"  # simulation, data
 ProcessMCTruth:             true
@@ -71,13 +71,15 @@ ProcessOpDetWaveforms:      true
 ```
 
 You can also specify which data products to save from Arrakis,
-```{yaml}
+```yaml
 # which products to save
-SaveMeta:       true
-SaveGeometry:   true
-SaveSimulationWrangler:         false   # save SimulationWrangler maps
-SaveWirePlanePointCloud:        true    # save wire plane point cloud data
+SaveMeta:                       true    # save meta information 
+SaveGeometry:                   true    # save geometry information
+SaveSimulationWrangler:         false   # save simulation wrangler maps
 SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
+SaveWirePlaneHits:              true    # save wire plane hits data
+SaveWirePlanePointCloud:        true    # save wire plane point cloud data
+SaveWirePlaneTrackTopology:     true    # save wire plane track topology data
 SaveOpDetPointCloud:            true    # save optical detector point cloud data
 ```
 
