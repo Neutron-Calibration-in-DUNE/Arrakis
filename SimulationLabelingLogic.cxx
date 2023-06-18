@@ -9,15 +9,13 @@
 
 namespace arrakis
 {
-    std::map<std::string, FilterDetectorSimulation> FilterDetectorSimulationMap =
-        {
-            {"TrackID", FilterDetectorSimulation::TrackID},
-            {"EdepID", FilterDetectorSimulation::EdepID}};
+
     std::map<std::string, NeutronCaptureGammaDetail> NeutronCaptureGammaDetailMap =
-        {
-            {"Simple", NeutronCaptureGammaDetail::Simple},
-            {"Medium", NeutronCaptureGammaDetail::Medium},
-            {"Full", NeutronCaptureGammaDetail::Full}};
+    {
+        {"Simple", NeutronCaptureGammaDetail::Simple},
+        {"Medium", NeutronCaptureGammaDetail::Medium},
+        {"Full", NeutronCaptureGammaDetail::Full}
+    };
 
     SimulationLabelingLogic *SimulationLabelingLogic::sInstance{nullptr};
     std::mutex SimulationLabelingLogic::sMutex;
@@ -43,11 +41,6 @@ namespace arrakis
          */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "setting up configuration parameters.");
-
-        sFilterDetectorSimulation = FilterDetectorSimulationMap[config().FilterDetectorSimulation()];
-        Logger::GetInstance("SimulationLabelingLogic")->trace(
-            "setting filter detector simulation to: " + config().FilterDetectorSimulation()
-        );
 
         sNeutronCaptureGammaDetail = NeutronCaptureGammaDetailMap[config().NeutronCaptureGammaDetail()];
         Logger::GetInstance("SimulationLabelingLogic")->trace(

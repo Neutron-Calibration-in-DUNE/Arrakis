@@ -33,11 +33,6 @@
 
 namespace arrakis
 {
-    enum class FilterDetectorSimulation
-    {
-        TrackID = 0,
-        EdepID = 1,
-    };
     enum class NeutronCaptureGammaDetail
     {
         Simple = 0,
@@ -123,7 +118,6 @@ namespace arrakis
         static std::mutex sMutex;
 
         // Configuration Parameters
-        FilterDetectorSimulation sFilterDetectorSimulation;
         NeutronCaptureGammaDetail sNeutronCaptureGammaDetail;
         Int_t sInducedChannelInfluence;
         Int_t sInducedTDCInfluence;
