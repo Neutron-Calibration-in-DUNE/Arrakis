@@ -62,7 +62,14 @@ namespace arrakis
         std::vector<Int_t> hit_adc = {};
         std::vector<Int_t> hit_view = {};
 
-        
-
+        void clear()
+        {
+            hit_channel.clear();
+            hit_wire.clear();
+            hit_tick.clear();
+            hit_tdc.clear();
+            hit_adc.clear();
+            hit_view.clear();
+        }
     };
 }

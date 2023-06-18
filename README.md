@@ -1,5 +1,30 @@
 # Arrakis
+
 Arrakis is a LArSoft module for creating training data for ML tasks.  
 
-### Installation
+### Table of Contents
+
+1. [ Installing Arrakis ](#install)
+2. [ Using Arrakis ](#usage)
+	* [ LArSoft Configuration ](#config)
+
+<a name="install"></a>
+## Installing Arrakis
+Currently, Arrakis can only be installed by cloning this repository and compiling it with LArSoft.  This can be done easily by using the associated [LArSoftArrakis](https://github.com/Neutron-Calibration-in-DUNE/LArSoftArrakis) repository.  To include in your own local LArSoft install, clone this repository into one of the *larsoft* or *dune* namespace products,
+```{bash}
+/local_larsoft_dir/srcs/<namespace>/:$ git clone https://github.com/Neutron-Calibration-in-DUNE/Arrakis
+```
+Then, you'll have to edit the CMakeLists.txt in the *namespace* directory to include the lines,
+```{cmake}
+add_subdirectory(Arrakis)
+```
+
+We are currently working to make Arrakis part of a LArSoft namespace.
+
+<a name="usage"></a>
+## Using Arrakis
+
+<a name="config"></a>
+
+### LArSoft Configuration
 

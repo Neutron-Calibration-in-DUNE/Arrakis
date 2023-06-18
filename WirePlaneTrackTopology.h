@@ -67,5 +67,30 @@ namespace arrakis
         std::vector<Int_t> vertex_tdc = {};
         std::vector<Int_t> vertex_adc = {};
         std::vector<Int_t> vertex_view = {};
+    
+
+        void clear()
+        {
+            track_begin_channel.clear();
+            track_begin_wire.clear();
+            track_begin_tick.clear();
+            track_begin_tdc.clear();
+            track_begin_adc.clear();
+            track_begin_view.clear();
+            
+            track_end_channel.clear();
+            track_end_wire.clear();
+            track_end_tick.clear();
+            track_end_tdc.clear();
+            track_end_adc.clear();
+            track_end_view.clear();
+
+            vertex_channel.clear();
+            vertex_wire.clear();
+            vertex_tick.clear();
+            vertex_tdc.clear();
+            vertex_adc.clear();
+            vertex_view.clear();
+        }
     };
 }

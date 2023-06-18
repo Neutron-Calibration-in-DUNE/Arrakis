@@ -185,9 +185,9 @@ namespace arrakis
             fhicl::Name("SaveSimulationWrangler"),
             fhicl::Comment("Whether to save MC Maps to the output file.")
         };
-        fhicl::Atom<bool> SaveWirePlaneHists
+        fhicl::Atom<bool> SaveWirePlaneHits
         {
-            fhicl::Name("SaveWirePlaneHists"),
+            fhicl::Name("SaveWirePlaneHits"),
             fhicl::Comment("Whether to save the wire plane hits.")
         };
         fhicl::Atom<bool> SaveWirePlanePointCloud
