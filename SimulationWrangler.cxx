@@ -465,6 +465,15 @@ namespace arrakis
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
             );
         }
+        if(sProcessOpDetBacktracerRecords)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing OpDetBacktracerRecords"
+            );
+            ProcessOpDetBacktracerRecords(event, 
+                config().OpDetBacktrackerRecordProducerLabel(), config().OpDetBacktrackerRecordInstanceLabel()
+            );
+        }
         if(sProcessOpDetWaveforms)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
@@ -887,6 +896,42 @@ namespace arrakis
             }
         }
     }
+    void SimulationWrangler::ProcessOpDetBacktrackerRecords(art::Event const& event,
+        art::InputTag producer_label
+    )
+    {
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "collecting sim::OpDetBacktrackerRecord from label <" + 
+            producer_label.label() +  ">"
+        );
+        if(!event.getByLabel(
+            art::InputTag(producer_label.label()),
+            sMCOpDetBacktrackerRecordHandle
+        ))
+        {
+            Logger::GetInstance("SimulationWrangler")->error(
+                "no label matching " + producer_label.label() + 
+                " for sim::OpDetBacktrackerRecord!"
+            );
+            exit(0);
+        }
+        else 
+        {
+            sMCOpDetBacktrackerRecordHandle = event.getHandle<std::vector<sim::OpDetBacktrackerRecord>>(
+                art::InputTag(
+                    producer_label.label()
+                )
+            );
+            if(!sMCOpDetBacktrackerRecordHandle.isValid()) 
+            {
+                Logger::GetInstance("SimulationWrangler")->error(
+                    "data product " + producer_label.label() +
+                    " for sim::OpDetBacktrackerRecord is invalid!"
+                );
+                exit(0);
+            }
+        }
+    }
     void SimulationWrangler::ProcessOpDetWaveforms(art::Event const& event,
         art::InputTag producer_label
     )
@@ -930,15 +975,20 @@ namespace arrakis
         ); 
         for(auto waveform : *sMCOpDetWaveformHandle)
         {
+            /**
+             * (2) figure out how to add labels to these points.
+            */
             auto adc = waveform.Waveform();
             auto channel = waveform.ChannelNumber();
             auto time_stamp = waveform.TimeStamp();
             auto time_tick = clock_data.Time2Tick(time_stamp);
+            //auto op_det_backtracer = ....(channel);
             for(size_t ii = 0; ii < adc.size(); ii++)
             {
+                //auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(time_tick + ii * (1.0/(150.0 * 1e6)), time_tick + ii * (1.0/(150.0 * 1e6)));
                 sOpDetPointCloud.AddPoint(
                     channel, 
-                    time_tick + ii * 6.67, 
+                    time_tick + ii * (1.0/(150.0 * 1e6)), 
                     adc[ii], false
                 );
             }

@@ -11,6 +11,7 @@ Arrakis:
     ProcessSimEnergyDeposits:   true
     ProcessSimChannels:         true
     ProcessRawDigits:           true
+    ProcessOpDetBacktracerRecords:  true
     ProcessOpDetWaveforms:      true
 
     # module labels
@@ -21,6 +22,7 @@ Arrakis:
     SimChannelInstanceLabel:        "simpleSC"
     RawDigitProducerLabel:          "tpcrawdecoder"
     RawDigitInstanceLabel:          "daq"
+    OpDetBacktrackerRecordProducerLabel:    "PDFastSim"
     OpDetWaveformProducerLabel:     "opdigi"
 
     GeneratorLabels: 

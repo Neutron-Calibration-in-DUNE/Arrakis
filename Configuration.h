@@ -56,6 +56,11 @@ namespace arrakis
             fhicl::Name("ProcessRawDigits"),
             fhicl::Comment("Whether to process RawDigits.")
         };
+        fhicl::Atom<bool> ProcessOpDetBacktrackerRecords
+        {
+            fhicl::Name("ProcessOpDetBacktrackerRecords"),
+            fhicl::Comment("Whether to process OpDetBacktrackerRecords.")
+        };
         fhicl::Atom<bool> ProcessOpDetWaveforms
         {
             fhicl::Name("ProcessOpDetWaveforms"),
@@ -104,6 +109,12 @@ namespace arrakis
         {
             fhicl::Name("RawDigitInstanceLabel"),
             fhicl::Comment("Tag of the input data product for the RawDigitInstanceLabel.")
+        };
+
+        fhicl::Atom<art::InputTag> OpDetBacktrackerRecordProducerLabel
+        {
+            fhicl::Name("OpDetBacktrackerRecordProducerLabel"),
+            fhicl::Comment("Tag of the input data product for the OpDetBacktrackerRecordProducerLabel.")
         };
 
         fhicl::Atom<art::InputTag> OpDetWaveformProducerLabel

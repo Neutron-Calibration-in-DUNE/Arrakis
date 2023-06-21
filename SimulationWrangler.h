@@ -26,6 +26,7 @@
 #include "nusimdata/SimulationBase/MCTruth.h"
 #include "lardataobj/RawData/RawDigit.h"
 #include "larcoreobj/SimpleTypesAndConstants/RawTypes.h"
+#include "lardataobj/Simulation/OpDetBacktrackerRecord.h"
 
 #include "Configuration.h"
 #include "Core.h"
@@ -69,6 +70,9 @@ namespace arrakis
         void ProcessRawDigits(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
         );
+        void ProcessOpDetBacktracerRecords(art::Event const& event,
+            art::InputTag producer_label
+        );
         void ProcessOpDetWaveforms(art::Event const& event,
             art::InputTag producer_label
         );
@@ -82,6 +86,7 @@ namespace arrakis
         art::Handle<std::vector<sim::SimEnergyDeposit>> GetSimEnergyDeposits() { return sMCSimEnergyDepositHandle; }
         art::Handle<std::vector<sim::SimChannel>>       GetSimChannels()    { return sMCSimChannelHandle; }
         art::Handle<std::vector<raw::RawDigit>>         GetRawDigits()      { return sMCRawDigitHandle; }
+        art::Handle<std::vector<sim::OpDetBacktrackerRecord>> GetOpDetBacktrackerRecords()  { return sMCOpDetBacktrackerRecordHandle; }
         art::Handle<std::vector<raw::OpDetWaveform>>    GetOpDetWaveforms() { return sMCOpDetWaveformHandle; }
 
         const simb::MCParticle& GetMCParticle(ParticleID_t index)   { return sMCParticleHandle->at(index); }
@@ -262,6 +267,7 @@ namespace arrakis
         bool sProcessSimEnergyDeposits = {false};
         bool sProcessSimChannels = {false};
         bool sProcessRawDigits = {false};
+        bool sProcessOpDetBacktrackerRecords = {false};
         bool sProcessOpDetWaveforms = {false};
 
         // Output TTree
@@ -289,6 +295,7 @@ namespace arrakis
         art::Handle<std::vector<sim::SimEnergyDeposit>> sMCSimEnergyDepositHandle;
         art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
+        art::Handle<std::vector<raw::OpDetBacktrackerRecord>> sMCOpDetBacktrackerRecordHandle;
         art::Handle<std::vector<raw::OpDetWaveform>>    sMCOpDetWaveformHandle;
 
         std::map<std::string, GeneratorLabel> sGeneratorMap;
