@@ -995,7 +995,7 @@ namespace arrakis
             auto op_det_backtracker = sMCOpDetBacktrackerRecordHandle->at(GetOpDetBacktrackerID_OpDetChannelID(channel));
             for(size_t ii = 0; ii < adc.size(); ii++)
             {
-                auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(time_tick + ii * (1.0/(150.0 * 1e6)), time_tick + ii * (1.0/(150.0 * 1e6)));
+                auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(ii, ii);
                 std::cout << "HERE" << std::endl;
                 std::cout << trackIDsAndEnergy.size() << std::endl;
                 sOpDetPointCloud.AddPoint(
