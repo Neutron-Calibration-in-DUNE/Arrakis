@@ -1000,7 +1000,7 @@ namespace arrakis
                 std::cout << trackIDsAndEnergy.size() << std::endl;
                 for(auto ii = 0; ii < trackIDsAndEnergy.size(); ii++)
                 {
-                    std::cout << ii << ": " << trackIDsAndEnergy.trackID << ", " << GetPDGCode_TrackID(trackIDsAndEnergy.trackID) << ", " << trackIDsAndEnergy.x << ", " << trackIDsAndEnergy.y << ", " << trackIDsAndEnergy.z << ", " << std::endl;
+                    std::cout << ii << ": " << trackIDsAndEnergy[ii].trackID << ", " << GetPDGCode_TrackID(trackIDsAndEnergy[ii].trackID) << ", " << trackIDsAndEnergy[ii].x << ", " << trackIDsAndEnergy[ii].y << ", " << trackIDsAndEnergy[ii].z << ", " << std::endl;
                 }
                 sOpDetPointCloud.AddPoint(
                     channel, 
