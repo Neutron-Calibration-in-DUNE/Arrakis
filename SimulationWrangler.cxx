@@ -931,6 +931,12 @@ namespace arrakis
                 exit(0);
             }
         }
+        Int_t opdetbacktracker_id = 0;
+        for(auto opdet_record : *sMCOpDetBacktrackerRecordHandle)
+        {
+            sOpDetChannelID_OpDetBacktrackerIDMap[opdet_record.OpDetNum()] = opdetbacktracer_id;
+            opdetbacktracker_id += 1;
+        }
     }
     void SimulationWrangler::ProcessOpDetWaveforms(art::Event const& event,
         art::InputTag producer_label
@@ -982,10 +988,12 @@ namespace arrakis
             auto channel = waveform.ChannelNumber();
             auto time_stamp = waveform.TimeStamp();
             auto time_tick = clock_data.Time2Tick(time_stamp);
-            //auto op_det_backtracer = ....(channel);
+            auto op_det_backtracer = sMCOpDetBacktrackerRecordHandle->at(GetOpDetBacktrackerID_OpDetChannelID(channel));
             for(size_t ii = 0; ii < adc.size(); ii++)
             {
-                //auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(time_tick + ii * (1.0/(150.0 * 1e6)), time_tick + ii * (1.0/(150.0 * 1e6)));
+                auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(time_tick + ii * (1.0/(150.0 * 1e6)), time_tick + ii * (1.0/(150.0 * 1e6)));
+                std::cout << "HERE" << std::endl;
+                std::cout << trackIDsAndEnergy.size() << std::endl;
                 sOpDetPointCloud.AddPoint(
                     channel, 
                     time_tick + ii * (1.0/(150.0 * 1e6)), 

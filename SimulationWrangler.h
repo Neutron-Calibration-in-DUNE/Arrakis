@@ -92,6 +92,7 @@ namespace arrakis
         const simb::MCParticle& GetMCParticle(ParticleID_t index)   { return sMCParticleHandle->at(index); }
         const sim::SimChannel& GetMCSimChannel(Int_t index)         { return sMCSimChannelHandle->at(index); }
         const raw::RawDigit& GetMCRawDigit(Int_t index)             { return sMCRawDigitHandle->at(index); }
+        const sim::OpDetBacktrackerRecord& GetMCOpDetBacktrackerRecord(Int_t index) { return sMCOpDetBacktrackerRecordHandle->at(index); }
         const raw::OpDetWaveform& GetMCOpDetWaveform(Int_t index)   { return sMCOpDetWaveformHandle->at(index); }
 
         WirePlanePointCloud& GetWirePlanePointCloud()               { return sWirePlanePointCloud; }
@@ -160,6 +161,8 @@ namespace arrakis
         inline ProcessType_List GetAncestorEdepProcess_TrackID(TrackID_t trackID)   { return sTrackID_EdepProcessMap[sTrackID_AncestorTrackIDMap[trackID]]; }
         inline DetSimID_List    GetAncestorDetSimID_TrackID(TrackID_t trackID)      { return sTrackID_DetSimIDMap[sTrackID_AncestorTrackIDMap[trackID]]; }
         const simb::MCParticle& GetAncestorMCParticle_TrackID(TrackID_t trackID)    { return sMCParticleHandle->at(sTrackID_ParticleIDMap[sTrackID_AncestorTrackIDMap[trackID]]); }            
+
+        inline OpDetBacktrackerID_t GetOpDetBacktrackerID_OpDetChannelID(OpDetChannelID_t channelID)    { return sOpDetChannelID_OpDetBacktrackerIDMap[channelID]; }
 
         /**
          * Various functions for collecting TrackIDs from primaries, etc.
@@ -310,10 +313,6 @@ namespace arrakis
         WirePlaneTrackTopology sWirePlaneTrackTopology;
         OpDetPointCloud sOpDetPointCloud;
 
-        // std::vector<DetectorSimulation> sDetectorSimulation;
-        // std::vector<DetectorSimulation> sDetectorSimulationBelowThreshold;
-        // DetectorSimulationNoise sDetectorSimulationNoise;
-
         // TrackID maps
         std::map<TrackID_t, ParticleID_t>   sTrackID_ParticleIDMap;
         std::map<TrackID_t, GeneratorLabel> sTrackID_GeneratorLabelMap;
@@ -341,8 +340,11 @@ namespace arrakis
         std::map<EdepID_t, ProcessType> sEdepID_ProcessMap;
         std::map<EdepID_t, DetSimID_List> sEdepID_DetSimIDMap;
 
-        // DetSmID maps
+        // DetSimID maps
         std::map<DetSimID_t, EdepID_List> sDetSimID_EdepIDMap;
+
+        // OpDetID maps
+        std::map<OpDetChannelID_t, OpDetBacktrackerID_t> sOpDetChannelID_OpDetBacktrackerIDMap;
         
     };
 }
