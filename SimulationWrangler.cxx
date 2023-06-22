@@ -998,6 +998,10 @@ namespace arrakis
                 auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(ii, ii);
                 std::cout << "HERE" << std::endl;
                 std::cout << trackIDsAndEnergy.size() << std::endl;
+                for(auto ii = 0; ii < trackIDsAndEnergy.size(); ii++)
+                {
+                    std::cout << ii << ": " << trackIDsAndEnergy.trackID << ", " << GetPDGCode_TrackID(trackIDsAndEnergy.trackID) << ", " << trackIDsAndEnergy.x << ", " << trackIDsAndEnergy.y << ", " << trackIDsAndEnergy.z << ", " << std::endl;
+                }
                 sOpDetPointCloud.AddPoint(
                     channel, 
                     time_tick + ii * (1.0/(150.0 * 1e6)), 
