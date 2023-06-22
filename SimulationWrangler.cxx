@@ -291,6 +291,10 @@ namespace arrakis
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting ProcessRawDigits: " + std::to_string(sProcessRawDigits)
         );
+        sProcessOpDetBacktrackerRecords = config().ProcessOpDetBacktrackerRecords();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessOpDetBacktrackerRecords: " + std::to_string(sProcessOpDetBacktrackerRecords)
+        );
         sProcessOpDetWaveforms = config().ProcessOpDetWaveforms();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting ProcessOpDetWaveforms: " + std::to_string(sProcessOpDetWaveforms)
