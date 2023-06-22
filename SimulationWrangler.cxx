@@ -469,10 +469,10 @@ namespace arrakis
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
             );
         }
-        if(sProcessOpDetBacktracerRecords)
+        if(sProcessOpDetBacktrackerRecords)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
-                "processing OpDetBacktracerRecords"
+                "processing OpDetBacktrackerRecords"
             );
             ProcessOpDetBacktrackerRecords(event, 
                 config().OpDetBacktrackerRecordProducerLabel()
@@ -938,7 +938,7 @@ namespace arrakis
         Int_t opdetbacktracker_id = 0;
         for(auto opdet_record : *sMCOpDetBacktrackerRecordHandle)
         {
-            sOpDetChannelID_OpDetBacktrackerIDMap[opdet_record.OpDetNum()] = opdetbacktracer_id;
+            sOpDetChannelID_OpDetBacktrackerIDMap[opdet_record.OpDetNum()] = opdetbacktracker_id;
             opdetbacktracker_id += 1;
         }
     }
@@ -992,7 +992,7 @@ namespace arrakis
             auto channel = waveform.ChannelNumber();
             auto time_stamp = waveform.TimeStamp();
             auto time_tick = clock_data.Time2Tick(time_stamp);
-            auto op_det_backtracer = sMCOpDetBacktrackerRecordHandle->at(GetOpDetBacktrackerID_OpDetChannelID(channel));
+            auto op_det_backtracker = sMCOpDetBacktrackerRecordHandle->at(GetOpDetBacktrackerID_OpDetChannelID(channel));
             for(size_t ii = 0; ii < adc.size(); ii++)
             {
                 auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(time_tick + ii * (1.0/(150.0 * 1e6)), time_tick + ii * (1.0/(150.0 * 1e6)));
