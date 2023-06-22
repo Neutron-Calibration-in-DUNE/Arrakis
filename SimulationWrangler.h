@@ -70,7 +70,7 @@ namespace arrakis
         void ProcessRawDigits(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
         );
-        void ProcessOpDetBacktracerRecords(art::Event const& event,
+        void ProcessOpDetBacktrackerRecords(art::Event const& event,
             art::InputTag producer_label
         );
         void ProcessOpDetWaveforms(art::Event const& event,

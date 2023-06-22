@@ -470,8 +470,8 @@ namespace arrakis
             Logger::GetInstance("SimulationWrangler")->trace(
                 "processing OpDetBacktracerRecords"
             );
-            ProcessOpDetBacktracerRecords(event, 
-                config().OpDetBacktrackerRecordProducerLabel(), config().OpDetBacktrackerRecordInstanceLabel()
+            ProcessOpDetBacktrackerRecords(event, 
+                config().OpDetBacktrackerRecordProducerLabel()
             );
         }
         if(sProcessOpDetWaveforms)
