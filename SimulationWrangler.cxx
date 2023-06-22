@@ -998,7 +998,7 @@ namespace arrakis
                 auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(ii, ii);
                 std::cout << "HERE" << std::endl;
                 std::cout << trackIDsAndEnergy.size() << std::endl;
-                for(auto jj = 0; jj < trackIDsAndEnergy.size(); jj++)
+                for(size_t jj = 0; jj < trackIDsAndEnergy.size(); jj++)
                 {
                     std::cout << jj << ": " << trackIDsAndEnergy[jj].trackID << ", " << GetPDGCode_TrackID(trackIDsAndEnergy[jj].trackID) << ", " << trackIDsAndEnergy[jj].x << ", " << trackIDsAndEnergy[jj].y << ", " << trackIDsAndEnergy[jj].z << ", " << std::endl;
                 }
