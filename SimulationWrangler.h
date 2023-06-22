@@ -298,7 +298,7 @@ namespace arrakis
         art::Handle<std::vector<sim::SimEnergyDeposit>> sMCSimEnergyDepositHandle;
         art::Handle<std::vector<sim::SimChannel>>       sMCSimChannelHandle;
         art::Handle<std::vector<raw::RawDigit>>         sMCRawDigitHandle;
-        art::Handle<std::vector<raw::OpDetBacktrackerRecord>> sMCOpDetBacktrackerRecordHandle;
+        art::Handle<std::vector<sim::OpDetBacktrackerRecord>> sMCOpDetBacktrackerRecordHandle;
         art::Handle<std::vector<raw::OpDetWaveform>>    sMCOpDetWaveformHandle;
 
         std::map<std::string, GeneratorLabel> sGeneratorMap;

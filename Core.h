@@ -52,7 +52,7 @@ namespace arrakis
     using ParticleID_t = Int_t;
     using DetSimID_t = Int_t;
     using OpDetChannelID_t = Int_t;
-    using OpDetBacktracerID_t = Int_t;
+    using OpDetBacktrackerID_t = Int_t;
 
     using TrackID_List = std::vector<TrackID_t>;
     using EdepID_List = std::vector<EdepID_t>;
