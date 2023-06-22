@@ -993,15 +993,11 @@ namespace arrakis
             auto time_stamp = waveform.TimeStamp();
             auto time_tick = clock_data.Time2Tick(time_stamp);
             auto op_det_backtracker = sMCOpDetBacktrackerRecordHandle->at(GetOpDetBacktrackerID_OpDetChannelID(channel));
+            auto op_det_map = op_det_backtracker.timePDclockSDPsMap();
+            std::cout << "ADC: " << adc.size() << ", Map: " << op_det_map.size();
             for(size_t ii = 0; ii < adc.size(); ii++)
             {
                 auto const& trackIDsAndEnergy = op_det_backtracker.TrackIDsAndEnergies(ii, ii);
-                std::cout << "HERE" << std::endl;
-                std::cout << trackIDsAndEnergy.size() << std::endl;
-                for(size_t jj = 0; jj < trackIDsAndEnergy.size(); jj++)
-                {
-                    std::cout << jj << ": " << trackIDsAndEnergy[jj].trackID << ", " << GetPDGCode_TrackID(trackIDsAndEnergy[jj].trackID) << ", " << trackIDsAndEnergy[jj].x << ", " << trackIDsAndEnergy[jj].y << ", " << trackIDsAndEnergy[jj].z << ", " << std::endl;
-                }
                 sOpDetPointCloud.AddPoint(
                     channel, 
                     time_tick + ii * (1.0/(150.0 * 1e6)), 
