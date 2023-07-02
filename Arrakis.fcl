@@ -5,14 +5,14 @@ Arrakis:
     module_type:    "Arrakis"
 
     # which products for the wrangler to handle
-    ProcessType:                "simulation"  # simulation, data
-    ProcessMCTruth:             true
-    ProcessMCParticles:         true
-    ProcessSimEnergyDeposits:   true
-    ProcessSimChannels:         true
-    ProcessRawDigits:           true
-    ProcessOpDetBacktrackerRecords:  true
-    ProcessOpDetWaveforms:      true
+    ProcessType:                    "simulation"  # simulation, data
+    ProcessMCTruth:                 true
+    ProcessMCParticles:             true
+    ProcessSimEnergyDeposits:       true
+    ProcessSimChannels:             true
+    ProcessRawDigits:               true
+    ProcessOpDetBacktrackerRecords: true
+    ProcessOpDetWaveforms:          true
 
     # module labels
     LArGeantProducerLabel:          "largeant"
@@ -23,7 +23,7 @@ Arrakis:
     RawDigitProducerLabel:          "tpcrawdecoder"
     RawDigitInstanceLabel:          "daq"
     OpDetBacktrackerRecordProducerLabel:    "PDFastSim"
-    OpDetWaveformProducerLabel:     "opdigi"
+    OpDetWaveformProducerLabel:             "opdigi"
 
     GeneratorLabels: 
     {

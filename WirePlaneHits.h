@@ -54,6 +54,14 @@ namespace arrakis
          * crossing occurs in the collection plane.  In the induction 
          * planes, the signal is bipolar so that the crossing point
          * occurs where adc = 0.
+         * 
+         * The variables for hits are functions of the four vectors of
+         * the particles at the energy deposition location, and the
+         * drift parameters theta,
+         *      
+         *      channel = f_channel(x,y,z,edep,theta)
+         *      tdc = f_tdc(x,y,z,edep,theta)
+         *      adc = f_adc(x,y,z,edep,theta)
         */
         std::vector<Int_t> hit_channel = {};
         std::vector<Int_t> hit_wire = {};
