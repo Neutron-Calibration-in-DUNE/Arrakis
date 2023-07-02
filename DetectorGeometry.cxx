@@ -150,7 +150,7 @@ namespace arrakis
 
         // iterate over all TPCs
         sNumberOfTPCs  = sGeometryCore->TotalNTPC();
-        for (geo::TPCGeo const& TPC : sGeometryCore->IterateTPCs())
+        for (geo::TPCGeo const& TPC : Cryo.IterateTPCs())
         {
             sTPCNames.emplace_back(TPC.ID());
             sTPCBoxes.emplace_back(BoundingBox(TPC.BoundingBox()));

@@ -906,7 +906,7 @@ namespace arrakis
         auto other_gammas = mc_data->FilterTrackID_NotProcess(gamma_daughters, ProcessType::NeutronCapture);
         for (auto capture : capture_daughters)
         {
-            Int_t neutron_label = IterateShapeLabel();
+            //Int_t neutron_label = IterateShapeLabel();
             for (auto gamma : capture)
             {
                 Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 5);
@@ -943,7 +943,7 @@ namespace arrakis
                 SetLabels(
                     gamma_det_sim, gamma,
                     ShapeLabel::Blip, particle_label,
-                    neutron_label
+                    IterateShapeLabel()
                 );
             }
         }
@@ -1185,14 +1185,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
-        auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar39);
-        auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
-        SetLabels(
-            ar39_det_sim, ar39,
-            ShapeLabel::Blip, ParticleLabel::Ar39, 
-            IterateShapeLabel()
-        );
-        ProcessShowers(ar39_daughters);
+        for(auto ar : ar39)
+        {
+            auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar);
+            SetLabels(
+                ar39_det_sim, ar,
+                ShapeLabel::Blip, ParticleLabel::Ar39, 
+                IterateShapeLabel()
+            );
+            ProcessShowers(ar39_daughters);
+        }
     }
     void SimulationLabelingLogic::ProcessAr42(
         const Parameters &config, art::Event const &event)
@@ -1206,14 +1209,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
-        auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar42);
-        auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42);
-        SetLabels(
-            ar42_det_sim, ar42, 
-            ShapeLabel::Blip, ParticleLabel::Ar42, 
-            IterateShapeLabel()
-        );
-        ProcessShowers(ar42_daughters);
+        for(auto ar : ar42)
+        {
+            auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar);
+            SetLabels(
+                ar42_det_sim, ar, 
+                ShapeLabel::Blip, ParticleLabel::Ar42, 
+                IterateShapeLabel()
+            );
+            ProcessShowers(ar42_daughters);
+        }
     }
     void SimulationLabelingLogic::ProcessKr85(
         const Parameters &config, art::Event const &event)
@@ -1228,14 +1234,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
-        auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr85);
-        auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr85);
-        SetLabels(
-            kr85_det_sim, kr85, 
-            ShapeLabel::Blip, ParticleLabel::Kr85, 
-            IterateShapeLabel()
-        );
-        ProcessShowers(kr85_daughters);
+        for(auto kr : kr85)
+        {
+            auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr);
+            auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr);
+            SetLabels(
+                kr85_det_sim, kr, 
+                ShapeLabel::Blip, ParticleLabel::Kr85, 
+                IterateShapeLabel()
+            );
+            ProcessShowers(kr85_daughters);
+        }
     }
     void SimulationLabelingLogic::ProcessRn222(
         const Parameters &config, art::Event const &event)
@@ -1253,14 +1262,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
-        auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn222);
-        auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
-        SetLabels(
-            rn222_det_sim, rn222, 
-            ShapeLabel::Blip, ParticleLabel::Rn222, 
-            IterateShapeLabel()
-        );
-        ProcessShowers(rn222_daughters);
+        for(auto rn : rn222)
+        {
+            auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn);
+            auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn);
+            SetLabels(
+                rn222_det_sim, rn, 
+                ShapeLabel::Blip, ParticleLabel::Rn222, 
+                IterateShapeLabel()
+            );
+            ProcessShowers(rn222_daughters);
+        }
     }
     void SimulationLabelingLogic::ProcessCosmics(
         const Parameters &config, art::Event const &event)

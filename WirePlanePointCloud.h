@@ -111,8 +111,7 @@ namespace arrakis
         std::vector<Int_t> unique_source = {};
         std::vector<Int_t> unique_shape = {};
         std::vector<Int_t> unique_particle = {};
-
-
+        
 
         WirePlanePointCloud()
         {
