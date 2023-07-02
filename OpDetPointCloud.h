@@ -47,6 +47,7 @@ namespace arrakis
         /**
          * A OpDetPointCloud is the basic data structure that
          * we use for data from the optical detector output.  
+         * 1 tdc = 6.7 ns, whereas for wires its 500 ns. 
          * 
         */
         std::vector<Int_t> channel = {};
