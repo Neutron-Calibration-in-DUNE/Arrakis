@@ -940,7 +940,7 @@ namespace arrakis
             }
             for(auto const& [key, val] : track_id_tdcs)
             {
-                std::cout << "channel: " << channel.Channel() << std::cout << ", track_id: " << key << ", num tdcs: " << val.size() << std::endl;
+                std::cout << "channel: " << channel.Channel() << ", track_id: " << key << ", num tdcs: " << val.size() << std::endl;
             }
         }
     }
