@@ -951,7 +951,8 @@ namespace arrakis
 
                 std::cout << "channel: " << channel.Channel() << ", track_id: ";
                 std::cout << key << ", tdc_mean: " << tdc_mean << ", tdc_rms: ";
-                std::cout << tdc_rms << std::endl;
+                std::cout << tdc_rms << ", tdc_amplitude: " << tdc_amplitude;
+                std::cout << ", tdc_charge: " << tdc_charge << std::endl;
             }
         }
     }
