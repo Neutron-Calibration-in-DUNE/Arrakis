@@ -940,7 +940,15 @@ namespace arrakis
             }
             for(auto const& [key, val] : track_id_tdcs)
             {
-                std::cout << "channel: " << channel.Channel() << ", track_id: " << key << ", num tdcs: " << val.size() << std::endl;
+                Double_t tdc_mean = reduce(val.begin(), val.end()) / val.size();
+                Double_t temp_tdc_rms = 0.0;
+                for(auto tdc : val) {
+                    temp_tdc_rms += tdc * tdc;
+                }
+                Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
+                std::cout << "channel: " << channel.Channel() << ", track_id: ";
+                std::cout << key << ", tdc_mean: " << tdc_mean << ", tdc_rms: ";
+                std::cout << tdc_rms << std::endl;
             }
         }
     }
