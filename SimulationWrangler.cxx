@@ -926,7 +926,7 @@ namespace arrakis
             // Make a list of unique track_ids on this channel and
             // group tdcs accordingly.
             std::map<TrackID_t, std::vector<Int_t>> track_id_tdcs;
-            for(auto tdcide : channel->TDCIDEMap()) 
+            for(auto tdcide : channel.TDCIDEMap()) 
             {
                 for(auto ide : tdcide.second)
                 {   
@@ -934,7 +934,7 @@ namespace arrakis
                         track_id_tdcs[ide.trackID].emplace_back(tdcide.first);
                     }
                     else {
-                        track_id_tdcs[ide.trackID] = {tdcidc.first};
+                        track_id_tdcs[ide.trackID] = {tdcide.first};
                     }
                 }
             }
