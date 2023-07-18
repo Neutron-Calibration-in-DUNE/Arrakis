@@ -943,7 +943,7 @@ namespace arrakis
                 Double_t tdc_mean = reduce(val.begin(), val.end()) / val.size();
                 Double_t temp_tdc_rms = 0.0;
                 for(auto tdc : val) {
-                    temp_tdc_rms += tdc * tdc;
+                    temp_tdc_rms += (tdc - tdc_mean) * (tdc - tdc_mean);
                 }
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
                 std::cout << "channel: " << channel.Channel() << ", track_id: ";
