@@ -11,6 +11,7 @@ Arrakis:
     ProcessSimEnergyDeposits:       true
     ProcessSimChannels:             true
     ProcessRawDigits:               true
+    ProcessHits:                    true
     ProcessOpDetBacktrackerRecords: true
     ProcessOpDetWaveforms:          true
 

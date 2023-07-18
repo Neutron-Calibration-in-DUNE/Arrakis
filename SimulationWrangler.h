@@ -70,6 +70,9 @@ namespace arrakis
         void ProcessRawDigits(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
         );
+        void ProcessHits(art::Event const& event,
+            art::InputTag producer_label, art::InputTag instance_label
+        );
         void ProcessOpDetBacktrackerRecords(art::Event const& event,
             art::InputTag producer_label
         );
@@ -270,6 +273,7 @@ namespace arrakis
         bool sProcessSimEnergyDeposits = {false};
         bool sProcessSimChannels = {false};
         bool sProcessRawDigits = {false};
+        bool sProcessHits = {false};
         bool sProcessOpDetBacktrackerRecords = {false};
         bool sProcessOpDetWaveforms = {false};
 

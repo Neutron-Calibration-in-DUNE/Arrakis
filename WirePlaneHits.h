@@ -59,9 +59,9 @@ namespace arrakis
          * the particles at the energy deposition location, and the
          * drift parameters theta,
          *      
-         *      channel = f_channel(x,y,z,edep,theta)
-         *      tdc = f_tdc(x,y,z,edep,theta)
-         *      adc = f_adc(x,y,z,edep,theta)
+         *      channel = f_channel(t,x,y,z,edep,theta)
+         *      tdc = f_tdc(t,x,y,z,edep,theta)
+         *      adc = f_adc(t,x,y,z,edep,theta)
         */
         std::vector<Int_t> hit_channel = {};
         std::vector<Int_t> hit_wire = {};
@@ -69,6 +69,11 @@ namespace arrakis
         std::vector<Int_t> hit_tdc = {};
         std::vector<Int_t> hit_adc = {};
         std::vector<Int_t> hit_view = {};
+
+        std::vector<Int_t> hit_mean = {};
+        std::vector<Double_t> hit_rms = {};
+        std::vector<Double_t> hit_amplitude = {};
+        std::vector<Double_t> hit_charge = {};
 
         void clear()
         {
@@ -78,6 +83,10 @@ namespace arrakis
             hit_tdc.clear();
             hit_adc.clear();
             hit_view.clear();
+            hit_mean.clear();
+            hit_rms.clear();
+            hit_amplitude.clear();
+            hit_charge.clear();
         }
     };
 }

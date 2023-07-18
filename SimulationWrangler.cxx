@@ -186,6 +186,10 @@ namespace arrakis
             sWirePlaneHitsTree->Branch("tdc",     &sWirePlaneHits.hit_tdc);
             sWirePlaneHitsTree->Branch("adc",     &sWirePlaneHits.hit_adc);
             sWirePlaneHitsTree->Branch("view",    &sWirePlaneHits.hit_view);
+            sWirePlaneHitsTree->Branch("mean",    &sWirePlaneHits.hit_mean);
+            sWirePlaneHitsTree->Branch("rms",     &sWirePlaneHits.hit_rms);
+            sWirePlaneHitsTree->Branch("amplitude",     &sWirePlaneHits.hit_amplitude);
+            sWirePlaneHitsTree->Branch("charge",        &sWirePlaneHits.hit_charge);
         }
 
         if (sSaveWirePlanePointCloud)
@@ -290,6 +294,10 @@ namespace arrakis
         sProcessRawDigits = config().ProcessRawDigits();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting ProcessRawDigits: " + std::to_string(sProcessRawDigits)
+        );
+        sProcessHits = config().ProcessHits();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting ProcessHits: " + std::to_string(sProcessHits)
         );
         sProcessOpDetBacktrackerRecords = config().ProcessOpDetBacktrackerRecords();
         Logger::GetInstance("SimulationWrangler")->trace(
@@ -467,6 +475,15 @@ namespace arrakis
             );
             ProcessRawDigits(event,
                 config().RawDigitProducerLabel(), config().RawDigitInstanceLabel()
+            );
+        }
+        if(sProcessHits)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "processing Hits"
+            );
+            ProcessHits(event,
+                config().SimChannelProducerLabel(), config().SimChannelInstanceLabel()
             );
         }
         if(sProcessOpDetBacktrackerRecords)
@@ -897,6 +914,33 @@ namespace arrakis
                     );
                     digit_index += 1;
                 }
+            }
+        }
+    }
+    void SimulationWrangler::ProcessHits(art::Event const& event,
+        art::InputTag producer_label, art::InputTag instance_label
+    )
+    {
+        for(auto channel : *sMCSimChannelHandle) 
+        {
+            // Make a list of unique track_ids on this channel and
+            // group tdcs accordingly.
+            std::map<TrackID_t, std::vector<Int_t>> track_id_tdcs;
+            for(auto tdcide : channel->TDCIDEMap()) 
+            {
+                for(auto ide : tdcide.second)
+                {   
+                    if(track_id_tdcs.count(ide.trackID)) {
+                        track_id_tdcs[ide.trackID].emplace_back(tdcide.first);
+                    }
+                    else {
+                        track_id_tdcs[ide.trackID] = {tdcidc.first};
+                    }
+                }
+            }
+            for(auto const& [key, val] : track_id_tdcs)
+            {
+                std::cout << "track_id: " << key << ", num tdcs: " << val.size() << std::endl;
             }
         }
     }

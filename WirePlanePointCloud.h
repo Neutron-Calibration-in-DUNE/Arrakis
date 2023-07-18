@@ -112,6 +112,7 @@ namespace arrakis
         std::vector<Int_t> unique_shape = {};
         std::vector<Int_t> unique_particle = {};
         
+        std::vector<Double_t> hit = {};
 
         WirePlanePointCloud()
         {
@@ -183,7 +184,16 @@ namespace arrakis
         )
         {
             /**
+             * The detector channel is first converted to a wire number and
+             * we also determine the view.  Then, the tdc value is determined
+             * from the detector clock data.
              * 
+             * We determine if this point corresponds to a hit by matching
+             * the tdc time with the x and t values from the original energy 
+             * deposition.  If a hit occurs, we associate the Q/(qr^2) value
+             * to the hit vector, where Q is the total charge of the electron
+             * packet, q is a scale factor, and r^2 is the distance from the 
+             * center of charge of the packet. 
             */
             auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
             auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
@@ -256,6 +266,11 @@ namespace arrakis
             }
             unique_shape.emplace_back(-1);
             unique_particle.emplace_back(-1);
+
+            /**
+             * Determine hit information.
+             * 
+             */
         }
         Int_t GetIndex_TrackID(DetSimID_t detsim, TrackID_t track_id)
         {

@@ -56,6 +56,11 @@ namespace arrakis
             fhicl::Name("ProcessRawDigits"),
             fhicl::Comment("Whether to process RawDigits.")
         };
+        fhicl::Atom<bool> ProcessHits
+        {
+            fhicl::Name("ProcessHits"),
+            fhicl::Comment("Whether to process Hits.")
+        };
         fhicl::Atom<bool> ProcessOpDetBacktrackerRecords
         {
             fhicl::Name("ProcessOpDetBacktrackerRecords"),
