@@ -889,7 +889,7 @@ namespace arrakis
                             clock_data,
                             l,
                             channel,
-                            (Int_t) (uncompressed[l]),
+                            (Int_t) (uncompressed[l])
                         );
                         digit_index += 1;
                     }
@@ -908,7 +908,7 @@ namespace arrakis
                         clock_data,
                         l,
                         channel,
-                        (Int_t) (uncompressed[l]),
+                        (Int_t) (uncompressed[l])
                     );
                     // associate this detector simulation with a particle
                     for(auto track : trackIDsAndEnergy)
