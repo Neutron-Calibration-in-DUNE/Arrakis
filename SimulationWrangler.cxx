@@ -943,7 +943,7 @@ namespace arrakis
             // Make a list of unique track_ids on this channel and
             // group tdcs/ne accordingly.
             std::map<TrackID_t, std::vector<Int_t>> track_id_tdcs;
-            std::map<TrackID_t, std::vector<Int_t>> track_id_nes;
+            std::map<TrackID_t, std::vector<Double_t>> track_id_nes;
             for(auto tdcide : channel.TDCIDEMap()) 
             {
                 for(auto ide : tdcide.second)
@@ -960,7 +960,7 @@ namespace arrakis
             }
             for(auto const& [key, val] : track_id_tdcs)
             {
-                std::vector<Int_t> num_electrons = track_id_nes[key]
+                std::vector<Int_t> num_electrons = track_id_nes[key];
                 Double_t tdc_mean = std::reduce(val.begin(), val.end()) / val.size();
                 Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
