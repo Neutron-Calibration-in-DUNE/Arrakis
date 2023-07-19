@@ -960,7 +960,7 @@ namespace arrakis
             }
             for(auto const& [key, val] : track_id_tdcs)
             {
-                std::vector<Int_t> num_electrons = track_id_nes[key];
+                std::vector<Double_t> num_electrons = track_id_nes[key];
                 Double_t tdc_mean = std::reduce(val.begin(), val.end()) / val.size();
                 Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
