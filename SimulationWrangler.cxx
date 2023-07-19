@@ -941,22 +941,26 @@ namespace arrakis
         for(auto channel : *sMCSimChannelHandle) 
         {
             // Make a list of unique track_ids on this channel and
-            // group tdcs accordingly.
+            // group tdcs/ne accordingly.
             std::map<TrackID_t, std::vector<Int_t>> track_id_tdcs;
+            std::map<TrackID_t, std::vector<Int_t>> track_id_nes;
             for(auto tdcide : channel.TDCIDEMap()) 
             {
                 for(auto ide : tdcide.second)
                 {   
                     if(track_id_tdcs.count(ide.trackID)) {
                         track_id_tdcs[ide.trackID].emplace_back(tdcide.first);
+                        track_id_nes[ide.trackID].emplace_back(ide.numElectrons);
                     }
                     else {
                         track_id_tdcs[ide.trackID] = {tdcide.first};
+                        track_id_nes[ide.trackID] = {ide.numElectrons};
                     }
                 }
             }
             for(auto const& [key, val] : track_id_tdcs)
             {
+                std::vector<Int_t> num_electrons = track_id_nes[key]
                 Double_t tdc_mean = std::reduce(val.begin(), val.end()) / val.size();
                 Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
@@ -969,8 +973,8 @@ namespace arrakis
                     }
                 }
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
-                Double_t tdc_amplitude = *std::max_element(val.begin(), val.end());
-                Double_t tdc_charge = std::reduce(val.begin(), val.end());
+                Double_t tdc_amplitude = *std::max_element(num_electrons.begin(), num_electrons.end());
+                Double_t tdc_charge = std::reduce(num_electrons.begin(), num_electrons.end());
 
                 // Find the associated (channel, tdc) DetSimID.
                 DetSimID_t detsim_id = sChannelID_TDC_DetSimIDMap[
