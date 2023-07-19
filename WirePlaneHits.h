@@ -88,5 +88,42 @@ namespace arrakis
             hit_amplitude.clear();
             hit_charge.clear();
         }
+        void CreateHit(
+            detinfo::DetectorClocksData const& clock_data,
+            Int_t det_tick,
+            Int_t det_channel,
+            Int_t det_adc,
+        )
+        {
+            auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
+            auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance()->GetWirePitch(det_view);
+
+            hit_channel.emplace_back(det_channel);
+            hit_wire.emplace_back(wires[det_view].Wire * wire_multiple);
+            hit_tick.emplace_back(det_tick);
+            hit_tdc.emplace_back(clock_data.TPCTick2TDC(det_tick));
+            hit_adc.emplace_back(det_adc);
+            hit_view.emplace_back(det_view);
+
+            hit_mean.emplace_back(-1);
+            hit_rms.emplace_back(-1);
+            hit_amplitude.emplace_back(-1);
+            hit_charge.emplace_back(-1);
+        }
+
+        void AddHit(
+            DetSimID_t detsim,
+            Double_t mean,
+            Double_t rms,
+            Double_t amplitude,
+            Double_t charge
+        )
+        {
+            hit_mean[detsim] = mean;
+            hit_rms[detsim] = rms;
+            hit_amplitude[detsim] = amplitude;
+            hit_charge[detsim] = charge;
+        }
     };
 }

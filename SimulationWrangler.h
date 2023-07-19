@@ -346,6 +346,7 @@ namespace arrakis
 
         // DetSimID maps
         std::map<DetSimID_t, EdepID_List> sDetSimID_EdepIDMap;
+        std::map<std::pair<Int_t, Int_t>, DetSimID_t> sChannelID_TDC_DetSimIDMap;
 
         // OpDetID maps
         std::map<OpDetChannelID_t, OpDetBacktrackerID_t> sOpDetChannelID_OpDetBacktrackerIDMap;

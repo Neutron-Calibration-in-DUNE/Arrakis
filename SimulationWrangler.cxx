@@ -429,6 +429,7 @@ namespace arrakis
         sEdepID_ProcessMap.clear();
         sEdepID_DetSimIDMap.clear();
 
+        sChannelID_TDC_DetSimIDMap.clear();
         sDetSimID_EdepIDMap.clear();
     }
     void SimulationWrangler::ProcessEvent(
@@ -884,6 +885,12 @@ namespace arrakis
                             (Int_t) (uncompressed[l]),
                             true
                         );
+                        sWirePlaneHits.CreatePoint(
+                            clock_data,
+                            l,
+                            channel,
+                            (Int_t) (uncompressed[l]),
+                        );
                         digit_index += 1;
                     }
                 }
@@ -896,6 +903,12 @@ namespace arrakis
                         channel,
                         (Int_t) (uncompressed[l]),
                         false
+                    );
+                    sWirePlaneHits.CreatePoint(
+                        clock_data,
+                        l,
+                        channel,
+                        (Int_t) (uncompressed[l]),
                     );
                     // associate this detector simulation with a particle
                     for(auto track : trackIDsAndEnergy)
@@ -912,6 +925,7 @@ namespace arrakis
                         trackIDsAndEnergy,
                         digit_index
                     );
+                    sChannelID_TDC_DetSimIDMap[std::make_pair(channel, l)] = digit_index;
                     digit_index += 1;
                 }
             }
@@ -941,18 +955,31 @@ namespace arrakis
             for(auto const& [key, val] : track_id_tdcs)
             {
                 Double_t tdc_mean = std::reduce(val.begin(), val.end()) / val.size();
+                Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
                 for(auto tdc : val) {
                     temp_tdc_rms += (tdc - tdc_mean) * (tdc - tdc_mean);
+                }
+                for(auto tdc: val) {
+                    if (abs(tdc - tdc_mean) < tdc_closest) {
+                        tdc_closest = tdc;
+                    }
                 }
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
                 Double_t tdc_amplitude = std::max_element(val.begin(), val.end());
                 Double_t tdc_charge = std::reduce(val.begin(), val.end());
 
-                std::cout << "channel: " << channel.Channel() << ", track_id: ";
-                std::cout << key << ", tdc_mean: " << tdc_mean << ", tdc_rms: ";
-                std::cout << tdc_rms << ", tdc_amplitude: " << tdc_amplitude;
-                std::cout << ", tdc_charge: " << tdc_charge << std::endl;
+                // Find the associated (channel, tdc) DetSimID.
+                DetSimID_t detsim_id = sChannelID_TDC_DetSimIDMap[
+                    std::make_pair(channel.Channel(), Int_t(tdc_closest))
+                ];
+                sWirePlaneHits.AddHit(
+                    detsim_id,
+                    tdc_mean,
+                    tdc_rms,
+                    tdc_amplitude,
+                    tdc_charge
+                );
             }
         }
     }
