@@ -92,7 +92,7 @@ namespace arrakis
             detinfo::DetectorClocksData const& clock_data,
             Int_t det_tick,
             Int_t det_channel,
-            Int_t det_adc,
+            Int_t det_adc
         )
         {
             auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);

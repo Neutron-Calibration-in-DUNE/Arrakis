@@ -885,7 +885,7 @@ namespace arrakis
                             (Int_t) (uncompressed[l]),
                             true
                         );
-                        sWirePlaneHits.CreatePoint(
+                        sWirePlaneHits.CreateHit(
                             clock_data,
                             l,
                             channel,
@@ -904,7 +904,7 @@ namespace arrakis
                         (Int_t) (uncompressed[l]),
                         false
                     );
-                    sWirePlaneHits.CreatePoint(
+                    sWirePlaneHits.CreateHit(
                         clock_data,
                         l,
                         channel,
@@ -966,7 +966,7 @@ namespace arrakis
                     }
                 }
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
-                Double_t tdc_amplitude = std::max_element(val.begin(), val.end());
+                Double_t tdc_amplitude = *std::max_element(val.begin(), val.end());
                 Double_t tdc_charge = std::reduce(val.begin(), val.end());
 
                 // Find the associated (channel, tdc) DetSimID.
