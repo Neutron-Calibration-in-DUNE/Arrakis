@@ -935,6 +935,9 @@ namespace arrakis
         art::InputTag producer_label, art::InputTag instance_label
     )
     {
+        detinfo::DetectorClocksData const clock_data(
+            art::ServiceHandle<detinfo::DetectorClocksService const>()->DataFor(event)
+        );
         for(auto channel : *sMCSimChannelHandle) 
         {
             // Make a list of unique track_ids on this channel and
@@ -971,7 +974,7 @@ namespace arrakis
 
                 // Find the associated (channel, tdc) DetSimID.
                 DetSimID_t detsim_id = sChannelID_TDC_DetSimIDMap[
-                    std::make_pair(channel.Channel(), Int_t(tdc_closest))
+                    std::make_pair(channel.Channel(), clock_data.TPCTDC2Tick(tdc_closest))
                 ];
                 sWirePlaneHits.AddHit(
                     detsim_id,
