@@ -225,6 +225,16 @@ namespace arrakis
         /**
          * Parameters for the simulation labeling logic class.
          */
+        fhicl::Atom<bool> SaveWirePlaneInductionFlag
+        {
+            fhicl::Name("SaveWirePlaneInductionFlag"),
+            fhicl::Comment("Whether to save the flag that labels induction signals.")
+        };
+        fhicl::Atom<bool> SaveWirePlaneUnderThreshold
+        {
+            fhicl::Name("SaveWirePlaneUnderThreshold"),
+            fhicl::Comment("Whether to save the true points which are under threshold.")
+        };
         fhicl::Atom<std::string> NeutronCaptureGammaDetail
         {
             fhicl::Name("NeutronCaptureGammaDetail"),
