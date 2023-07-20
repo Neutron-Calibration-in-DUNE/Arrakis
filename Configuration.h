@@ -56,6 +56,11 @@ namespace arrakis
             fhicl::Name("ProcessRawDigits"),
             fhicl::Comment("Whether to process RawDigits.")
         };
+        fhicl::Atom<bool> ProcessHits
+        {
+            fhicl::Name("ProcessHits"),
+            fhicl::Comment("Whether to process Hits.")
+        };
         fhicl::Atom<bool> ProcessOpDetBacktrackerRecords
         {
             fhicl::Name("ProcessOpDetBacktrackerRecords"),
@@ -220,6 +225,16 @@ namespace arrakis
         /**
          * Parameters for the simulation labeling logic class.
          */
+        fhicl::Atom<bool> SaveWirePlaneInductionFlag
+        {
+            fhicl::Name("SaveWirePlaneInductionFlag"),
+            fhicl::Comment("Whether to save the flag that labels induction signals.")
+        };
+        fhicl::Atom<bool> SaveWirePlaneUnderThreshold
+        {
+            fhicl::Name("SaveWirePlaneUnderThreshold"),
+            fhicl::Comment("Whether to save the true points which are under threshold.")
+        };
         fhicl::Atom<std::string> NeutronCaptureGammaDetail
         {
             fhicl::Name("NeutronCaptureGammaDetail"),

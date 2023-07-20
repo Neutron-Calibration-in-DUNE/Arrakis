@@ -59,9 +59,9 @@ namespace arrakis
          * the particles at the energy deposition location, and the
          * drift parameters theta,
          *      
-         *      channel = f_channel(x,y,z,edep,theta)
-         *      tdc = f_tdc(x,y,z,edep,theta)
-         *      adc = f_adc(x,y,z,edep,theta)
+         *      channel = f_channel(t,x,y,z,edep,theta)
+         *      tdc = f_tdc(t,x,y,z,edep,theta)
+         *      adc = f_adc(t,x,y,z,edep,theta)
         */
         std::vector<Int_t> hit_channel = {};
         std::vector<Int_t> hit_wire = {};
@@ -69,6 +69,11 @@ namespace arrakis
         std::vector<Int_t> hit_tdc = {};
         std::vector<Int_t> hit_adc = {};
         std::vector<Int_t> hit_view = {};
+
+        std::vector<Int_t> hit_mean = {};
+        std::vector<Double_t> hit_rms = {};
+        std::vector<Double_t> hit_amplitude = {};
+        std::vector<Double_t> hit_charge = {};
 
         void clear()
         {
@@ -78,6 +83,47 @@ namespace arrakis
             hit_tdc.clear();
             hit_adc.clear();
             hit_view.clear();
+            hit_mean.clear();
+            hit_rms.clear();
+            hit_amplitude.clear();
+            hit_charge.clear();
+        }
+        void CreateHit(
+            detinfo::DetectorClocksData const& clock_data,
+            Int_t det_tick,
+            Int_t det_channel,
+            Int_t det_adc
+        )
+        {
+            auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
+            auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
+            Double_t wire_multiple = DetectorGeometry::GetInstance()->GetWirePitch(det_view);
+
+            hit_channel.emplace_back(det_channel);
+            hit_wire.emplace_back(wires[det_view].Wire * wire_multiple);
+            hit_tick.emplace_back(det_tick);
+            hit_tdc.emplace_back(clock_data.TPCTick2TDC(det_tick));
+            hit_adc.emplace_back(det_adc);
+            hit_view.emplace_back(det_view);
+
+            hit_mean.emplace_back(-1);
+            hit_rms.emplace_back(-1);
+            hit_amplitude.emplace_back(-1);
+            hit_charge.emplace_back(-1);
+        }
+
+        void AddHit(
+            DetSimID_t detsim,
+            Double_t mean,
+            Double_t rms,
+            Double_t amplitude,
+            Double_t charge
+        )
+        {
+            hit_mean[detsim] = mean;
+            hit_rms[detsim] = rms;
+            hit_amplitude[detsim] = amplitude;
+            hit_charge[detsim] = charge;
         }
     };
 }

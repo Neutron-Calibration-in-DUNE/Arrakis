@@ -110,10 +110,10 @@ namespace arrakis
         /**
          * Process Wire Plane Hits
         */ 
-       /**
+        /**
          * Process Wire Plane Track Topology
         */ 
-       /**
+        /**
          * Process Op Det Point Clouds
         */ 
         FillTTree();
@@ -333,6 +333,7 @@ namespace arrakis
                         wire_plane_point_cloud.particle_label[largest_influence],
                         wire_plane_point_cloud.unique_shape[largest_influence]
                     );
+                    wire_plane_point_cloud.induction_flag[detsim_id] = 1;
                 }
                 else {
                     Logger::GetInstance("SimulationLabelingLogic")->warning(
@@ -995,7 +996,7 @@ namespace arrakis
 
         for (auto ar : ar41)
         {
-            auto ar41_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar41_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar41_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1004,7 +1005,7 @@ namespace arrakis
         }
         for (auto ar : ar40)
         {
-            auto ar40_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar40_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar40_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1013,7 +1014,7 @@ namespace arrakis
         }
         for (auto ar : ar39)
         {
-            auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar39_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar39_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1022,7 +1023,7 @@ namespace arrakis
         }
         for (auto ar : ar38)
         {
-            auto ar38_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar38_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar38_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1031,7 +1032,7 @@ namespace arrakis
         }
         for (auto ar : ar37)
         {
-            auto ar37_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar37_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar37_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1040,7 +1041,7 @@ namespace arrakis
         }
         for (auto ar : ar36)
         {
-            auto ar36_det_sim = mc_data->GetDetSimID_TrackID(ar);
+            auto ar36_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar36_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1049,7 +1050,7 @@ namespace arrakis
         }
         for (auto s : s33)
         {
-            auto s33_det_sim = mc_data->GetDetSimID_TrackID(s);
+            auto s33_det_sim = mc_data->GetAllDetSimID_TrackID(s);
             SetLabels(
                 s33_det_sim, s,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1058,7 +1059,7 @@ namespace arrakis
         }
         for (auto s : s35)
         {
-            auto s35_det_sim = mc_data->GetDetSimID_TrackID(s);
+            auto s35_det_sim = mc_data->GetAllDetSimID_TrackID(s);
             SetLabels(
                 s35_det_sim, s,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1067,7 +1068,7 @@ namespace arrakis
         }
         for (auto s : s36)
         {
-            auto s36_det_sim = mc_data->GetDetSimID_TrackID(s);
+            auto s36_det_sim = mc_data->GetAllDetSimID_TrackID(s);
             SetLabels(
                 s36_det_sim, s,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1076,7 +1077,7 @@ namespace arrakis
         }
         for (auto cl : cl36)
         {
-            auto cl36_det_sim = mc_data->GetDetSimID_TrackID(cl);
+            auto cl36_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
             SetLabels(
                 cl36_det_sim, cl,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1085,7 +1086,7 @@ namespace arrakis
         }
         for (auto cl : cl37)
         {
-            auto cl37_det_sim = mc_data->GetDetSimID_TrackID(cl);
+            auto cl37_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
             SetLabels(
                 cl37_det_sim, cl,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1094,7 +1095,7 @@ namespace arrakis
         }
         for (auto cl : cl39)
         {
-            auto cl39_det_sim = mc_data->GetDetSimID_TrackID(cl);
+            auto cl39_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
             SetLabels(
                 cl39_det_sim, cl,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
@@ -1103,25 +1104,25 @@ namespace arrakis
         }
         for (auto cl : cl40)
         {
-            auto cl40_det_sim = mc_data->GetDetSimID_TrackID(cl);
+            auto cl40_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
             SetLabels(
                 cl40_det_sim, cl,
                 ShapeLabel::Blip, ParticleLabel::NuclearRecoil,
                 IterateShapeLabel()
             );
         }
-        ProcessShowers(ar41_daughters);
-        ProcessShowers(ar40_daughters);
-        ProcessShowers(ar39_daughters);
-        ProcessShowers(ar38_daughters);
-        ProcessShowers(ar37_daughters);
-        ProcessShowers(ar36_daughters);
-        ProcessShowers(s35_daughters);
-        ProcessShowers(s36_daughters);
-        ProcessShowers(cl36_daughters);
-        ProcessShowers(cl37_daughters);
-        ProcessShowers(cl39_daughters);
-        ProcessShowers(cl40_daughters);
+        // ProcessShowers(ar41_daughters);
+        // ProcessShowers(ar40_daughters);
+        // ProcessShowers(ar39_daughters);
+        // ProcessShowers(ar38_daughters);
+        // ProcessShowers(ar37_daughters);
+        // ProcessShowers(ar36_daughters);
+        // ProcessShowers(s35_daughters);
+        // ProcessShowers(s36_daughters);
+        // ProcessShowers(cl36_daughters);
+        // ProcessShowers(cl37_daughters);
+        // ProcessShowers(cl39_daughters);
+        // ProcessShowers(cl40_daughters);
     }
     void SimulationLabelingLogic::ProcessElectronRecoils(
         const Parameters &config, art::Event const &event)
@@ -1144,7 +1145,7 @@ namespace arrakis
         auto inelastic_alpha_daughters = mc_data->GetDaughterTrackID_TrackID(inelastic_alphas);
         for (auto deuteron : deuterons)
         {
-            auto deuteron_det_sim = mc_data->GetDetSimID_TrackID(deuteron);
+            auto deuteron_det_sim = mc_data->GetAllDetSimID_TrackID(deuteron);
             SetLabels(
                 deuteron_det_sim, deuteron,
                 ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
@@ -1153,7 +1154,7 @@ namespace arrakis
         }
         for (auto triton : tritons)
         {
-            auto triton_det_sim = mc_data->GetDetSimID_TrackID(triton);
+            auto triton_det_sim = mc_data->GetAllDetSimID_TrackID(triton);
             SetLabels(
                 triton_det_sim, triton,
                 ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
@@ -1162,16 +1163,16 @@ namespace arrakis
         }
         for (auto inelastic_alpha : inelastic_alphas)
         {
-            auto inelastic_alpha_det_sim = mc_data->GetDetSimID_TrackID(inelastic_alpha);
+            auto inelastic_alpha_det_sim = mc_data->GetAllDetSimID_TrackID(inelastic_alpha);
             SetLabels(
                 inelastic_alpha_det_sim, inelastic_alpha,
                 ShapeLabel::Blip, ParticleLabel::ElectronRecoil,
                 IterateShapeLabel()
             );
         }
-        ProcessShowers(deuteron_daughters);
-        ProcessShowers(triton_daughters);
-        ProcessShowers(inelastic_alpha_daughters);
+        //ProcessShowers(deuteron_daughters);
+        //ProcessShowers(triton_daughters);
+        //ProcessShowers(inelastic_alpha_daughters);
     }
     void SimulationLabelingLogic::ProcessAr39(
         const Parameters &config, art::Event const &event)
@@ -1185,17 +1186,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto ar39 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar39);
+        auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar39);
         for(auto ar : ar39)
         {
-            auto ar39_det_sim = mc_data->GetDetSimID_TrackID(ar);
-            auto ar39_daughters = mc_data->GetDaughterTrackID_TrackID(ar);
+            auto ar39_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar39_det_sim, ar,
                 ShapeLabel::Blip, ParticleLabel::Ar39, 
                 IterateShapeLabel()
             );
-            ProcessShowers(ar39_daughters);
         }
+        //ProcessShowers(ar39_daughters);
     }
     void SimulationLabelingLogic::ProcessAr42(
         const Parameters &config, art::Event const &event)
@@ -1209,17 +1210,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
+        auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42);
         for(auto ar : ar42)
         {
-            auto ar42_det_sim = mc_data->GetDetSimID_TrackID(ar);
-            auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar);
+            auto ar42_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
             SetLabels(
                 ar42_det_sim, ar, 
                 ShapeLabel::Blip, ParticleLabel::Ar42, 
                 IterateShapeLabel()
             );
-            ProcessShowers(ar42_daughters);
         }
+        //ProcessShowers(ar42_daughters);
     }
     void SimulationLabelingLogic::ProcessKr85(
         const Parameters &config, art::Event const &event)
@@ -1234,17 +1235,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto kr85 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Kr85);
+        auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr85);
         for(auto kr : kr85)
         {
-            auto kr85_det_sim = mc_data->GetDetSimID_TrackID(kr);
-            auto kr85_daughters = mc_data->GetDaughterTrackID_TrackID(kr);
+            auto kr85_det_sim = mc_data->GetAllDetSimID_TrackID(kr);
             SetLabels(
                 kr85_det_sim, kr, 
                 ShapeLabel::Blip, ParticleLabel::Kr85, 
                 IterateShapeLabel()
             );
-            ProcessShowers(kr85_daughters);
         }
+        //ProcessShowers(kr85_daughters);
     }
     void SimulationLabelingLogic::ProcessRn222(
         const Parameters &config, art::Event const &event)
@@ -1262,17 +1263,17 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
         for(auto rn : rn222)
         {
-            auto rn222_det_sim = mc_data->GetDetSimID_TrackID(rn);
-            auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn);
+            auto rn222_det_sim = mc_data->GetAllDetSimID_TrackID(rn);
             SetLabels(
                 rn222_det_sim, rn, 
                 ShapeLabel::Blip, ParticleLabel::Rn222, 
                 IterateShapeLabel()
             );
-            ProcessShowers(rn222_daughters);
         }
+        //ProcessShowers(rn222_daughters);
     }
     void SimulationLabelingLogic::ProcessCosmics(
         const Parameters &config, art::Event const &event)

@@ -70,6 +70,9 @@ namespace arrakis
         void ProcessRawDigits(art::Event const& event,
             art::InputTag producer_label, art::InputTag instance_label
         );
+        void ProcessHits(art::Event const& event,
+            art::InputTag producer_label, art::InputTag instance_label
+        );
         void ProcessOpDetBacktrackerRecords(art::Event const& event,
             art::InputTag producer_label
         );
@@ -270,6 +273,7 @@ namespace arrakis
         bool sProcessSimEnergyDeposits = {false};
         bool sProcessSimChannels = {false};
         bool sProcessRawDigits = {false};
+        bool sProcessHits = {false};
         bool sProcessOpDetBacktrackerRecords = {false};
         bool sProcessOpDetWaveforms = {false};
 
@@ -342,6 +346,7 @@ namespace arrakis
 
         // DetSimID maps
         std::map<DetSimID_t, EdepID_List> sDetSimID_EdepIDMap;
+        std::map<std::pair<Int_t, Int_t>, DetSimID_t> sChannelID_TDC_DetSimIDMap;
 
         // OpDetID maps
         std::map<OpDetChannelID_t, OpDetBacktrackerID_t> sOpDetChannelID_OpDetBacktrackerIDMap;

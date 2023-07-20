@@ -11,6 +11,7 @@ Arrakis:
     ProcessSimEnergyDeposits:       true
     ProcessSimChannels:             true
     ProcessRawDigits:               true
+    ProcessHits:                    true
     ProcessOpDetBacktrackerRecords: true
     ProcessOpDetWaveforms:          true
 
@@ -46,6 +47,11 @@ Arrakis:
     SaveWirePlanePointCloud:        true    # save wire plane point cloud data
     SaveWirePlaneTrackTopology:     true    # save wire plane track topology data
     SaveOpDetPointCloud:            true    # save optical detector point cloud data
+
+    # Various extra features to save
+    SaveWirePlaneInductionFlag:     true
+    SaveWirePlaneUnderThreshold:    true
+    
     
     # labeling scheme for neutron captures,
     # simple labels all gammas as "other", while medium labels
