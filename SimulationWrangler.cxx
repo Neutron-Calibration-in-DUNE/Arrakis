@@ -172,26 +172,6 @@ namespace arrakis
             sSimulationWranglerTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
         }
 
-        if (sSaveWirePlaneHits)
-        {
-            Logger::GetInstance("SimulationWrangler")->trace(
-                "setting up WirePlaneHits tree."
-            );
-            sWirePlaneHitsTree = sTFileService->make<TTree>(
-                "mc_wire_plane_hits", "mc_wire_plane_hits"
-            );
-            sWirePlaneHitsTree->Branch("channel", &sWirePlaneHits.hit_channel);
-            sWirePlaneHitsTree->Branch("wire",    &sWirePlaneHits.hit_wire);
-            sWirePlaneHitsTree->Branch("tick",    &sWirePlaneHits.hit_tick);
-            sWirePlaneHitsTree->Branch("tdc",     &sWirePlaneHits.hit_tdc);
-            sWirePlaneHitsTree->Branch("adc",     &sWirePlaneHits.hit_adc);
-            sWirePlaneHitsTree->Branch("view",    &sWirePlaneHits.hit_view);
-            sWirePlaneHitsTree->Branch("mean",    &sWirePlaneHits.hit_mean);
-            sWirePlaneHitsTree->Branch("rms",     &sWirePlaneHits.hit_rms);
-            sWirePlaneHitsTree->Branch("amplitude",     &sWirePlaneHits.hit_amplitude);
-            sWirePlaneHitsTree->Branch("charge",        &sWirePlaneHits.hit_charge);
-        }
-
         if (sSaveWirePlanePointCloud)
         {
             Logger::GetInstance("SimulationWrangler")->trace(
@@ -210,8 +190,23 @@ namespace arrakis
             sWirePlanePointCloudTree->Branch("source_label",    &sWirePlanePointCloud.source_label);
             sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
             sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
+            sWirePlanePointCloudTree->Branch("process_label",  &sWirePlanePointCloud.process_label);
+            sWirePlanePointCloudTree->Branch("unique_source",    &sWirePlanePointCloud.unique_source);
             sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
             sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
+            sWirePlanePointCloudTree->Branch("unique_process",    &sWirePlanePointCloud.unique_process);
+            sWirePlanePointCloudTree->Branch("induction_flag",  &sWirePlanePointCloud.induction_flag);
+        }
+
+        if (sSaveWirePlaneHits)
+        {
+            Logger::GetInstance("SimulationWrangler")->trace(
+                "setting up hits in WirePlanePointCloud tree."
+            );
+            sWirePlanePointCloudTree->Branch("hit_mean",    &sWirePlanePointCloud.hit_mean);
+            sWirePlanePointCloudTree->Branch("hit_rms",     &sWirePlanePointCloud.hit_rms);
+            sWirePlanePointCloudTree->Branch("hit_amplitude",     &sWirePlanePointCloud.hit_amplitude);
+            sWirePlanePointCloudTree->Branch("hit_charge",        &sWirePlanePointCloud.hit_charge);
         }
 
         if (sSaveWirePlaneTrackTopology)
@@ -400,7 +395,6 @@ namespace arrakis
         sMCTruthHandles.clear();
         sPrimaries.clear();
         sEnergyDepositPointCloud.clear();
-        sWirePlaneHits.clear();
         sWirePlanePointCloud.clear();
         sWirePlaneTrackTopology.clear();
         sOpDetPointCloud.clear();
@@ -885,12 +879,6 @@ namespace arrakis
                             (Int_t) (uncompressed[l]),
                             true
                         );
-                        sWirePlaneHits.CreateHit(
-                            clock_data,
-                            l,
-                            channel,
-                            (Int_t) (uncompressed[l])
-                        );
                         digit_index += 1;
                     }
                 }
@@ -903,12 +891,6 @@ namespace arrakis
                         channel,
                         (Int_t) (uncompressed[l]),
                         false
-                    );
-                    sWirePlaneHits.CreateHit(
-                        clock_data,
-                        l,
-                        channel,
-                        (Int_t) (uncompressed[l])
                     );
                     // associate this detector simulation with a particle
                     for(auto track : trackIDsAndEnergy)
@@ -958,10 +940,12 @@ namespace arrakis
                     }
                 }
             }
+            // Now calculate the mean of each distribution of tdc/ne values
+            // for each track id.
             for(auto const& [key, val] : track_id_tdcs)
             {
                 std::vector<Double_t> num_electrons = track_id_nes[key];
-                Double_t tdc_mean = std::reduce(val.begin(), val.end()) / val.size();
+                Double_t tdc_mean = std::accumulate(val.begin(), val.end(), 0.0) / val.size();
                 Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
                 for(auto tdc : val) {
@@ -974,13 +958,13 @@ namespace arrakis
                 }
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
                 Double_t tdc_amplitude = *std::max_element(num_electrons.begin(), num_electrons.end());
-                Double_t tdc_charge = std::reduce(num_electrons.begin(), num_electrons.end());
+                Double_t tdc_charge = std::accumulate(num_electrons.begin(), num_electrons.end(), 0.0);
 
                 // Find the associated (channel, tdc) DetSimID.
                 DetSimID_t detsim_id = sChannelID_TDC_DetSimIDMap[
                     std::make_pair(channel.Channel(), clock_data.TPCTDC2Tick(tdc_closest))
                 ];
-                sWirePlaneHits.AddHit(
+                sWirePlanePointCloud.AddHit(
                     detsim_id,
                     tdc_mean,
                     tdc_rms,
@@ -1607,13 +1591,6 @@ namespace arrakis
                 "saving energy deposit point cloud data to root file."
             );
             sEnergyDepositPointCloudTree->Fill();
-        }
-        if(sSaveWirePlaneHits)
-        {
-            Logger::GetInstance("SimulationWrangler")->trace(
-                "saving wire plane hits info to root file."
-            );
-            sWirePlaneHitsTree->Fill();
         }
         if(sSaveWirePlanePointCloud)
         {

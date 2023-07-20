@@ -73,16 +73,42 @@ namespace arrakis
          * 
          *  (c) particle - the class particle most often refers to the actual 
          *               particle that left behind the energy deposition, however
-         *               this is not always the case and can be subtle.  
+         *               this is not always the case and can be subtle. The label 
+         *               simply refers to the pdg code.
          * 
-         *  (d) unique_shape - this is a clustering label, meant to identify
+         *  (d) process - this label refers to some associated process, such as
+         *               neutron capture for particular gammas, or a neutrino 
+         *               interaction for a group of different tracks.
+         * 
+         *  (e) unique_shape - this is a clustering label, meant to identify
          *               unique instances of a shape, i.e. since when the network
          *               learns to identify the shape 'track', it doesn't also learn
          *               whether two pixels belong to the same track or not.  That
          *               is what this label is meant to do.
          * 
-         *  (e) unique_particle - this is also a clustering label with the same logic
-         *               as unique_shape but now with respect to the 'particle' label.  
+         *  (f) unique_particle - this is also a clustering label with the same logic
+         *               as unique_shape but now with respect to the 'particle' label, 
+         *               which is essentially just the track id.  
+         *  
+         *  (g) unique_process - another clustering label but for unique processes.
+         * 
+         *  (h) hit_mean - a flag indicating the location of a hit, if 0 then no
+         *               hit exists at the point, but a 1 indicates that some hit
+         *               exists.
+         * 
+         *  (i) hit_rms - the rms of the true hit if there is one, otherwise this
+         *               value is zero.
+         * 
+         *  (j) hit_amplitude - the amount of charge at the peak of the hit, if
+         *               the hit exists.
+         *  
+         *  (k) hit_charge - the total amount of charge under the hit.
+         * 
+         *  (l) induction_flag - a 0 or 1 depending on whether the point came from
+         *               induction effects in the detector simulation.  If 0, then
+         *               the point originated from a true hit which was drifted to 
+         *               the wires.  If 1, then the value of the labels was inferred 
+         *               from induction.
         */
         std::vector<Int_t> channel = {};
         std::vector<Int_t> wire = {};
@@ -100,19 +126,28 @@ namespace arrakis
         std::vector<std::vector<SourceLabelInt>> source_labels = {};
         std::vector<std::vector<ShapeLabelInt>> shape_labels = {};
         std::vector<std::vector<ParticleLabelInt>> particle_labels = {};
+        std::vector<std::vector<ProcessLabelInt>> process_labels = {};
         std::vector<std::vector<Int_t>> unique_sources = {};
         std::vector<std::vector<Int_t>> unique_shapes = {};
         std::vector<std::vector<Int_t>> unique_particles = {};
+        std::vector<std::vector<Int_t>> unique_processes = {};
 
         std::vector<SourceLabelInt> source_label = {};
         std::vector<ShapeLabelInt> shape_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
+        std::vector<ProcessLabelInt> process_label = {};
 
         std::vector<Int_t> unique_source = {};
         std::vector<Int_t> unique_shape = {};
         std::vector<Int_t> unique_particle = {};
-        
-        std::vector<Double_t> hit = {};
+        std::vector<Int_t> unique_process = {};
+
+        std::vector<Double_t> hit_mean = {};
+        std::vector<Double_t> hit_rms = {};
+        std::vector<Double_t> hit_amplitude = {};
+        std::vector<Double_t> hit_charge = {};
+
+        std::vector<Bool_t> induction_flag = {};
 
         WirePlanePointCloud()
         {
@@ -136,17 +171,28 @@ namespace arrakis
             source_labels.clear();
             shape_labels.clear();
             particle_labels.clear();
+            process_labels.clear();
             unique_sources.clear();
             unique_shapes.clear();
             unique_particles.clear();
+            unique_processes.clear();
             
             source_label.clear();
             shape_label.clear();
             particle_label.clear();
+            process_label.clear();
 
             unique_source.clear();
             unique_shape.clear();
             unique_particle.clear();
+            unique_process.clear();
+
+            hit_mean.clear();
+            hit_rms.clear();
+            hit_amplitude.clear();
+            hit_charge.clear();
+
+            induction_flag.clear();
         }
 
         // This function is used primarily with Data,
@@ -214,8 +260,11 @@ namespace arrakis
             std::vector<SourceLabelInt> det_source;
             std::vector<ShapeLabelInt> det_shape;
             std::vector<ParticleLabelInt> det_particle;
+            std::vector<ProcessLabelInt> det_process;
+            std::vector<Int_t> det_unique_source;
             std::vector<Int_t> det_unique_shape;
             std::vector<Int_t> det_unique_particle;
+            std::vector<Int_t> det_unique_process;
             Double_t det_energy = 0.0;
             for(auto ide : det_ide)
             {
@@ -229,15 +278,19 @@ namespace arrakis
                     det_source.emplace_back(LabelCast(SourceLabel::Noise));
                     det_shape.emplace_back(LabelCast(ShapeLabel::Noise));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
+                    det_process.emplace_back(LabelCast(ProcessLabel::Noise));
                 }
                 else
                 {
                     det_source.emplace_back(LabelCast(SourceLabel::Undefined));
                     det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
+                    det_process.emplace_back(LabelCast(ProcessLabel::Undefined));
                 }
+                det_unique_source.emplace_back(-1);
                 det_unique_shape.emplace_back(-1);
                 det_unique_particle.emplace_back(-1);
+                det_unique_process.emplace_back(-1);
                 det_energy += ide.energy;
             }
             energy.emplace_back(det_energy);
@@ -249,29 +302,56 @@ namespace arrakis
             source_labels.emplace_back(det_source);
             shape_labels.emplace_back(det_shape);
             particle_labels.emplace_back(det_particle);
+            process_labels.emplace_back(det_process);
+            unique_sources.emplace_back(det_unique_source);
             unique_shapes.emplace_back(det_unique_shape);
             unique_particles.emplace_back(det_unique_particle);
+            unique_process.emplace_back(det_unique_process);
 
             if(det_noise)
             {
                 source_label.emplace_back(LabelCast(SourceLabel::Noise));
                 shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
+                process_label.emplace_back(LabelCast(ProcessLabel::Noise));
             }
             else
             {
                 source_label.emplace_back(LabelCast(SourceLabel::Undefined));
                 shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
+                process_label.emplace_back(LabelCast(ProcessLabel::Undefined));
             }
+            unique_source.emplace_back(-1);
             unique_shape.emplace_back(-1);
             unique_particle.emplace_back(-1);
+            unique_process.emplace_back(-1);
 
-            /**
-             * Determine hit information.
-             * 
-             */
+            // Empty hit information
+            hit_mean.emplace_back(-1);
+            hit_rms.emplace_back(-1);
+            hit_amplitude.emplace_back(-1);
+            hit_charge.emplace_back(-1);
+
+            // We don't know if this is induction yet, 
+            // which we will find out in the labeling logic later.
+            induction_flag.emplace_back(0);
         }
+
+        void AddHit(
+            DetSimID_t detsim,
+            Double_t mean,
+            Double_t rms,
+            Double_t amplitude,
+            Double_t charge
+        )
+        {
+            hit_mean[detsim] = mean;
+            hit_rms[detsim] = rms;
+            hit_amplitude[detsim] = amplitude;
+            hit_charge[detsim] = charge;
+        }
+
         Int_t GetIndex_TrackID(DetSimID_t detsim, TrackID_t track_id)
         {
             for(size_t ii = 0; ii < track_ids[detsim].size(); ii++) {

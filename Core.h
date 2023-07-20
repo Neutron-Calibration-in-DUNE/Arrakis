@@ -206,4 +206,44 @@ namespace arrakis
     { 
         return static_cast<ParticleLabelInt>(label);
     }
+    enum class ProcessLabel
+    {
+        Undefined = -1,
+        Noise = 0,
+        Muon = 1,
+        AntiMuon = 2,
+        Pion0 = 3,
+        PionPlus = 4,
+        PionMinus = 5,
+        Kaon0 = 6,
+        KaonPlus = 7,
+        KaonMinus = 8,
+        Proton = 9,
+        DeltaElectron = 10,
+        MichelElectron = 11,
+        ElectronShower = 12,
+        PositronShower = 13,
+        PhotonShower = 14,
+        NeutronCaptureGamma = 15,
+        NeutronCaptureGamma474 = 16,
+        NeutronCaptureGamma336 = 17,
+        NeutronCaptureGamma256 = 18,
+        NeutronCaptureGamma118 = 19,
+        NeutronCaptureGamma083 = 20,
+        NeutronCaptureGamma051 = 21,
+        NeutronCaptureGamma016 = 22,
+        NeutronCaptureGammaOther = 23,
+        Ar39 = 24,
+        Ar42 = 25,
+        Kr85 = 26,
+        Rn222 = 27,
+        NuclearRecoil = 28,
+        ElectronRecoil = 29,
+        Mixed = 30
+    };
+    using ProcessLabelInt = std::underlying_type<ProcessLabel>::type;
+    inline Int_t LabelCast(ProcessLabel label) 
+    { 
+        return static_cast<ProcessLabelInt>(label);
+    }
 }
