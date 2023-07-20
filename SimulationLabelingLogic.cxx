@@ -331,9 +331,9 @@ namespace arrakis
                         wire_plane_point_cloud.source_label[largest_influence],
                         wire_plane_point_cloud.shape_label[largest_influence],
                         wire_plane_point_cloud.particle_label[largest_influence],
-                        wire_plane_point_cloud.unique_shape[largest_influence]
+                        wire_plane_point_cloud.unique_shape[largest_influence],
+                        1   // induction flag
                     );
-                    wire_plane_point_cloud.induction_flag[detsim_id] = 1;
                 }
                 else {
                     Logger::GetInstance("SimulationLabelingLogic")->warning(

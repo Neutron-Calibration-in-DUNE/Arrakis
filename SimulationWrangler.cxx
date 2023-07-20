@@ -333,7 +333,8 @@ namespace arrakis
     void SimulationWrangler::SetWirePlanePointCloudLabels(
         DetSimID_t detSimID, TrackID_t trackID,
         SourceLabelInt sourceLabel, ShapeLabelInt shapeLabel, 
-        ParticleLabelInt particleLabel, Int_t uniqueShape
+        ParticleLabelInt particleLabel, Int_t uniqueShape,
+        Bool_t inductionFlag
     )
     {
         auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detSimID, trackID);
@@ -350,6 +351,7 @@ namespace arrakis
         sWirePlanePointCloud.particle_label[detSimID] = particleLabel;
         sWirePlanePointCloud.unique_shape[detSimID] = uniqueShape;
         sWirePlanePointCloud.unique_particle[detSimID] = trackID;
+        sWirePlanePointCloud.induction_flag[detSimID] = inductionFlag;
     }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
