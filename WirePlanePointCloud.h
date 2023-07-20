@@ -306,7 +306,7 @@ namespace arrakis
             unique_sources.emplace_back(det_unique_source);
             unique_shapes.emplace_back(det_unique_shape);
             unique_particles.emplace_back(det_unique_particle);
-            unique_process.emplace_back(det_unique_process);
+            unique_processes.emplace_back(det_unique_process);
 
             if(det_noise)
             {
