@@ -135,12 +135,15 @@ namespace arrakis
             sEnergyDepositPointCloudTree = sTFileService->make<TTree>(
                 "mc_edep_point_cloud", "mc_edep_point_cloud"
             );
-            sEnergyDepositPointCloudTree->Branch("x",   &sEnergyDepositPointCloud.x);
-            sEnergyDepositPointCloudTree->Branch("y",   &sEnergyDepositPointCloud.y);
-            sEnergyDepositPointCloudTree->Branch("z",   &sEnergyDepositPointCloud.z);
-            sEnergyDepositPointCloudTree->Branch("energy",   &sEnergyDepositPointCloud.energy);
-            sEnergyDepositPointCloudTree->Branch("track_id",   &sEnergyDepositPointCloud.track_id);
-            sEnergyDepositPointCloudTree->Branch("detsim_id",   &sEnergyDepositPointCloud.detsim_id);
+            sEnergyDepositPointCloudTree->Branch("edep_t",   &sEnergyDepositPointCloud.edep_t);
+            sEnergyDepositPointCloudTree->Branch("edep_x",   &sEnergyDepositPointCloud.edep_x);
+            sEnergyDepositPointCloudTree->Branch("edep_y",   &sEnergyDepositPointCloud.edep_y);
+            sEnergyDepositPointCloudTree->Branch("edep_z",   &sEnergyDepositPointCloud.edep_z);
+            sEnergyDepositPointCloudTree->Branch("edep_energy",   &sEnergyDepositPointCloud.edep_energy);
+            sEnergyDepositPointCloudTree->Branch("edep_num_photons",   &sEnergyDepositPointCloud.edep_num_photons);
+            sEnergyDepositPointCloudTree->Branch("edep_num_electrons",   &sEnergyDepositPointCloud.edep_num_electrons);
+            sEnergyDepositPointCloudTree->Branch("edep_track_id",   &sEnergyDepositPointCloud.edep_track_id);
+            sEnergyDepositPointCloudTree->Branch("edep_detsim_id",   &sEnergyDepositPointCloud.edep_detsim_id);
         }
 
         if (sSaveSimulationWrangler)
@@ -749,10 +752,25 @@ namespace arrakis
         );
         for(auto edep : *sMCSimEnergyDepositHandle)
         {
-            sTrackID_EdepIDMap[edep.TrackID()].emplace_back(edep_index);
+            auto track_id = edep.TrackID();
+            auto edep_t = edep.T();
+            auto edep_x = edep.X();
+            auto edep_y = edep.Y();
+            auto edep_z = edep.Z();
+            auto energy = edep.E();
+            auto num_photons = edep.NumPhotons();
+            auto num_electrons = edep.NumElectrons();
+
             ProcessType process = DetermineEdepProcess(edep);
-            sTrackID_EdepProcessMap[edep.TrackID()].emplace_back(process);
+
+            sEnergyDepositPointCloud.AddPoint(
+                track_id, edep_t, edep_x, edep_y, edep_z,
+                energy, num_photons, num_electrons, process
+            );
+            sTrackID_EdepIDMap[track_id].emplace_back(edep_index);
+            sTrackID_EdepProcessMap[track_id].emplace_back(process);
             sEdepID_DetSimIDMap[edep_index] = {};
+
             edep_index += 1;
         }
     }
@@ -1569,6 +1587,7 @@ namespace arrakis
                         edep.MidPointZ() == track.z
                     ) {
                         edep_ids.emplace_back(edep_id);
+                        sEnergyDepositPointCloud.edep_detsim_id[edep_id].emplace_back(detsim_id);
                         sEdepID_DetSimIDMap[edep_id].emplace_back(detsim_id);
                     }
                 }
