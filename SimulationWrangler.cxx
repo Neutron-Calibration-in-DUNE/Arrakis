@@ -982,6 +982,7 @@ namespace arrakis
                         tdc_closest = tdc;
                     }
                 }
+                std::cout << "tdc_closest: " << tdc_closest << ", " << val[0] << ", " << tdc_mean << ", " << val.size() << std::endl;
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
                 Double_t tdc_amplitude = *std::max_element(num_electrons.begin(), num_electrons.end());
                 Double_t tdc_charge = std::accumulate(num_electrons.begin(), num_electrons.end(), 0.0);
