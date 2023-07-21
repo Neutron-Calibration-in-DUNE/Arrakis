@@ -978,7 +978,7 @@ namespace arrakis
                     temp_tdc_rms += (tdc - tdc_mean) * (tdc - tdc_mean);
                 }
                 for(auto tdc: val) {
-                    if (abs(tdc - tdc_mean) < (tdc_closest - tdc_mean)) {
+                    if (abs(tdc - tdc_mean) < abs(tdc_closest - tdc_mean)) {
                         tdc_closest = tdc;
                     }
                 }
