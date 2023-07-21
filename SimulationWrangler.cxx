@@ -327,7 +327,7 @@ namespace arrakis
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveOpDetPointCloud: " + std::to_string(sSaveOpDetPointCloud)
         );
-        sSaveWirePlaneInductionFlag = config().SaveWirePlaneInductionFlat();
+        sSaveWirePlaneInductionFlag = config().SaveWirePlaneInductionFlag();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveWirePlaneInductionFlag: " + std::to_string(sSaveWirePlaneInductionFlag)
         );
