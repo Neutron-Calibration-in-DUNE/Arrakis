@@ -295,6 +295,9 @@ namespace arrakis
         bool sSaveWirePlaneTrackTopology;
         bool sSaveOpDetPointCloud;
 
+        // Various options
+        bool sSaveWirePlaneInductionFlag;
+
         // Handles
         std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;
         std::vector<std::string>                        sMCTruthHandleLabels;

@@ -198,7 +198,9 @@ namespace arrakis
             sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
             sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
             sWirePlanePointCloudTree->Branch("unique_process",    &sWirePlanePointCloud.unique_process);
-            sWirePlanePointCloudTree->Branch("induction_flag",  &sWirePlanePointCloud.induction_flag);
+            if (sSaveWirePlaneInductionFlag) {
+                sWirePlanePointCloudTree->Branch("induction_flag",  &sWirePlanePointCloud.induction_flag);
+            }
         }
 
         if (sSaveWirePlaneHits)
@@ -324,6 +326,10 @@ namespace arrakis
         sSaveOpDetPointCloud = config().SaveOpDetPointCloud();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveOpDetPointCloud: " + std::to_string(sSaveOpDetPointCloud)
+        );
+        sSaveWirePlaneInductionFlag = config().SaveWirePlaneInductionFlat();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting SaveWirePlaneInductionFlag: " + std::to_string(sSaveWirePlaneInductionFlag)
         );
         sADCThreshold = config().ADCThreshold();
         Logger::GetInstance("SimulationWrangler")->trace(
@@ -966,6 +972,7 @@ namespace arrakis
             {
                 std::vector<Double_t> num_electrons = track_id_nes[key];
                 Double_t tdc_mean = std::accumulate(val.begin(), val.end(), 0.0) / val.size();
+                std::cout << "val: " << val[0] << ", " << tdc_mean << ", " << val.size() << std::endl;
                 Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
                 for(auto tdc : val) {
