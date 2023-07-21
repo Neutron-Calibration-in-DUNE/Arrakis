@@ -346,7 +346,6 @@ namespace arrakis
             Double_t charge
         )
         {
-            std::cout << "channel: " << channel[detsim] << ", tdc: " << tdc[detsim] << std::endl;
             hit_mean[detsim] = mean;
             hit_rms[detsim] = rms;
             hit_amplitude[detsim] = amplitude;

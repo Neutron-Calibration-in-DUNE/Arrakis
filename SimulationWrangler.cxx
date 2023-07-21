@@ -982,7 +982,6 @@ namespace arrakis
                         tdc_closest = tdc;
                     }
                 }
-                std::cout << "tdc_closest: " << tdc_closest << ", " << val[0] << ", " << tdc_mean << ", " << val.size() << std::endl;
                 Double_t tdc_rms = std::sqrt(temp_tdc_rms / val.size());
                 Double_t tdc_amplitude = *std::max_element(num_electrons.begin(), num_electrons.end());
                 Double_t tdc_charge = std::accumulate(num_electrons.begin(), num_electrons.end(), 0.0);
@@ -991,7 +990,6 @@ namespace arrakis
                 DetSimID_t detsim_id = sChannelID_TDC_DetSimIDMap[
                     std::make_pair(channel.Channel(), clock_data.TPCTDC2Tick(tdc_closest))
                 ];
-                std::cout << "hit channel: " << channel.Channel() << ", tdc: " << tdc_closest << std::endl;
                 sWirePlanePointCloud.AddHit(
                     detsim_id,
                     tdc_mean,
