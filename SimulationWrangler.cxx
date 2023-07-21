@@ -972,7 +972,6 @@ namespace arrakis
             {
                 std::vector<Double_t> num_electrons = track_id_nes[key];
                 Double_t tdc_mean = std::accumulate(val.begin(), val.end(), 0.0) / val.size();
-                std::cout << "val: " << val[0] << ", " << tdc_mean << ", " << val.size() << std::endl;
                 Double_t tdc_closest = 10e10;
                 Double_t temp_tdc_rms = 0.0;
                 for(auto tdc : val) {
@@ -991,6 +990,7 @@ namespace arrakis
                 DetSimID_t detsim_id = sChannelID_TDC_DetSimIDMap[
                     std::make_pair(channel.Channel(), clock_data.TPCTDC2Tick(tdc_closest))
                 ];
+                std::cout << "hit channel: " << channel.Channel() << ", tdc: " << tdc_closest << std::endl;
                 sWirePlanePointCloud.AddHit(
                     detsim_id,
                     tdc_mean,
