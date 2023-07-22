@@ -191,13 +191,13 @@ namespace arrakis
             sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
             sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
             sWirePlanePointCloudTree->Branch("source_label",    &sWirePlanePointCloud.source_label);
-            sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
+            sWirePlanePointCloudTree->Branch("topology_label",     &sWirePlanePointCloud.topology_label);
             sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
-            sWirePlanePointCloudTree->Branch("process_label",  &sWirePlanePointCloud.process_label);
+            sWirePlanePointCloudTree->Branch("physics_label",  &sWirePlanePointCloud.physics_label);
             sWirePlanePointCloudTree->Branch("unique_source",    &sWirePlanePointCloud.unique_source);
-            sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
+            sWirePlanePointCloudTree->Branch("unique_topology",    &sWirePlanePointCloud.unique_topology);
             sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
-            sWirePlanePointCloudTree->Branch("unique_process",    &sWirePlanePointCloud.unique_process);
+            sWirePlanePointCloudTree->Branch("unique_physics",    &sWirePlanePointCloud.unique_physics);
             if (sSaveWirePlaneInductionFlag) {
                 sWirePlanePointCloudTree->Branch("induction_flag",  &sWirePlanePointCloud.induction_flag);
             }
@@ -255,9 +255,9 @@ namespace arrakis
             sOpDetPointCloudTree->Branch("adc",     &sOpDetPointCloud.adc);
             sOpDetPointCloudTree->Branch("energy",  &sOpDetPointCloud.energy);
             sOpDetPointCloudTree->Branch("source_label",    &sOpDetPointCloud.source_label);
-            sOpDetPointCloudTree->Branch("shape_label",     &sOpDetPointCloud.shape_label);
+            sOpDetPointCloudTree->Branch("topology_label",     &sOpDetPointCloud.topology_label);
             sOpDetPointCloudTree->Branch("particle_label",  &sOpDetPointCloud.particle_label);
-            sOpDetPointCloudTree->Branch("unique_shape",    &sOpDetPointCloud.unique_shape);
+            sOpDetPointCloudTree->Branch("unique_topology",    &sOpDetPointCloud.unique_topology);
             sOpDetPointCloudTree->Branch("unique_particle", &sOpDetPointCloud.unique_particle);
         }
 
@@ -338,24 +338,26 @@ namespace arrakis
     }
     void SimulationWrangler::SetWirePlanePointCloudLabels(
         DetSimID_t detSimID, TrackID_t trackID,
-        SourceLabelInt sourceLabel, ShapeLabelInt shapeLabel, 
-        ParticleLabelInt particleLabel, Int_t uniqueShape,
-        Bool_t inductionFlag
+        SourceLabelInt sourceLabel, TopologyLabelInt topologyLabel, 
+        ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+        Int_t uniqueShape, Bool_t inductionFlag
     )
     {
         auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detSimID, trackID);
         if(track_index != -1)
         {
             sWirePlanePointCloud.source_labels[detSimID][track_index] = sourceLabel;
-            sWirePlanePointCloud.shape_labels[detSimID][track_index] = shapeLabel;
+            sWirePlanePointCloud.topology_labels[detSimID][track_index] = topologyLabel;
             sWirePlanePointCloud.particle_labels[detSimID][track_index] = particleLabel;
+            SetWirePlanePointCloudLabels.physics_labels[detSimID][track_index] = physicsLabel;
             sWirePlanePointCloud.unique_shapes[detSimID][track_index] = uniqueShape;
             sWirePlanePointCloud.unique_particles[detSimID][track_index] = trackID;
         }
         sWirePlanePointCloud.source_label[detSimID] = sourceLabel;
-        sWirePlanePointCloud.shape_label[detSimID] = shapeLabel;
+        sWirePlanePointCloud.topology_label[detSimID] = topologyLabel;
         sWirePlanePointCloud.particle_label[detSimID] = particleLabel;
-        sWirePlanePointCloud.unique_shape[detSimID] = uniqueShape;
+        sWirePlanePointCloud.physics_label[detSimID] = physicsLabel;
+        sWirePlanePointCloud.unique_topology[detSimID] = uniqueShape;
         sWirePlanePointCloud.unique_particle[detSimID] = trackID;
         sWirePlanePointCloud.induction_flag[detSimID] = inductionFlag;
     }

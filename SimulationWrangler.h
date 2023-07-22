@@ -102,8 +102,8 @@ namespace arrakis
         void SetWirePlanePointCloudLabels(
             DetSimID_t detSimID, TrackID_t trackID,
             SourceLabelInt sourceLabel, ShapeLabelInt shapeLabel, 
-            ParticleLabelInt particleLabel, Int_t uniqueShape,
-            Bool_t inductionFlag = 0
+            ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+            Int_t uniqueShape, Bool_t inductionFlag = 0
         );
 
         /**
