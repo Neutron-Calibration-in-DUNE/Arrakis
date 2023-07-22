@@ -381,7 +381,7 @@ namespace arrakis
                         wire_plane_point_cloud.topology_label[largest_influence],
                         wire_plane_point_cloud.particle_label[largest_influence],
                         wire_plane_point_cloud.physics_label[largest_influence],
-                        wire_plane_point_cloud.unique_shape[largest_influence],
+                        wire_plane_point_cloud.unique_topology[largest_influence],
                         1   // induction flag
                     );
                 }
