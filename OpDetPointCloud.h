@@ -68,7 +68,7 @@ namespace arrakis
         std::vector<std::vector<Int_t>> unique_particles = {};
 
         std::vector<SourceLabelInt> source_label = {};
-        std::vector<ShapeLabelInt> shape_label = {};
+        std::vector<TopologyLabelInt> shape_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
 
         std::vector<Int_t> unique_source = {};
@@ -146,7 +146,7 @@ namespace arrakis
             std::vector<Double_t> det_y;
             std::vector<Double_t> det_z;
             std::vector<SourceLabelInt> det_source;
-            std::vector<ShapeLabelInt> det_shape;
+            std::vector<TopologyLabelInt> det_shape;
             std::vector<ParticleLabelInt> det_particle;
             std::vector<Int_t> det_unique_shape;
             std::vector<Int_t> det_unique_particle;
