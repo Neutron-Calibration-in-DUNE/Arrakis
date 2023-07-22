@@ -129,7 +129,7 @@ namespace arrakis
         std::vector<std::vector<Int_t>> unique_sources = {};
         std::vector<std::vector<Int_t>> unique_topologies = {};
         std::vector<std::vector<Int_t>> unique_particles = {};
-        std::vector<std::vector<Int_t>> unique_physics = {};
+        std::vector<std::vector<Int_t>> unique_physics_processes = {};
 
         std::vector<SourceLabelInt> source_label = {};
         std::vector<TopologyLabelInt> topology_label = {};
@@ -174,7 +174,7 @@ namespace arrakis
             unique_sources.clear();
             unique_topologies.clear();
             unique_particles.clear();
-            unique_physics.clear();
+            unique_physics_processes.clear();
             
             source_label.clear();
             topology_label.clear();
@@ -252,11 +252,11 @@ namespace arrakis
             std::vector<SourceLabelInt> det_source;
             std::vector<TopologyLabelInt> det_shape;
             std::vector<ParticleLabelInt> det_particle;
-            std::vector<PhysicsLabelInt> det_process;
+            std::vector<PhysicsLabelInt> det_physics;
             std::vector<Int_t> det_unique_source;
             std::vector<Int_t> det_unique_topology;
             std::vector<Int_t> det_unique_particle;
-            std::vector<Int_t> det_unique_physics;
+            std::vector<Int_t> det_unique_physics_processes;
             Double_t det_energy = 0.0;
             for(auto ide : det_ide)
             {
@@ -270,19 +270,19 @@ namespace arrakis
                     det_source.emplace_back(LabelCast(SourceLabel::Noise));
                     det_shape.emplace_back(LabelCast(TopologyLabel::Noise));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
-                    det_process.emplace_back(LabelCast(PhysicsLabel::Noise));
+                    det_physics.emplace_back(LabelCast(PhysicsLabel::Noise));
                 }
                 else
                 {
                     det_source.emplace_back(LabelCast(SourceLabel::Undefined));
                     det_shape.emplace_back(LabelCast(TopologyLabel::Undefined));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
-                    det_process.emplace_back(LabelCast(PhysicsLabel::Undefined));
+                    det_physics.emplace_back(LabelCast(PhysicsLabel::Undefined));
                 }
                 det_unique_source.emplace_back(-1);
                 det_unique_topology.emplace_back(-1);
                 det_unique_particle.emplace_back(-1);
-                det_unique_physics.emplace_back(-1);
+                det_unique_physics_processes.emplace_back(-1);
                 det_energy += ide.energy;
             }
             energy.emplace_back(det_energy);
@@ -294,11 +294,11 @@ namespace arrakis
             source_labels.emplace_back(det_source);
             topology_labels.emplace_back(det_shape);
             particle_labels.emplace_back(det_particle);
-            physics_labels.emplace_back(det_process);
+            physics_labels.emplace_back(det_physics);
             unique_sources.emplace_back(det_unique_source);
             unique_topologies.emplace_back(det_unique_topology);
             unique_particles.emplace_back(det_unique_particle);
-            unique_physics.emplace_back(det_unique_physics);
+            unique_physics_processes.emplace_back(det_unique_physics_processes);
 
             if(det_noise)
             {

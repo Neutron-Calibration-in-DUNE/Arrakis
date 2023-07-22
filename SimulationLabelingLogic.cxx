@@ -293,7 +293,8 @@ namespace arrakis
             }
         }
     }
-    void SimulationLabelingLogic::ProcessNoise(DetSimID_t detSimID, DetSimID_t largestInfluence)
+    void SimulationLabelingLogic::ProcessNoise(
+        const Parameters &config, art::Event const &event)
     {
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing noise."

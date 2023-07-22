@@ -349,8 +349,8 @@ namespace arrakis
             sWirePlanePointCloud.source_labels[detSimID][track_index] = sourceLabel;
             sWirePlanePointCloud.topology_labels[detSimID][track_index] = topologyLabel;
             sWirePlanePointCloud.particle_labels[detSimID][track_index] = particleLabel;
-            SetWirePlanePointCloudLabels.physics_labels[detSimID][track_index] = physicsLabel;
-            sWirePlanePointCloud.unique_shapes[detSimID][track_index] = uniqueShape;
+            sWirePlanePointCloud.physics_labels[detSimID][track_index] = physicsLabel;
+            sWirePlanePointCloud.unique_topologies[detSimID][track_index] = uniqueShape;
             sWirePlanePointCloud.unique_particles[detSimID][track_index] = trackID;
         }
         sWirePlanePointCloud.source_label[detSimID] = sourceLabel;
