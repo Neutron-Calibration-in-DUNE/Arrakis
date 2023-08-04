@@ -950,8 +950,12 @@ namespace arrakis
         );
         for(auto channel : *sMCSimChannelHandle) 
         {
-            // Make a list of unique track_ids on this channel and
-            // group tdcs/ne accordingly.
+            /** Make a list of unique track_ids on this channel and
+             * group tdcs/ne accordingly.  This is not necessarily
+             * the best way to do this, since there are cases where
+             * several hits from the same particle could be on the
+             * same channel.  
+             */
             std::map<TrackID_t, std::vector<Int_t>> track_id_tdcs;
             std::map<TrackID_t, std::vector<Double_t>> track_id_nes;
             for(auto tdcide : channel.TDCIDEMap()) 
