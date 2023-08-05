@@ -101,8 +101,9 @@ namespace arrakis
         WirePlanePointCloud& GetWirePlanePointCloud()               { return sWirePlanePointCloud; }
         void SetWirePlanePointCloudLabels(
             DetSimID_t detSimID, TrackID_t trackID,
-            SourceLabelInt sourceLabel, ShapeLabelInt shapeLabel, 
-            ParticleLabelInt particleLabel, Int_t uniqueShape
+            SourceLabelInt sourceLabel, TopologyLabelInt shapeLabel, 
+            ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+            Int_t uniqueShape, Bool_t inductionFlag = 0
         );
 
         /**
@@ -293,6 +294,9 @@ namespace arrakis
         bool sSaveWirePlanePointCloud;
         bool sSaveWirePlaneTrackTopology;
         bool sSaveOpDetPointCloud;
+
+        // Various options
+        bool sSaveWirePlaneInductionFlag;
 
         // Handles
         std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;

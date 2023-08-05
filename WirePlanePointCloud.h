@@ -64,33 +64,32 @@ namespace arrakis
          *               Pulsed Neutron Source, and 'HEPevt', which comes from
          *               any HEPevt provided file.
          * 
-         *  (b) shape - shape refers to a high level description of the geometry
+         *  (b) topology - topology refers to a high level description of the geometry
          *               of the associated charge depositions.  Long one-dimensional
          *               tracks are aptly called 'track', while electron/position/
-         *               photon showers are called 'shower'.  Other current shapes 
-         *               are 'blip', which are low energy activity, and a specific
-         *               blip 'neutron_capture'.
+         *               photon showers are called 'shower'.  Other current topologies 
+         *               are 'blip', which are low energy activity.
          * 
          *  (c) particle - the class particle most often refers to the actual 
          *               particle that left behind the energy deposition, however
          *               this is not always the case and can be subtle. The label 
          *               simply refers to the pdg code.
          * 
-         *  (d) process - this label refers to some associated process, such as
+         *  (d) physics - this label refers to some associated physics process, such as
          *               neutron capture for particular gammas, or a neutrino 
          *               interaction for a group of different tracks.
          * 
-         *  (e) unique_shape - this is a clustering label, meant to identify
-         *               unique instances of a shape, i.e. since when the network
-         *               learns to identify the shape 'track', it doesn't also learn
+         *  (e) unique_topology - this is a clustering label, meant to identify
+         *               unique instances of a topology, i.e. since when the network
+         *               learns to identify the topology 'track', it doesn't also learn
          *               whether two pixels belong to the same track or not.  That
          *               is what this label is meant to do.
          * 
          *  (f) unique_particle - this is also a clustering label with the same logic
-         *               as unique_shape but now with respect to the 'particle' label, 
+         *               as unique_topology but now with respect to the 'particle' label, 
          *               which is essentially just the track id.  
          *  
-         *  (g) unique_process - another clustering label but for unique processes.
+         *  (g) unique_physics - another clustering label but for unique physics processes.
          * 
          *  (h) hit_mean - a flag indicating the location of a hit, if 0 then no
          *               hit exists at the point, but a 1 indicates that some hit
@@ -124,23 +123,23 @@ namespace arrakis
         std::vector<std::vector<Double_t>> y = {};
         std::vector<std::vector<Double_t>> z = {};
         std::vector<std::vector<SourceLabelInt>> source_labels = {};
-        std::vector<std::vector<ShapeLabelInt>> shape_labels = {};
+        std::vector<std::vector<TopologyLabelInt>> topology_labels = {};
         std::vector<std::vector<ParticleLabelInt>> particle_labels = {};
-        std::vector<std::vector<ProcessLabelInt>> process_labels = {};
+        std::vector<std::vector<PhysicsLabelInt>> physics_labels = {};
         std::vector<std::vector<Int_t>> unique_sources = {};
-        std::vector<std::vector<Int_t>> unique_shapes = {};
+        std::vector<std::vector<Int_t>> unique_topologies = {};
         std::vector<std::vector<Int_t>> unique_particles = {};
-        std::vector<std::vector<Int_t>> unique_processes = {};
+        std::vector<std::vector<Int_t>> unique_physics_processes = {};
 
         std::vector<SourceLabelInt> source_label = {};
-        std::vector<ShapeLabelInt> shape_label = {};
+        std::vector<TopologyLabelInt> topology_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
-        std::vector<ProcessLabelInt> process_label = {};
+        std::vector<PhysicsLabelInt> physics_label = {};
 
         std::vector<Int_t> unique_source = {};
-        std::vector<Int_t> unique_shape = {};
+        std::vector<Int_t> unique_topology = {};
         std::vector<Int_t> unique_particle = {};
-        std::vector<Int_t> unique_process = {};
+        std::vector<Int_t> unique_physics = {};
 
         std::vector<Double_t> hit_mean = {};
         std::vector<Double_t> hit_rms = {};
@@ -169,23 +168,23 @@ namespace arrakis
             y.clear();
             z.clear();
             source_labels.clear();
-            shape_labels.clear();
+            topology_labels.clear();
             particle_labels.clear();
-            process_labels.clear();
+            physics_labels.clear();
             unique_sources.clear();
-            unique_shapes.clear();
+            unique_topologies.clear();
             unique_particles.clear();
-            unique_processes.clear();
+            unique_physics_processes.clear();
             
             source_label.clear();
-            shape_label.clear();
+            topology_label.clear();
             particle_label.clear();
-            process_label.clear();
+            physics_label.clear();
 
             unique_source.clear();
-            unique_shape.clear();
+            unique_topology.clear();
             unique_particle.clear();
-            unique_process.clear();
+            unique_physics.clear();
 
             hit_mean.clear();
             hit_rms.clear();
@@ -233,13 +232,6 @@ namespace arrakis
              * The detector channel is first converted to a wire number and
              * we also determine the view.  Then, the tdc value is determined
              * from the detector clock data.
-             * 
-             * We determine if this point corresponds to a hit by matching
-             * the tdc time with the x and t values from the original energy 
-             * deposition.  If a hit occurs, we associate the Q/(qr^2) value
-             * to the hit vector, where Q is the total charge of the electron
-             * packet, q is a scale factor, and r^2 is the distance from the 
-             * center of charge of the packet. 
             */
             auto wires = DetectorGeometry::GetInstance()->ChannelToWire(det_channel);
             auto det_view = DetectorGeometry::GetInstance()->View(det_channel);
@@ -258,13 +250,13 @@ namespace arrakis
             std::vector<Double_t> det_y;
             std::vector<Double_t> det_z;
             std::vector<SourceLabelInt> det_source;
-            std::vector<ShapeLabelInt> det_shape;
+            std::vector<TopologyLabelInt> det_shape;
             std::vector<ParticleLabelInt> det_particle;
-            std::vector<ProcessLabelInt> det_process;
+            std::vector<PhysicsLabelInt> det_physics;
             std::vector<Int_t> det_unique_source;
-            std::vector<Int_t> det_unique_shape;
+            std::vector<Int_t> det_unique_topology;
             std::vector<Int_t> det_unique_particle;
-            std::vector<Int_t> det_unique_process;
+            std::vector<Int_t> det_unique_physics_processes;
             Double_t det_energy = 0.0;
             for(auto ide : det_ide)
             {
@@ -276,21 +268,21 @@ namespace arrakis
                 if(det_noise)
                 {
                     det_source.emplace_back(LabelCast(SourceLabel::Noise));
-                    det_shape.emplace_back(LabelCast(ShapeLabel::Noise));
+                    det_shape.emplace_back(LabelCast(TopologyLabel::Noise));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
-                    det_process.emplace_back(LabelCast(ProcessLabel::Noise));
+                    det_physics.emplace_back(LabelCast(PhysicsLabel::Noise));
                 }
                 else
                 {
                     det_source.emplace_back(LabelCast(SourceLabel::Undefined));
-                    det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
+                    det_shape.emplace_back(LabelCast(TopologyLabel::Undefined));
                     det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
-                    det_process.emplace_back(LabelCast(ProcessLabel::Undefined));
+                    det_physics.emplace_back(LabelCast(PhysicsLabel::Undefined));
                 }
                 det_unique_source.emplace_back(-1);
-                det_unique_shape.emplace_back(-1);
+                det_unique_topology.emplace_back(-1);
                 det_unique_particle.emplace_back(-1);
-                det_unique_process.emplace_back(-1);
+                det_unique_physics_processes.emplace_back(-1);
                 det_energy += ide.energy;
             }
             energy.emplace_back(det_energy);
@@ -300,32 +292,32 @@ namespace arrakis
             y.emplace_back(det_y);
             z.emplace_back(det_z);
             source_labels.emplace_back(det_source);
-            shape_labels.emplace_back(det_shape);
+            topology_labels.emplace_back(det_shape);
             particle_labels.emplace_back(det_particle);
-            process_labels.emplace_back(det_process);
+            physics_labels.emplace_back(det_physics);
             unique_sources.emplace_back(det_unique_source);
-            unique_shapes.emplace_back(det_unique_shape);
+            unique_topologies.emplace_back(det_unique_topology);
             unique_particles.emplace_back(det_unique_particle);
-            unique_processes.emplace_back(det_unique_process);
+            unique_physics_processes.emplace_back(det_unique_physics_processes);
 
             if(det_noise)
             {
                 source_label.emplace_back(LabelCast(SourceLabel::Noise));
-                shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
+                topology_label.emplace_back(LabelCast(TopologyLabel::Noise));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
-                process_label.emplace_back(LabelCast(ProcessLabel::Noise));
+                physics_label.emplace_back(LabelCast(PhysicsLabel::Noise));
             }
             else
             {
                 source_label.emplace_back(LabelCast(SourceLabel::Undefined));
-                shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
+                topology_label.emplace_back(LabelCast(TopologyLabel::Undefined));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
-                process_label.emplace_back(LabelCast(ProcessLabel::Undefined));
+                physics_label.emplace_back(LabelCast(PhysicsLabel::Undefined));
             }
             unique_source.emplace_back(-1);
-            unique_shape.emplace_back(-1);
+            unique_topology.emplace_back(-1);
             unique_particle.emplace_back(-1);
-            unique_process.emplace_back(-1);
+            unique_physics.emplace_back(-1);
 
             // Empty hit information
             hit_mean.emplace_back(-1);

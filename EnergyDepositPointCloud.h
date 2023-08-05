@@ -42,12 +42,17 @@ namespace arrakis
 {
     struct EnergyDepositPointCloud
     {
-        std::vector<Double_t> x = {};
-        std::vector<Double_t> y = {};
-        std::vector<Double_t> z = {};
-        std::vector<Double_t> energy = {};
-        std::vector<TrackID_t>  track_id = {};
-        std::vector<DetSimID_t> detsim_id = {};
+        std::vector<Double_t> edep_t = {};
+        std::vector<Double_t> edep_x = {};
+        std::vector<Double_t> edep_y = {};
+        std::vector<Double_t> edep_z = {};
+        std::vector<Double_t> edep_energy = {};
+        std::vector<Int_t> edep_num_photons = {};
+        std::vector<Int_t> edep_num_electrons = {};
+        std::vector<TrackID_t>  edep_track_id = {};
+        std::vector<ProcessType> edep_process = {};
+
+        std::vector<std::vector<DetSimID_t>> edep_detsim_id = {};
 
         EnergyDepositPointCloud()
         {
@@ -55,17 +60,35 @@ namespace arrakis
 
         void clear()
         {
-            x.clear();
-            y.clear();
-            z.clear();
-            energy.clear();
-            track_id.clear();
-            detsim_id.clear();
+            edep_t.clear();
+            edep_x.clear();
+            edep_y.clear();
+            edep_z.clear();
+            edep_energy.clear();
+            edep_num_photons.clear();
+            edep_num_electrons.clear();
+            edep_track_id.clear();
+            edep_process.clear();
+            edep_detsim_id.clear();
         }
 
         void AddPoint(
+            TrackID_t track_id, Double_t t, Double_t x, 
+            Double_t y, Double_t z, Double_t energy, 
+            Int_t num_photons, Int_t num_electrons,
+            ProcessType process
         )
         {
+            edep_track_id.emplace_back(track_id);
+            edep_t.emplace_back(t);
+            edep_x.emplace_back(x);
+            edep_y.emplace_back(y);
+            edep_z.emplace_back(z);
+            edep_energy.emplace_back(energy);
+            edep_num_photons.emplace_back(num_photons);
+            edep_num_electrons.emplace_back(num_electrons);
+            edep_process.emplace_back(process);
+            edep_detsim_id.emplace_back(std::vector<DetSimID_t>());
         }
     };
 }

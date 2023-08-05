@@ -137,8 +137,7 @@ namespace arrakis
         Beam = 2,
         Radiological = 3,
         PulsedNeutronSource = 4,
-        HEPevt = 5,
-        Mixed = 6
+        HEPevt = 5
     };
     using SourceLabelInt = std::underlying_type<SourceLabel>::type;
     inline Int_t LabelCast(SourceLabel label)
@@ -148,20 +147,18 @@ namespace arrakis
     /**
      * 
     */
-    enum class ShapeLabel
+    enum class TopologyLabel
     {
         Undefined = -1,
         Noise = 0,
         Blip = 1,
         Track = 2,
-        Shower = 3,
-        NeutronCapture = 4,
-        Mixed = 5
+        Shower = 3
     };
-    using ShapeLabelInt = std::underlying_type<ShapeLabel>::type;
-    inline Int_t LabelCast(ShapeLabel label) 
+    using TopologyLabelInt = std::underlying_type<TopologyLabel>::type;
+    inline Int_t LabelCast(TopologyLabel label) 
     { 
-        return static_cast<ShapeLabelInt>(label);
+        return static_cast<TopologyLabelInt>(label);
     }
     /**
      * 
@@ -170,80 +167,71 @@ namespace arrakis
     {
         Undefined = -1,
         Noise = 0,
-        Muon = 1,
-        AntiMuon = 2,
-        Pion0 = 3,
-        PionPlus = 4,
-        PionMinus = 5,
-        Kaon0 = 6,
-        KaonPlus = 7,
-        KaonMinus = 8,
-        Proton = 9,
-        DeltaElectron = 10,
-        MichelElectron = 11,
-        ElectronShower = 12,
-        PositronShower = 13,
-        PhotonShower = 14,
-        NeutronCaptureGamma = 15,
-        NeutronCaptureGamma474 = 16,
-        NeutronCaptureGamma336 = 17,
-        NeutronCaptureGamma256 = 18,
-        NeutronCaptureGamma118 = 19,
-        NeutronCaptureGamma083 = 20,
-        NeutronCaptureGamma051 = 21,
-        NeutronCaptureGamma016 = 22,
-        NeutronCaptureGammaOther = 23,
-        Ar39 = 24,
-        Ar42 = 25,
-        Kr85 = 26,
-        Rn222 = 27,
-        NuclearRecoil = 28,
-        ElectronRecoil = 29,
-        Mixed = 30
+        // Particle labels are simply the PDG codes
+        Electron = 11,
+        Positron = -11,
+        ElectronNeutrino = 12,
+        AntiElectronNeutrino = -12,
+        Muon = 13,
+        AntiMuon = -13,
+        MuonNeutrino = 14,
+        AntiMuonNeutrino = -14,
+        Tauon = 15,
+        AntiTauon = -15,
+        TauonNeutrino = 16,
+        AntiTauonNeutrino = -16,
+        Gamma = 22,
+        Pion0 = 111,
+        PionPlus = 211,
+        PionMinus = -211,
+        Kaon0 = 311,
+        KaonPlus = 321,
+        KaonMinus = -321,
+        Neutron = 2112,
+        AntiNeutron = -2112,
+        Proton = 2212,
+        AntiProton = -2212,
+        Deuteron = 1000010020,
+        Triton = 1000010030,
+        Alpha = 1000020040
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
     { 
         return static_cast<ParticleLabelInt>(label);
     }
-    enum class ProcessLabel
+    enum class PhysicsLabel
     {
         Undefined = -1,
         Noise = 0,
-        Muon = 1,
-        AntiMuon = 2,
-        Pion0 = 3,
-        PionPlus = 4,
-        PionMinus = 5,
-        Kaon0 = 6,
-        KaonPlus = 7,
-        KaonMinus = 8,
-        Proton = 9,
-        DeltaElectron = 10,
-        MichelElectron = 11,
-        ElectronShower = 12,
-        PositronShower = 13,
-        PhotonShower = 14,
-        NeutronCaptureGamma = 15,
-        NeutronCaptureGamma474 = 16,
-        NeutronCaptureGamma336 = 17,
-        NeutronCaptureGamma256 = 18,
-        NeutronCaptureGamma118 = 19,
-        NeutronCaptureGamma083 = 20,
-        NeutronCaptureGamma051 = 21,
-        NeutronCaptureGamma016 = 22,
-        NeutronCaptureGammaOther = 23,
-        Ar39 = 24,
-        Ar42 = 25,
-        Kr85 = 26,
-        Rn222 = 27,
-        NuclearRecoil = 28,
-        ElectronRecoil = 29,
-        Mixed = 30
+        // Track-like objects
+        MIPIonization = 1,
+        HIPIonization = 2,
+        DeltaElectron = 3,
+        MichelElectron = 4,
+        // Shower-like objects
+        ElectronShower = 5,
+        PositronShower = 6,
+        PhotonShower = 7,
+        // Blip-like objects
+        NeutronCaptureGamma474 = 8,
+        NeutronCaptureGamma336 = 9,
+        NeutronCaptureGamma256 = 10,
+        NeutronCaptureGamma118 = 11,
+        NeutronCaptureGamma083 = 12,
+        NeutronCaptureGamma051 = 13,
+        NeutronCaptureGamma016 = 14,
+        NeutronCaptureGammaOther = 15,
+        Ar39 = 16,
+        Ar42 = 17,
+        Kr85 = 18,
+        Rn222 = 19,
+        NuclearRecoil = 20,
+        ElectronRecoil = 21
     };
-    using ProcessLabelInt = std::underlying_type<ProcessLabel>::type;
-    inline Int_t LabelCast(ProcessLabel label) 
+    using PhysicsLabelInt = std::underlying_type<PhysicsLabel>::type;
+    inline Int_t LabelCast(PhysicsLabel label) 
     { 
-        return static_cast<ProcessLabelInt>(label);
+        return static_cast<PhysicsLabelInt>(label);
     }
 }

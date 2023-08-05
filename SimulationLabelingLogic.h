@@ -56,35 +56,35 @@ namespace arrakis
 
         // methods for processing event data
         void ResetEvent();
-        Int_t IterateShapeLabel();
+        Int_t IterateTopologyLabel();
         void ProcessEvent(const Parameters& config, art::Event const& event);
 
         SourceLabel DetermineSourceLabel(TrackID_t trackID);
 
         void SetLabels(
             DetSimID_List detsimID, TrackID_t track_id,
-            ShapeLabel shape, ParticleLabel particle,
-            Int_t shape_label
+            TopologyLabel topology, PhysicsLabel physics,
+            Int_t unique_topology
         );
         void SetLabels(
             DetSimID_Collection detsimIDs, TrackID_List trackIDList,
-            ShapeLabel shape, ParticleLabel particle,
-            Int_t shape_label
+            TopologyLabel topology, PhysicsLabel physics,
+            Int_t unique_topology
         );
         void SetLabels(
             std::vector<DetSimID_Collection> detsimIDs, 
             TrackID_Collection trackIDCollection,
-            ShapeLabel shape, ParticleLabel particle,
-            Int_t shape_label
+            TopologyLabel topology, PhysicsLabel physics,
+            Int_t unique_topology
         );
 
         void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
 
-        void ProcessShowers(TrackID_t trackID, Int_t shapeLabel);
-        void ProcessShowers(TrackID_List trackID, Int_t shapeLabel);
+        void ProcessShowers(TrackID_t trackID, Int_t TopologyLabel);
+        void ProcessShowers(TrackID_List trackID, Int_t TopologyLabel);
         void ProcessShowers(TrackID_Collection trackID);
 
-        void ProcessNoise(DetSimID_t detSimID, DetSimID_t largestInfluence);
+        void ProcessNoise(const Parameters& config, art::Event const& event);
 
         void ProcessElectrons(const Parameters& config, art::Event const& event);
         void ProcessPositrons(const Parameters& config, art::Event const& event);
@@ -125,7 +125,7 @@ namespace arrakis
         // Output TTree
         art::ServiceHandle<art::TFileService> mTFileService;
 
-        Int_t mShapeLabel;
+        Int_t mTopologyLabel;
         Int_t mParticleLabel;
     };
 }

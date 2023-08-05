@@ -135,12 +135,15 @@ namespace arrakis
             sEnergyDepositPointCloudTree = sTFileService->make<TTree>(
                 "mc_edep_point_cloud", "mc_edep_point_cloud"
             );
-            sEnergyDepositPointCloudTree->Branch("x",   &sEnergyDepositPointCloud.x);
-            sEnergyDepositPointCloudTree->Branch("y",   &sEnergyDepositPointCloud.y);
-            sEnergyDepositPointCloudTree->Branch("z",   &sEnergyDepositPointCloud.z);
-            sEnergyDepositPointCloudTree->Branch("energy",   &sEnergyDepositPointCloud.energy);
-            sEnergyDepositPointCloudTree->Branch("track_id",   &sEnergyDepositPointCloud.track_id);
-            sEnergyDepositPointCloudTree->Branch("detsim_id",   &sEnergyDepositPointCloud.detsim_id);
+            sEnergyDepositPointCloudTree->Branch("edep_t",   &sEnergyDepositPointCloud.edep_t);
+            sEnergyDepositPointCloudTree->Branch("edep_x",   &sEnergyDepositPointCloud.edep_x);
+            sEnergyDepositPointCloudTree->Branch("edep_y",   &sEnergyDepositPointCloud.edep_y);
+            sEnergyDepositPointCloudTree->Branch("edep_z",   &sEnergyDepositPointCloud.edep_z);
+            sEnergyDepositPointCloudTree->Branch("edep_energy",   &sEnergyDepositPointCloud.edep_energy);
+            sEnergyDepositPointCloudTree->Branch("edep_num_photons",   &sEnergyDepositPointCloud.edep_num_photons);
+            sEnergyDepositPointCloudTree->Branch("edep_num_electrons",   &sEnergyDepositPointCloud.edep_num_electrons);
+            sEnergyDepositPointCloudTree->Branch("edep_track_id",   &sEnergyDepositPointCloud.edep_track_id);
+            sEnergyDepositPointCloudTree->Branch("edep_detsim_id",   &sEnergyDepositPointCloud.edep_detsim_id);
         }
 
         if (sSaveSimulationWrangler)
@@ -188,14 +191,16 @@ namespace arrakis
             sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
             sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
             sWirePlanePointCloudTree->Branch("source_label",    &sWirePlanePointCloud.source_label);
-            sWirePlanePointCloudTree->Branch("shape_label",     &sWirePlanePointCloud.shape_label);
+            sWirePlanePointCloudTree->Branch("topology_label",     &sWirePlanePointCloud.topology_label);
             sWirePlanePointCloudTree->Branch("particle_label",  &sWirePlanePointCloud.particle_label);
-            sWirePlanePointCloudTree->Branch("process_label",  &sWirePlanePointCloud.process_label);
+            sWirePlanePointCloudTree->Branch("physics_label",  &sWirePlanePointCloud.physics_label);
             sWirePlanePointCloudTree->Branch("unique_source",    &sWirePlanePointCloud.unique_source);
-            sWirePlanePointCloudTree->Branch("unique_shape",    &sWirePlanePointCloud.unique_shape);
+            sWirePlanePointCloudTree->Branch("unique_topology",    &sWirePlanePointCloud.unique_topology);
             sWirePlanePointCloudTree->Branch("unique_particle", &sWirePlanePointCloud.unique_particle);
-            sWirePlanePointCloudTree->Branch("unique_process",    &sWirePlanePointCloud.unique_process);
-            sWirePlanePointCloudTree->Branch("induction_flag",  &sWirePlanePointCloud.induction_flag);
+            sWirePlanePointCloudTree->Branch("unique_physics",    &sWirePlanePointCloud.unique_physics);
+            if (sSaveWirePlaneInductionFlag) {
+                sWirePlanePointCloudTree->Branch("induction_flag",  &sWirePlanePointCloud.induction_flag);
+            }
         }
 
         if (sSaveWirePlaneHits)
@@ -250,9 +255,9 @@ namespace arrakis
             sOpDetPointCloudTree->Branch("adc",     &sOpDetPointCloud.adc);
             sOpDetPointCloudTree->Branch("energy",  &sOpDetPointCloud.energy);
             sOpDetPointCloudTree->Branch("source_label",    &sOpDetPointCloud.source_label);
-            sOpDetPointCloudTree->Branch("shape_label",     &sOpDetPointCloud.shape_label);
+            sOpDetPointCloudTree->Branch("topology_label",     &sOpDetPointCloud.topology_label);
             sOpDetPointCloudTree->Branch("particle_label",  &sOpDetPointCloud.particle_label);
-            sOpDetPointCloudTree->Branch("unique_shape",    &sOpDetPointCloud.unique_shape);
+            sOpDetPointCloudTree->Branch("unique_topology",    &sOpDetPointCloud.unique_topology);
             sOpDetPointCloudTree->Branch("unique_particle", &sOpDetPointCloud.unique_particle);
         }
 
@@ -322,6 +327,10 @@ namespace arrakis
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting SaveOpDetPointCloud: " + std::to_string(sSaveOpDetPointCloud)
         );
+        sSaveWirePlaneInductionFlag = config().SaveWirePlaneInductionFlag();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting SaveWirePlaneInductionFlag: " + std::to_string(sSaveWirePlaneInductionFlag)
+        );
         sADCThreshold = config().ADCThreshold();
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting ADCThreshold: " + std::to_string(sADCThreshold)
@@ -329,24 +338,28 @@ namespace arrakis
     }
     void SimulationWrangler::SetWirePlanePointCloudLabels(
         DetSimID_t detSimID, TrackID_t trackID,
-        SourceLabelInt sourceLabel, ShapeLabelInt shapeLabel, 
-        ParticleLabelInt particleLabel, Int_t uniqueShape
+        SourceLabelInt sourceLabel, TopologyLabelInt topologyLabel, 
+        ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+        Int_t uniqueShape, Bool_t inductionFlag
     )
     {
         auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detSimID, trackID);
         if(track_index != -1)
         {
             sWirePlanePointCloud.source_labels[detSimID][track_index] = sourceLabel;
-            sWirePlanePointCloud.shape_labels[detSimID][track_index] = shapeLabel;
+            sWirePlanePointCloud.topology_labels[detSimID][track_index] = topologyLabel;
             sWirePlanePointCloud.particle_labels[detSimID][track_index] = particleLabel;
-            sWirePlanePointCloud.unique_shapes[detSimID][track_index] = uniqueShape;
+            sWirePlanePointCloud.physics_labels[detSimID][track_index] = physicsLabel;
+            sWirePlanePointCloud.unique_topologies[detSimID][track_index] = uniqueShape;
             sWirePlanePointCloud.unique_particles[detSimID][track_index] = trackID;
         }
         sWirePlanePointCloud.source_label[detSimID] = sourceLabel;
-        sWirePlanePointCloud.shape_label[detSimID] = shapeLabel;
+        sWirePlanePointCloud.topology_label[detSimID] = topologyLabel;
         sWirePlanePointCloud.particle_label[detSimID] = particleLabel;
-        sWirePlanePointCloud.unique_shape[detSimID] = uniqueShape;
+        sWirePlanePointCloud.physics_label[detSimID] = physicsLabel;
+        sWirePlanePointCloud.unique_topology[detSimID] = uniqueShape;
         sWirePlanePointCloud.unique_particle[detSimID] = trackID;
+        sWirePlanePointCloud.induction_flag[detSimID] = inductionFlag;
     }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
@@ -749,10 +762,25 @@ namespace arrakis
         );
         for(auto edep : *sMCSimEnergyDepositHandle)
         {
-            sTrackID_EdepIDMap[edep.TrackID()].emplace_back(edep_index);
+            auto track_id = edep.TrackID();
+            auto edep_t = edep.T();
+            auto edep_x = edep.X();
+            auto edep_y = edep.Y();
+            auto edep_z = edep.Z();
+            auto energy = edep.E();
+            auto num_photons = edep.NumPhotons();
+            auto num_electrons = edep.NumElectrons();
+
             ProcessType process = DetermineEdepProcess(edep);
-            sTrackID_EdepProcessMap[edep.TrackID()].emplace_back(process);
+
+            sEnergyDepositPointCloud.AddPoint(
+                track_id, edep_t, edep_x, edep_y, edep_z,
+                energy, num_photons, num_electrons, process
+            );
+            sTrackID_EdepIDMap[track_id].emplace_back(edep_index);
+            sTrackID_EdepProcessMap[track_id].emplace_back(process);
             sEdepID_DetSimIDMap[edep_index] = {};
+
             edep_index += 1;
         }
     }
@@ -922,8 +950,12 @@ namespace arrakis
         );
         for(auto channel : *sMCSimChannelHandle) 
         {
-            // Make a list of unique track_ids on this channel and
-            // group tdcs/ne accordingly.
+            /** Make a list of unique track_ids on this channel and
+             * group tdcs/ne accordingly.  This is not necessarily
+             * the best way to do this, since there are cases where
+             * several hits from the same particle could be on the
+             * same channel.  
+             */
             std::map<TrackID_t, std::vector<Int_t>> track_id_tdcs;
             std::map<TrackID_t, std::vector<Double_t>> track_id_nes;
             for(auto tdcide : channel.TDCIDEMap()) 
@@ -952,7 +984,7 @@ namespace arrakis
                     temp_tdc_rms += (tdc - tdc_mean) * (tdc - tdc_mean);
                 }
                 for(auto tdc: val) {
-                    if (abs(tdc - tdc_mean) < tdc_closest) {
+                    if (abs(tdc - tdc_mean) < abs(tdc_closest - tdc_mean)) {
                         tdc_closest = tdc;
                     }
                 }
@@ -1569,6 +1601,7 @@ namespace arrakis
                         edep.MidPointZ() == track.z
                     ) {
                         edep_ids.emplace_back(edep_id);
+                        sEnergyDepositPointCloud.edep_detsim_id[edep_id].emplace_back(detsim_id);
                         sEdepID_DetSimIDMap[edep_id].emplace_back(detsim_id);
                     }
                 }

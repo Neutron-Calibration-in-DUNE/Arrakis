@@ -61,18 +61,18 @@ namespace arrakis
         std::vector<std::vector<Double_t>> y = {};
         std::vector<std::vector<Double_t>> z = {};
         std::vector<std::vector<SourceLabelInt>> source_labels = {};
-        std::vector<std::vector<ShapeLabelInt>> shape_labels = {};
+        std::vector<std::vector<TopologyLabelInt>> topology_labels = {};
         std::vector<std::vector<ParticleLabelInt>> particle_labels = {};
         std::vector<std::vector<Int_t>> unique_sources = {};
-        std::vector<std::vector<Int_t>> unique_shapes = {};
+        std::vector<std::vector<Int_t>> unique_topologies = {};
         std::vector<std::vector<Int_t>> unique_particles = {};
 
         std::vector<SourceLabelInt> source_label = {};
-        std::vector<ShapeLabelInt> shape_label = {};
+        std::vector<TopologyLabelInt> topology_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
 
         std::vector<Int_t> unique_source = {};
-        std::vector<Int_t> unique_shape = {};
+        std::vector<Int_t> unique_topology = {};
         std::vector<Int_t> unique_particle = {};
 
 
@@ -94,18 +94,18 @@ namespace arrakis
             y.clear();
             z.clear();
             source_labels.clear();
-            shape_labels.clear();
+            topology_labels.clear();
             particle_labels.clear();
             unique_sources.clear();
-            unique_shapes.clear();
+            unique_topologies.clear();
             unique_particles.clear();
             
             source_label.clear();
-            shape_label.clear();
+            topology_label.clear();
             particle_label.clear();
 
             unique_source.clear();
-            unique_shape.clear();
+            unique_topology.clear();
             unique_particle.clear();
         }
 
@@ -146,7 +146,7 @@ namespace arrakis
             std::vector<Double_t> det_y;
             std::vector<Double_t> det_z;
             std::vector<SourceLabelInt> det_source;
-            std::vector<ShapeLabelInt> det_shape;
+            std::vector<TopologyLabelInt> det_shape;
             std::vector<ParticleLabelInt> det_particle;
             std::vector<Int_t> det_unique_shape;
             std::vector<Int_t> det_unique_particle;
@@ -161,13 +161,13 @@ namespace arrakis
             //     if(det_noise)
             //     {
             //         det_source.emplace_back(LabelCast(SourceLabel::Noise));
-            //         det_shape.emplace_back(LabelCast(ShapeLabel::Noise));
+            //         det_shape.emplace_back(LabelCast(TopologyLabel::Noise));
             //         det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
             //     }
             //     else
             //     {
             //         det_source.emplace_back(LabelCast(SourceLabel::Undefined));
-            //         det_shape.emplace_back(LabelCast(ShapeLabel::Undefined));
+            //         det_shape.emplace_back(LabelCast(TopologyLabel::Undefined));
             //         det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
             //     }
             //     det_unique_shape.emplace_back(-1);
@@ -181,24 +181,24 @@ namespace arrakis
             y.emplace_back(det_y);
             z.emplace_back(det_z);
             source_labels.emplace_back(det_source);
-            shape_labels.emplace_back(det_shape);
+            topology_labels.emplace_back(det_shape);
             particle_labels.emplace_back(det_particle);
-            unique_shapes.emplace_back(det_unique_shape);
+            unique_topologies.emplace_back(det_unique_shape);
             unique_particles.emplace_back(det_unique_particle);
 
             if(det_noise)
             {
                 source_label.emplace_back(LabelCast(SourceLabel::Noise));
-                shape_label.emplace_back(LabelCast(ShapeLabel::Noise));
+                topology_label.emplace_back(LabelCast(TopologyLabel::Noise));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Noise));
             }
             else
             {
                 source_label.emplace_back(LabelCast(SourceLabel::Undefined));
-                shape_label.emplace_back(LabelCast(ShapeLabel::Undefined));
+                topology_label.emplace_back(LabelCast(TopologyLabel::Undefined));
                 particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
             }
-            unique_shape.emplace_back(-1);
+            unique_topology.emplace_back(-1);
             unique_particle.emplace_back(-1);
         }
         Int_t GetIndex_TrackID(DetSimID_t detsim, TrackID_t track_id)
