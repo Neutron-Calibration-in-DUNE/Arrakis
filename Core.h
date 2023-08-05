@@ -82,32 +82,151 @@ namespace arrakis
     {
         return static_cast<GeneratorLabelInt>(generator_label);
     }
-    
+    /**
+     * Geant4 breaks up processes into seven major categories
+     * (https://agenda.infn.it/event/22667/sessions/17787/attachments/71916/90483/Physics1_Belgrado2019.pdf)
+     * :
+     * 
+     *  1. electromagnetic
+     *      a. AdjointAlongStepWeightCorrection: "ContinuousWeightCorrection"
+     *      b. ContinuousGainOfEnergy:           "EnergyGain"
+     *      c. PolarizedAnnihilation:            "pol-annihil"
+     *      d. PolarizedBremsstrahlung:          "pol-eBrem"
+     *      e. PolarizedIonization:              "pol-eIoni"
+     *      f. IonParameterizedLossModel:        "ParamICRU73"
+     *      g. IonIonization:                    "ionIoni"
+     *      h. ElectronBremsstrahlung:           "eBrem"
+     *      i. ElectronPositronAnnihilation:     "annihil"
+     *      h. ElectronIonization:               "eIoni"
+     *      j. CoulombScattering:                "CoulombScat"/"CoulombScatter"
+     *      k. HadronIonization:                 "hIoni"
+     *      l. MuonIonization:                   "muIoni"
+     *      m. ElectronElectronToHadrons:        "ee2hadr"
+     *      n. MPLIonization:                    "mplIoni"
+     *      o. HadronHadronIonization:           "hhIoni"
+     *      p. EnergyLoss:                       "EnergyLoss"
+     *      q. MultipleScattering:               "msc"
+     *  2. hadronic
+     *      a. TheoFSGenerator:                  "TheoFSGenerator"
+     *      b. NeutrinoNucleusModel:             "neutrino-nucleus"
+     *      c. NuElNucleusNCModel:               "NuElNuclNcModel"
+     *      d. NuMuNucleusNCModel:               "NuMuNuclNcModel"
+     *      e. NuTauNucleusNCModel:              "NuTauNuclNcModel"
+     *      f. AntiNuElNucleusNCModel:           "ANuElNuclNcModel"
+     *      g. AntiNuMuNucleusNCModel:           "ANuMuNuclNcModel"
+     *      h. AntiNuTauNucleusNCModel:          "ANuTauNuclNcModel"
+     *      i. NuElNucleusCCModel:               "NuElNuclCcModel"
+     *      j. NuMuNucleusCCModel:               "NuMuNuclCcModel"     
+     *      k. NuTauNucleusCCModel:              "NuTauNuclCcModel"
+     *      l. AntiNuElNucleusCCModel:           "ANuElNuclCcModel"
+     *      m. AntiNuMuNucleusCCModel:           "ANuMuNuclCcModel"
+     *      n. AntiNuTauNucleusCCModel:          "ANuTauNuclCcModel"
+     *      o. CoherentNeutronElectronElModel:   "n-e-elastic"     
+     *      p. CoherentHadronElastic:            "hElasticLHEP"
+     *      q. CoherentNeutrinoElectronNcModel:  "nu-e-elastic"
+     *      r. CoherentElasticHadronNucleusHE:   "hElasticGlauber"
+     *      s. Fission:                          "G4LFission"
+     *      t. NeutronHPInelastic:               "NeutronHPInelastic"
+     *      u. HadronCaptureAtRest:              "hadronCaptureAtRest"
+     *      v. HadronElastic:                    "hadElastic"
+     *      w. PiMinusInelastic:                 "pi-Inelastic"
+     *      x. PiPlusInelastic:                  "pi+Inelastic"
+     *      y. KaonMinusInelastic:               "kaon-Inelastic"
+     *      z. KaonPlusInelastic:                "kaon+Inelastic"
+     *      aa. ProtonInelastic:                 "protonInelastic"
+     *      ab. NeutronInelastic:                "neutronInelastic"
+     *      ac. NeutronCapture:                  "nCapture"
+     *  3. decay
+     *      a. Decay:               "Decay"
+     *  4. photolepton-hadron
+     *  5. optical
+     *      a. GammaConversion:     "conv"
+     *      b. ComptonScatter:      "compt"
+     *      c. PhotoelectricEffect: "phot"
+     *  6. parameterization
+     *  7. transportation
+     *      a. Transportation:  "Transportation"
+     * 
+    */
     enum class ProcessType
     {
         NotDefined =           -1,
         Unknown =               0,
         Primary =               1,
-        HadronElastic =         2,
-        PiMinusInelastic =      3,
-        PiPlusInelastic =       4,
-        KaonMinusInelastic =    5,
-        KaonPlusInelastic =     6,
-        ProtonInelastic =       7,
-        NeutronInelastic =      8,
-        CoulombScatter =        9,
-        NeutronCapture =        10,
-        Transportation =        11,
-        Decay =                 12,
-        ComptonScatter =        13,
-        PhotoelectricEffect =   14,
-        ElectronBremsstrahlung = 15,
-        ElectronIonization =    16,
-        PositronAnnihilation =  17,
-        MuonIonization =        18,
-        GammaConversion =       19,
-        IonIonization =         20,
-        MuonCaptureAtRest =     21,
+        // Electromagnetic
+        AdjointAlongStepWeightCorrection =  2,
+        ContinuousGainOfEnergy =            3,
+        PolarizedAnnihilation =             4,
+        PolarizedBremsstrahlung =           5,
+        PolarizedIonization =               6,
+        IonParameteizedLossModel =          7,
+        IonIonization =                     8,
+        ElectronBremsstrahlung =            9,
+        ElectronPositronAnnihilation =      10,
+        ElectronIonization =                11,
+        CoulombScattering =                 12,
+        HadronIonization =                  13,
+        MuonIonization =                    14,
+        ElectronElectronToHadrons =         15,
+        MPLIonization =                     16,
+        HadronHadronIonization =            17,
+        EnergyLoss =                        18,
+        MultipleScattering =                19,
+        // Hadronic
+        TheoFSGenerator =                   20,
+        NeutrinoNucleusModel =              21,
+        NuElNucleusNCModel =                22,
+        NuMuNucleusNCModel =                23,
+        NuTauNucleusNCModel =               24,
+        AntiNuElNucleusNCModel =            25,
+        AntiNuMuNucleusNCModel =            26,
+        AntiNuTauNucleusNCModel =           27,
+        NuElNucleusCCModel =                28,
+        NuMuNucleusCCModel =                29,
+        NuTauNucleusCCModel =               30,
+        AntiNuElNucleusCCModel =            31,
+        AntiNuMuNucleusCCModel =            32,
+        AntiNuTauNucleusCCModel =           33,
+        CoherentNeutronElectronElModel =    34,
+        CoherentHadronElastic =             35,
+        CoherentNeutrinoElectronNCModel =   36,
+        CoherentElasticHadronNucleusHE =    37,
+        Fission =                           38,
+        HadronElastic =                     39,
+        HadronInelastic =                   40,
+        HadronCaptureAtRest =               41,
+        PiMinusElastic =                    42,
+        PiMinusInelastic =                  43,
+        PiMinusCaptureAtRest =              44,
+        PiPlusElastic =                     45,
+        PiPlusInelastic =                   46,
+        PiPlusCaptureAtRest =               47,
+        KaonMinusElastic =                  48,
+        KaonMinusInelastic =                49,
+        KaonMinusCaptureAtRest =            50,
+        KaonPlusElastic =                   51,
+        KaonPlusInelastic =                 52,
+        KaonPlusCaptureAtRest =             53,
+        ProtonElastic =                     54,
+        ProtonInelastic =                   55,
+        ProtonCaptureAtRest =               56,
+        NeutronElastic =                    57,
+        NeutronInelastic =                  58,
+        NeutronCapture =                    59,
+        NeutronHPElastic =                  60,
+        NeutronHPInelastic =                61,
+        NeutronHPCapture =                  62,
+        MuonCaptureAtRest =                 63,
+        AntiMuonCaptureAtRest =             64,
+        MuonPairProduction =                65,
+        // Decay
+        Decay =                             66,
+        // Optical
+        GammaConversion =                   67,
+        ComptonScatter =                    68,
+        PhotoelectricEffect =               69,
+        // Transportation
+        Transportation =                    70,
     };
     using ProcessTypeInt = std::underlying_type<ProcessType>::type;
     inline Int_t Process(ProcessType process) 
