@@ -255,6 +255,11 @@ namespace arrakis
             fhicl::Name("InducedTDCInfluence"),
             fhicl::Comment("The amount of tdc values influenced by a surrounding signal.  This is to account for the wirecell simulation which is not back tracked to sim::IDE's in SimChannel.")
         };
+        fhicl::Atom<Double_t> ShowerEnergyThreshold
+        {
+            fhicl::Name("ShowerEnergyThreshold"),
+            fhicl::Comment("The amount of energy required for an ionized electron to be considered a shower, rather than a blip.")
+        };
     };
 
     using Parameters = art::EDAnalyzer::Table<Configuration>;

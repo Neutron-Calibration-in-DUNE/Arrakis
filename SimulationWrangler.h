@@ -138,7 +138,7 @@ namespace arrakis
         inline ProcessType      GetParentEndProcess_TrackID(TrackID_t trackID)      { return sTrackID_EndProcessMap[sTrackID_ParentTrackIDMap[trackID]]; }
         inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID)          { return sTrackID_EnergyMap[sTrackID_ParentTrackIDMap[trackID]]; }
         inline Double_t         GetParentEnergy_TrackID(TrackID_t trackID, Double_t precision) { return GetEnergy_TrackID(sTrackID_ParentTrackIDMap[trackID] , precision); }
-        inline TrackID_List     GetParentDaughterTrackID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
+        inline TrackID_List     GetParentDaughterTrGetTotalDetSimEnergyckID_TrackID(TrackID_t trackID) { return sTrackID_DaughterTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
         inline TrackID_List     GetParentProgenyTrackID_TrackID(TrackID_t trackID)  { return sTrackID_ProgenyTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
         inline TrackID_List     GetParentDescendantTrackID_TrackID(TrackID_t trackID) { return sTrackID_DescendantTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
         inline TrackID_List     GetParentAncestryTrackID_TrackID(TrackID_t trackID) { return sTrackID_AncestryTrackIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -255,6 +255,9 @@ namespace arrakis
         // helper functions for organizing data
         ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
         EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
+
+        inline Double_t GetTotalDetSimEnergy(DetSimID_List)
+        { Double_t energy = 0.0; for (auto detsim_id : DetSimIDList) { energy += sWirePlanePointCloud.energy[detsim_id]; } return energy; }
 
     protected:
         SimulationWrangler();

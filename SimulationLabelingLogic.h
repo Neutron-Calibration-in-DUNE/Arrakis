@@ -88,15 +88,29 @@ namespace arrakis
 
         void ProcessElectrons(const Parameters& config, art::Event const& event);
         void ProcessPositrons(const Parameters& config, art::Event const& event);
-        void ProcessGammas(const Parameters& config, art::Event const& event);
+        void ProcessElectronNeutrinos(const Parameters& config, art::Event const& event);
+        void ProcessAntiElectronNeutrinos(const Parameters& config, art::Event const& event);
+
         void ProcessMuons(const Parameters& config, art::Event const& event);
         void ProcessAntiMuons(const Parameters& config, art::Event const& event);
+        void ProcessMuonNeutrinos(const Parameters& config, art::Event const& event);
+        void ProcessAntiMuonNeutrinos(const Parameters& config, art::Event const& event);
+
+        void ProcessTauons(const Parameters& config, art::Event const& event);
+        void ProcessAntiTauons(const Parameters& config, art::Event const& event);
+        void ProcessTauonNeutrinos(const Parameters& config, art::Event const& event);
+        void ProcessAntiTauonNeutrinos(const Parameters& config, art::Event const& event);
+
+        void ProcessGammas(const Parameters& config, art::Event const& event);
+
         void ProcessPion0s(const Parameters& config, art::Event const& event);
         void ProcessPionPlus(const Parameters& config, art::Event const& event);
         void ProcessPionMinus(const Parameters& config, art::Event const& event);
+
         void ProcessKaon0s(const Parameters& config, art::Event const& event);
         void ProcessKaonPlus(const Parameters& config, art::Event const& event);
         void ProcessKaonMinus(const Parameters& config, art::Event const& event);
+
         void ProcessProtons(const Parameters& config, art::Event const& event);
         
         void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
@@ -121,6 +135,7 @@ namespace arrakis
         NeutronCaptureGammaDetail sNeutronCaptureGammaDetail;
         Int_t sInducedChannelInfluence;
         Int_t sInducedTDCInfluence;
+        Double_t sShowerEnergyThreshold;
 
         // Output TTree
         art::ServiceHandle<art::TFileService> mTFileService;
