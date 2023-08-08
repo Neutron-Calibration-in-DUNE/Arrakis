@@ -215,6 +215,10 @@ namespace arrakis
     void SimulationLabelingLogic::PrepareInitialPointClouds(
         const Parameters &config, art::Event const &event)
     {
+        for(size_t detsim_id = 0; detsim_id < wire_plane_point_cloud.channel.size(); detsim_id++)
+        {
+
+        }
     }
 
     void SimulationLabelingLogic::CleanUpPointClouds(
@@ -247,7 +251,7 @@ namespace arrakis
                     if(ancestry.size() > 0)
                     {
                         Logger::GetInstance("SimulationLabelingLogic")->warning(
-                            "ancestry [trackid,pdg,process,level]:"
+                            "ancestry [trackid,pdg,process,level,physics_label,label_function]:"
                         );
                     }
                     for(auto id : ancestry)
@@ -255,7 +259,9 @@ namespace arrakis
                         Logger::GetInstance("SimulationLabelingLogic")->warning(
                             "\t[" + std::to_string(id) + "," + std::to_string(mc_data->GetPDGCode_TrackID(id)) +
                             "," + std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(id))) + "," + 
-                            std::to_string(mc_data->GetAncestorLevel_TrackID(id)) + "]" 
+                            std::to_string(mc_data->GetAncestorLevel_TrackID(id)) + "," + 
+                            std::to_string(wire_plane_point_cloud.physics_label[mc_data->GetDetSimID_TrackID(id)]) + "," + 
+                            std::to_string(mc_data->GetLabelingFunction_TrackID(id)) + "]" 
                         );
                     }
                     mc_data->PrintParticleData(track_id);
@@ -495,6 +501,7 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::ElectronShower, 
                 shower_label
             );
+            mc_data->SetLabelingFunction_TrackID(electron, LabelCast(LabelingFunction::ProcessElectrons));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Shower, PhysicsLabel::ElectronShower, 

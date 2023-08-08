@@ -632,6 +632,8 @@ namespace arrakis
 
         sChannelID_TDC_DetSimIDMap.clear();
         sDetSimID_EdepIDMap.clear();
+
+        sTrackID_LabelingFunctionMap.clear();
     }
     void SimulationWrangler::ProcessEvent(
         const Parameters& config, art::Event const& event

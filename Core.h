@@ -353,4 +353,44 @@ namespace arrakis
     { 
         return static_cast<PhysicsLabelInt>(label);
     }
+    enum class LabelingFunction
+    {
+        Undefined = -1,
+        None = 0,
+        ProcessElectrons = 1,
+        ProcessPositrons = 2,
+        ProcessElectronNeutrinos = 3,
+        ProcessAntiElectronNeutrinos = 4,
+        ProcessMuons = 5,
+        ProcessAntiMuons = 6,
+        ProcessMuonNeutrinos = 7,
+        ProcessAntiMuonNeutrinos = 8,
+        ProcessTauons = 9,
+        ProcessAntiTauons = 10,
+        ProcessTauonNeutrinos = 11,
+        ProcessAntiTauonNeutrinos = 12,
+        ProcessGammas = 13,
+        ProcessPion0s = 14,
+        ProcessPionPlus = 15,
+        ProcessPionMinus = 16,
+        ProcessKaon0s = 17,
+        ProcessKaonPlus = 18,
+        ProcessKaonMinus = 19,
+        ProcessProtons = 20,
+        ProcessNeutronCaptures = 21,
+        ProcessNuclearRecoils = 22,
+        ProcessElectronRecoils = 23,
+        ProcessAr39 = 24,
+        ProcessAr42 = 25,
+        ProcessKr85 = 26,
+        ProcessRn222 = 27,
+        ProcessCosmics = 28,
+        ProcessShowers = 29,
+        ProcessNoise = 30,
+    };
+    using LabelingFunctionInt = std::underlying_type<LabelingFunction>::type;
+    inline Int_t LabelCast(LabelingFunction label) 
+    { 
+        return static_cast<LabelingFunctionInt>(label);
+    }
 }

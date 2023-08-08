@@ -103,8 +103,10 @@ namespace arrakis
             DetSimID_t detSimID, TrackID_t trackID,
             SourceLabelInt sourceLabel, TopologyLabelInt shapeLabel, 
             ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
-            Int_t uniqueShape, Bool_t inductionFlag = 0
+            Int_t uniqueShape, Bool_t inductionFlag = 0, LabelingFunctionInt labelingFunction = -1
         );
+        void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
+        { sTrackID_LabelingFunctionMap[trackID] = labelingFunction; }
 
         /**
          * Various accessors from TrackID.  The convention for the function names are
@@ -128,6 +130,7 @@ namespace arrakis
         inline DetSimID_List    GetDetSimID_TrackID(TrackID_t trackID)          { return sTrackID_DetSimIDMap[trackID]; }
         inline DetSimID_List    GetRandomDetSimID_TrackID(TrackID_t trackID)    { return sTrackID_RandomDetSimIDMap[trackID]; }
         const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)        { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
+        inline LabelingFunction_t GetLabelingFunction_TrackID(TrackID_t trackID){ return sTrackID_LabelingFunctionMap[trackID]; }
 
         inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
         inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -357,6 +360,9 @@ namespace arrakis
 
         // OpDetID maps
         std::map<OpDetChannelID_t, OpDetBacktrackerID_t> sOpDetChannelID_OpDetBacktrackerIDMap;
+
+        // LabelingLogic maps
+        std::map<TrackID_t, LabelingFunction_t> sTrackID_LabelingFunctionMap;
         
     };
 }
