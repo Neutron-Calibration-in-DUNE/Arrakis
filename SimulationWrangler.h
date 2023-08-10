@@ -130,7 +130,7 @@ namespace arrakis
         inline DetSimID_List    GetDetSimID_TrackID(TrackID_t trackID)          { return sTrackID_DetSimIDMap[trackID]; }
         inline DetSimID_List    GetRandomDetSimID_TrackID(TrackID_t trackID)    { return sTrackID_RandomDetSimIDMap[trackID]; }
         const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)        { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
-        inline LabelingFunction_t GetLabelingFunction_TrackID(TrackID_t trackID){ return sTrackID_LabelingFunctionMap[trackID]; }
+        inline LabelingFunction GetLabelingFunction_TrackID(TrackID_t trackID){ return sTrackID_LabelingFunctionMap[trackID]; }
 
         inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
         inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }
@@ -260,7 +260,7 @@ namespace arrakis
         EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
 
         inline Double_t GetTotalDetSimEnergy(DetSimID_List)
-        { Double_t energy = 0.0; for (auto detsim_id : DetSimIDList) { energy += sWirePlanePointCloud.energy[detsim_id]; } return energy; }
+        { Double_t energy = 0.0; for (auto detsim_id : DetSimID_List) { energy += sWirePlanePointCloud.energy[detsim_id]; } return energy; }
 
     protected:
         SimulationWrangler();
@@ -362,7 +362,7 @@ namespace arrakis
         std::map<OpDetChannelID_t, OpDetBacktrackerID_t> sOpDetChannelID_OpDetBacktrackerIDMap;
 
         // LabelingLogic maps
-        std::map<TrackID_t, LabelingFunction_t> sTrackID_LabelingFunctionMap;
+        std::map<TrackID_t, LabelingFunction> sTrackID_LabelingFunctionMap;
         
     };
 }

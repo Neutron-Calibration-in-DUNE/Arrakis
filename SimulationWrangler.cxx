@@ -347,7 +347,6 @@ namespace arrakis
             );
             sSimulationWranglerTree = sTFileService->make<TTree>("mc_maps", "mc_maps");
             sSimulationWranglerTree->Branch("pdg_code_map",         &sTrackID_PDGCodeMap);
-            sSimulationWranglerTree->Branch("parent_track_id_map",  &sTrackID_ParentTrackIDMap);
             sSimulationWranglerTree->Branch("generator_map",        &sGeneratorMap);
             sSimulationWranglerTree->Branch("generator_label_map",  &sTrackID_GeneratorLabelMap);
             sSimulationWranglerTree->Branch("particle_id_map",      &sTrackID_ParticleIDMap);
@@ -364,7 +363,6 @@ namespace arrakis
             sSimulationWranglerTree->Branch("edep_process_map",         &sTrackID_EdepProcessMap);
             sSimulationWranglerTree->Branch("detsim_map",               &sTrackID_DetSimIDMap);
             sSimulationWranglerTree->Branch("random_detsim_map",        &sTrackID_RandomDetSimIDMap);
-            sSimulationWranglerTree->Branch("edep_process_map",         &sEdepID_ProcessMap);
             sSimulationWranglerTree->Branch("edep_detsim_map",          &sEdepID_DetSimIDMap);
             sSimulationWranglerTree->Branch("detsim_edep_map",          &sDetSimID_EdepIDMap);
         }
