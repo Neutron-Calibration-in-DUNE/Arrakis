@@ -507,6 +507,9 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::ElectronShower, 
                 shower_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessElectrons));
+            }
             ProcessShowers(electron_progeny, shower_label);
             ProcessShowers(other_daughters, IterateTopologyLabel());
         }
@@ -538,11 +541,15 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::PositronShower, 
                 shower_label
             );
+            mc_data->SetLabelingFunction_TrackID(positron, LabelCast(LabelingFunction::ProcessPositrons));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Shower, PhysicsLabel::PositronShower, 
                 shower_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessPositrons));
+            }
             ProcessShowers(positron_progeny, shower_label);
             ProcessShowers(other_daughters, IterateTopologyLabel());
         }
@@ -572,11 +579,15 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::PhotonShower, 
                 shower_label
             );
+            mc_data->SetLabelingFunction_TrackID(gamma, LabelCast(LabelingFunction::ProcessGammas));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Shower, PhysicsLabel::PhotonShower, 
                 shower_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessGammas));
+            }
             ProcessShowers(gamma_progeny, shower_label);
         }
     }
@@ -608,6 +619,7 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::MIPIonization, 
                 muon_label
             );
+            mc_data->SetLabelingFunction_TrackID(muon, LabelCast(LabelingFunction::ProcessMuons));
             // Filter for Michel and Delta Electrons
             auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
             auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(muon_daughters, 11);
@@ -639,16 +651,25 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::MichelElectron, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : decay_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessMuons));
+            }
             SetLabels(
                 michel_capture_det_sim, capture_daughters,
                 TopologyLabel::Track, PhysicsLabel::MichelElectron, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : capture_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessMuons));
+            }
             SetLabels(
                 delta_det_sim, delta_daughters,
                 TopologyLabel::Track, PhysicsLabel::DeltaElectron, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : delta_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessMuons));
+            }
 
             auto michel_decay_elec_daughters = mc_data->GetDaughterTrackID_TrackID(decay_daughters);
             auto michel_capture_elec_daughters = mc_data->GetDaughterTrackID_TrackID(capture_daughters);
@@ -687,6 +708,7 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::MIPIonization, 
                 muon_label
             );
+            mc_data->SetLabelingFunction_TrackID(muon, LabelCast(LabelingFunction::ProcessAntiMuons));
             // Filter for Michel and Delta Electrons
             auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
             auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(muon_daughters, 11);
@@ -718,16 +740,25 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::MichelElectron, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : decay_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessAntiMuons));
+            }
             SetLabels(
                 michel_capture_det_sim, capture_daughters,
                 TopologyLabel::Track, PhysicsLabel::MichelElectron, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : capture_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessAntiMuons));
+            }
             SetLabels(
                 delta_det_sim, delta_daughters,
                 TopologyLabel::Track, PhysicsLabel::DeltaElectron, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : delta_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessAntiMuons));
+            }
 
             auto michel_decay_elec_daughters = mc_data->GetDaughterTrackID_TrackID(decay_daughters);
             auto michel_capture_elec_daughters = mc_data->GetDaughterTrackID_TrackID(capture_daughters);
@@ -781,6 +812,7 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::PhotonShower, 
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(pi0, LabelCast(LabelingFunction::ProcessPion0s));
         }
     }
     void SimulationLabelingLogic::ProcessPionPlus(
@@ -811,11 +843,15 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::HIPIonization,
                 track_label
             );
+            mc_data->SetLabelingFunction_TrackID(piplus, LabelCast(LabelingFunction::ProcessPionPlus));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Track, PhysicsLabel::HIPIonization, 
                 track_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessPionPlus));
+            }
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(piplus_progeny, IterateTopologyLabel());
         }
@@ -846,11 +882,15 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::HIPIonization, 
                 track_label
             );
+            mc_data->SetLabelingFunction_TrackID(piminus, LabelCast(LabelingFunction::ProcessPionMinus));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Track, PhysicsLabel::HIPIonization, 
                 track_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessPionMinus));
+            }
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(piminus_progeny, IterateTopologyLabel());
         }
@@ -875,6 +915,9 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::PhotonShower, 
                 IterateTopologyLabel()
             );
+            for (auto daughter : ka0_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessKaon0s));
+            }
         }
     }
     void SimulationLabelingLogic::ProcessKaonPlus(
@@ -903,11 +946,15 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::HIPIonization,
                 track_label
             );
+            mc_data->SetLabelingFunction_TrackID(kaonplus, LabelCast(LabelingFunction::ProcessKaonPlus));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Track, PhysicsLabel::HIPIonization, 
                 track_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessKaonPlus));
+            }
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(kaonplus_progeny, IterateTopologyLabel());
         }
@@ -938,11 +985,15 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::HIPIonization,
                 track_label
             );
+            mc_data->SetLabelingFunction_TrackID(kaonminus, LabelCast(LabelingFunction::ProcessKaonMinus));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Track, PhysicsLabel::HIPIonization, 
                 track_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessKaonMinus));
+            }
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(kaonminus_progeny, IterateTopologyLabel());
         }
@@ -980,12 +1031,15 @@ namespace arrakis
                 TopologyLabel::Track, PhysicsLabel::HIPIonization, 
                 track_label
             );
-
+            mc_data->SetLabelingFunction_TrackID(proton, LabelCast(LabelingFunction::ProcessProtons));
             SetLabels(
                 delta_det_sim, delta_daughters,
                 TopologyLabel::Track, PhysicsLabel::DeltaElectron, 
                 track_label
             );
+            for (auto daughter : delta_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessProtons));
+            }
             ProcessShowers(other_elec_daughters, IterateTopologyLabel());
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(proton_progeny, IterateTopologyLabel());
@@ -1050,6 +1104,7 @@ namespace arrakis
                     TopologyLabel::Blip, particle_label,
                     IterateTopologyLabel()
                 );
+                mc_data->SetLabelingFunction_TrackID(gamma, LabelCast(LabelingFunction::ProcessNeutronCaptures));
             }
         }
         ProcessShowers(other_daughters);
@@ -1106,6 +1161,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto ar : ar40)
         {
@@ -1115,6 +1171,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto ar : ar39)
         {
@@ -1124,6 +1181,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto ar : ar38)
         {
@@ -1133,6 +1191,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto ar : ar37)
         {
@@ -1142,6 +1201,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto ar : ar36)
         {
@@ -1151,6 +1211,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto s : s33)
         {
@@ -1160,6 +1221,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(s, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto s : s35)
         {
@@ -1169,6 +1231,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(s, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto s : s36)
         {
@@ -1178,6 +1241,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(s, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto cl : cl36)
         {
@@ -1187,6 +1251,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(cl, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto cl : cl37)
         {
@@ -1196,6 +1261,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(cl, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto cl : cl39)
         {
@@ -1205,6 +1271,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(cl, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         for (auto cl : cl40)
         {
@@ -1214,6 +1281,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::NuclearRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(cl, LabelCast(LabelingFunction::ProcessNuclearRecoils));
         }
         // ProcessShowers(ar41_daughters);
         // ProcessShowers(ar40_daughters);
@@ -1255,6 +1323,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::ElectronRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(deuteron, LabelCast(LabelingFunction::ProcessElectronRecoils));
         }
         for (auto triton : tritons)
         {
@@ -1264,6 +1333,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::ElectronRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(triton, LabelCast(LabelingFunction::ProcessElectronRecoils));
         }
         for (auto inelastic_alpha : inelastic_alphas)
         {
@@ -1273,6 +1343,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::ElectronRecoil,
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(inelastic_alpha, LabelCast(LabelingFunction::ProcessElectronRecoils));
         }
         //ProcessShowers(deuteron_daughters);
         //ProcessShowers(triton_daughters);
@@ -1299,6 +1370,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::Ar39, 
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessAr39));
         }
         //ProcessShowers(ar39_daughters);
     }
@@ -1323,6 +1395,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::Ar42, 
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessAr42));
         }
         //ProcessShowers(ar42_daughters);
     }
@@ -1348,6 +1421,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::Kr85, 
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(kr, LabelCast(LabelingFunction::ProcessKr85));
         }
         //ProcessShowers(kr85_daughters);
     }
@@ -1376,6 +1450,7 @@ namespace arrakis
                 TopologyLabel::Blip, PhysicsLabel::Rn222, 
                 IterateTopologyLabel()
             );
+            mc_data->SetLabelingFunction_TrackID(rn, LabelCast(LabelingFunction::ProcessRn222));
         }
         //ProcessShowers(rn222_daughters);
     }
@@ -1425,11 +1500,15 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::ElectronRecoil, 
                 shower_label
             );
+            mc_data->SetLabelingFunction_TrackID(electron, LabelCast(LabelingFunction::ProcessCosmics));
             SetLabels(
                 elec_det_sim, elec_daughters, 
                 TopologyLabel::Shower, PhysicsLabel::ElectronRecoil, 
                 shower_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessCosmics));
+            }
             ProcessShowers(electron_progeny, shower_label);
             ProcessShowers(other_daughters, IterateTopologyLabel());
         }
@@ -1448,11 +1527,15 @@ namespace arrakis
                 TopologyLabel::Shower, PhysicsLabel::PositronShower, 
                 shower_label
             );
+            mc_data->SetLabelingFunction_TrackID(positron, LabelCast(LabelingFunction::ProcessCosmics));
             SetLabels(
                 elec_det_sim, elec_daughters,
                 TopologyLabel::Shower, PhysicsLabel::PositronShower, 
                 shower_label
             );
+            for (auto daughter : elec_daughters) {
+                mc_data->SetLabelingFunction_TrackID(daughter, LabelCast(LabelingFunction::ProcessCosmics));
+            }
             ProcessShowers(positron_progeny, shower_label);
             ProcessShowers(other_daughters, IterateTopologyLabel());
         }
