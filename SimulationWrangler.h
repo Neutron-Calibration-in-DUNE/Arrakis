@@ -130,7 +130,7 @@ namespace arrakis
         inline DetSimID_List    GetDetSimID_TrackID(TrackID_t trackID)          { return sTrackID_DetSimIDMap[trackID]; }
         inline DetSimID_List    GetRandomDetSimID_TrackID(TrackID_t trackID)    { return sTrackID_RandomDetSimIDMap[trackID]; }
         const simb::MCParticle& GetMCParticle_TrackID(TrackID_t trackID)        { return sMCParticleHandle->at(sTrackID_ParticleIDMap[trackID]); }
-        inline LabelingFunction GetLabelingFunction_TrackID(TrackID_t trackID){ return sTrackID_LabelingFunctionMap[trackID]; }
+        inline LabelingFunctionInt GetLabelingFunction_TrackID(TrackID_t trackID){ return sTrackID_LabelingFunctionMap[trackID]; }
 
         inline TrackID_t        GetParentTrackID_TrackID(TrackID_t trackID)         { return sTrackID_ParentTrackIDMap[trackID]; }
         inline ParticleID_t     GetParentParticleID_TrackID(TrackID_t trackID)      { return sTrackID_ParticleIDMap[sTrackID_ParentTrackIDMap[trackID]]; }

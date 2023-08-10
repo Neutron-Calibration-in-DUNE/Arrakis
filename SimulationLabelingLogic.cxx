@@ -640,6 +640,7 @@ namespace arrakis
             auto other_elec_daughters = mc_data->FilterTrackID_NotProcess(
                 mc_data->FilterTrackID_NotProcess(
                     mc_data->FilterTrackID_NotProcess(
+                        elec_daughters,
                         ProcessType::Decay
                     ),
                     ProcessType::MuonCaptureAtRest
