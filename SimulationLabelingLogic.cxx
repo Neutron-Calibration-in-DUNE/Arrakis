@@ -215,6 +215,8 @@ namespace arrakis
     void SimulationLabelingLogic::PrepareInitialPointClouds(
         const Parameters &config, art::Event const &event)
     {
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto wire_plane_point_cloud = mc_data->GetWirePlanePointCloud();
         for(size_t detsim_id = 0; detsim_id < wire_plane_point_cloud.channel.size(); detsim_id++)
         {
 
@@ -251,7 +253,7 @@ namespace arrakis
                     if(ancestry.size() > 0)
                     {
                         Logger::GetInstance("SimulationLabelingLogic")->warning(
-                            "ancestry [trackid,pdg,process,level,physics_label,label_function]:"
+                            "ancestry [trackid,pdg,process,level,label_function]:"
                         );
                     }
                     for(auto id : ancestry)
@@ -260,7 +262,6 @@ namespace arrakis
                             "\t[" + std::to_string(id) + "," + std::to_string(mc_data->GetPDGCode_TrackID(id)) +
                             "," + std::to_string(ProcessTypeInt(mc_data->GetProcess_TrackID(id))) + "," + 
                             std::to_string(mc_data->GetAncestorLevel_TrackID(id)) + "," + 
-                            std::to_string(wire_plane_point_cloud.physics_label[mc_data->GetDetSimID_TrackID(id)]) + "," + 
                             std::to_string(mc_data->GetLabelingFunction_TrackID(id)) + "]" 
                         );
                     }

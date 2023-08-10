@@ -259,8 +259,8 @@ namespace arrakis
         ProcessType DetermineEdepProcess(const sim::SimEnergyDeposit& edep);
         EdepID_List DetermineDetectorSimulationEdeps(const std::vector<sim::IDE>& det_ide, DetSimID_t detsim_id);
 
-        inline Double_t GetTotalDetSimEnergy(DetSimID_List)
-        { Double_t energy = 0.0; for (auto detsim_id : DetSimID_List) { energy += sWirePlanePointCloud.energy[detsim_id]; } return energy; }
+        inline Double_t GetTotalDetSimEnergy(DetSimID_List detsims)
+        { Double_t energy = 0.0; for (auto detsim_id : detsims) { energy += sWirePlanePointCloud.energy[detsim_id]; } return energy; }
 
     protected:
         SimulationWrangler();
@@ -362,7 +362,7 @@ namespace arrakis
         std::map<OpDetChannelID_t, OpDetBacktrackerID_t> sOpDetChannelID_OpDetBacktrackerIDMap;
 
         // LabelingLogic maps
-        std::map<TrackID_t, LabelingFunction> sTrackID_LabelingFunctionMap;
+        std::map<TrackID_t, LabelingFunctionInt> sTrackID_LabelingFunctionMap;
         
     };
 }
