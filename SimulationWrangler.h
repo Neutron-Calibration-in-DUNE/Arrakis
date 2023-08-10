@@ -103,7 +103,7 @@ namespace arrakis
             DetSimID_t detSimID, TrackID_t trackID,
             SourceLabelInt sourceLabel, TopologyLabelInt shapeLabel, 
             ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
-            Int_t uniqueShape, Bool_t inductionFlag = 0, LabelingFunctionInt labelingFunction = -1
+            Int_t uniqueShape, Bool_t inductionFlag = 0
         );
         void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
         { sTrackID_LabelingFunctionMap[trackID] = labelingFunction; }

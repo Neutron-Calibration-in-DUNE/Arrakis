@@ -674,7 +674,7 @@ namespace arrakis
             ProcessShowers(michel_decay_elec_daughters);
             ProcessShowers(michel_capture_elec_daughters);
             ProcessShowers(delta_elec_daughters);
-            ProcessShowers(other_elec_daughters);
+            ProcessShowers(other_elec_daughters, IterateTopologyLabel());
             
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(muon_progeny, IterateTopologyLabel());
@@ -757,7 +757,7 @@ namespace arrakis
             ProcessShowers(michel_decay_elec_daughters);
             ProcessShowers(michel_capture_elec_daughters);
             ProcessShowers(delta_elec_daughters);
-            ProcessShowers(other_elec_daughters);
+            ProcessShowers(other_elec_daughters, IterateTopologyLabel());
             
             ProcessShowers(other_daughters, IterateTopologyLabel());
             ProcessShowers(muon_progeny, IterateTopologyLabel());
