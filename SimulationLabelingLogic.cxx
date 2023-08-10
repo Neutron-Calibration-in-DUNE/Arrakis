@@ -637,16 +637,9 @@ namespace arrakis
             auto delta_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::MuonIonization);
             auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
 
-            auto other_elec_daughters = mc_data->FilterTrackID_NotProcess(
-                mc_data->FilterTrackID_NotProcess(
-                    mc_data->FilterTrackID_NotProcess(
-                        elec_daughters,
-                        ProcessType::Decay
-                    ),
-                    ProcessType::MuonCaptureAtRest
-                ),
-                ProcessType::MuonIonization
-            );
+            auto not_decay_elec_daughters = mc_data->FilterTrackID_NotProcess(elec_daughters, ProcessType::Decay);
+            auto not_muon_capture_elec_daughters = mc_data->FilterTrackID_NotProcess(not_decay_elec_daughters, ProcessType::MuonCaptureAtRest);
+            auto other_elec_daughters = mc_data->FilterTrackID_NotProcess(not_muon_capture_elec_daughters, ProcessType::MuonIonization);
 
             SetLabels(
                 michel_decay_det_sim, decay_daughters,
