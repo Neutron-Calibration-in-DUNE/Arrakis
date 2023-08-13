@@ -576,7 +576,6 @@ namespace arrakis
         sEnergyDepositPointCloud.particle_label[edepID] = particleLabel;
         sEnergyDepositPointCloud.physics_label[edepID] = physicsLabel;
         sEnergyDepositPointCloud.unique_topology[edepID] = uniqueShape;
-        sEnergyDepositPointCloud.unique_particle[edepID] = trackID;
     }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
@@ -1446,6 +1445,24 @@ namespace arrakis
             }
         }
         return particles;
+    }
+    EdepID_Collection SimulationWrangler::GetEdepID_TrackID(TrackID_List trackIDList)
+    {
+        EdepID_Collection edep;
+        for(auto track_id : trackIDList)
+        {
+            edep.emplace_back(sTrackID_EdepIDMap[track_id]);
+        }
+        return edep;
+    }
+    std::vector<EdepID_Collection> SimulationWrangler::GetEdepID_TrackID(TrackID_Collection trackIDCollection)
+    {
+        std::vector<EdepID_Collection> edep;
+        for(auto track_id : trackIDCollection)
+        {
+            edep.emplace_back(GetEdepID_TrackID(track_id));
+        }
+        return edep;
     }
     DetSimID_Collection SimulationWrangler::GetDetSimID_TrackID(TrackID_List trackIDList)
     {

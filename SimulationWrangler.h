@@ -193,6 +193,9 @@ namespace arrakis
         TrackID_List GetTrackID_Process(ProcessType process);
         TrackID_List GetTrackID_EndProcess(ProcessType process);
 
+        EdepID_Collection GetEdepID_TrackID(TrackID_List trackIDs);
+        std::vector<EdepID_Collection> GetEdepID_TrackID(TrackID_Collection trackIDs);
+
         DetSimID_Collection GetDetSimID_TrackID(TrackID_List trackIDs);
         std::vector<DetSimID_Collection> GetDetSimID_TrackID(TrackID_Collection trackIDs);
 
