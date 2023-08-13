@@ -63,6 +63,7 @@ Arrakis:
     InducedChannelInfluence:        10      # number of wires which are influenced by signals
     InducedTDCInfluence:            200     # number of tdc ticks which are influenced by signals
     ShowerEnergyThreshold:          50      # threshold in MeV for when an ionized electron is classified as a shower
+    VoxelizeEnergyDeposits:         true    # whether to save edep point clouds with exact (x,y,z) or to voxelize them
 }
 
 END_PROLOG
