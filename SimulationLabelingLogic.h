@@ -62,17 +62,18 @@ namespace arrakis
         SourceLabel DetermineSourceLabel(TrackID_t trackID);
 
         void SetLabels(
-            DetSimID_List detsimID, TrackID_t track_id,
+            DetSimID_List detsimID, EdepID_t edepID, TrackID_t track_id,
             TopologyLabel topology, PhysicsLabel physics,
             Int_t unique_topology
         );
         void SetLabels(
-            DetSimID_Collection detsimIDs, TrackID_List trackIDList,
+            DetSimID_Collection detsimIDs, EdepID_Collection edepIDs, TrackID_List trackIDList,
             TopologyLabel topology, PhysicsLabel physics,
             Int_t unique_topology
         );
         void SetLabels(
             std::vector<DetSimID_Collection> detsimIDs, 
+            std::vector<EdepID_Collection> edepIDs,
             TrackID_Collection trackIDCollection,
             TopologyLabel topology, PhysicsLabel physics,
             Int_t unique_topology

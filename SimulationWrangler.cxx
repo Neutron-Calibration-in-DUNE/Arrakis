@@ -337,6 +337,14 @@ namespace arrakis
             sEnergyDepositPointCloudTree->Branch("edep_num_photons",   &sEnergyDepositPointCloud.edep_num_photons);
             sEnergyDepositPointCloudTree->Branch("edep_num_electrons",   &sEnergyDepositPointCloud.edep_num_electrons);
             sEnergyDepositPointCloudTree->Branch("edep_track_id",   &sEnergyDepositPointCloud.edep_track_id);
+            sEnergyDepositPointCloudTree->Branch("source_label",    &sEnergyDepositPointCloud.source_label);
+            sEnergyDepositPointCloudTree->Branch("topology_label",     &sEnergyDepositPointCloud.topology_label);
+            sEnergyDepositPointCloudTree->Branch("particle_label",  &sEnergyDepositPointCloud.particle_label);
+            sEnergyDepositPointCloudTree->Branch("physics_label",  &sEnergyDepositPointCloud.physics_label);
+            sEnergyDepositPointCloudTree->Branch("unique_source",    &sEnergyDepositPointCloud.unique_source);
+            sEnergyDepositPointCloudTree->Branch("unique_topology",    &sEnergyDepositPointCloud.unique_topology);
+            sEnergyDepositPointCloudTree->Branch("unique_particle", &sEnergyDepositPointCloud.unique_particle);
+            sEnergyDepositPointCloudTree->Branch("unique_physics",    &sEnergyDepositPointCloud.unique_physics);
             sEnergyDepositPointCloudTree->Branch("edep_detsim_id",   &sEnergyDepositPointCloud.edep_detsim_id);
         }
 
@@ -527,6 +535,10 @@ namespace arrakis
         Logger::GetInstance("SimulationWrangler")->trace(
             "setting ADCThreshold: " + std::to_string(sADCThreshold)
         );
+        sVoxelizeEnergyDeposits = config().VoxelizeEnergyDeposits();
+        Logger::GetInstance("SimulationWrangler")->trace(
+            "setting VoxelizeEnergyDeposits: " + std::to_string(sVoxelizeEnergyDeposits)
+        );
     }
     void SimulationWrangler::SetWirePlanePointCloudLabels(
         DetSimID_t detSimID, TrackID_t trackID,
@@ -552,6 +564,19 @@ namespace arrakis
         sWirePlanePointCloud.unique_topology[detSimID] = uniqueShape;
         sWirePlanePointCloud.unique_particle[detSimID] = trackID;
         sWirePlanePointCloud.induction_flag[detSimID] = inductionFlag;
+    }
+    void SimulationWrangler::SetEnergyDepositPointCloudLabels(
+        EdepID_t edepID, SourceLabelInt sourceLabel, TopologyLabelInt topologyLabel, 
+        ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+        Int_t uniqueShape
+    )
+    {
+        sEnergyDepositPointCloud.source_label[edepID] = sourceLabel;
+        sEnergyDepositPointCloud.topology_label[edepID] = topologyLabel;
+        sEnergyDepositPointCloud.particle_label[edepID] = particleLabel;
+        sEnergyDepositPointCloud.physics_label[edepID] = physicsLabel;
+        sEnergyDepositPointCloud.unique_topology[edepID] = uniqueShape;
+        sEnergyDepositPointCloud.unique_particle[edepID] = trackID;
     }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
@@ -1851,5 +1876,16 @@ namespace arrakis
             detsim.insert(detsim.end(), detsim_ids.begin(), detsim_ids.end());
         }
         return detsim;
+    }
+    EdepID_List SimulationWrangler::GetAllEdepID_TrackID(TrackID_t track_id)
+    {
+        EdepID_List edep = sTrackID_EdepIDMap[track_id];
+        auto track_ids = sTrackID_DescendantTrackIDMap[track_id];
+        for(auto particle : track_ids)
+        {
+            auto edep_ids = sTrackID_EdepIDMap[particle];
+            edep.insert(edep.end(), edep_ids.begin(), edep_ids.end());
+        }
+        return edep;
     }
 }

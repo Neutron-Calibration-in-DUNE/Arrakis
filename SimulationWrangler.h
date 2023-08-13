@@ -105,6 +105,12 @@ namespace arrakis
             ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
             Int_t uniqueShape, Bool_t inductionFlag = 0
         );
+        void SetEnergyDepositPointCloudLabels(
+            EdepID_t edepID,
+            SourceLabelInt sourceLabel, TopologyLabelInt shapeLabel, 
+            ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+            Int_t uniqueShape
+        );
         void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
         { sTrackID_LabelingFunctionMap[trackID] = labelingFunction; }
 
@@ -251,6 +257,7 @@ namespace arrakis
         { return sMCSimEnergyDepositHandle->at(edepID); }
 
         DetSimID_List GetAllDetSimID_TrackID(TrackID_t track_id);
+        EdepID_List GetAllEdepID_TrackID(TrackID_t track_id);
 
         // fill TTree
         void FillTTree();
@@ -303,6 +310,7 @@ namespace arrakis
 
         // Various options
         bool sSaveWirePlaneInductionFlag;
+        bool sVoxelizeEnergyDeposits;
 
         // Handles
         std::vector<art::Handle<std::vector<simb::MCTruth>>> sMCTruthHandles;

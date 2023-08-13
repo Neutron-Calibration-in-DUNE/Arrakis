@@ -42,7 +42,7 @@ Arrakis:
     SaveMeta:                       true    # save meta information 
     SaveGeometry:                   true    # save geometry information
     SaveSimulationWrangler:         true    # save simulation wrangler maps
-    SaveEnergyDepositPointCloud:    false   # save energy deposit point cloud data
+    SaveEnergyDepositPointCloud:    true    # save energy deposit point cloud data
     SaveWirePlaneHits:              true    # save wire plane hits data
     SaveWirePlanePointCloud:        true    # save wire plane point cloud data
     SaveWirePlaneTrackTopology:     true    # save wire plane track topology data

@@ -260,6 +260,11 @@ namespace arrakis
             fhicl::Name("ShowerEnergyThreshold"),
             fhicl::Comment("The amount of energy required for an ionized electron to be considered a shower, rather than a blip.")
         };
+        fhicl::Atom<bool> VoxelizeEnergyDeposits
+        {
+            fhicl::Name("VoxelizeEnergyDeposits"),
+            fhicl::Comment("Whether to save edep point clouds with true (x,y,z) or to voxelize them.")
+        };
     };
 
     using Parameters = art::EDAnalyzer::Table<Configuration>;
