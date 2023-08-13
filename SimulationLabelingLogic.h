@@ -62,7 +62,7 @@ namespace arrakis
         SourceLabel DetermineSourceLabel(TrackID_t trackID);
 
         void SetLabels(
-            DetSimID_List detsimID, EdepID_t edepID, TrackID_t track_id,
+            DetSimID_List detsimID, EdepID_List edepID, TrackID_t track_id,
             TopologyLabel topology, PhysicsLabel physics,
             Int_t unique_topology
         );
