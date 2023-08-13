@@ -672,7 +672,7 @@ namespace arrakis
             auto michel_decay_det_sim = mc_data->GetDetSimID_TrackID(decay_daughters);
             auto michel_capture_det_sim = mc_data->GetDetSimID_TrackID(capture_daughters);
             auto michel_decay_edep = mc_data->GetEdepID_TrackID(decay_daughters);
-            auto micehl_capture_edep = mc_data->GetEdepID_TrackID(capture_daughters);
+            auto michel_capture_edep = mc_data->GetEdepID_TrackID(capture_daughters);
 
             auto delta_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::MuonIonization);
             auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
@@ -919,7 +919,7 @@ namespace arrakis
 
             auto piminus_progeny = mc_data->GetProgenyTrackID_TrackID(piminus);
             auto piminus_det_sim = mc_data->GetDetSimID_TrackID(piminus);
-            auto piminus_edep = mc_data->GetEdepID_TrackID(pipminus);
+            auto piminus_edep = mc_data->GetEdepID_TrackID(piminus);
 
             // Set piminus detsim labels to Track:PionMinus
             Int_t track_label = IterateTopologyLabel();
@@ -1486,7 +1486,7 @@ namespace arrakis
         for(auto kr : kr85)
         {
             auto kr85_det_sim = mc_data->GetAllDetSimID_TrackID(kr);
-            auto kr85_edep = mc_data->GetAllEdepID_TrackID(ar);
+            auto kr85_edep = mc_data->GetAllEdepID_TrackID(kr);
             SetLabels(
                 kr85_det_sim, kr85_edep, kr, 
                 TopologyLabel::Blip, PhysicsLabel::Kr85, 
