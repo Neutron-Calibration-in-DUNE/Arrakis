@@ -120,8 +120,19 @@ namespace arrakis
 
         void ProcessAr39(const Parameters& config, art::Event const& event);
         void ProcessAr42(const Parameters& config, art::Event const& event);
+        void ProcessK42(const Parameters& config, art::Event const& event);
         void ProcessKr85(const Parameters& config, art::Event const& event);
         void ProcessRn222(const Parameters& config, art::Event const& event);
+        void ProcessPo218(const Parameters& config, art::Event const& event);
+        void ProcessAt218(const Parameters& config, art::Event const& event);
+        void ProcessRn218(const Parameters& config, art::Event const& event);
+        void ProcessPb214(const Parameters& config, art::Event const& event);
+        void ProcessBi214(const Parameters& config, art::Event const& event);
+        void ProcessPo214(const Parameters& config, art::Event const& event);
+        void ProcessTl210(const Parameters& config, art::Event const& event);
+        void ProcessPb210(const Parameters& config, art::Event const& event);
+        void ProcessBi210(const Parameters& config, art::Event const& event);
+        void ProcessPo210(const Parameters& config, art::Event const& event);
 
         void ProcessCosmics(const Parameters& config, art::Event const& event);
         void CleanUpPointClouds(const Parameters& config, art::Event const& event);

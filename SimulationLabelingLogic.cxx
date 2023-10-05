@@ -91,6 +91,7 @@ namespace arrakis
          * Process Wire Plane Point Clouds
         */ 
         PrepareInitialPointClouds(config, event);
+        // Process HIPS/MIPS
         ProcessElectrons(config, event);
         ProcessPositrons(config, event);
         ProcessGammas(config, event);
@@ -103,13 +104,27 @@ namespace arrakis
         ProcessKaonPlus(config, event);
         ProcessKaonMinus(config, event);
         ProcessProtons(config, event);
+        // Neutron captures, NR/ER
         ProcessNeutronCaptures(config, event);
         ProcessNuclearRecoils(config, event);
         ProcessElectronRecoils(config, event);
+        // Process radiologicals
         ProcessAr39(config, event);
         ProcessAr42(config, event);
+        ProcessK42(config, event);
         ProcessKr85(config, event);
         ProcessRn222(config, event);
+        ProcessPo218(config, event);
+        ProcessAt218(config, event);
+        ProcessRn218(config, event);
+        ProcessPb214(config, event);
+        ProcessBi214(config, event);
+        ProcessPo214(config, event);
+        ProcessTl210(config, event);
+        ProcessPb210(config, event);
+        ProcessBi210(config, event);
+        ProcessPo210(config, event);
+        // Process cosmics
         ProcessCosmics(config, event);
         ProcessNoise(config, event);
         CleanUpPointClouds(config, event);
@@ -1450,13 +1465,17 @@ namespace arrakis
         /**
          * Argon-42 decays via beta decay into Potassium-42,
          * with a Q-value of 599 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180042.
+         * There is a subtlety in the way this decay is simulated.  The lifetime of K42 is approximately
+         * 12 hours, which beta decays to Calcium-42 with a 3.5 MeV beta.  Calcium-42 is stable.
+         * See here for some details: https://indico.fnal.gov/event/50121/contributions/220205/attachments/145404/185102/20210721_Decay0_Lasorak.pdf
          */
         Logger::GetInstance("SimulationLabelingLogic")->trace(
             "processing argon-42."
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
-        auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42);
+        auto ar42_betas = mc_data->FilterTrackID_PDGCode(ar42, 1000180420);
+        auto ar42_daughters = mc_data->GetDaughterTrackID_TrackID(ar42_betas);
         for(auto ar : ar42)
         {
             auto ar42_det_sim = mc_data->GetAllDetSimID_TrackID(ar);
@@ -1467,6 +1486,34 @@ namespace arrakis
                 IterateTopologyLabel()
             );
             mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessAr42));
+        }
+    }
+    void SimulationLabelingLogic::ProcessK42(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Argon-42 decays via beta decay into Potassium-42,
+         * with a Q-value of 599 keV: http://nucleardata.nuclear.lu.se/toi/nuclide.asp?iZA=180042.
+         * There is a subtlety in the way this decay is simulated.  The lifetime of K42 is approximately
+         * 12 hours, which beta decays to Calcium-42 with a 3.5 MeV beta.  Calcium-42 is stable.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing argon-42."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto ar42 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Ar42);
+        auto K42_betas = mc_data->FilterTrackID_PDGCode(ar42, 1000190420);
+        auto K42_daughters = mc_data->GetDaughterTrackID_TrackID(K42_betas);
+        for(auto K : K42)
+        {
+            auto K42_det_sim = mc_data->GetAllDetSimID_TrackID(K);
+            auto K42_edep = mc_data->GetAllEdepID_TrackID(K);
+            SetLabels(
+                K42_det_sim, K42_edep, K, 
+                TopologyLabel::Blip, PhysicsLabel::K42, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(K, LabelCast(LabelingFunction::ProcessK42));
         }
     }
     void SimulationLabelingLogic::ProcessKr85(
@@ -1511,7 +1558,8 @@ namespace arrakis
         );
         auto mc_data = SimulationWrangler::GetInstance();
         auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
-        auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222);
+        auto rn222_betas = mc_data->FilterTrackID_PDGCode(rn222, 1000860222)
+        auto rn222_daughters = mc_data->GetDaughterTrackID_TrackID(rn222_betas);
         for(auto rn : rn222)
         {
             auto rn222_det_sim = mc_data->GetAllDetSimID_TrackID(rn);
@@ -1522,6 +1570,326 @@ namespace arrakis
                 IterateTopologyLabel()
             );
             mc_data->SetLabelingFunction_TrackID(rn, LabelCast(LabelingFunction::ProcessRn222));
+        }
+    }
+    void SimulationLabelingLogic::ProcessPo218(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Polonium-218 gives out a 6.115 MeV alpha with a half life of 3.1 minutes.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing polonium-218."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto po218_betas = mc_data->FilterTrackID_PDGCode(po218, 1000840218)
+        auto po218_daughters = mc_data->GetDaughterTrackID_TrackID(po218_betas);
+        for(auto po : po218)
+        {
+            auto po218_det_sim = mc_data->GetAllDetSimID_TrackID(po);
+            auto po218_edep = mc_data->GetAllEdepID_TrackID(po);
+            SetLabels(
+                po218_det_sim, po218_edep, po, 
+                TopologyLabel::Blip, PhysicsLabel::Po218, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(po, LabelCast(LabelingFunction::ProcessPo218));
+        }
+    }
+    void SimulationLabelingLogic::ProcessAt218(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Astatine-218 gives out a 6.874MeV alpha with a half life of 1.5 seconds.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing astatine-218."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto at218_betas = mc_data->FilterTrackID_PDGCode(at218, 1000850218)
+        auto at218_daughters = mc_data->GetDaughterTrackID_TrackID(at218_betas);
+        for(auto at : at218)
+        {
+            auto at218_det_sim = mc_data->GetAllDetSimID_TrackID(at);
+            auto at218_edep = mc_data->GetAllEdepID_TrackID(at);
+            SetLabels(
+                at218_det_sim, at218_edep, at, 
+                TopologyLabel::Blip, PhysicsLabel::At218, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(at, LabelCast(LabelingFunction::ProcessAt218));
+        }
+    }
+    void SimulationLabelingLogic::ProcessRn218(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Polonium-218 gives out a 7.263 MeV alpha with a half life of 35 ms.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing radon-218."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto rn218_betas = mc_data->FilterTrackID_PDGCode(rn218, 1000860218)
+        auto rn218_daughters = mc_data->GetDaughterTrackID_TrackID(rn218_betas);
+        for(auto rn : rn218)
+        {
+            auto rn218_det_sim = mc_data->GetAllDetSimID_TrackID(rn);
+            auto rn218_edep = mc_data->GetAllEdepID_TrackID(rn);
+            SetLabels(
+                rn218_det_sim, rn218_edep, rn, 
+                TopologyLabel::Blip, PhysicsLabel::Rn218, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(rn, LabelCast(LabelingFunction::ProcessRn218));
+        }
+    }
+    void SimulationLabelingLogic::ProcessPb214(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Lead-214 gives out a 1.024 MeV beta with a half life of 26.8 minutes.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing lead-214."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto pb214_betas = mc_data->FilterTrackID_PDGCode(pb214, 1000820214)
+        auto pb214_daughters = mc_data->GetDaughterTrackID_TrackID(pb214_betas);
+        for(auto pb : pb214)
+        {
+            auto pb214_det_sim = mc_data->GetAllDetSimID_TrackID(pb);
+            auto pb214_edep = mc_data->GetAllEdepID_TrackID(pb);
+            SetLabels(
+                pb214_det_sim, pb214_edep, pb, 
+                TopologyLabel::Blip, PhysicsLabel::Pb214, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(pb, LabelCast(LabelingFunction::ProcessPb214));
+        }
+    }
+    void SimulationLabelingLogic::ProcessBi214(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Bismuth-214 gives out a 3.272 MeV beta with a half life of 19.9 minutes.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing bismuth-214."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto bi214_betas = mc_data->FilterTrackID_PDGCode(bi214, 1000830214)
+        auto bi214_daughters = mc_data->GetDaughterTrackID_TrackID(bi214_betas);
+        for(auto bi : bi214)
+        {
+            auto bi214_det_sim = mc_data->GetAllDetSimID_TrackID(bi);
+            auto bi214_edep = mc_data->GetAllEdepID_TrackID(bi);
+            SetLabels(
+                bi214_det_sim, bi214_edep, bi, 
+                TopologyLabel::Blip, PhysicsLabel::Bi214, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(bi, LabelCast(LabelingFunction::ProcessBi214));
+        }
+    }
+    void SimulationLabelingLogic::ProcessPo214(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Polonium-214 gives out a 7.833 MeV alpha with a half life of 163.4 us.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing polonium-214."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto po214_betas = mc_data->FilterTrackID_PDGCode(po214, 1000840214)
+        auto po214_daughters = mc_data->GetDaughterTrackID_TrackID(po214_betas);
+        for(auto po : po214)
+        {
+            auto po214_det_sim = mc_data->GetAllDetSimID_TrackID(po);
+            auto po214_edep = mc_data->GetAllEdepID_TrackID(po);
+            SetLabels(
+                po214_det_sim, po214_edep, po, 
+                TopologyLabel::Blip, PhysicsLabel::Po214, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(po, LabelCast(LabelingFunction::ProcessPo214));
+        }
+    }
+    void SimulationLabelingLogic::ProcessTl210(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Thallium-210 gives out a 5.484 MeV beta with a half life of 1.3 minutes.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing thallium-210."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto tl210_betas = mc_data->FilterTrackID_PDGCode(tl210, 1000810210)
+        auto tl210_daughters = mc_data->GetDaughterTrackID_TrackID(tl210_betas);
+        for(auto tl : tl210)
+        {
+            auto tl210_det_sim = mc_data->GetAllDetSimID_TrackID(tl);
+            auto tl210_edep = mc_data->GetAllEdepID_TrackID(tl);
+            SetLabels(
+                tl210_det_sim, tl210_edep, tl, 
+                TopologyLabel::Blip, PhysicsLabel::Tl210, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(tl, LabelCast(LabelingFunction::ProcessTl210));
+        }
+    }
+    void SimulationLabelingLogic::ProcessPb210(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Lead-210 gives out a 0.064 MeV alpha with a half life of 22 years.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing lead-210."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto pb210_betas = mc_data->FilterTrackID_PDGCode(pb210, 1000820210)
+        auto pb210_daughters = mc_data->GetDaughterTrackID_TrackID(pb210_betas);
+        for(auto pb : pb210)
+        {
+            auto pb210_det_sim = mc_data->GetAllDetSimID_TrackID(pb);
+            auto pb210_edep = mc_data->GetAllEdepID_TrackID(pb);
+            SetLabels(
+                pb210_det_sim, pb210_edep, pb, 
+                TopologyLabel::Blip, PhysicsLabel::Pb210, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(pb, LabelCast(LabelingFunction::ProcessPb210));
+        }
+    }
+    void SimulationLabelingLogic::ProcessBi210(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Bismuth-210 gives out a 1.163 MeV beta with a half life of 5 days.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing bismuth-210."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto bi210_betas = mc_data->FilterTrackID_PDGCode(bi210, 1000830210)
+        auto bi210_daughters = mc_data->GetDaughterTrackID_TrackID(bi210_betas);
+        for(auto bi : bi210)
+        {
+            auto bi210_det_sim = mc_data->GetAllDetSimID_TrackID(bi);
+            auto bi210_edep = mc_data->GetAllEdepID_TrackID(bi);
+            SetLabels(
+                bi210_det_sim, bi210_edep, bi, 
+                TopologyLabel::Blip, PhysicsLabel::Bi210, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(bi, LabelCast(LabelingFunction::ProcessBi210));
+        }
+    }
+    void SimulationLabelingLogic::ProcessPo210(
+        const Parameters &config, art::Event const &event)
+    {
+        /**
+         * Radon-222 decays via alpha decay through a chain that ends in lead
+         * (https://en.wikipedia.org/wiki/Radon-222).  The alpha has an energy of
+         * 5.5904 MeV, which bounces around locally in Argon, but quickly thermalizes
+         * due to the short scattering length.  The CSDA range of a 5.5 MeV alpha in
+         * Argon is about 7.5e-3 g/cm^2.  Using a density of 1.3954 g/cm^3, the
+         * scattering length is (~0.005 cm) or (~50 um).
+         *
+         * Polonium-210 gives out a 5.407 MeV alpha with a half life of 138 days.
+         */
+        Logger::GetInstance("SimulationLabelingLogic")->trace(
+            "processing polonium-210."
+        );
+        auto mc_data = SimulationWrangler::GetInstance();
+        auto rn222 = mc_data->GetPrimaries_GeneratorLabel(GeneratorLabel::Rn222);
+        auto po210_betas = mc_data->FilterTrackID_PDGCode(po210, 1000840210)
+        auto po210_daughters = mc_data->GetDaughterTrackID_TrackID(po210_betas);
+        for(auto po : po210)
+        {
+            auto po210_det_sim = mc_data->GetAllDetSimID_TrackID(po);
+            auto po210_edep = mc_data->GetAllEdepID_TrackID(po);
+            SetLabels(
+                po210_det_sim, po210_edep, po, 
+                TopologyLabel::Blip, PhysicsLabel::Po210, 
+                IterateTopologyLabel()
+            );
+            mc_data->SetLabelingFunction_TrackID(po, LabelCast(LabelingFunction::ProcessPo210));
         }
     }
     void SimulationLabelingLogic::ProcessCosmics(

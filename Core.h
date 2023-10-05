@@ -343,10 +343,21 @@ namespace arrakis
         NeutronCaptureGammaOther = 15,
         Ar39 = 16,
         Ar42 = 17,
-        Kr85 = 18,
-        Rn222 = 19,
-        NuclearRecoil = 20,
-        ElectronRecoil = 21
+        K42 = 18,
+        Kr85 = 19,
+        Rn222 = 20,
+        Po218 = 21,
+        At218 = 22,
+        Rn218 = 23,
+        Pb214 = 24,
+        Bi214 = 25,
+        Po214 = 26,
+        Tl210 = 27,
+        Pb210 = 28,
+        Bi210 = 29,
+        Po210 = 30,
+        NuclearRecoil = 31,
+        ElectronRecoil = 32
     };
     using PhysicsLabelInt = std::underlying_type<PhysicsLabel>::type;
     inline Int_t LabelCast(PhysicsLabel label) 
@@ -382,11 +393,22 @@ namespace arrakis
         ProcessElectronRecoils = 23,
         ProcessAr39 = 24,
         ProcessAr42 = 25,
-        ProcessKr85 = 26,
-        ProcessRn222 = 27,
-        ProcessCosmics = 28,
-        ProcessShowers = 29,
-        ProcessNoise = 30,
+        ProcessK42 = 26,
+        ProcessKr85 = 27,
+        ProcessRn222 = 28,
+        ProcessPo218 = 29,
+        ProcessAt218 = 30,
+        ProcessRn218 = 31,
+        ProcessPb214 = 32,
+        ProcessBi214 = 33,
+        ProcessPo214 = 34,
+        ProcessTl210 = 35,
+        ProcessPb210 = 36,
+        ProcessBi210 = 37,
+        ProcessPo210 = 38,
+        ProcessCosmics = 39,
+        ProcessShowers = 40,
+        ProcessNoise = 41,
     };
     using LabelingFunctionInt = std::underlying_type<LabelingFunction>::type;
     inline Int_t LabelCast(LabelingFunction label) 
