@@ -120,19 +120,8 @@ namespace arrakis
 
         void ProcessAr39(const Parameters& config, art::Event const& event);
         void ProcessAr42(const Parameters& config, art::Event const& event);
-        void ProcessK42(const Parameters& config, art::Event const& event);
         void ProcessKr85(const Parameters& config, art::Event const& event);
         void ProcessRn222(const Parameters& config, art::Event const& event);
-        void ProcessPo218(const Parameters& config, art::Event const& event);
-        void ProcessAt218(const Parameters& config, art::Event const& event);
-        void ProcessRn218(const Parameters& config, art::Event const& event);
-        void ProcessPb214(const Parameters& config, art::Event const& event);
-        void ProcessBi214(const Parameters& config, art::Event const& event);
-        void ProcessPo214(const Parameters& config, art::Event const& event);
-        void ProcessTl210(const Parameters& config, art::Event const& event);
-        void ProcessPb210(const Parameters& config, art::Event const& event);
-        void ProcessBi210(const Parameters& config, art::Event const& event);
-        void ProcessPo210(const Parameters& config, art::Event const& event);
 
         void ProcessCosmics(const Parameters& config, art::Event const& event);
         void CleanUpPointClouds(const Parameters& config, art::Event const& event);
@@ -154,5 +143,45 @@ namespace arrakis
 
         Int_t mTopologyLabel;
         Int_t mParticleLabel;
+
+        std::vector<PhysicsLabel> mRn222Decays = {
+            PhysicsLabel::Rn222, 
+            PhysicsLabel::Po218a, PhysicsLabel::Po218b,
+            PhysicsLabel::At218a, PhysicsLabel::At218b,
+            PhysicsLabel::Rn218,
+            PhysicsLabel::Pb214,
+            PhysicsLabel::Bi214a, PhysicsLabel::Bi214b,
+            PhysicsLabel::Po214,
+            PhysicsLabel::Tl210,
+            PhysicsLabel::Pb210a, PhysicsLabel::Pb210b,
+            PhysicsLabel::Bi210a, PhysicsLabel::Bi210b,
+            PhysicsLabel::Po210
+        };
+        std::vector<Int_t> mRn222PDGs = {
+            1000020040,
+            1000020040, 11,
+            1000020040, 11,
+            1000020040,
+            11,
+            1000020040, 11,
+            1000020040,
+            11,
+            1000020040, 11,
+            1000020040, 11,
+            1000020040
+        };
+        std::vector<Double_t> mRn222Energies = {
+            5.590,
+            6.115, 0.294,
+            6.874, 2.883,
+            7.263,
+            1.024,
+            5.627, 3.272,
+            7.833,
+            5.484,
+            3.792, 0.064,
+            5.037, 1.163,
+            5.407
+        };
     };
 }
