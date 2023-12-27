@@ -7,6 +7,7 @@
  */
 #pragma once
 #include <mutex>
+#include <algorithm>
 
 #include "art/Framework/Principal/Event.h"
 #include "art/Framework/Principal/Handle.h"
