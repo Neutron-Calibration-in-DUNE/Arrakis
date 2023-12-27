@@ -469,7 +469,7 @@ namespace arrakis
             sOpDetPointCloudTree->Branch("unique_physics_meso_label",   &sOpDetPointCloud.unique_physics_meso_label);
             sOpDetPointCloudTree->Branch("unique_physics_macro_label",  &sOpDetPointCloud.unique_physics_macro_label);
         }
-        
+
         sGeneratorMap["Ar39Label"] =    GeneratorLabel::Ar39;
         sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
         sGeneratorMap["Kr85Label"] =    GeneratorLabel::Kr85;
@@ -601,7 +601,7 @@ namespace arrakis
         Int_t uniqueTopologyLabel,
         Int_t uniquePhysicsMicroLabel,
         Int_t uniquePhysicsMesoLabel,
-        Int_t uniquePhysicsMacroLabel,
+        Int_t uniquePhysicsMacroLabel
     )
     {
         sEnergyDepositPointCloud.topology_label[edepID] = topologyLabel;

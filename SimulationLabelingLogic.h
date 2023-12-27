@@ -69,7 +69,7 @@ namespace arrakis
             Int_t uniqueTopologyLabel,
             Int_t uniquePhysicsMicroLabel,
             Int_t uniquePhysicsMesoLabel,
-            Int_t uniquePhysicsMacroLabel,
+            Int_t uniquePhysicsMacroLabel
         );
         void SetLabels(
             DetSimID_Collection 
@@ -83,7 +83,7 @@ namespace arrakis
             Int_t uniqueTopologyLabel,
             Int_t uniquePhysicsMicroLabel,
             Int_t uniquePhysicsMesoLabel,
-            Int_t uniquePhysicsMacroLabel,
+            Int_t uniquePhysicsMacroLabel
         );
         void SetLabels(
             std::vector<DetSimID_Collection> detsimIDs, 
@@ -96,7 +96,7 @@ namespace arrakis
             Int_t uniqueTopologyLabel,
             Int_t uniquePhysicsMicroLabel,
             Int_t uniquePhysicsMesoLabel,
-            Int_t uniquePhysicsMacroLabel,
+            Int_t uniquePhysicsMacroLabel
         );
 
         void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);

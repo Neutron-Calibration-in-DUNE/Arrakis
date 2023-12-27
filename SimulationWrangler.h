@@ -124,8 +124,9 @@ namespace arrakis
             Int_t uniqueTopologyLabel,
             Int_t uniquePhysicsMicroLabel,
             Int_t uniquePhysicsMesoLabel,
-            Int_t uniquePhysicsMacroLabel,
+            Int_t uniquePhysicsMacroLabel
         );
+
         void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
         { sTrackID_LabelingFunctionMap[trackID] = labelingFunction; }
 
