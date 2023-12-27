@@ -316,11 +316,11 @@ namespace arrakis
                 physics_meso_label.emplace_back(LabelCast(PhysicsMesoLabel::Undefined));
                 physics_macro_label.emplace_back(LabelCast(PhysicsMacroLabel::Undefined));
             }
-            unique_topology.emplace_back(-1);
-            unique_particle.emplace_back(-1);
-            unique_physics_micro.emplace_back(-1);
-            unique_physics_meso.emplace_back(-1);
-            unique_physics_macro.emplace_back(-1);
+            unique_topology_label.emplace_back(-1);
+            unique_particle_label.emplace_back(-1);
+            unique_physics_micro_label.emplace_back(-1);
+            unique_physics_meso_label.emplace_back(-1);
+            unique_physics_macro_label.emplace_back(-1);
 
             // Empty hit information
             hit_mean.emplace_back(-1);

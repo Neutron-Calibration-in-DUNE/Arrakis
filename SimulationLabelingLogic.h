@@ -56,7 +56,7 @@ namespace arrakis
         Int_t UniquePhysicsMacro();
         void ProcessEvent(const Parameters& config, art::Event const& event);
 
-        SourceLabel DetermineSourceLabel(TrackID_t trackID);
+        PhysicsMacroLabel DeterminePhysicsMacroLabel(TrackID_t trackID);
 
         void SetLabels(
             DetSimID_List detsimID, 

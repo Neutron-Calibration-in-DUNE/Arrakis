@@ -52,15 +52,17 @@ namespace arrakis
         std::vector<TrackID_t>  edep_track_id = {};
         std::vector<ProcessType> edep_process = {};
 
-        std::vector<SourceLabelInt> source_label = {};
         std::vector<TopologyLabelInt> topology_label = {};
         std::vector<ParticleLabelInt> particle_label = {};
-        std::vector<PhysicsLabelInt> physics_label = {};
+        std::vector<PhysicsMicroLabelInt> physics_micro_label = {};
+        std::vector<PhysicsMesoLabelInt> physics_meso_label = {};
+        std::vector<PhysicsMacroLabelInt> physics_macro_label = {};
 
-        std::vector<Int_t> unique_source = {};
-        std::vector<Int_t> unique_topology = {};
-        std::vector<Int_t> unique_particle = {};
-        std::vector<Int_t> unique_physics = {};
+        std::vector<Int_t> unique_topology_label = {};
+        std::vector<Int_t> unique_particle_label = {};
+        std::vector<Int_t> unique_physics_micro_label = {};
+        std::vector<Int_t> unique_physics_meso_label = {};
+        std::vector<Int_t> unique_physics_macro_label = {};
 
         std::vector<std::vector<DetSimID_t>> edep_detsim_id = {};
 
@@ -81,15 +83,16 @@ namespace arrakis
             edep_process.clear();
             edep_detsim_id.clear();
 
-            source_label.clear();
             topology_label.clear();
             particle_label.clear();
-            physics_label.clear();
-
-            unique_source.clear();
-            unique_topology.clear();
-            unique_particle.clear();
-            unique_physics.clear();
+            physics_micro_label.clear();
+            physics_meso_label.clear();
+            physics_macro_label.clear();
+            unique_topology_label.clear();
+            unique_particle_label.clear();
+            unique_physics_micro_label.clear();
+            unique_physics_meso_label.clear();
+            unique_physics_macro_label.clear();
         }
 
         void AddPoint(
@@ -110,15 +113,17 @@ namespace arrakis
             edep_process.emplace_back(process);
             edep_detsim_id.emplace_back(std::vector<DetSimID_t>());
 
-            source_label.emplace_back(LabelCast(SourceLabel::Undefined));
             topology_label.emplace_back(LabelCast(TopologyLabel::Undefined));
             particle_label.emplace_back(LabelCast(ParticleLabel::Undefined));
-            physics_label.emplace_back(LabelCast(PhysicsLabel::Undefined));
+            physics_micro_label.emplace_back(LabelCast(PhysicsMicroLabel::Undefined));
+            physics_meso_label.emplace_back(LabelCast(PhysicsMesoLabel::Undefined));
+            physics_macro_label.emplace_back(LabelCast(PhysicsMacroLabel::Undefined));
             
-            unique_source.emplace_back(-1);
-            unique_topology.emplace_back(-1);
-            unique_particle.emplace_back(-1);
-            unique_physics.emplace_back(-1);
+            unique_topology_label.emplace_back(-1);
+            unique_particle_label.emplace_back(-1);
+            unique_physics_micro_label.emplace_back(-1);
+            unique_physics_meso_label.emplace_back(-1);
+            unique_physics_macro_label.emplace_back(-1);
         }
     };
 }

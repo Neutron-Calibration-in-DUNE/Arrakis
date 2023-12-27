@@ -126,7 +126,7 @@ namespace arrakis
         */ 
         FillTTree();
     }
-    SourceLabel SimulationLabelingLogic::DetermineSourceLabel(TrackID_t trackID)
+    PhysicsMacroLabel SimulationLabelingLogic::DeterminePhysicsMacroLabel(TrackID_t trackID)
     {
         /**
          * Find the ancestor track id for this particle,
@@ -149,19 +149,19 @@ namespace arrakis
             generator_label == GeneratorLabel::Kr85 ||
             generator_label == GeneratorLabel::Rn222
         ) {
-            return SourceLabel::Radiological;
+            return PhysicsMacroLabel::Radiological;
         }
         else if(generator_label == GeneratorLabel::Cosmics) {
-            return SourceLabel::Cosmics;
+            return PhysicsMacroLabel::Cosmics;
         }
         else if(generator_label == GeneratorLabel::PNS) {
-            return SourceLabel::PulsedNeutronSource;
+            return PhysicsMacroLabel::PulsedNeutronSource;
         }
         else if(generator_label == GeneratorLabel::HEPevt) {
-            return SourceLabel::HEPevt;
+            return PhysicsMacroLabel::HEPevt;
         }
         else {
-            return SourceLabel::Undefined;
+            return PhysicsMacroLabel::Undefined;
         }
     }
     void SimulationLabelingLogic::SetLabels(
@@ -179,7 +179,7 @@ namespace arrakis
     )
     {
         auto mc_data = SimulationWrangler::GetInstance();
-        auto source_label = DetermineSourceLabel(trackID);
+        auto source_label = DeterminePhysicsMacroLabel(trackID);
         auto particle = mc_data->GetPDGCode_TrackID(trackID);
         for(size_t ii = 0; ii < detSimIDList.size(); ii++)
         {
