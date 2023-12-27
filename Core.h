@@ -329,7 +329,7 @@ namespace arrakis
     */
     enum class PhysicsMesoLabel
     {
-        Undefined = -1
+        Undefined = -1,
         Noise = 0,
         MIP = 1,
         HIP = 2,
