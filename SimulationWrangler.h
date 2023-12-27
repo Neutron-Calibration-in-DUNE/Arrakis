@@ -114,12 +114,17 @@ namespace arrakis
             Bool_t inductionFlag
         );
         void SetEnergyDepositPointCloudLabels(
-            EdepID_t edepID,
-            SourceLabelInt sourceLabel, 
-            TopologyLabelInt shapeLabel, 
+            EdepID_t edepID, 
+            TrackID_t trackID,
+            TopologyLabelInt topologyLabel, 
             ParticleLabelInt particleLabel, 
-            PhysicsLabelInt physicsLabel,
-            Int_t uniqueShape
+            PhysicsMicroLabelInt physicsMicroLabel,
+            PhysicsMesoLabelInt physicsMesoLabel,
+            PhysicsMacroLabelInt physicsMacroLabel,
+            Int_t uniqueTopologyLabel,
+            Int_t uniquePhysicsMicroLabel,
+            Int_t uniquePhysicsMesoLabel,
+            Int_t uniquePhysicsMacroLabel,
         );
         void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
         { sTrackID_LabelingFunctionMap[trackID] = labelingFunction; }

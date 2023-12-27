@@ -172,36 +172,6 @@ namespace arrakis
             std::vector<Int_t> det_unique_physics_meso;
             std::vector<Int_t> det_unique_physics_macro;
             Double_t det_energy = 0.0;
-            for(auto ide : det_ide)
-            {
-                det_track_ids.emplace_back(ide.trackID);
-                det_energies.emplace_back(ide.energy);
-                det_x.emplace_back(ide.x);
-                det_y.emplace_back(ide.y);
-                det_z.emplace_back(ide.z);
-                if(det_noise)
-                {
-                    det_shape.emplace_back(LabelCast(TopologyLabel::Noise));
-                    det_particle.emplace_back(LabelCast(ParticleLabel::Noise));
-                    det_physics_micro.emplace_back(LabelCast(PhysicsMicroLabel::Noise));
-                    det_physics_meso.emplace_back(LabelCast(PhysicsMesoLabel::Noise));
-                    det_physics_macro.emplace_back(LabelCast(PhysicsMacroLabel::Noise));
-                }
-                else
-                {
-                    det_shape.emplace_back(LabelCast(TopologyLabel::Undefined));
-                    det_particle.emplace_back(LabelCast(ParticleLabel::Undefined));
-                    det_physics_micro.emplace_back(LabelCast(PhysicsMicroLabel::Undefined));
-                    det_physics_meso.emplace_back(LabelCast(PhysicsMesoLabel::Undefined));
-                    det_physics_macro.emplace_back(LabelCast(PhysicsMacroLabel::Undefined));
-                }
-                det_unique_topology.emplace_back(-1);
-                det_unique_particle.emplace_back(-1);
-                det_unique_physics_micro.emplace_back(-1);
-                det_unique_physics_meso.emplace_back(-1);
-                det_unique_physics_macro.emplace_back(-1);
-                det_energy += ide.energy;
-            }
             
             energy.emplace_back(det_energy);
             track_ids.emplace_back(det_track_ids);

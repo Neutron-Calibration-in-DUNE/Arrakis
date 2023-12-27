@@ -468,7 +468,8 @@ namespace arrakis
             sOpDetPointCloudTree->Branch("unique_physics_micro_label",  &sOpDetPointCloud.unique_physics_micro_label);
             sOpDetPointCloudTree->Branch("unique_physics_meso_label",   &sOpDetPointCloud.unique_physics_meso_label);
             sOpDetPointCloudTree->Branch("unique_physics_macro_label",  &sOpDetPointCloud.unique_physics_macro_label);
-
+        }
+        
         sGeneratorMap["Ar39Label"] =    GeneratorLabel::Ar39;
         sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
         sGeneratorMap["Kr85Label"] =    GeneratorLabel::Kr85;
