@@ -518,7 +518,6 @@ namespace arrakis
         auto particle_process = mc_data->GetProcess_TrackID(trackID);
         auto particle_descendants = mc_data->GetDescendantTrackID_TrackID(trackID);
 
-        bool shower = false;
         TopologyLabel topology = TopologyLabel::Blip;
         PhysicsMesoLabel physics_meso = PhysicsMesoLabel::Undefined;
         auto unique_physics_meso = UniquePhysicsMeso();
@@ -567,7 +566,6 @@ namespace arrakis
         auto num_conversion = conversion_descendants.size();
         if (num_conversion > 0) 
         {
-            shower = true;
             topology = TopologyLabel::Shower;
             auto earliest_conversion = 10e19;
             auto earliest_bremsstrahlung = 10e19;
