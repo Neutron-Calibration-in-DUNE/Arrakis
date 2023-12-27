@@ -614,7 +614,7 @@ namespace arrakis
             uniqueTopology,
             UniquePhysicsMicro(),
             unique_physics_meso,
-            0,
+            0
         );
 
         auto photoelectric_detsim = mc_data->GetDetSimID_TrackID(photoelectric_descendants);
@@ -630,7 +630,7 @@ namespace arrakis
             uniqueTopology,
             UniquePhysicsMicro(),
             unique_physics_meso,
-            0,
+            0
         );
 
         auto compton_detsim = mc_data->GetDetSimID_TrackID(compton_descendants);
@@ -646,7 +646,7 @@ namespace arrakis
             uniqueTopology,
             UniquePhysicsMicro(),
             unique_physics_meso,
-            0,
+            0
         );
 
         auto annihilation_detsim = mc_data->GetDetSimID_TrackID(annihilation_descendants);
@@ -662,7 +662,7 @@ namespace arrakis
             uniqueTopology,
             UniquePhysicsMicro(),
             unique_physics_meso,
-            0,
+            0
         );
 
         auto conversion_detsim = mc_data->GetDetSimID_TrackID(conversion_descendants);
@@ -678,7 +678,7 @@ namespace arrakis
             uniqueTopology,
             UniquePhysicsMicro(),
             unique_physics_meso,
-            0,
+            0
         );
 
         auto gamma_descendants = mc_data->FilterTrackID_AbsPDGCode(particle_descendants, 22);
@@ -708,7 +708,7 @@ namespace arrakis
             next(self.unique_physics_micro),
             next(self.unique_physics_micro),
             next(self.unique_physics_meso),
-            0,
+            0
         );
 
         auto hadron_inelastic_hits = self.simulation_wrangler.get_hits_trackid(hadron_inelastic);
@@ -724,7 +724,7 @@ namespace arrakis
             next(self.unique_physics_micro),
             next(self.unique_physics_micro),
             next(self.unique_physics_meso),
-            0,
+            0
         );
     }
     void SimulationLabelingLogic::ProcessShowers(
@@ -828,7 +828,7 @@ namespace arrakis
                 muon_topology,
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
 
             auto muon_daughters = mc_data->GetDaughterTrackID_TrackID(muon);
@@ -850,7 +850,7 @@ namespace arrakis
                 muon_topology,
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             SetLabels(
                 michel_capture_det_sim,
@@ -863,7 +863,7 @@ namespace arrakis
                 muon_topology,
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             auto michel_decay_descendants = mc_data->GetDescendantTrackID_TrackID(decay_daughters);
             auto michel_capture_descendants = mc_data->GetDescendantTrackID_TrackID(capture_daughters);
@@ -884,7 +884,7 @@ namespace arrakis
                 muon_topology,
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             auto delta_descendants = mc_data->GetDescendantTrackID_TrackID(delta_daughters);
             ProcessShowers(delta_descendants);
@@ -959,7 +959,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             ProcessShowers(pion_daughters, UniqueTopology());
         }
@@ -1006,7 +1006,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             ProcessShowers(kaon_daughters, UniqueTopology());
         }
@@ -1038,7 +1038,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             ProcessShowers(proton_daughters, UniqueTopology());
         }
@@ -1072,7 +1072,7 @@ namespace arrakis
             UniqueTopology(),
             UniquePhysicsMicro(),
             UniquePhysicsMeso(),
-            0,
+            0
         );
 
         auto inelastic_neutrons_det_sim = mc_data->GetDetSimID_TrackID(inelastic_neutrons);
@@ -1088,7 +1088,7 @@ namespace arrakis
             UniqueTopology(),
             UniquePhysicsMicro(),
             UniquePhysicsMeso(),
-            0,
+            0
         );
 
         for (auto neutron : neutrons)
@@ -1147,7 +1147,7 @@ namespace arrakis
                         UniqueTopology(),
                         UniquePhysicsMicro(),
                         UniquePhysicsMeso(),
-                        0,
+                        0
                     );
                 }
             }
@@ -1213,7 +1213,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto ar : ar40)
@@ -1231,7 +1231,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto ar : ar39)
@@ -1249,7 +1249,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto ar : ar38)
@@ -1267,7 +1267,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto ar : ar37)
@@ -1285,7 +1285,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto ar : ar36)
@@ -1303,7 +1303,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto s : s33)
@@ -1321,7 +1321,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto s : s35)
@@ -1339,7 +1339,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto s : s36)
@@ -1357,7 +1357,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto cl : cl36)
@@ -1375,7 +1375,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto cl : cl37)
@@ -1393,7 +1393,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto cl : cl39)
@@ -1411,7 +1411,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto cl : cl40)
@@ -1429,7 +1429,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
     }
@@ -1467,7 +1467,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto triton : tritons)
@@ -1485,7 +1485,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
         for (auto inelastic_alpha : inelastic_alphas)
@@ -1503,7 +1503,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
         }
     }
@@ -1535,7 +1535,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessAr39));
         }
@@ -1577,7 +1577,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             }
             else 
@@ -1593,7 +1593,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             }
             mc_data->SetLabelingFunction_TrackID(ar, LabelCast(LabelingFunction::ProcessAr42));
@@ -1628,7 +1628,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             mc_data->SetLabelingFunction_TrackID(kr, LabelCast(LabelingFunction::ProcessKr85));
         }
@@ -1714,7 +1714,7 @@ namespace arrakis
         {
             Int_t index = 0;
             Double_t energy_diff = 10e10;
-            for(Int_t ii = 0; ii < mRn222Energies.size(); ii++)
+            for(auto ii = 0; ii < mRn222Energies.size(); ii++)
             {
                 if (mc_data->GetPDGCode_TrackID(rn) != mRn222PDGs[ii]) {
                     continue;
@@ -1738,7 +1738,7 @@ namespace arrakis
                 UniqueTopology(),
                 UniquePhysicsMicro(),
                 UniquePhysicsMeso(),
-                0,
+                0
             );
             mc_data->SetLabelingFunction_TrackID(rn, LabelCast(LabelingFunction::ProcessRn222));
         }
