@@ -235,11 +235,6 @@ namespace arrakis
             fhicl::Name("SaveWirePlaneUnderThreshold"),
             fhicl::Comment("Whether to save the true points which are under threshold.")
         };
-        fhicl::Atom<std::string> NeutronCaptureGammaDetail
-        {
-            fhicl::Name("NeutronCaptureGammaDetail"),
-            fhicl::Comment("The level of detail for labeling neutron capture gammas, can be either 'simple', 'medium' of 'full'.")
-        };
         fhicl::Atom<Int_t> ADCThreshold
         {
             fhicl::Name("ADCThreshold"),

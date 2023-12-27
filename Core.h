@@ -244,41 +244,7 @@ namespace arrakis
         }
         std::cout << "]" << std::endl;
     }
-
-    /**
-     * 
-    */
-    enum class SourceLabel
-    {
-        Undefined = -1,
-        Noise = 0,
-        Cosmics = 1,
-        Beam = 2,
-        Radiological = 3,
-        PulsedNeutronSource = 4,
-        HEPevt = 5
-    };
-    using SourceLabelInt = std::underlying_type<SourceLabel>::type;
-    inline Int_t LabelCast(SourceLabel label)
-    {
-        return static_cast<SourceLabelInt>(label);
-    }
-    /**
-     * 
-    */
-    enum class TopologyLabel
-    {
-        Undefined = -1,
-        Noise = 0,
-        Blip = 1,
-        Track = 2,
-        Shower = 3
-    };
-    using TopologyLabelInt = std::underlying_type<TopologyLabel>::type;
-    inline Int_t LabelCast(TopologyLabel label) 
-    { 
-        return static_cast<TopologyLabelInt>(label);
-    }
+    
     /**
      * 
     */
@@ -319,56 +285,128 @@ namespace arrakis
     { 
         return static_cast<ParticleLabelInt>(label);
     }
-    enum class PhysicsLabel
+
+    /**
+     * 
+    */
+    enum class TopologyLabel
     {
         Undefined = -1,
         Noise = 0,
-        // Track-like objects
+        Blip = 1,
+        Track = 2,
+        Shower = 3,
+    };
+    using TopologyLabelInt = std::underlying_type<TopologyLabel>::type;
+    inline Int_t LabelCast(TopologyLabel label) 
+    { 
+        return static_cast<TopologyLabelInt>(label);
+    }
+
+    enum class PhysicsMicroLabel
+    {
+        Undefined = -1,
+        Noise = 0,
         MIPIonization = 1,
         HIPIonization = 2,
+        ElectronIonization = 3,
+        Bremsstrahlung = 4,
+        Annihilation = 5,
+        PhotoElectric = 6,
+        GammaCompton = 7,
+        GammaConversion = 8,
+        HadronElastic = 9,
+        HadronInelastic = 10
+    };
+    using PhysicsMicroLabelInt = std::underlying_type<PhysicsMicroLabel>::type;
+    inline Int_t LabelCast(PhysicsMicroLabel label) 
+    { 
+        return static_cast<PhysicsMicroLabelInt>(label);
+    }
+
+    /**
+     * 
+    */
+    enum class PhysicsMesoLabel
+    {
+        Undefined = -1
+        Noise = 0,
+        MIP = 1,
+        HIP = 2,
         DeltaElectron = 3,
         MichelElectron = 4,
-        // Shower-like objects
         ElectronShower = 5,
         PositronShower = 6,
         PhotonShower = 7,
-        // Blip-like objects
-        NeutronCaptureGamma474 = 8,
-        NeutronCaptureGamma336 = 9,
-        NeutronCaptureGamma256 = 10,
-        NeutronCaptureGamma118 = 11,
-        NeutronCaptureGamma083 = 12,
-        NeutronCaptureGamma051 = 13,
-        NeutronCaptureGamma016 = 14,
-        NeutronCaptureGammaOther = 15,
-        Ar39 = 16,
-        Ar42 = 17,
-        K42 = 18,
-        Kr85 = 19,
-        Rn222 = 20,
-        Po218a = 21,
-        Po218b = 22,
-        At218a = 23,
-        At218b = 24,
-        Rn218 = 25,
-        Pb214 = 26,
-        Bi214a = 27,
-        Bi214b = 28,
-        Po214 = 29,
-        Tl210 = 30,
-        Pb210a = 31,
-        Pb210b = 32,
-        Bi210a = 33,
-        Bi210b = 34,
-        Po210 = 35,
-        NuclearRecoil = 36,
-        ElectronRecoil = 37
+        LowEnergyIonization = 8,
+        NeutronCaptureGamma474 = 9,
+        NeutronCaptureGamma336 = 10,
+        NeutronCaptureGamma256 = 11,
+        NeutronCaptureGamma118 = 12,
+        NeutronCaptureGamma083 = 13,
+        NeutronCaptureGamma051 = 14,
+        NeutronCaptureGamma016 = 15,
+        NeutronCaptureGammaOther = 16,
+        Pi0Decay = 17,
+        AlphaDecay = 18,
+        BetaDecay = 19,
+        GammaDecay = 20,
+        NuclearRecoil = 21,
+        ElectronRecoil = 22
     };
-    using PhysicsLabelInt = std::underlying_type<PhysicsLabel>::type;
-    inline Int_t LabelCast(PhysicsLabel label) 
+    using PhysicsMesoLabelInt = std::underlying_type<PhysicsMesoLabel>::type;
+    inline Int_t LabelCast(PhysicsMesoLabel label) 
     { 
-        return static_cast<PhysicsLabelInt>(label);
+        return static_cast<PhysicsMesoLabelInt>(label);
     }
+
+    /**
+     * 
+    */
+    enum class PhysicsMacroLabel
+    {
+        Undefined = -1,
+        Noise = 0,
+
+        // Neutrino interactions
+        CCNue = 1,
+        CCNuMu = 2,
+        NC = 3,
+
+        Cosmics = 5,
+
+        // Radiological interactions
+        Ar39 = 6,
+        Ar42 = 7,
+        K42 = 8,
+        Kr85 = 9,
+        Rn222 = 10,
+        Po218a = 11,
+        Po218b = 12,
+        At218a = 13,
+        At218b = 14,
+        Rn218 = 15,
+        Pb214 = 16,
+        Bi214a = 17,
+        Bi214b = 18,
+        Po214 = 19,
+        Tl210 = 20,
+        Pb210a = 21,
+        Pb210b = 22,
+        Bi210a = 23,
+        Bi210b = 24,
+        Po210 = 25,
+
+    };
+    using PhysicsMacroLabelInt = std::underlying_type<PhysicsMacroLabel>::type;
+    inline Int_t LabelCast(PhysicsMacroLabel label)
+    {
+        return static_cast<PhysicsMacroLabelInt>(label);
+    }
+
+    /**
+     * 
+    */
     enum class LabelingFunction
     {
         Undefined = -1,

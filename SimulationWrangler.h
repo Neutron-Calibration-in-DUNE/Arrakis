@@ -100,15 +100,25 @@ namespace arrakis
 
         WirePlanePointCloud& GetWirePlanePointCloud()               { return sWirePlanePointCloud; }
         void SetWirePlanePointCloudLabels(
-            DetSimID_t detSimID, TrackID_t trackID,
-            SourceLabelInt sourceLabel, TopologyLabelInt shapeLabel, 
-            ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
-            Int_t uniqueShape, Bool_t inductionFlag = 0
+            DetSimID_t detSimID, 
+            TrackID_t trackID,
+            TopologyLabelInt topologyLabel, 
+            ParticleLabelInt particleLabel, 
+            PhysicsMicroLabelInt physicsMicroLabel,
+            PhysicsMesoLabelInt physicsMesoLabel,
+            PhysicsMacroLabelInt physicsMacroLabel,
+            Int_t uniqueTopologyLabel,
+            Int_t uniquePhysicsMicroLabel,
+            Int_t uniquePhysicsMesoLabel,
+            Int_t uniquePhysicsMacroLabel,
+            Bool_t inductionFlag
         );
         void SetEnergyDepositPointCloudLabels(
             EdepID_t edepID,
-            SourceLabelInt sourceLabel, TopologyLabelInt shapeLabel, 
-            ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
+            SourceLabelInt sourceLabel, 
+            TopologyLabelInt shapeLabel, 
+            ParticleLabelInt particleLabel, 
+            PhysicsLabelInt physicsLabel,
             Int_t uniqueShape
         );
         void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
@@ -125,8 +135,9 @@ namespace arrakis
         inline Int_t            GetAbsPDGCode_TrackID(TrackID_t trackID)     { return std::abs(sTrackID_PDGCodeMap[trackID]); }
         inline ProcessType      GetProcess_TrackID(TrackID_t trackID)        { return sTrackID_ProcessMap[trackID]; }
         inline ProcessType      GetEndProcess_TrackID(TrackID_t trackID)     { return sTrackID_EndProcessMap[trackID]; }
-        inline Double_t         GetEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[trackID];}
+        inline Double_t         GetEnergy_TrackID(TrackID_t trackID)         { return sTrackID_EnergyMap[trackID]; }
         inline Double_t         GetEnergy_TrackID(TrackID_t trackID, Double_t precision){ return round(sTrackID_EnergyMap[trackID] * pow(10.0, precision)) / pow(10.0, precision); }
+        inline Double_t         GetStartTime_TrackID(TrackID_t trackID)      { return sTrackID_StartTimeMap[trackID]; }
         inline TrackID_List     GetDaughterTrackID_TrackID(TrackID_t trackID)   { return sTrackID_DaughterTrackIDMap[trackID]; }
         inline TrackID_List     GetProgenyTrackID_TrackID(TrackID_t trackID)    { return sTrackID_ProgenyTrackIDMap[trackID]; }
         inline TrackID_List     GetDescendantTrackID_TrackID(TrackID_t trackID) { return sTrackID_DescendantTrackIDMap[trackID]; }
@@ -198,6 +209,8 @@ namespace arrakis
 
         DetSimID_Collection GetDetSimID_TrackID(TrackID_List trackIDs);
         std::vector<DetSimID_Collection> GetDetSimID_TrackID(TrackID_Collection trackIDs);
+
+        TrackID_List GetStartTime_TrackID(TrackID_List trackIDs);
 
         TrackID_Collection GetDaughterTrackID_GeneratorLabel(GeneratorLabel label);
         TrackID_Collection GetDaughterTrackID_PDGCode(Int_t pdg);
@@ -345,6 +358,7 @@ namespace arrakis
         std::map<TrackID_t, ProcessType>    sTrackID_ProcessMap;
         std::map<TrackID_t, ProcessType>    sTrackID_EndProcessMap;
         std::map<TrackID_t, Double_t>       sTrackID_EnergyMap;
+        std::map<TrackID_t, Double_t>       sTrackID_StartTimeMap;
         std::map<TrackID_t, TrackID_List>   sTrackID_DaughterTrackIDMap;
         std::map<TrackID_t, TrackID_List>   sTrackID_ProgenyTrackIDMap;
         std::map<TrackID_t, TrackID_List>   sTrackID_DescendantTrackIDMap;

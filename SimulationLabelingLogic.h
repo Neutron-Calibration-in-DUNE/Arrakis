@@ -33,12 +33,6 @@
 
 namespace arrakis
 {
-    enum class NeutronCaptureGammaDetail
-    {
-        Simple = 0,
-        Medium = 1,
-        Full = 2,
-    };
     class SimulationLabelingLogic
     {
     public:
@@ -56,27 +50,53 @@ namespace arrakis
 
         // methods for processing event data
         void ResetEvent();
-        Int_t IterateTopologyLabel();
+        Int_t UniqueTopology();
+        Int_t UniquePhysicsMicro();
+        Int_t UniquePhysicsMeso();
+        Int_t UniquePhysicsMacro();
         void ProcessEvent(const Parameters& config, art::Event const& event);
 
         SourceLabel DetermineSourceLabel(TrackID_t trackID);
 
         void SetLabels(
-            DetSimID_List detsimID, EdepID_List edepID, TrackID_t track_id,
-            TopologyLabel topology, PhysicsLabel physics,
-            Int_t unique_topology
+            DetSimID_List detsimID, 
+            EdepID_List edepID, 
+            TrackID_t track_id,
+            TopologyLabel topology, 
+            PhysicsMicroLabel physicsMicroLabel,
+            PhysicsMesoLabel physicsMesoLabel,
+            PhysicsMacroLabel physicsMacroLabel,
+            Int_t uniqueTopologyLabel,
+            Int_t uniquePhysicsMicroLabel,
+            Int_t uniquePhysicsMesoLabel,
+            Int_t uniquePhysicsMacroLabel,
         );
         void SetLabels(
-            DetSimID_Collection detsimIDs, EdepID_Collection edepIDs, TrackID_List trackIDList,
-            TopologyLabel topology, PhysicsLabel physics,
-            Int_t unique_topology
+            DetSimID_Collection 
+            detsimIDs, 
+            EdepID_Collection edepIDs, 
+            TrackID_List trackIDList,
+            TopologyLabel topology, 
+            PhysicsMicroLabel physicsMicroLabel,
+            PhysicsMesoLabel physicsMesoLabel,
+            PhysicsMacroLabel physicsMacroLabel,
+            Int_t uniqueTopologyLabel,
+            Int_t uniquePhysicsMicroLabel,
+            Int_t uniquePhysicsMesoLabel,
+            Int_t uniquePhysicsMacroLabel,
         );
         void SetLabels(
             std::vector<DetSimID_Collection> detsimIDs, 
             std::vector<EdepID_Collection> edepIDs,
             TrackID_Collection trackIDCollection,
-            TopologyLabel topology, PhysicsLabel physics,
-            Int_t unique_topology
+            TopologyLabel topology, 
+            PhysicsMicroLabel physicsMicroLabel,
+            PhysicsMesoLabel physicsMesoLabel,
+            PhysicsMacroLabel physicsMacroLabel,
+            Int_t uniqueTopologyLabel,
+            Int_t uniquePhysicsMicroLabel,
+            Int_t uniquePhysicsMesoLabel,
+            Int_t uniquePhysicsMacroLabel,
         );
 
         void PrepareInitialPointClouds(const Parameters& config, art::Event const& event);
@@ -93,28 +113,24 @@ namespace arrakis
         void ProcessAntiElectronNeutrinos(const Parameters& config, art::Event const& event);
 
         void ProcessMuons(const Parameters& config, art::Event const& event);
-        void ProcessAntiMuons(const Parameters& config, art::Event const& event);
         void ProcessMuonNeutrinos(const Parameters& config, art::Event const& event);
         void ProcessAntiMuonNeutrinos(const Parameters& config, art::Event const& event);
 
         void ProcessTauons(const Parameters& config, art::Event const& event);
-        void ProcessAntiTauons(const Parameters& config, art::Event const& event);
         void ProcessTauonNeutrinos(const Parameters& config, art::Event const& event);
         void ProcessAntiTauonNeutrinos(const Parameters& config, art::Event const& event);
 
         void ProcessGammas(const Parameters& config, art::Event const& event);
 
         void ProcessPion0s(const Parameters& config, art::Event const& event);
-        void ProcessPionPlus(const Parameters& config, art::Event const& event);
-        void ProcessPionMinus(const Parameters& config, art::Event const& event);
+        void ProcessPions(const Parameters& config, art::Event const& event);
 
         void ProcessKaon0s(const Parameters& config, art::Event const& event);
-        void ProcessKaonPlus(const Parameters& config, art::Event const& event);
-        void ProcessKaonMinus(const Parameters& config, art::Event const& event);
+        void ProcessKaons(const Parameters& config, art::Event const& event);
 
         void ProcessProtons(const Parameters& config, art::Event const& event);
         
-        void ProcessNeutronCaptures(const Parameters& config, art::Event const& event);
+        void ProcessNeutrons(const Parameters& config, art::Event const& event);
         void ProcessNuclearRecoils(const Parameters& config, art::Event const& event);
         void ProcessElectronRecoils(const Parameters& config, art::Event const& event);
 
@@ -133,7 +149,6 @@ namespace arrakis
         static std::mutex sMutex;
 
         // Configuration Parameters
-        NeutronCaptureGammaDetail sNeutronCaptureGammaDetail;
         Int_t sInducedChannelInfluence;
         Int_t sInducedTDCInfluence;
         Double_t sShowerEnergyThreshold;
@@ -141,21 +156,36 @@ namespace arrakis
         // Output TTree
         art::ServiceHandle<art::TFileService> mTFileService;
 
-        Int_t mTopologyLabel;
-        Int_t mParticleLabel;
+        Int_t mUniqueTopologyLabel;
+        Int_t mUniquePhysicsMicroLabel;
+        Int_t mUniquePhysicsMesoLabel;
+        Int_t mUniquePhysicsMacroLabel;
 
-        std::vector<PhysicsLabel> mRn222Decays = {
-            PhysicsLabel::Rn222, 
-            PhysicsLabel::Po218a, PhysicsLabel::Po218b,
-            PhysicsLabel::At218a, PhysicsLabel::At218b,
-            PhysicsLabel::Rn218,
-            PhysicsLabel::Pb214,
-            PhysicsLabel::Bi214a, PhysicsLabel::Bi214b,
-            PhysicsLabel::Po214,
-            PhysicsLabel::Tl210,
-            PhysicsLabel::Pb210a, PhysicsLabel::Pb210b,
-            PhysicsLabel::Bi210a, PhysicsLabel::Bi210b,
-            PhysicsLabel::Po210
+        std::vector<PhysicsMesoLabel> mRn222PhysicsMeso = {
+            PhysicsMesoLabel::AlphaDecay, 
+            PhysicsMesoLabel::AlphaDecay, PhysicsMesoLabel::BetaDecay,
+            PhysicsMesoLabel::AlphaDecay, PhysicsMesoLabel::BetaDecay,
+            PhysicsMesoLabel::AlphaDecay,
+            PhysicsMesoLabel::BetaDecay,
+            PhysicsMesoLabel::AlphaDecay, PhysicsMesoLabel::BetaDecay,
+            PhysicsMesoLabel::AlphaDecay,
+            PhysicsMesoLabel::BetaDecay,
+            PhysicsMesoLabel::AlphaDecay, PhysicsMesoLabel::BetaDecay,            
+            PhysicsMesoLabel::AlphaDecay, PhysicsMesoLabel::BetaDecay,
+            PhysicsMesoLabel::AlphaDecay
+        };
+        std::vector<PhysicsMacroLabel> mRn222PhysicsMacro = {
+            PhysicsMacroLabel::Rn222, 
+            PhysicsMacroLabel::Po218a, PhysicsMacroLabel::Po218b,
+            PhysicsMacroLabel::At218a, PhysicsMacroLabel::At218b,
+            PhysicsMacroLabel::Rn218,
+            PhysicsMacroLabel::Pb214,
+            PhysicsMacroLabel::Bi214a, PhysicsMacroLabel::Bi214b,
+            PhysicsMacroLabel::Po214,
+            PhysicsMacroLabel::Tl210,
+            PhysicsMacroLabel::Pb210a, PhysicsMacroLabel::Pb210b,
+            PhysicsMacroLabel::Bi210a, PhysicsMacroLabel::Bi210b,
+            PhysicsMacroLabel::Po210
         };
         std::vector<Int_t> mRn222PDGs = {
             1000020040,
