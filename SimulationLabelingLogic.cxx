@@ -163,7 +163,7 @@ namespace arrakis
         }
     }
     void SimulationLabelingLogic::SetLabels(
-        DetSimID_List detsimIDList, 
+        DetSimID_List detSimIDList, 
         EdepID_List edepIDList, 
         TrackID_t trackID,
         TopologyLabel topology, 
@@ -686,17 +686,18 @@ namespace arrakis
         if (
             mc_data->GetAbsPDGCode_TrackID(trackID) == 22 &&
             mc_data->GetProcess_TrackID(trackID) == ProcessType::HadronElastic
-        ):
+        ) {
             hadron_elastic.emplace_back(trackID);
+        }
         if (
             mc_data->GetAbsPDGCode_TrackID(trackID) == 22 &&
             mc_data->GetProcess_TrackID(trackID) == ProcessType::HadronInelastic
-        ):
+        ) {
             hadron_inelastic.emplace_back(trackID);
-
+        }
         auto hadron_elastic_hits = mc_data->GetDetSimID_TrackID(hadron_elastic);
         auto hadron_elastic_segments = mc_data->GetEdepID_TrackID(hadron_elastic);
-        self.simulation_wrangler.set_hit_labels_list(
+        SetLabels(
             hadron_elastic_hits,
             hadron_elastic_segments,
             hadron_elastic,
@@ -712,7 +713,7 @@ namespace arrakis
 
         auto hadron_inelastic_hits = mc_data->GetDetSimID_TrackID(hadron_inelastic);
         auto hadron_inelastic_segments = mc_data->GetEdepID_TrackID(hadron_inelastic);
-        self.simulation_wrangler.set_hit_labels_list(
+        SetLabels(
             hadron_inelastic_hits,
             hadron_inelastic_segments,
             hadron_inelastic,
@@ -1097,58 +1098,54 @@ namespace arrakis
             auto other_daughters = mc_data->FilterTrackID_NotAbsPDGCode(neutron_daughters, 22);
             auto capture_daughters = mc_data->FilterTrackID_Process(gamma_daughters, ProcessType::NeutronCapture);
             auto other_gammas = mc_data->FilterTrackID_NotProcess(gamma_daughters, ProcessType::NeutronCapture);
-            for (auto capture : capture_daughters)
+            for (auto gamma : capture_daughters)
             {
-                //Int_t neutron_label = UniqueTopology();
-                for (auto gamma : capture)
-                {
-                    Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 5);
-                    auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
-                    auto gamma_edep = mc_data->GetAllEdepID_TrackID(gamma);
+                Double_t gamma_energy = mc_data->GetEnergy_TrackID(gamma, 5);
+                auto gamma_det_sim = mc_data->GetAllDetSimID_TrackID(gamma);
+                auto gamma_edep = mc_data->GetAllEdepID_TrackID(gamma);
 
-                    auto physics_meso_label = PhysicsLabel::NeutronCaptureGammaOther;
-                    if (gamma_energy == 0.00474 || gamma_energy == 0.00475)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma474;
-                    }
-                    else if (gamma_energy == 0.00336 || gamma_energy == 0.00337)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma336;
-                    }
-                    else if (gamma_energy == 0.00256 || gamma_energy == 0.00257)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma256;
-                    }
-                    else if (gamma_energy == 0.00118 || gamma_energy == 0.00119)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma118;
-                    }
-                    else if (gamma_energy == 0.00083 || gamma_energy == 0.00084)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma083;
-                    }
-                    else if (gamma_energy == 0.00051 || gamma_energy == 0.00052)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma051;
-                    }
-                    else if (gamma_energy == 0.00016 || gamma_energy == 0.00017)
-                    {
-                        physics_meso_label = PhysicsLabel::NeutronCaptureGamma016;
-                    }
-                    SetLabels(
-                        gamma_det_sim, 
-                        gamma_edep, 
-                        gamma,
-                        TopologyLabel::Blip,
-                        PhysicsMicroLabel::GammaCompton,
-                        physics_meso_label,
-                        PhysicsMacroLabel::Undefined,
-                        UniqueTopology(),
-                        UniquePhysicsMicro(),
-                        UniquePhysicsMeso(),
-                        0
-                    );
+                auto physics_meso_label = PhysicsMesoLabel::NeutronCaptureGammaOther;
+                if (gamma_energy == 0.00474 || gamma_energy == 0.00475)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma474;
                 }
+                else if (gamma_energy == 0.00336 || gamma_energy == 0.00337)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma336;
+                }
+                else if (gamma_energy == 0.00256 || gamma_energy == 0.00257)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma256;
+                }
+                else if (gamma_energy == 0.00118 || gamma_energy == 0.00119)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma118;
+                }
+                else if (gamma_energy == 0.00083 || gamma_energy == 0.00084)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma083;
+                }
+                else if (gamma_energy == 0.00051 || gamma_energy == 0.00052)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma051;
+                }
+                else if (gamma_energy == 0.00016 || gamma_energy == 0.00017)
+                {
+                    physics_meso_label = PhysicsMesoLabel::NeutronCaptureGamma016;
+                }
+                SetLabels(
+                    gamma_det_sim, 
+                    gamma_edep, 
+                    gamma,
+                    TopologyLabel::Blip,
+                    PhysicsMicroLabel::GammaCompton,
+                    physics_meso_label,
+                    PhysicsMacroLabel::Undefined,
+                    UniqueTopology(),
+                    UniquePhysicsMicro(),
+                    UniquePhysicsMeso(),
+                    0
+                );
             }
             ProcessShowers(other_daughters, UniqueTopology());
             ProcessShowers(other_gammas, UniqueTopology());
@@ -1525,7 +1522,7 @@ namespace arrakis
             SetLabels(
                 ar39_det_sim,
                 ar39_edep,
-                ar39,
+                ar,
                 TopologyLabel::Blip,
                 PhysicsMicroLabel::ElectronIonization,
                 PhysicsMesoLabel::BetaDecay,
@@ -1566,7 +1563,7 @@ namespace arrakis
                 SetLabels(
                     ar42_det_sim,
                     ar42_edep,
-                    ar42,
+                    ar,
                     TopologyLabel::Blip,
                     PhysicsMicroLabel::ElectronIonization,
                     PhysicsMesoLabel::BetaDecay,
@@ -1582,7 +1579,7 @@ namespace arrakis
                 SetLabels(
                     ar42_det_sim,
                     ar42_edep,
-                    ar42,
+                    ar,
                     TopologyLabel::Blip,
                     PhysicsMicroLabel::ElectronIonization,
                     PhysicsMesoLabel::BetaDecay,
@@ -1617,7 +1614,7 @@ namespace arrakis
             SetLabels(
                 kr85_det_sim,
                 kr85_edep,
-                kr85,
+                kr,
                 TopologyLabel::Blip,
                 PhysicsMicroLabel::ElectronIonization,
                 PhysicsMesoLabel::BetaDecay,
@@ -1727,7 +1724,7 @@ namespace arrakis
             SetLabels(
                 rn222_det_sim,
                 rn222_edep,
-                rn222,
+                rn,
                 TopologyLabel::Blip,
                 PhysicsMicroLabel::ElectronIonization,
                 mRn222PhysicsMeso[index],
@@ -1787,14 +1784,14 @@ namespace arrakis
         //     Int_t shower_label = UniqueTopology();
         //     SetLabels(
         //         electron_det_sim, electron_edep, electron,
-        //         TopologyLabel::Shower, PhysicsLabel::ElectronRecoil, 
+        //         TopologyLabel::Shower, PhysicsMesoLabel::ElectronRecoil, 
         //         shower_label
         //     );
         //     mc_data->SetLabelingFunction_TrackID(electron, LabelCast(LabelingFunction::ProcessCosmics));
 
         //     SetLabels(
         //         elec_det_sim, elec_edep, elec_daughters, 
-        //         TopologyLabel::Shower, PhysicsLabel::ElectronRecoil, 
+        //         TopologyLabel::Shower, PhysicsMesoLabel::ElectronRecoil, 
         //         shower_label
         //     );
         //     for (auto daughter : elec_daughters) {
@@ -1820,14 +1817,14 @@ namespace arrakis
         //     Int_t shower_label = UniqueTopology();
         //     SetLabels(
         //         positron_det_sim, positron_edep, positron, 
-        //         TopologyLabel::Shower, PhysicsLabel::PositronShower, 
+        //         TopologyLabel::Shower, PhysicsMesoLabel::PositronShower, 
         //         shower_label
         //     );
         //     mc_data->SetLabelingFunction_TrackID(positron, LabelCast(LabelingFunction::ProcessCosmics));
 
         //     SetLabels(
         //         elec_det_sim, elec_edep, elec_daughters,
-        //         TopologyLabel::Shower, PhysicsLabel::PositronShower, 
+        //         TopologyLabel::Shower, PhysicsMesoLabel::PositronShower, 
         //         shower_label
         //     );
         //     for (auto daughter : elec_daughters) {
