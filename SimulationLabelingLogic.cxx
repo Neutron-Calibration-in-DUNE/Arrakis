@@ -191,7 +191,8 @@ namespace arrakis
                 uniqueTopologyLabel,
                 uniquePhysicsMicroLabel,
                 uniquePhysicsMesoLabel,
-                uniquePhysicsMacroLabel
+                uniquePhysicsMacroLabel,
+                0
             );
         }
         for(size_t ii = 0; ii < edepIDList.size(); ii++)
@@ -1708,7 +1709,7 @@ namespace arrakis
         {
             Int_t index = 0;
             Double_t energy_diff = 10e10;
-            for(auto ii = 0; ii < mRn222Energies.size(); ii++)
+            for(uint64_t ii = 0; ii < mRn222Energies.size(); ii++)
             {
                 if (mc_data->GetPDGCode_TrackID(rn) != mRn222PDGs[ii]) {
                     continue;
