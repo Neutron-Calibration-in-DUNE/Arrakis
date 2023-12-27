@@ -342,9 +342,8 @@ namespace arrakis
             sEnergyDepositPointCloudTree->Branch("physics_micro_label", &sEnergyDepositPointCloud.physics_micro_label);
             sEnergyDepositPointCloudTree->Branch("physics_meso_label",  &sEnergyDepositPointCloud.physics_meso_label);
             sEnergyDepositPointCloudTree->Branch("physics_macro_label", &sEnergyDepositPointCloud.physics_macro_label);
-            sEnergyDepositPointCloudTree->Branch("unique_source",       &sEnergyDepositPointCloud.unique_source);
-            sEnergyDepositPointCloudTree->Branch("unique_topology",     &sEnergyDepositPointCloud.unique_topology);
-            sEnergyDepositPointCloudTree->Branch("unique_particle",     &sEnergyDepositPointCloud.unique_particle);
+            sEnergyDepositPointCloudTree->Branch("unique_topology",     &sEnergyDepositPointCloud.unique_topology_label);
+            sEnergyDepositPointCloudTree->Branch("unique_particle",     &sEnergyDepositPointCloud.unique_particle_label);
             sEnergyDepositPointCloudTree->Branch("unique_physics_micro_label",  &sEnergyDepositPointCloud.unique_physics_micro_label);
             sEnergyDepositPointCloudTree->Branch("unique_physics_meso_label",   &sEnergyDepositPointCloud.unique_physics_meso_label);
             sEnergyDepositPointCloudTree->Branch("unique_physics_macro_label",  &sEnergyDepositPointCloud.unique_physics_macro_label);
@@ -393,16 +392,13 @@ namespace arrakis
             sWirePlanePointCloudTree->Branch("adc",     &sWirePlanePointCloud.adc);
             sWirePlanePointCloudTree->Branch("view",    &sWirePlanePointCloud.view);
             sWirePlanePointCloudTree->Branch("energy",  &sWirePlanePointCloud.energy);
-            sWirePlanePointCloudTree->Branch("physics_macro_label", &sWirePlanePointCloud.physics_macro_label);
             sWirePlanePointCloudTree->Branch("topology_label",      &sWirePlanePointCloud.topology_label);
             sWirePlanePointCloudTree->Branch("particle_label",      &sWirePlanePointCloud.particle_label);
-            sWirePlanePointCloudTree->Branch("physics_label",       &sWirePlanePointCloud.physics_label);
             sWirePlanePointCloudTree->Branch("physics_micro_label", &sWirePlanePointCloud.physics_micro_label);
             sWirePlanePointCloudTree->Branch("physics_meso_label",  &sWirePlanePointCloud.physics_meso_label);
             sWirePlanePointCloudTree->Branch("physics_macro_label", &sWirePlanePointCloud.physics_macro_label);
-            sWirePlanePointCloudTree->Branch("unique_source",       &sWirePlanePointCloud.unique_source);
-            sWirePlanePointCloudTree->Branch("unique_topology",     &sWirePlanePointCloud.unique_topology);
-            sWirePlanePointCloudTree->Branch("unique_particle",     &sWirePlanePointCloud.unique_particle);
+            sWirePlanePointCloudTree->Branch("unique_topology",     &sWirePlanePointCloud.unique_topology_label);
+            sWirePlanePointCloudTree->Branch("unique_particle",     &sWirePlanePointCloud.unique_particle_label);
             sWirePlanePointCloudTree->Branch("unique_physics_micro_label",  &sWirePlanePointCloud.unique_physics_micro_label);
             sWirePlanePointCloudTree->Branch("unique_physics_meso_label",   &sWirePlanePointCloud.unique_physics_meso_label);
             sWirePlanePointCloudTree->Branch("unique_physics_macro_label",  &sWirePlanePointCloud.unique_physics_macro_label);
@@ -462,12 +458,16 @@ namespace arrakis
             sOpDetPointCloudTree->Branch("tick",    &sOpDetPointCloud.tick);
             sOpDetPointCloudTree->Branch("adc",     &sOpDetPointCloud.adc);
             sOpDetPointCloudTree->Branch("energy",  &sOpDetPointCloud.energy);
-            sOpDetPointCloudTree->Branch("physics_macro_label",    &sOpDetPointCloud.physics_macro_label);
-            sOpDetPointCloudTree->Branch("topology_label",     &sOpDetPointCloud.topology_label);
-            sOpDetPointCloudTree->Branch("particle_label",  &sOpDetPointCloud.particle_label);
-            sOpDetPointCloudTree->Branch("unique_topology",    &sOpDetPointCloud.unique_topology);
-            sOpDetPointCloudTree->Branch("unique_particle", &sOpDetPointCloud.unique_particle);
-        }
+            sOpDetPointCloudTree->Branch("topology_label",      &sOpDetPointCloud.topology_label);
+            sOpDetPointCloudTree->Branch("particle_label",      &sOpDetPointCloud.particle_label);
+            sOpDetPointCloudTree->Branch("physics_micro_label", &sOpDetPointCloud.physics_micro_label);
+            sOpDetPointCloudTree->Branch("physics_meso_label",  &sOpDetPointCloud.physics_meso_label);
+            sOpDetPointCloudTree->Branch("physics_macro_label", &sOpDetPointCloud.physics_macro_label);
+            sOpDetPointCloudTree->Branch("unique_topology",     &sOpDetPointCloud.unique_topology_label);
+            sOpDetPointCloudTree->Branch("unique_particle",     &sOpDetPointCloud.unique_particle_label);
+            sOpDetPointCloudTree->Branch("unique_physics_micro_label",  &sOpDetPointCloud.unique_physics_micro_label);
+            sOpDetPointCloudTree->Branch("unique_physics_meso_label",   &sOpDetPointCloud.unique_physics_meso_label);
+            sOpDetPointCloudTree->Branch("unique_physics_macro_label",  &sOpDetPointCloud.unique_physics_macro_label);
 
         sGeneratorMap["Ar39Label"] =    GeneratorLabel::Ar39;
         sGeneratorMap["Ar42Label"] =    GeneratorLabel::Ar42;
@@ -590,16 +590,29 @@ namespace arrakis
         sWirePlanePointCloud.induction_flag[detSimID] = inductionFlag;
     }
     void SimulationWrangler::SetEnergyDepositPointCloudLabels(
-        EdepID_t edepID, SourceLabelInt sourceLabel, TopologyLabelInt topologyLabel, 
-        ParticleLabelInt particleLabel, PhysicsLabelInt physicsLabel,
-        Int_t uniqueTopology
+        EdepID_t edepID, 
+        TrackID_t trackID,
+        TopologyLabelInt topologyLabel, 
+        ParticleLabelInt particleLabel, 
+        PhysicsMicroLabelInt physicsMicroLabel,
+        PhysicsMesoLabelInt physicsMesoLabel,
+        PhysicsMacroLabelInt physicsMacroLabel,
+        Int_t uniqueTopologyLabel,
+        Int_t uniquePhysicsMicroLabel,
+        Int_t uniquePhysicsMesoLabel,
+        Int_t uniquePhysicsMacroLabel,
     )
     {
-        sEnergyDepositPointCloud.physics_macro_label[edepID] = sourceLabel;
         sEnergyDepositPointCloud.topology_label[edepID] = topologyLabel;
         sEnergyDepositPointCloud.particle_label[edepID] = particleLabel;
-        sEnergyDepositPointCloud.physics_label[edepID] = physicsLabel;
-        sEnergyDepositPointCloud.unique_topology[edepID] = uniqueTopology;
+        sEnergyDepositPointCloud.physics_micro_label[edepID] = physicsMicroLabel;
+        sEnergyDepositPointCloud.physics_meso_label[edepID] = physicsMesoLabel;
+        sEnergyDepositPointCloud.physics_macro_label[edepID] = physicsMacroLabel;
+        sEnergyDepositPointCloud.unique_particle_label[edepID] = trackID;
+        sEnergyDepositPointCloud.unique_topology_label[edepID] = uniqueTopologyLabel;
+        sEnergyDepositPointCloud.unique_physics_micro_label[edepID] = uniquePhysicsMicroLabel;
+        sEnergyDepositPointCloud.unique_physics_meso_label[edepID] = uniquePhysicsMesoLabel;
+        sEnergyDepositPointCloud.unique_physics_macro_label[edepID] = uniquePhysicsMacroLabel;
     }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
@@ -1509,7 +1522,7 @@ namespace arrakis
         }
         return start_time;
     }
-    
+
     std::vector<DetSimID_Collection> SimulationWrangler::GetDetSimID_TrackID(TrackID_Collection trackIDCollection)
     {
         std::vector<DetSimID_Collection> detsim;
