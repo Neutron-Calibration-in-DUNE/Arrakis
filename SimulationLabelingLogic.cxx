@@ -834,10 +834,10 @@ namespace arrakis
             auto elec_daughters = mc_data->FilterTrackID_AbsPDGCode(muon_daughters, 11);
             auto decay_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::Decay);
             auto capture_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::MuonCaptureAtRest);
-            auto michel_decay_det_sim = mc_data->GetAllDetSimID_TrackID(decay_daughters);
-            auto michel_capture_det_sim = mc_data->GetAllDetSimID_TrackID(capture_daughters);
-            auto michel_decay_edep = mc_data->GetAllEdepID_TrackID(decay_daughters);
-            auto michel_capture_edep = mc_data->GetAllEdepID_TrackID(capture_daughters);
+            auto michel_decay_det_sim = mc_data->GetDetSimID_TrackID(decay_daughters);
+            auto michel_capture_det_sim = mc_data->GetDetSimID_TrackID(capture_daughters);
+            auto michel_decay_edep = mc_data->GetEdepID_TrackID(decay_daughters);
+            auto michel_capture_edep = mc_data->GetEdepID_TrackID(capture_daughters);
             SetLabels(
                 michel_decay_det_sim,
                 michel_decay_edep,
@@ -866,8 +866,8 @@ namespace arrakis
             );
             auto michel_decay_descendants = mc_data->GetDescendantTrackID_TrackID(decay_daughters);
             auto michel_capture_descendants = mc_data->GetDescendantTrackID_TrackID(capture_daughters);
-            ProcessShowers(decay_daughters, UniqueTopology());
-            ProcessShowers(capture_daughters, UniqueTopology());
+            ProcessShowers(michel_decay_descendants, UniqueTopology());
+            ProcessShowers(michel_capture_descendants, UniqueTopology());
             
             auto delta_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::MuonIonization);
             auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
