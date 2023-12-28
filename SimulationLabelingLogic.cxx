@@ -866,8 +866,8 @@ namespace arrakis
             );
             auto michel_decay_descendants = mc_data->GetDescendantTrackID_TrackID(decay_daughters);
             auto michel_capture_descendants = mc_data->GetDescendantTrackID_TrackID(capture_daughters);
-            ProcessShowers(michel_decay_descendants, UniqueTopology());
-            ProcessShowers(michel_capture_descendants, UniqueTopology());
+            ProcessShowers(michel_decay_descendants);
+            ProcessShowers(michel_capture_descendants);
             
             auto delta_daughters = mc_data->FilterTrackID_Process(elec_daughters, ProcessType::MuonIonization);
             auto delta_det_sim = mc_data->GetDetSimID_TrackID(delta_daughters);
