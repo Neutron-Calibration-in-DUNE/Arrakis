@@ -106,11 +106,9 @@ namespace arrakis
             ParticleLabelInt particleLabel, 
             PhysicsMicroLabelInt physicsMicroLabel,
             PhysicsMesoLabelInt physicsMesoLabel,
-            PhysicsMacroLabelInt physicsMacroLabel,
             Int_t uniqueTopologyLabel,
             Int_t uniquePhysicsMicroLabel,
             Int_t uniquePhysicsMesoLabel,
-            Int_t uniquePhysicsMacroLabel,
             Bool_t inductionFlag
         );
         void SetEnergyDepositPointCloudLabels(
@@ -120,15 +118,18 @@ namespace arrakis
             ParticleLabelInt particleLabel, 
             PhysicsMicroLabelInt physicsMicroLabel,
             PhysicsMesoLabelInt physicsMesoLabel,
-            PhysicsMacroLabelInt physicsMacroLabel,
             Int_t uniqueTopologyLabel,
             Int_t uniquePhysicsMicroLabel,
-            Int_t uniquePhysicsMesoLabel,
-            Int_t uniquePhysicsMacroLabel
+            Int_t uniquePhysicsMesoLabel
         );
 
         void SetLabelingFunction_TrackID(TrackID_t trackID, LabelingFunctionInt labelingFunction) 
         { sTrackID_LabelingFunctionMap[trackID] = labelingFunction; }
+
+        void SetPhysicsMacroLabel_TrackID(TrackID_t trackID, PhysicsMacroLabel physicsMacroLabel) 
+        { sTrackID_PhysicsMacroLabelMap[trackID] = physicsMacroLabel; }
+        void SetUniquePhysicsMacroLabel_TrackID(TrackID_t trackID, Int_t uniquePhysicsMacroLabel) 
+        { sTrackID_UniquePhysicsMacroLabelMap[trackID] = uniquePhysicsMacroLabel; }
 
         /**
          * Various accessors from TrackID.  The convention for the function names are
@@ -137,6 +138,8 @@ namespace arrakis
          */
         inline ParticleID_t     GetParticleID_TrackID(TrackID_t trackID)     { return sTrackID_ParticleIDMap[trackID]; }
         inline GeneratorLabel   GetGeneratorLabel_TrackID(TrackID_t trackID) { return sTrackID_GeneratorLabelMap[trackID]; }
+        inline PhysicsMacroLabel   GetPhysicsMacroLabel_TrackID(TrackID_t trackID) { return sTrackID_PhysicsMacroLabelMap[trackID]; }
+        inline Int_t            GetUniquePhysicsMacroLabel_TrackID(TrackID_t trackID) { return sTrackID_UniquePhysicsMacroLabelMap[trackID]; }
         inline Int_t            GetPDGCode_TrackID(TrackID_t trackID)        { return sTrackID_PDGCodeMap[trackID]; }
         inline Int_t            GetAbsPDGCode_TrackID(TrackID_t trackID)     { return std::abs(sTrackID_PDGCodeMap[trackID]); }
         inline ProcessType      GetProcess_TrackID(TrackID_t trackID)        { return sTrackID_ProcessMap[trackID]; }
@@ -360,6 +363,8 @@ namespace arrakis
         // TrackID maps
         std::map<TrackID_t, ParticleID_t>   sTrackID_ParticleIDMap;
         std::map<TrackID_t, GeneratorLabel> sTrackID_GeneratorLabelMap;
+        std::map<TrackID_t, PhysicsMacroLabel> sTrackID_PhysicsMacroLabelMap;
+        std::map<TrackID_t, Int_t> sTrackID_UniquePhysicsMacroLabelMap;
         std::map<TrackID_t, Int_t>          sTrackID_PDGCodeMap;
         std::map<TrackID_t, ProcessType>    sTrackID_ProcessMap;
         std::map<TrackID_t, ProcessType>    sTrackID_EndProcessMap;

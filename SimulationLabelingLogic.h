@@ -108,6 +108,8 @@ namespace arrakis
 
         void ProcessNoise(const Parameters& config, art::Event const& event);
 
+        void ProcessMCTruth(const Parameters& config, art::Event const& event);
+
         void ProcessElectrons(const Parameters& config, art::Event const& event);
         void ProcessPositrons(const Parameters& config, art::Event const& event);
         void ProcessElectronNeutrinos(const Parameters& config, art::Event const& event);

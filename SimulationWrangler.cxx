@@ -556,38 +556,38 @@ namespace arrakis
         ParticleLabelInt particleLabel, 
         PhysicsMicroLabelInt physicsMicroLabel,
         PhysicsMesoLabelInt physicsMesoLabel,
-        PhysicsMacroLabelInt physicsMacroLabel,
         Int_t uniqueTopologyLabel,
         Int_t uniquePhysicsMicroLabel,
         Int_t uniquePhysicsMesoLabel,
-        Int_t uniquePhysicsMacroLabel,
         Bool_t inductionFlag
     )
     {
         auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detSimID, trackID);
+        auto physics_macro = sTrackID_PhysicsMacroLabelMap[trackID];
+        auto unique_physics_macro = sTrackID_UniquePhysicsMacroLabelMap[trackID];
         if(track_index != -1)
         {
             sWirePlanePointCloud.topology_labels[detSimID][track_index] = topologyLabel;
             sWirePlanePointCloud.particle_labels[detSimID][track_index] = particleLabel;
             sWirePlanePointCloud.physics_micro_labels[detSimID][track_index] = physicsMicroLabel;
             sWirePlanePointCloud.physics_meso_labels[detSimID][track_index] = physicsMesoLabel;
-            sWirePlanePointCloud.physics_macro_labels[detSimID][track_index] = physicsMacroLabel;
+            sWirePlanePointCloud.physics_macro_labels[detSimID][track_index] = physics_macro;
             sWirePlanePointCloud.unique_particle_labels[detSimID][track_index] = trackID;
             sWirePlanePointCloud.unique_topology_labels[detSimID][track_index] = uniqueTopologyLabel;
             sWirePlanePointCloud.unique_physics_micro_labels[detSimID][track_index] = uniquePhysicsMicroLabel;
             sWirePlanePointCloud.unique_physics_meso_labels[detSimID][track_index] = uniquePhysicsMesoLabel;
-            sWirePlanePointCloud.unique_physics_macro_labels[detSimID][track_index] = uniquePhysicsMacroLabel;
+            sWirePlanePointCloud.unique_physics_macro_labels[detSimID][track_index] = unique_physics_macro;
         }
         sWirePlanePointCloud.topology_label[detSimID] = topologyLabel;
         sWirePlanePointCloud.particle_label[detSimID] = particleLabel;
         sWirePlanePointCloud.physics_micro_label[detSimID] = physicsMicroLabel;
         sWirePlanePointCloud.physics_meso_label[detSimID] = physicsMesoLabel;
-        sWirePlanePointCloud.physics_macro_label[detSimID] = physicsMacroLabel;
+        sWirePlanePointCloud.physics_macro_label[detSimID]= physics_macro;
         sWirePlanePointCloud.unique_particle_label[detSimID] = trackID;
         sWirePlanePointCloud.unique_topology_label[detSimID] = uniqueTopologyLabel;
         sWirePlanePointCloud.unique_physics_micro_label[detSimID] = uniquePhysicsMicroLabel;
         sWirePlanePointCloud.unique_physics_meso_label[detSimID] = uniquePhysicsMesoLabel;
-        sWirePlanePointCloud.unique_physics_macro_label[detSimID] = uniquePhysicsMacroLabel;
+        sWirePlanePointCloud.unique_physics_macro_label[detSimID] = unique_physics_macro;
         sWirePlanePointCloud.induction_flag[detSimID] = inductionFlag;
     }
     void SimulationWrangler::SetEnergyDepositPointCloudLabels(
@@ -597,23 +597,19 @@ namespace arrakis
         ParticleLabelInt particleLabel, 
         PhysicsMicroLabelInt physicsMicroLabel,
         PhysicsMesoLabelInt physicsMesoLabel,
-        PhysicsMacroLabelInt physicsMacroLabel,
         Int_t uniqueTopologyLabel,
         Int_t uniquePhysicsMicroLabel,
-        Int_t uniquePhysicsMesoLabel,
-        Int_t uniquePhysicsMacroLabel
+        Int_t uniquePhysicsMesoLabel
     )
     {
         sEnergyDepositPointCloud.topology_label[edepID] = topologyLabel;
         sEnergyDepositPointCloud.particle_label[edepID] = particleLabel;
         sEnergyDepositPointCloud.physics_micro_label[edepID] = physicsMicroLabel;
         sEnergyDepositPointCloud.physics_meso_label[edepID] = physicsMesoLabel;
-        sEnergyDepositPointCloud.physics_macro_label[edepID] = physicsMacroLabel;
         sEnergyDepositPointCloud.unique_particle_label[edepID] = trackID;
         sEnergyDepositPointCloud.unique_topology_label[edepID] = uniqueTopologyLabel;
         sEnergyDepositPointCloud.unique_physics_micro_label[edepID] = uniquePhysicsMicroLabel;
         sEnergyDepositPointCloud.unique_physics_meso_label[edepID] = uniquePhysicsMesoLabel;
-        sEnergyDepositPointCloud.unique_physics_macro_label[edepID] = uniquePhysicsMacroLabel;
     }
     void SimulationWrangler::PrintParticleData(TrackID_t trackID)
     {
@@ -850,6 +846,8 @@ namespace arrakis
             particle_index += 1;
 
             sTrackID_GeneratorLabelMap[particle.TrackId()] = GeneratorLabel::None;
+            sTrackID_PhysicsMacroLabelMap[particle.TrackId()] = PhysicsMacroLabel::Undefined;
+            sTrackID_UniquePhysicsMacroLabelMap[particle.TrackID()] = -1;
             sTrackID_PDGCodeMap[particle.TrackId()] = particle.PdgCode();
             sTrackID_ProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.Process()];
             sTrackID_EndProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.EndProcess()];
