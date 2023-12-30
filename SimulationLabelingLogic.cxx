@@ -664,7 +664,7 @@ namespace arrakis
         {
             auto conversion_times = mc_data->GetStartTime_TrackID(conversion_descendants);
             auto min_conversion = std::min_element(conversion_times.begin(), conversion_times.end());
-            earliest_conversion = conversion_descendants[min_conversion];
+            earliest_conversion = conversion_descendants[std::distance(conversion_times.begin(), min_conversion)];
             earliest_conversion_time = *min_conversion;
             if (mc_data->GetParentTrackID_TrackID(earliest_conversion) == -1) {
                 earliest_conversion_pdg_code = mc_data->GetPDGCode_TrackID(earliest_conversion);
@@ -679,7 +679,7 @@ namespace arrakis
         {
             auto bremsstrahlung_times = mc_data->GetStartTime_TrackID(bremsstrahlung_descendants);
             auto min_bremsstrahlung = std::min_element(bremsstrahlung_times.begin(), bremsstrahlung_times.end());
-            earliest_bremsstrahlung = bremsstrahlung_descendants[min_bremsstrahlung];
+            earliest_bremsstrahlung = bremsstrahlung_descendants[std::distance(bremsstrahlung_times.begin(), min_bremsstrahlung)];
             earliest_bremsstrahlung_time = *min_bremsstrahlung;
             if (mc_data->GetParentTrackID_TrackID(earliest_bremsstrahlung) == -1) {
                 earliest_bremsstrahlung_pdg_code = mc_data->GetPDGCode_TrackID(earliest_bremsstrahlung);
@@ -1306,8 +1306,7 @@ namespace arrakis
             PhysicsMesoLabel::NuclearRecoil,            
             UniqueTopology(),
             UniquePhysicsMicro(),
-            UniquePhysicsMeso(),
-            0
+            UniquePhysicsMeso()
         );
 
         auto inelastic_neutrons_det_sim = mc_data->GetDetSimID_TrackID(inelastic_neutrons);
@@ -1321,8 +1320,7 @@ namespace arrakis
             PhysicsMesoLabel::NuclearRecoil,            
             UniqueTopology(),
             UniquePhysicsMicro(),
-            UniquePhysicsMeso(),
-            0
+            UniquePhysicsMeso()
         );
 
         auto hadron_at_rest_neutrons_det_sim = mc_data->GetDetSimID_TrackID(hadron_at_rest_neutrons);
@@ -1336,8 +1334,7 @@ namespace arrakis
             PhysicsMesoLabel::NuclearRecoil,            
             UniqueTopology(),
             UniquePhysicsMicro(),
-            UniquePhysicsMeso(),
-            0
+            UniquePhysicsMeso()
         );
 
         for (auto neutron : neutrons)
