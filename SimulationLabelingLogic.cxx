@@ -721,7 +721,7 @@ namespace arrakis
                 }
             }
             else {
-                if (earliest_conversion_pdg_code == 11) {
+                if (earliest_bremsstrahlung_pdg_code == 11) {
                     physics_meso = PhysicsMesoLabel::ElectronShower;
                 }
                 else {
@@ -732,7 +732,7 @@ namespace arrakis
         else if (num_bremsstrahlung > 0) 
         {
             topology = TopologyLabel::Shower;
-            if (earliest_conversion_pdg_code == 11) {
+            if (earliest_bremsstrahlung_pdg_code == 11) {
                 physics_meso = PhysicsMesoLabel::ElectronShower;
             }
             else {
@@ -744,10 +744,10 @@ namespace arrakis
             if (mc_data->GetEnergy_TrackID(trackID) >= sShowerEnergyThreshold)
             {
                 topology = TopologyLabel::Shower;
-                if (earliest_conversion_pdg_code == 11) {
+                if (mc_data->GetPDGCode_TrackID(trackID) == 11) {
                     physics_meso = PhysicsMesoLabel::ElectronShower;
                 }
-                else if (earliest_conversion_pdg_code == -11){
+                else if (mc_data->GetPDGCode_TrackID(trackID) == -11){
                     physics_meso = PhysicsMesoLabel::PositronShower;
                 }
                 else {
