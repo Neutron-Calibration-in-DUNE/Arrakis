@@ -563,7 +563,7 @@ namespace arrakis
     )
     {
         auto track_index = sWirePlanePointCloud.GetIndex_TrackID(detSimID, trackID);
-        auto physics_macro = sTrackID_PhysicsMacroLabelMap[trackID];
+        auto physics_macro = LabelCast(sTrackID_PhysicsMacroLabelMap[trackID]);
         auto unique_physics_macro = sTrackID_UniquePhysicsMacroLabelMap[trackID];
         if(track_index != -1)
         {
@@ -847,7 +847,7 @@ namespace arrakis
 
             sTrackID_GeneratorLabelMap[particle.TrackId()] = GeneratorLabel::None;
             sTrackID_PhysicsMacroLabelMap[particle.TrackId()] = PhysicsMacroLabel::Undefined;
-            sTrackID_UniquePhysicsMacroLabelMap[particle.TrackID()] = -1;
+            sTrackID_UniquePhysicsMacroLabelMap[particle.TrackId()] = -1;
             sTrackID_PDGCodeMap[particle.TrackId()] = particle.PdgCode();
             sTrackID_ProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.Process()];
             sTrackID_EndProcessMap[particle.TrackId()] = TrajectoryStringToProcessType[particle.EndProcess()];

@@ -188,7 +188,8 @@ namespace arrakis
                 LabelCast(physicsMesoLabel),
                 uniqueTopologyLabel,
                 uniquePhysicsMicroLabel,
-                uniquePhysicsMesoLabel
+                uniquePhysicsMesoLabel,
+                0
             );
         }
         for(size_t ii = 0; ii < edepIDList.size(); ii++)
@@ -663,13 +664,14 @@ namespace arrakis
         {
             auto conversion_times = mc_data->GetStartTime_TrackID(conversion_descendants);
             auto min_conversion = std::min_element(conversion_times.begin(), conversion_times.end());
-            earliest_conversion = *min_conversion;
-            if (mc_data->GetParentID_TrackID(earliest_conversion) == -1) {
-                earliest_conversion_pdg_code = mc_data->GetPdgCode_TrackID(earliest_conversion);
+            earliest_conversion = conversion_descendants[min_conversion];
+            earliest_conversion_time = *min_conversion;
+            if (mc_data->GetParentTrackID_TrackID(earliest_conversion) == -1) {
+                earliest_conversion_pdg_code = mc_data->GetPDGCode_TrackID(earliest_conversion);
             }
             else {
-                earliest_conversion_pdg_code = mc_data->GetPdgCode_TrackID(
-                    mc_data->GetParentID_TrackID(earliest_conversion)
+                earliest_conversion_pdg_code = mc_data->GetPDGCode_TrackID(
+                    mc_data->GetParentTrackID_TrackID(earliest_conversion)
                 );
             }
         }
@@ -677,13 +679,14 @@ namespace arrakis
         {
             auto bremsstrahlung_times = mc_data->GetStartTime_TrackID(bremsstrahlung_descendants);
             auto min_bremsstrahlung = std::min_element(bremsstrahlung_times.begin(), bremsstrahlung_times.end());
-            earliest_bremsstrahlung = *min_bremsstrahlung;
-            if (mc_data->GetParentID_TrackID(earliest_bremsstrahlung) == -1) {
-                earliest_bremsstrahlung_pdg_code = mc_data->GetPdgCode_TrackID(earliest_bremsstrahlung);
+            earliest_bremsstrahlung = bremsstrahlung_descendants[min_bremsstrahlung];
+            earliest_bremsstrahlung_time = *min_bremsstrahlung;
+            if (mc_data->GetParentTrackID_TrackID(earliest_bremsstrahlung) == -1) {
+                earliest_bremsstrahlung_pdg_code = mc_data->GetPDGCode_TrackID(earliest_bremsstrahlung);
             }
             else {
-                earliest_bremsstrahlung_pdg_code = mc_data->GetPdgCode_TrackID(
-                    mc_data->GetParentID_TrackID(earliest_bremsstrahlung)
+                earliest_bremsstrahlung_pdg_code = mc_data->GetPDGCode_TrackID(
+                    mc_data->GetParentTrackID_TrackID(earliest_bremsstrahlung)
                 );
             }
         }
