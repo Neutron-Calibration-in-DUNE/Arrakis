@@ -705,7 +705,7 @@ namespace arrakis
         if (num_conversion > 0) 
         {
             topology = TopologyLabel::Shower;
-            if (earliest_conversion <= earliest_bremsstrahlung) 
+            if (earliest_conversion_time <= earliest_bremsstrahlung_time) 
             {
                 if (earliest_conversion_pdg_code == 111) {
                     physics_meso = PhysicsMesoLabel::Pi0Decay;
