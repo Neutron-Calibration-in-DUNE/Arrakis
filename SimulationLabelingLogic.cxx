@@ -1337,6 +1337,30 @@ namespace arrakis
             UniquePhysicsMeso()
         );
 
+        auto non_elastic_neutrons = mc_data->FilterTrackID_NotProcess(
+            neutrons, ProcessType::HadronElastic
+        );
+        auto non_inelastic_neutrons = mc_data->FilterTrackID_NotProcess(
+            non_elastic_neutrons, ProcessType::HadronInelastic
+        );
+        auto other_neutrons = mc_data->FilterTrackID_NotProcess(
+            non_inelastic_neutrons, ProcessType::HadronCaptureAtRest
+        );
+
+        auto other_neutrons_det_sim = mc_data->GetDetSimID_TrackID(other_neutrons);
+        auto other_neutrons_edep = mc_data->GetEdepID_TrackID(other_neutrons);
+        SetLabels(
+            other_neutrons_det_sim,
+            other_neutrons_edep,
+            other_neutrons,
+            TopologyLabel::Blip,
+            PhysicsMicroLabel::HadronElastic,
+            PhysicsMesoLabel::NuclearRecoil,            
+            UniqueTopology(),
+            UniquePhysicsMicro(),
+            UniquePhysicsMeso()
+        );
+
         for (auto neutron : neutrons)
         {
             auto neutron_daughters = mc_data->GetDaughterTrackID_TrackID(neutron);
@@ -1422,17 +1446,25 @@ namespace arrakis
         auto ar37_daughters = mc_data->GetDaughterTrackID_TrackID(ar37);
         auto ar36_daughters = mc_data->GetDaughterTrackID_TrackID(ar36);
 
+        auto s32 = mc_data->GetTrackID_PDGCode(1000160320);
+        auto s32_daughters = mc_data->GetDaughterTrackID_TrackID(s32);
         auto s33 = mc_data->GetTrackID_PDGCode(1000160330);
         auto s33_daughters = mc_data->GetDaughterTrackID_TrackID(s33);
+        auto s34 = mc_data->GetTrackID_PDGCode(1000160340);
+        auto s34_daughters = mc_data->GetDaughterTrackID_TrackID(s34);
         auto s35 = mc_data->GetTrackID_PDGCode(1000160350);
         auto s35_daughters = mc_data->GetDaughterTrackID_TrackID(s35);
         auto s36 = mc_data->GetTrackID_PDGCode(1000160360);
         auto s36_daughters = mc_data->GetDaughterTrackID_TrackID(s36);
 
+        auto cl35 = mc_data->GetTrackID_PDGCode(1000170350);
+        auto cl35_daughters = mc_data->GetDaughterTrackID_TrackID(cl35);
         auto cl36 = mc_data->GetTrackID_PDGCode(1000170360);
         auto cl36_daughters = mc_data->GetDaughterTrackID_TrackID(cl36);
         auto cl37 = mc_data->GetTrackID_PDGCode(1000170370);
         auto cl37_daughters = mc_data->GetDaughterTrackID_TrackID(cl37);
+        auto cl38 = mc_data->GetTrackID_PDGCode(1000170380);
+        auto cl38_daughters = mc_data->GetDaughterTrackID_TrackID(cl38);
         auto cl39 = mc_data->GetTrackID_PDGCode(1000170390);
         auto cl39_daughters = mc_data->GetDaughterTrackID_TrackID(cl39);
         auto cl40 = mc_data->GetTrackID_PDGCode(1000170400);
@@ -1534,6 +1566,22 @@ namespace arrakis
                 UniquePhysicsMeso()
             );
         }
+        for (auto s : s32)
+        {
+            auto s32_det_sim = mc_data->GetAllDetSimID_TrackID(s);
+            auto s32_edep = mc_data->GetAllEdepID_TrackID(s);
+            SetLabels(
+                s32_det_sim,
+                s32_edep,
+                s,
+                TopologyLabel::Blip,
+                PhysicsMicroLabel::HadronElastic,
+                PhysicsMesoLabel::NuclearRecoil,                
+                UniqueTopology(),
+                UniquePhysicsMicro(),
+                UniquePhysicsMeso()
+            );
+        }
         for (auto s : s33)
         {
             auto s33_det_sim = mc_data->GetAllDetSimID_TrackID(s);
@@ -1541,6 +1589,22 @@ namespace arrakis
             SetLabels(
                 s33_det_sim,
                 s33_edep,
+                s,
+                TopologyLabel::Blip,
+                PhysicsMicroLabel::HadronElastic,
+                PhysicsMesoLabel::NuclearRecoil,                
+                UniqueTopology(),
+                UniquePhysicsMicro(),
+                UniquePhysicsMeso()
+            );
+        }
+        for (auto s : s34)
+        {
+            auto s34_det_sim = mc_data->GetAllDetSimID_TrackID(s);
+            auto s34_edep = mc_data->GetAllEdepID_TrackID(s);
+            SetLabels(
+                s34_det_sim,
+                s34_edep,
                 s,
                 TopologyLabel::Blip,
                 PhysicsMicroLabel::HadronElastic,
@@ -1582,6 +1646,22 @@ namespace arrakis
                 UniquePhysicsMeso()
             );
         }
+        for (auto cl : cl35)
+        {
+            auto cl35_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
+            auto cl35_edep = mc_data->GetAllEdepID_TrackID(cl);
+            SetLabels(
+                cl35_det_sim,
+                cl35_edep,
+                cl,
+                TopologyLabel::Blip,
+                PhysicsMicroLabel::HadronElastic,
+                PhysicsMesoLabel::NuclearRecoil,                
+                UniqueTopology(),
+                UniquePhysicsMicro(),
+                UniquePhysicsMeso()
+            );
+        }
         for (auto cl : cl36)
         {
             auto cl36_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
@@ -1605,6 +1685,22 @@ namespace arrakis
             SetLabels(
                 cl37_det_sim,
                 cl37_edep,
+                cl,
+                TopologyLabel::Blip,
+                PhysicsMicroLabel::HadronElastic,
+                PhysicsMesoLabel::NuclearRecoil,                
+                UniqueTopology(),
+                UniquePhysicsMicro(),
+                UniquePhysicsMeso()
+            );
+        }
+        for (auto cl : cl38)
+        {
+            auto cl38_det_sim = mc_data->GetAllDetSimID_TrackID(cl);
+            auto cl38_edep = mc_data->GetAllEdepID_TrackID(cl);
+            SetLabels(
+                cl38_det_sim,
+                cl38_edep,
                 cl,
                 TopologyLabel::Blip,
                 PhysicsMicroLabel::HadronElastic,
