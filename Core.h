@@ -303,7 +303,7 @@ namespace arrakis
     { 
         return static_cast<ParticleLabelInt>(label);
     }
-    bool IsParticleLabel(int particleLabelInt)
+    inline bool IsParticleLabel(int particleLabelInt)
     {
         for (int i = static_cast<int>(ParticleLabel::Undefined); i <= static_cast<int>(ParticleLabel::Ion); ++i)
         {
