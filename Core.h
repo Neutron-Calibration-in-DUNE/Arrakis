@@ -345,8 +345,8 @@ namespace arrakis
         ParticleLabel::Argon39,
         ParticleLabel::Argon40,
         ParticleLabel::Argon41,
-        ParticleLabel::Ion,
-    }
+        ParticleLabel::Ion
+    };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
     { 
