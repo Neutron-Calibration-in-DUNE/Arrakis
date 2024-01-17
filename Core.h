@@ -356,7 +356,6 @@ namespace arrakis
     {
         for (auto currentEnum : ParticleLabels)
         {
-            ParticleLabel currentEnum = static_cast<ParticleLabel>(i);
             if (static_cast<int>(currentEnum) == particleLabelInt) {
                 return true;
             }
