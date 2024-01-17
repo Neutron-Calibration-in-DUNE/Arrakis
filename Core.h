@@ -298,6 +298,55 @@ namespace arrakis
         Argon41 = 1000180410,
         Ion = 1000000000
     };
+    constexpr std::array<ParticleLabel, 3> ParticleLabels = {
+        ParticleLabel::Undefined,
+        ParticleLabel::Noise,
+        // Particle labels are simply the PDG codes
+        ParticleLabel::Electron,
+        ParticleLabel::Positron,
+        ParticleLabel::ElectronNeutrino,
+        ParticleLabel::AntiElectronNeutrino,
+        ParticleLabel::Muon,
+        ParticleLabel::AntiMuon,
+        ParticleLabel::MuonNeutrino,
+        ParticleLabel::AntiMuonNeutrino,
+        ParticleLabel::Tauon,
+        ParticleLabel::AntiTauon,
+        ParticleLabel::TauonNeutrino,
+        ParticleLabel::AntiTauonNeutrino,
+        ParticleLabel::Gamma,
+        ParticleLabel::Pion0,
+        ParticleLabel::PionPlus,
+        ParticleLabel::PionMinus,
+        ParticleLabel::Kaon0,
+        ParticleLabel::KaonPlus,
+        ParticleLabel::KaonMinus,
+        ParticleLabel::Neutron,
+        ParticleLabel::AntiNeutron,
+        ParticleLabel::Proton,
+        ParticleLabel::AntiProton,
+        ParticleLabel::Deuteron,
+        ParticleLabel::Triton,
+        ParticleLabel::Alpha,
+        ParticleLabel::Sulfur32,
+        ParticleLabel::Sulfur33,
+        ParticleLabel::Sulfur34,
+        ParticleLabel::Sulfur35,
+        ParticleLabel::Sulfur36,
+        ParticleLabel::Chlorine35,
+        ParticleLabel::Chlorine36,
+        ParticleLabel::Chlorine37,
+        ParticleLabel::Chlorine38,
+        ParticleLabel::Chlorine39,
+        ParticleLabel::Chlorine40,
+        ParticleLabel::Argon36,
+        ParticleLabel::Argon37,
+        ParticleLabel::Argon38,
+        ParticleLabel::Argon39,
+        ParticleLabel::Argon40,
+        ParticleLabel::Argon41,
+        ParticleLabel::Ion,
+    }
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
     { 
@@ -305,7 +354,7 @@ namespace arrakis
     }
     inline bool IsParticleLabel(int particleLabelInt)
     {
-        for (int i = static_cast<int>(ParticleLabel::Undefined); i <= static_cast<int>(ParticleLabel::Ion); ++i)
+        for (auto currentEnum : ParticleLabels)
         {
             ParticleLabel currentEnum = static_cast<ParticleLabel>(i);
             if (static_cast<int>(currentEnum) == particleLabelInt) {
