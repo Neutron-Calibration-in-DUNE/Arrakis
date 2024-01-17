@@ -298,7 +298,7 @@ namespace arrakis
         Argon41 = 1000180410,
         Ion = 1000000000
     };
-    constexpr std::array<ParticleLabel, 3> ParticleLabels = {
+    constexpr std::array<ParticleLabel, 46> ParticleLabels = {
         ParticleLabel::Undefined,
         ParticleLabel::Noise,
         // Particle labels are simply the PDG codes
