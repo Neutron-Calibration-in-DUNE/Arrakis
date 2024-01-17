@@ -278,12 +278,41 @@ namespace arrakis
         AntiProton = -2212,
         Deuteron = 1000010020,
         Triton = 1000010030,
-        Alpha = 1000020040
+        Alpha = 1000020040,
+        Sulfur32 = 1000160320,
+        Sulfur33 = 1000160330,
+        Sulfur34 = 1000160340,
+        Sulfur35 = 1000160350,
+        Sulfur36 = 1000160360,
+        Chlorine35 = 1000170350,
+        Chlorine36 = 1000170360,
+        Chlorine37 = 1000170370,
+        Chlorine38 = 1000170380,
+        Chlorine39 = 1000170390,
+        Chlorine40 = 1000170400,
+        Argon36 = 1000180360,
+        Argon37 = 1000180370,
+        Argon38 = 1000180380,
+        Argon39 = 1000180390,
+        Argon40 = 1000180400,
+        Argon41 = 1000180410,
+        Ion = 1000000000
     };
     using ParticleLabelInt = std::underlying_type<ParticleLabel>::type;
     inline Int_t LabelCast(ParticleLabel label) 
     { 
         return static_cast<ParticleLabelInt>(label);
+    }
+    bool IsParticleLabel(int particleLabelInt)
+    {
+        for (int i = static_cast<int>(ParticleLabel::Undefined); i <= static_cast<int>(ParticleLabel::Ion); ++i)
+        {
+            ParticleLabel currentEnum = static_cast<ParticleLabel>(i);
+            if (static_cast<int>(currentEnum) == particleLabelInt) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

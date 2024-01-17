@@ -321,7 +321,7 @@ namespace arrakis
              * The rule is, if any of the following points exist, then they
              * are taken with priority:
              * 
-             *      track > shower > blip > neutron_capture
+             *      track > shower > blip 
             */
             if(wire_plane_point_cloud.topology_labels[detsim_id].size() > 1)
             {

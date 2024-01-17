@@ -569,6 +569,15 @@ namespace arrakis
         {
             sWirePlanePointCloud.topology_labels[detSimID][track_index] = topologyLabel;
             sWirePlanePointCloud.particle_labels[detSimID][track_index] = particleLabel;
+            if (!IsParticleLabel(particleLabel))
+            {
+                if (particleLabel > 2212) {
+                    sWirePlanePointCloud.particle_labels[detSimID][track_index] = 1000000000;
+                }
+                else {
+                    sWirePlanePointCloud.particle_labels[detSimID][track_index] = -1;
+                }
+            }
             sWirePlanePointCloud.physics_micro_labels[detSimID][track_index] = physicsMicroLabel;
             sWirePlanePointCloud.physics_meso_labels[detSimID][track_index] = physicsMesoLabel;
             sWirePlanePointCloud.physics_macro_labels[detSimID][track_index] = physics_macro;
@@ -580,6 +589,15 @@ namespace arrakis
         }
         sWirePlanePointCloud.topology_label[detSimID] = topologyLabel;
         sWirePlanePointCloud.particle_label[detSimID] = particleLabel;
+        if (!IsParticleLabel(particleLabel))
+        {
+            if (particleLabel > 2212) {
+                sWirePlanePointCloud.particle_label[detSimID] = 1000000000;
+            }
+            else {
+                sWirePlanePointCloud.particle_label[detSimID] = -1;
+            }
+        }
         sWirePlanePointCloud.physics_micro_label[detSimID] = physicsMicroLabel;
         sWirePlanePointCloud.physics_meso_label[detSimID] = physicsMesoLabel;
         sWirePlanePointCloud.physics_macro_label[detSimID]= physics_macro;
